@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stochastic Processes for OU Estimation &mdash; Complete Notes, Part I</title>
+<style>
+  body { font-family: 'Georgia', serif; max-width: 850px; margin: 0 auto; padding: 40px 20px; background: #fafafa; color: #2c3e50; line-height: 1.7; }
+  h1 { font-size: 2.1em; color: #2c3e50; border-bottom: 3px solid #2980b9; padding-bottom: 12px; }
+  h2 { font-size: 1.55em; color: #2980b9; margin-top: 60px; border-left: 5px solid #2980b9; padding-left: 14px; }
+  h3 { font-size: 1.22em; color: #34495e; margin-top: 35px; }
+  h4 { font-size: 1.04em; color: #555; margin-top: 25px; }
+  p { margin: 12px 0; font-size: 1.05em; }
+  .caption { text-align: center; font-style: italic; color: #777; font-size: 0.92em; }
+  .key { color: #c0392b; font-weight: bold; padding: 8px 16px; margin: 14px 0; }
+  .box { background: #eaf2f8; border: 1px solid #2980b9; border-radius: 6px; padding: 16px 20px; margin: 20px 0; }
+  .warn { background: #fff3e0; border: 1px solid #e67e22; border-radius: 6px; padding: 16px 20px; margin: 20px 0; }
+  .qa { background: #f3e5f5; border: 1px solid #8e44ad; border-radius: 6px; padding: 16px 20px; margin: 20px 0; }
+  .qa .q { font-weight: bold; color: #8e44ad; }
+  .err { background: #fdecea; border: 1px solid #c0392b; border-radius: 6px; padding: 16px 20px; margin: 20px 0; }
+  .problem { background: #f8f9fa; border-left: 4px solid #27ae60; border-radius: 4px; padding: 14px 18px; margin: 18px 0; }
+  .problem .plabel { font-weight: bold; color: #27ae60; }
+  .solution { background: #fdfdfd; border: 1px dashed #bbb; border-radius: 4px; padding: 12px 16px; margin: 8px 0 18px 0; font-size: 0.98em; }
+  .math { text-align: center; font-family: 'Courier New', monospace; font-size: 1.08em; margin: 16px 0; padding: 8px; }
+  .step { margin: 18px 0; padding: 12px 18px; background: #fdfefe; border: 1px solid #d6eaf8; border-radius: 6px; }
+  .step .slabel { font-weight: bold; color: #2980b9; }
+  .subtitle { text-align: center; color: #7f8c8d; font-style: italic; margin-bottom: 40px; }
+  hr { border: none; border-top: 1px solid #ddd; margin: 50px 0; }
+  ul, ol { padding-left: 24px; }
+  li { margin: 7px 0; }
+  code, pre { background: #f4f4f4; border-radius: 3px; font-family: 'Courier New', monospace; }
+  code { padding: 2px 6px; font-size: 0.95em; }
+  pre { padding: 14px; overflow-x: auto; font-size: 0.9em; line-height: 1.45; border: 1px solid #e0e0e0; }
+  table.ftable { width: 100%; border-collapse: collapse; font-size: 0.97em; margin: 16px 0; }
+  table.ftable th { background: #eaf2f8; border: 1px solid #bcd; padding: 8px 10px; text-align: left; }
+  table.ftable td { border: 1px solid #dde; padding: 8px 10px; }
+  table.ftable td.f { font-family: 'Courier New', monospace; }
+  .toc { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 20px 30px; margin: 30px 0; }
+  .toc a { color: #2980b9; text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .tag { display: inline-block; background: #2980b9; color: white; padding: 2px 10px; border-radius: 12px; font-size: 0.85em; margin-right: 8px; }
+  .tag.g { background: #27ae60; } .tag.p { background: #8e44ad; } .tag.o { background: #e67e22; }
+  .status-done { color: #27ae60; font-weight: bold; } .status-open { color: #999; }
+</style>
+</head>
+<body>
+
+<h1>Stochastic Processes for OU Estimation</h1>
+<p class="subtitle">Complete Notes, Part I: MLE Mechanics &rarr; Random Walks &rarr; Markov Chains &rarr; Likelihood Factorization &rarr; AR(1) &rarr; Brownian Motion &rarr; SDE Notation<br>
+Built from our sessions + MIT 18.S096 Lectures 5 &amp; 17 &middot; every step in teaching order, nothing assumed beyond the probability notes</p>
+
+<div class="toc">
+<strong>Table of Contents</strong>
+<ol start="0">
+<li><a href="#s0">How to Read These Notes: Notation, Sources, the Ladder</a></li>
+<li><a href="#s1">MLE Mechanics (Revision): argmax, argmin, and the Log</a></li>
+<li><a href="#s2">The Simple Random Walk</a></li>
+<li><a href="#s3">Fork: Gambler's Ruin and First-Step Analysis</a></li>
+<li><a href="#s4">From Step-Counting to Physical Time: the Calibration</a></li>
+<li><a href="#s5">Markov Chains (MIT L5 &sect;3)</a></li>
+<li><a href="#s6">The Likelihood Factorization: Chain Rule + Markov Collapse</a></li>
+<li><a href="#s7">The Gaussian AR(1)</a></li>
+<li><a href="#s8">Path Space (MIT L17 &sect;1)</a></li>
+<li><a href="#s9">Brownian Motion (MIT L17 &sect;2)</a></li>
+<li><a href="#s10">The SDE Notation (P2): the Differential Line, Defined as an Integral Equation</a></li>
+<li><a href="#s11">The Ladder, the Import Ledger, and the Errata Log</a></li>
+</ol>
+<p><strong>Appendices</strong>: <a href="#appA">A. Problem Sets with Solutions</a> &middot; <a href="#appB">B. Formula Reference Card</a></p>
+</div>
+
+<h2 id="s0">0. How to Read These Notes</h2>
+
+<h3>The project these notes serve</h3>
+<p>Everything here exists for one goal: estimating the parameters (&theta;, &mu;, &sigma;) of an Ornstein&ndash;Uhlenbeck process</p>
+<p class="math">dX<sub>t</sub> = &theta;(&mu; &minus; X<sub>t</sub>) dt + &sigma; dB<sub>t</sub></p>
+<p>from data observed at <strong>irregular</strong> time gaps &Delta;<sub>i</sub>, by exact maximum likelihood &mdash; and quantifying the bias of the "naive" estimator that pretends all gaps equal their mean. These notes cover the foundations built so far: everything up to and including Brownian motion, ending exactly at the doorway where SDE notation gets defined.</p>
+
+<h3>Master notation table</h3>
+<p>One scheme throughout. Where MIT's notes use different letters, the correspondence is flagged at first use and recorded here.</p>
+<table class="ftable">
+<tr><th>Symbol</th><th>Role</th><th>Meaning</th><th>MIT equivalent</th></tr>
+<tr><td class="f">S<sub>i</sub></td><td>random variable</td><td>one step of the walk</td><td>increment Y<sub>i</sub>&minus;Y<sub>i&minus;1</sub> (L17); &xi;<sub>i</sub></td></tr>
+<tr><td class="f">W<sub>k</sub></td><td>random variable</td><td>walk position after k steps</td><td>X<sub>k</sub> (L5), Y<sub>k</sub> (L17)</td></tr>
+<tr><td class="f">&mu;<sub>S</sub>, &sigma;<sub>S</sub>&sup2;</td><td>numbers</td><td>mean and variance of one step</td><td>&mdash;</td></tr>
+<tr><td class="f">&delta;</td><td>number</td><td>tick duration (microscopic time step)</td><td>1/n in L17's construction</td></tr>
+<tr><td class="f">B(t)</td><td>process</td><td>standard Brownian motion</td><td>B(t) (L17); &beta;(t) in S&amp;S book; our earlier W<sub>t</sub></td></tr>
+<tr><td class="f">i, j, k (chains)</td><td>state labels</td><td>current / next / intermediate state</td><td>same (L5)</td></tr>
+<tr><td class="f">n</td><td>time index or resolution</td><td>tick count (chains) or steps-per-unit-time (L17)</td><td>same</td></tr>
+<tr><td class="f">p<sub>ij</sub></td><td>number</td><td>one-tick transition probability, from i to j</td><td>same (L5)</td></tr>
+<tr><td class="f">A</td><td>matrix</td><td>transition matrix, <strong>column convention</strong>: entry (row j, col i) = p<sub>ij</sub>; columns sum to 1</td><td>same (L5) &mdash; most books use the transpose!</td></tr>
+<tr><td class="f">&pi;</td><td>vector or density</td><td>stationary distribution</td><td>same</td></tr>
+<tr><td class="f">&phi;</td><td>number</td><td>AR(1) autoregressive coefficient</td><td>&mdash;</td></tr>
+<tr><td class="f">&epsilon;<sub>i</sub></td><td>random variable</td><td>AR(1) innovation (fresh noise at step i)</td><td>&mdash;</td></tr>
+<tr><td class="f">&theta;</td><td>parameter (vector)</td><td>the unknowns MLE estimates; rides right of every conditioning bar</td><td>&mdash;</td></tr>
+<tr><td class="f">&Delta;, &Delta;<sub>i</sub></td><td>numbers</td><td><strong>reserved: observation time gaps</strong> (project)</td><td>&#9888; L17 uses &Delta; for a displacement; L18 uses &Delta;(t) for a deterministic integrand. Unrelated. Flagged wherever they appear.</td></tr>
+</table>
+
+<h3>Sources on the spine</h3>
+<ul>
+<li><strong>MIT 18.S096 (Fall 2013)</strong> lecture notes: L5 (Stochastic Processes I &mdash; walks, Markov chains), L17 (Stochastic Processes II &mdash; Brownian motion). Next on the spine: L18 (It&ocirc; calculus, deterministic-integrand parts only), L21 (SDEs, the OU solution).</li>
+<li><strong>S&auml;rkk&auml; &amp; Solin, <em>Applied Stochastic Differential Equations</em></strong> (free official PDF) &mdash; backup voice for the same material; Ch. 4 &sect;4.1 and Ch. 6 arrive at P3&ndash;P5.</li>
+<li>Your probability notes (Sessions 1&ndash;7) &mdash; everything cited as "S1&hellip;S7" below.</li>
+</ul>
+
+<h3>How each topic is built</h3>
+<p>The teaching invariant, preserved in writing: <em>where we are &rarr; what breaks &rarr; what fixes it &rarr; the formalism</em>. Every section opens by naming its predecessor's limitation. If you can follow each section's opening paragraph, the chain is intact.</p>
+
+<hr>
+
+<h2 id="s1">1. MLE Mechanics (Revision)</h2>
+
+<p><strong>Where this sits:</strong> the entire project is one giant MLE computation, so the mechanics were re-sharpened first. Four facts, each with the exact phrasing worth keeping.</p>
+
+<h3>1.1 max vs argmax: height vs location</h3>
+<ul>
+<li>Every point of a graph has an input (&theta;, x-axis) and an output (function value, y-axis).</li>
+<li><strong>max</strong> f = the height of the highest point (a y-value). <strong>argmax</strong> f = the &theta;-location of the highest point (an x-value). "arg" = argument = input.</li>
+<li>The MLE is a parameter value, so <strong>MLE = argmax, never max</strong>. For 7 heads in 10 flips: max of the likelihood &asymp; 0.267 (unreported height); argmax = 0.7 (the estimate).</li>
+</ul>
+
+<h3>1.2 The log is legal because it does not move the argmax</h3>
+<ul>
+<li>log is monotonically <em>increasing</em>: if P(D|&theta;) is largest at some &theta;, log P(D|&theta;) is largest at the same &theta;.</li>
+<li>Precision worth keeping: the log changes the <em>height</em> of the peak, not its <em>location</em>. Say "log doesn't move the argmax," not "doesn't change the maximum."</li>
+<li>Practical necessity, not just convenience: a product of hundreds of factors each &lt; 1 underflows to zero in floating point; the log converts it into a survivable sum.</li>
+</ul>
+
+<h3>1.3 argmax f = argmin (&minus;f): the minus attaches to the function, not the answer</h3>
+<p class="math">argmax<sub>&theta;</sub> f(&theta;) = argmin<sub>&theta;</sub> [&minus;f(&theta;)]</p>
+<ul>
+<li>Negation flips the graph upside down: the peak becomes a valley <em>at the same &theta;</em>. Vertical-only transformation &mdash; nothing moves left or right.</li>
+<li>Worked check (coin, 7 heads / 10 flips, L(&theta;) = 120&thinsp;&theta;<sup>7</sup>(1&minus;&theta;)&sup3;):
+<table class="ftable">
+<tr><th>&theta;</th><th>L(&theta;)</th><th>&minus;ln L(&theta;)</th></tr>
+<tr><td>0.0</td><td>0</td><td>&infin;</td></tr>
+<tr><td>0.1</td><td>0.0000087</td><td>11.65</td></tr>
+<tr><td>0.3</td><td>0.0090</td><td>4.71</td></tr>
+<tr><td>0.5</td><td>0.1172</td><td>2.14</td></tr>
+<tr><td><strong>0.7</strong></td><td><strong>0.2668</strong></td><td><strong>1.32</strong></td></tr>
+<tr><td>0.9</td><td>0.0574</td><td>2.86</td></tr>
+<tr><td>1.0</td><td>0</td><td>&infin;</td></tr>
+</table>
+argmax of column 2 = argmin of column 3 = 0.7. argmin of column 2 = {0, 1}: the parameters that make the data <em>impossible</em> &mdash; the worst explainers, useless.</li>
+<li>Why we minimize at all: optimizers are downhill machines (<code>w &minus;= lr&middot;grad</code>; scipy's <code>minimize</code>; L-BFGS-B). The minus sign must live somewhere &mdash; the ecosystem puts it in the objective ("negative log-likelihood"), keeping every optimizer a pure minimizer. Mathematically optional, practically universal.</li>
+<li>Bonus geometry: after negation + log, the worst parameters (&theta; = 0, 1) become <em>infinite walls</em> (&minus;ln 0 = +&infin;) &mdash; the loss landscape actively repels the optimizer from garbage.</li>
+</ul>
+
+<div class="box"><strong>The full chain, justified end to end:</strong>
+<p class="math">&theta;&#770;<sub>MLE</sub> = argmax<sub>&theta;</sub> P(D|&theta;) = argmax<sub>&theta;</sub> log P(D|&theta;) = argmin<sub>&theta;</sub> [&minus;log P(D|&theta;)]</p>
+First equality: definition. Second: log is monotone. Third: negation flips peak to valley in place.</div>
+
+<hr>
+
+<h2 id="s2">2. The Simple Random Walk</h2>
+
+<p><strong>Where we are &rarr; what's new:</strong> all of Sessions 1&ndash;7 dealt with randomness delivered at once (a coin flipped, a bolt measured). The project's world &mdash; prices, rates &mdash; receives randomness <em>over time</em>, kick after kick. The random walk is the smallest object with that structure, and it is the seed of everything that follows.</p>
+
+<h3>2.1 The construction: two layers, keep them straight</h3>
+<ul>
+<li><strong>Layer 1 &mdash; the steps.</strong> S<sub>1</sub>, S<sub>2</sub>, &hellip; i.i.d. (independent, identically distributed). Simplest instance: P(S<sub>i</sub> = +1) = P(S<sub>i</sub> = &minus;1) = &frac12;. General: any distribution with finite mean &mu;<sub>S</sub> and variance &sigma;<sub>S</sub>&sup2;.</li>
+<li><strong>Layer 2 &mdash; the positions.</strong> W<sub>0</sub> = 0, W<sub>k</sub> = &Sigma;<sub>i=1</sub><sup>k</sup> S<sub>i</sub>.</li>
+<li><strong>The steps are independent; the positions are dependent.</strong> Both statements hold at once because they are about different layers. Proof of dependence by counterexample: P(W<sub>4</sub> = 4) = 1/16, but P(W<sub>4</sub> = 4 | W<sub>3</sub> = 3) = &frac12; &mdash; conditioning changed the distribution, so W<sub>3</sub>, W<sub>4</sub> are dependent. Mechanism: <strong>shared summands</strong> (W<sub>4</sub> contains all of W<sub>3</sub>'s steps). The only fresh randomness in W<sub>4</sub> beyond W<sub>3</sub> is the increment W<sub>4</sub> &minus; W<sub>3</sub> = S<sub>4</sub>.</li>
+</ul>
+
+<h3>2.2 The walk's statistics &mdash; general form first, instances second</h3>
+<p>For i.i.d. steps with mean &mu;<sub>S</sub>, variance &sigma;<sub>S</sub>&sup2;:</p>
+<p class="math">E[W<sub>k</sub>] = k&thinsp;&mu;<sub>S</sub> &nbsp;&nbsp;&nbsp;&nbsp; Var(W<sub>k</sub>) = k&thinsp;&sigma;<sub>S</sub>&sup2;</p>
+<ul>
+<li>Mean: linearity of expectation (S3) &mdash; needs <em>no</em> assumptions, holds under any dependence.</li>
+<li>Variance: variances add for <em>independent</em> summands (S3). The precondition is consumed by the <strong>steps</strong> (the summands), not the positions &mdash; the positions' dependence never enters.</li>
+<li>Consequence for the &plusmn;1 walk (&mu;<sub>S</sub> = 0, &sigma;<sub>S</sub>&sup2; = 1): E[W<sub>k</sub>] = 0, Var(W<sub>k</sub>) = k, &sigma;(W<sub>k</sub>) = &radic;k.</li>
+</ul>
+<div class="key">The &radic;-law: variance grows linearly in time, spread grows as &radic;time. Four times the duration buys only twice the spread. Every "&sigma;&sup2; &times; (time-like quantity)" in the project's crib sheet is this law in different clothes.</div>
+
+<h3>2.3 The shape: Gaussian, and why summing destroys the step's shape</h3>
+<ul>
+<li>W<sub>k</sub> is a sum of k i.i.d. finite-variance variables &rArr; by the <strong>CLT (sum version</strong> &mdash; not the "sample means" version, whose variance shrinks instead of growing<strong>)</strong>: W<sub>k</sub> &asymp; N(k&mu;<sub>S</sub>, k&sigma;<sub>S</sub>&sup2;). Second slot = <strong>variance</strong>, always.</li>
+<li><strong>The mechanism</strong> (why bell-shaped regardless of the step's own shape): to land at m after k steps needs (k+m)/2 ups; every specific k-step sequence has identical probability (&frac12;)<sup>k</sup>; so P(W<sub>k</sub> = m) = C(k, (k+m)/2)(&frac12;)<sup>k</sup> &mdash; the shape is entirely the binomial coefficients. Middle positions are reachable by combinatorially many orderings, extremes by few. The bell is <em>arrangement counting</em>; the step's shape enters only through the flat factor.</li>
+<li>For finite k the distribution is discrete and only Gaussian-<em>shaped</em>; the statement is a limit. (This approximation upgrades to an exact identity for Brownian motion &mdash; &sect;9.)</li>
+</ul>
+
+<h3>2.4 The three properties (MIT L5's Prop, in our notation)</h3>
+<table class="ftable">
+<tr><th>Property</th><th>Statement</th><th>Why</th></tr>
+<tr><td>(i) No drift</td><td class="f">E[W<sub>k</sub>] = 0 (for &mu;<sub>S</sub>=0)</td><td>Mirror-flip every path: same probability, opposite sign; paths cancel in pairs. Does NOT say the walk stays near 0 &mdash; spread grows as &radic;k.</td></tr>
+<tr><td>(ii) Independent increments</td><td>increments over non-overlapping time windows are mutually independent</td><td>Each increment sums its own <strong>disjoint batch</strong> of steps; disjoint batches of independent steps are independent. Positions overlap; increments don't.</td></tr>
+<tr><td>(iii) Stationary increments</td><td class="f">W<sub>t+h</sub> &minus; W<sub>t</sub> &sim; W<sub>h</sub> (same distribution) for every t</td><td>Any length-h window sums h i.i.d. steps; <em>which</em> h steps is irrelevant, only <em>how many</em>. The coin doesn't age.</td></tr>
+</table>
+<div class="warn"><strong>Distinction to keep:</strong> (iii) says the <em>increments'</em> law is time-invariant. It does NOT say the <em>process</em> is stationary &mdash; Var(W<sub>t</sub>) = t grows, so W<sub>t</sub> itself has no time-invariant distribution. The OU process will be stationary as a <em>process</em> (a strictly stronger property); that contrast is exactly what mean reversion buys.</div>
+
+<hr>
+
+<h2 id="s3">3. Fork: Gambler's Ruin and First-Step Analysis</h2>
+
+<p><strong>Why this fork exists:</strong> it arose from MIT L5, and it delivered three tools the project reuses constantly &mdash; worth more than the formula itself.</p>
+
+<h3>3.1 The problem and the object</h3>
+<ul>
+<li>Fortune performs a fair &plusmn;1 walk; the game ends at &minus;A (ruin) or +B (target).</li>
+<li>Define f(m) = P(hit B before &minus;A | currently at position m). <strong>m is a position, not a time.</strong> (In the walk chapter k indexed time; here the argument of f is a fortune level. One symbol, two jobs across contexts &mdash; flagged because it genuinely confused us once.)</li>
+<li>Boundary values, free: f(B) = 1, f(&minus;A) = 0.</li>
+</ul>
+
+<h3>3.2 First-step analysis (the derivation)</h3>
+<div class="step"><span class="slabel">Condition on the first step out of m</span> &mdash; law of total probability (S2) over the next move:
+<p class="math">f(m) = &frac12;&thinsp;f(m+1) + &frac12;&thinsp;f(m&minus;1)</p>
+<p>The substantive step: after moving to m+1, you are a <em>fresh gambler at m+1</em> &mdash; the probability from there is the same function f, evaluated at the new position. What licenses dropping the time argument: <strong>independent increments</strong> (the remaining steps don't care about the past) + <strong>stationary increments</strong> (round 2 onward is statistically a brand-new game). Without those, f would need a time argument.</p></div>
+
+<div class="warn"><strong>Direction discipline (a real error we caught and fixed):</strong> this conditions on the <em>first step out</em> of m &mdash; not on "ways to arrive at m." Conditioning on the <em>last step in</em> governs a different object (occupancy/density evolution &mdash; Einstein's update rule). In the symmetric walk the two accidentally give the same equation; bias the coin (p &ne; &frac12;) and they split: first-step gives f(m) = p&thinsp;f(m+1) + q&thinsp;f(m&minus;1) (coefficients on the <em>landing</em> spots), arrival-reasoning attaches them to the opposite neighbors &mdash; and the p&rarr;1 sanity check kills the wrong one. File as: <em>forward vs backward</em> &mdash; the discrete shadow of a duality that resurfaces once at P5.</div>
+
+<h3>3.3 Solving: harmonic &rArr; linear</h3>
+<ul>
+<li>Rearrange: f(m) = average of its two neighbors &nbsp;&hArr;&nbsp; f(m+1) &minus; f(m) = f(m) &minus; f(m&minus;1) &mdash; equal rises.</li>
+<li>A function climbing in equal rises is linear (arithmetic progression of values). Two boundary points pin it:</li>
+</ul>
+<p class="math">f(m) = (m + A) / (A + B) &nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp; f(0) = A/(A+B), &nbsp; P(ruin) = B/(A+B)</p>
+<ul>
+<li>Note the crossing: your win probability is weighted by the <em>opponent's</em> distance-to-ruin. Sanity: at fortune 30 with boundaries 0 and 100, f = 30/100 = 0.3 &mdash; nearer ruin than target, so &lt; &frac12;. (An error we made and corrected: 70/100 is the <em>ruin</em> probability.)</li>
+<li>Biased coin: equal rises die at exactly the division-by-(q/p) step; consecutive rises become a <em>geometric</em> progression with ratio q/p; AP only if p = &frac12;.</li>
+<li>"Value = average of neighbors" functions are called <em>harmonic</em>; discrete harmonic on an interval &rArr; linear is the 1D baby case of a deep family. We consume only the baby case.</li>
+</ul>
+
+<div class="box"><strong>What the fork banked for the project:</strong> (1) <em>first-step analysis</em> &mdash; condition on one move, hand the rest to a fresh copy of the same function: the discrete engine behind every transition-density argument in P5; (2) the <em>license</em> for one-argument functions of state &mdash; the Markov idea met in its natural habitat; (3) forward/backward direction discipline.</div>
+
+<hr>
+
+<h2 id="s4">4. From Step-Counting to Physical Time: the Calibration</h2>
+
+<p><strong>Where we are &rarr; what breaks:</strong> the walk is indexed by step count k &mdash; nothing in it refers to time. To model anything physical, each step must occupy a duration &delta;, so elapsed time t corresponds to k = t/&delta; steps, giving</p>
+<p class="math">Var(W<sub>t</sub>) = (t/&delta;)&thinsp;&sigma;<sub>S</sub>&sup2;</p>
+<ul>
+<li><strong>The incoherence:</strong> two modelers of the same physics, one with tick &delta;, one with &delta;/2, get variances differing by a factor of 2 at the same physical time t. But &delta; was never physical &mdash; it's the modeler's discretization choice. <em>A model whose predictions depend on the modeler's discretization is not a model of anything.</em></li>
+<li><strong>The forced fix:</strong> for Var(W<sub>t</sub>) to be &delta;-free, the step variance must shrink in proportion:</li>
+</ul>
+<p class="math">&sigma;<sub>S</sub>&sup2; = c&thinsp;&delta; &nbsp;&nbsp;(c constant)&nbsp;&nbsp; &rArr; &nbsp;&nbsp; Var(W<sub>t</sub>) = c&thinsp;t &nbsp;&nbsp;for every &delta;</p>
+<ul>
+<li>Finer ticks must carry proportionally smaller steps (step <em>size</em> &prop; &radic;&delta;, step <em>variance</em> &prop; &delta; &mdash; scaling by a multiplies variance by a&sup2;).</li>
+<li>Degenerate alternatives, for contrast: &sigma;<sub>S</sub>&sup2; fixed &rArr; Var = t&sigma;<sub>S</sub>&sup2;/&delta; &rarr; &infin; (density flattens, all mass escapes: no limiting variable); &sigma;<sub>S</sub>&sup2; shrinking too fast (e.g. &prop; &delta;&sup2;) &rArr; Var &rarr; 0 (collapse to the constant 0: useless as noise). The calibration is the unique scaling giving a finite, nonzero, resolution-free limit.</li>
+<li>Normalization c = 1 defines the <em>standard</em> object.</li>
+</ul>
+<div class="key">This one condition &mdash; step variance proportional to tick duration &mdash; is the entire bridge from discrete walks to Brownian motion, and (&sect;9.2) it is also a working error-detector for published notes.</div>
+
+<hr>
+<h2 id="s5">5. Markov Chains (MIT L5 &sect;3)</h2>
+
+<p><strong>Where we are &rarr; what's new:</strong> in gambler's ruin we repeatedly used one trick &mdash; "the future depends on where you stand, not how you got there." Mathematics promotes a reused trick to a definition and studies everything that has it. That definition is the Markov property; the finite-state package around it is the Markov chain.</p>
+
+<h3>5.1 The definition and the objects</h3>
+<ul>
+<li><strong>Markov property</strong> (discrete time, discrete states): a process X<sub>0</sub>, X<sub>1</sub>, &hellip; on state space S is a Markov chain if for all n and all states,
+<p class="math">P(X<sub>n+1</sub> = j | X<sub>n</sub>, X<sub>n&minus;1</sub>, &hellip;, X<sub>0</sub>) = P(X<sub>n+1</sub> = j | X<sub>n</sub>)</p>
+Both sides are S2 conditional probabilities; the property is an <em>equality of two conditionals</em>: given the present, the fuller history adds nothing.</li>
+<li><strong>Precisely what kind of independence this is:</strong> X<sub>n+1</sub> &perp; (X<sub>0</sub>,&hellip;,X<sub>n&minus;1</sub>) <em>given</em> X<sub>n</sub> &mdash; <strong>conditional</strong> independence. It is NOT "X<sub>n+1</sub> &perp; past" unconditionally: day 2 and day 0 are correlated (P(X<sub>2</sub>|X<sub>0</sub>) genuinely varies with X<sub>0</sub> &mdash; that's the whole point of computing it); the dependence flows <em>through</em> the present, and conditioning on the present blocks it. Also: consecutive <em>moves</em> are dependent in general (move 1 selects which row move 2 draws from); they are independent only <em>given</em> the intermediate state. The walk was the misleading special case where steps were position-blind, hence unconditionally independent.</li>
+<li><strong>State space</strong> S = the catalog of allowed values. [m] = {1, &hellip;, m}: a finite catalog relabeled by integers &mdash; labels are names for matrix indexing, not quantities.</li>
+<li><strong>Transition probabilities</strong> p<sub>ij</sub> = P(X<sub>n+1</sub> = j | X<sub>n</sub> = i). Subscript order: from i, to j. No n anywhere &rArr; <strong>time-homogeneity</strong> baked in (same jump table every tick &mdash; the chain analog of stationary increments). Each exit row is a full PMF: &Sigma;<sub>j</sub> p<sub>ij</sub> = 1.</li>
+<li><strong>The matrix A</strong>, lecture's <strong>column convention</strong>: entry (row j, column i) = p<sub>ij</sub>; each column is one state's exit distribution; <strong>columns sum to 1</strong>. Most textbooks store the transpose (rows sum to 1) &mdash; check before copying any formula from another source.</li>
+</ul>
+<p>Running example (the machine): S = {1 = working, 2 = broken}, p<sub>11</sub> = 0.99, p<sub>12</sub> = 0.01, p<sub>21</sub> = 0.8, p<sub>22</sub> = 0.2:</p>
+<p class="math">A = [ 0.99&nbsp;&nbsp;0.8 ; 0.01&nbsp;&nbsp;0.2 ] &nbsp;&nbsp; (columns sum to 1 &#10003;)</p>
+<p>The walk is a Markov chain too &mdash; but on S = &#8484;, infinite, so no finite matrix exists. Matrix machinery is what finiteness buys.</p>
+
+<h3>5.2 Multi-step transitions: route sums = matrix powers</h3>
+<ul>
+<li>Define r<sub>ij</sub>(n) = P(X<sub>n</sub> = j | X<sub>0</sub> = i) &mdash; n is a <em>horizon length</em>; by homogeneity only the gap matters, not the start date. Base case r<sub>ij</sub>(1) = p<sub>ij</sub>.</li>
+<li><strong>Two-step derivation:</strong> a fixed route i &rarr; k &rarr; j has probability p<sub>ik</sub>&thinsp;p<sub>kj</sub> &mdash; and the license to multiply is <em>not</em> "the moves are independent" (they aren't, unconditionally); it is: <strong>product rule</strong> (an identity) chains the conditionals, then <strong>Markov</strong> collapses each to one step back, then <strong>homogeneity</strong> makes each factor a table entry. With the intermediate state unknown, enumerate the mutually exclusive launchpads (law of total probability):
+<p class="math">r<sub>ij</sub>(2) = &Sigma;<sub>k&isin;S</sub> p<sub>ik</sub>&thinsp;p<sub>kj</sub></p></li>
+<li>Machine numbers: r<sub>11</sub>(2) = 0.99&sup2; + 0.01&times;0.8 = 0.9801 + 0.008 = <strong>0.9881</strong>.</li>
+<li><strong>The identification:</strong> "sum over an inner index of products" is exactly matrix multiplication. In the column convention: r<sub>ij</sub>(2) = A&sup2;[row j][col i]; iterating one tick at a time,
+<p class="math">r<sub>ij</sub>(n) = &Sigma;<sub>k</sub> r<sub>ik</sub>(n&minus;1)&thinsp;p<sub>kj</sub> &nbsp;&rArr;&nbsp; R(n) = A&middot;R(n&minus;1) &nbsp;&rArr;&nbsp; <strong>R(n) = A<sup>n</sup></strong></p>
+The law of total probability over launchpads <em>is</em> the inner-index sum of matrix multiplication &mdash; that identity of shapes is the entire reason chains are studied with matrices.</li>
+</ul>
+
+<h3>5.3 Distribution evolution: &mu;<sub>n</sub> = A<sup>n</sup>&mu;<sub>0</sub></h3>
+<ul>
+<li>&mu;<sub>n</sub> = column vector of state probabilities at time n: entry i is P(X<sub>n</sub> = i); sums to 1. A known start is a spike (1, 0, &hellip;); an uncertain start is any mix.</li>
+<li>One tick of evolution: new mass at j = &Sigma;<sub>i</sub> p<sub>ij</sub>&thinsp;P(X<sub>n</sub> = i) &mdash; total probability again &mdash; which is exactly the matrix-vector product:
+<p class="math">&mu;<sub>n+1</sub> = A&thinsp;&mu;<sub>n</sub> &nbsp;&nbsp;&rArr;&nbsp;&nbsp; &mu;<sub>n</sub> = A<sup>n</sup>&thinsp;&mu;<sub>0</sub></p></li>
+<li>"Columns sum to 1" is precisely the property that makes A map probability vectors to probability vectors (total mass conserved each tick).</li>
+<li>Worked instance (TV-provider market, S = {a, b, none}): today &mu;<sub>0</sub> = (0.5, 0.4, 0.1); quarterly answer &mu;<sub>3</sub> = A&sup3;&mu;<sub>0</sub>; the two computations answer "endpoint distribution," with intermediates summed out.</li>
+</ul>
+
+<h3>5.4 The stationary distribution &pi;</h3>
+<ul>
+<li><strong>Algebraic definition (fixed point):</strong> &pi; is a probability vector with
+<p class="math">A&thinsp;&pi; = &pi;</p>
+One more tick changes it by <em>exactly zero</em> &mdash; an identity, like an eigenvector equation, because it is one: &pi; is the eigenvector of A with eigenvalue &lambda; = 1, normalized so entries sum to 1 (eigenvectors are defined up to scale; the probability normalization picks the scale).</li>
+<li><strong>Dynamic characterization (limiting column):</strong> the columns of A<sup>n</sup> converge, as n &rarr; &infin;, to &pi; &mdash; every column, the <em>same</em> &pi;. Machine: columns (0.99, 0.01) and (0.8, 0.2) at n=1 become identical (0.9876543, 0.0123457) by n = 30; exactly &pi; = (80/81, 1/81).</li>
+<li><strong>The theorem</strong> (L5 Thm 3.3; consequence of Perron&ndash;Frobenius): if all p<sub>ij</sub> &gt; 0, the stationary distribution exists, is unique, and every column of A<sup>n</sup> converges to it. The two constructions &mdash; fixed point and limit &mdash; provably produce the same vector; that is why the two names coexist.</li>
+<li><strong>Reading of "all columns equal":</strong> column i is the distribution given start i; identical columns = <strong>the starting state has stopped mattering</strong>. The chain forgets its origin. Guard rail: without all-p<sub>ij</sub>&gt;0 (e.g. two disconnected islands of states), forgetting can fail.</li>
+<li>Why powers converge to the &lambda;=1 direction: the other eigenvalues have |&lambda;| &lt; 1 (machine: &lambda;&#8322; = 0.19), and powering kills them &mdash; 0.19<sup>n</sup> &rarr; 0. Long-run behavior of a chain = an eigenvector computation, same species as PCA.</li>
+<li>Finite-n columns are approximations <em>converging to</em> &pi;, never equal to it; &pi; itself is exact and unmoving. Journey vs destination.</li>
+</ul>
+
+<h3>5.5 MLE on a chain: transition counts are everything</h3>
+<ul>
+<li>Unknown &theta; = (p<sub>11</sub>, p<sub>21</sub>) (the other two entries follow from row sums). Conditioning on x<sub>0</sub>, the log's likelihood is a product of one factor per observed transition; identical factors collect into powers of the <strong>counts</strong>:
+<p class="math">L(&theta;) = p<sub>11</sub><sup>n<sub>11</sub></sup>(1&minus;p<sub>11</sub>)<sup>n<sub>12</sub></sup> &middot; p<sub>21</sub><sup>n<sub>21</sub></sup>(1&minus;p<sub>21</sub>)<sup>n<sub>22</sub></sup></p></li>
+<li>Structure: <strong>two separate coin problems multiplied</strong> &mdash; a "state-1 coin" and a "state-2 coin," each parameter appearing in only its own block. Log &rarr; sum of disjoint blocks &rarr; maximize each alone (the coin's k/n calculus verbatim):
+<p class="math">p&#770;<sub>11</sub> = n<sub>11</sub>/(n<sub>11</sub>+n<sub>12</sub>) &nbsp;&nbsp; p&#770;<sub>21</sub> = n<sub>21</sub>/(n<sub>21</sub>+n<sub>22</sub>)</p>
+&mdash; observed transition frequencies out of each state. (Worked instance: counts 60/20/15/5 give 0.75 and 0.75.)</li>
+<li>The interleaving order of the log never entered &mdash; the counts are <em>sufficient statistics</em>.</li>
+<li><strong>Forward flag:</strong> in the project this clean split does <em>not</em> happen &mdash; &theta;, &mu;, &sigma; appear in every transition factor simultaneously, so no closed form exists; that is exactly why Week 2 uses a numerical optimizer.</li>
+</ul>
+
+<hr>
+
+<h2 id="s6">6. The Likelihood Factorization: Chain Rule + Markov Collapse</h2>
+
+<p><strong>Where we are &rarr; what breaks:</strong> MLE needs P(D | &theta;). For the coin, D was independent flips and the likelihood was a plain product of marginals. The project's observations are <em>dependent by design</em> &mdash; mean reversion IS dependence between consecutive values &mdash; so multiplying marginals writes the likelihood of the wrong model. The chain rule is how a joint probability of a dependent sequence is written at all; the Markov property is what makes it usable.</p>
+
+<h3>6.1 The chain rule of densities (S1) &mdash; an identity</h3>
+<ul>
+<li><strong>The tool, upgraded to carry &theta;:</strong> from the definition of conditional density, p(a | c)&thinsp;p(b | a, c) = p(a,b | c) &mdash; the p(a,c) cancels. So the product rule holds verbatim inside any conditioned world: <em>whatever sits right of the bar rides along, appended to every factor.</em></li>
+<li>Apply repeatedly, treating the growing history as a block:
+<p class="math">p(x<sub>0</sub>, x<sub>1</sub>, &hellip;, x<sub>n</sub> | &theta;) = p(x<sub>0</sub> | &theta;) &middot; &Pi;<sub>i=1</sub><sup>n</sup> p(x<sub>i</sub> | x<sub>i&minus;1</sub>, &hellip;, x<sub>0</sub>, &theta;)</p>
+Expanded: p(x<sub>0</sub>|&theta;) &times; p(x<sub>1</sub>|x<sub>0</sub>,&theta;) &times; p(x<sub>2</sub>|x<sub>1</sub>,x<sub>0</sub>,&theta;) &times; &hellip; &mdash; each observation contributes one factor: itself given its <em>entire</em> past; the conditioning grows by one per factor.</li>
+<li><strong>Status: identity.</strong> Built by applying the two-variable rule n times; assumes nothing &mdash; no independence, no Markov, no Gaussian. Power and cost together: always true, but late factors condition on huge histories &mdash; unusable at scale until something collapses them.</li>
+<li>Intuition (multiplying = intersection): each factor prices the next event <em>inside the world where the story-so-far already happened</em>; the product is the probability of the whole story. Any ordering works; time order is chosen because models supply conditionals in that direction.</li>
+<li>&theta;'s role: not data &mdash; the model-world label. Frozen &theta; (machine example) = nothing to estimate, factors can be written bare. Unknown &theta; (project) = the live variable; the same formula becomes a machine that maps each candidate &theta; to how probable the observed record is in that &theta;-world; MLE compares those numbers over all &theta;. Same log, different &theta;, different probability &mdash; the number moves because &theta; moves; the data never does.</li>
+</ul>
+
+<h3>6.2 Two different questions, two different tools (don't conflate)</h3>
+<table class="ftable">
+<tr><th></th><th>Endpoint question</th><th>Path question</th></tr>
+<tr><td>Ask</td><td>"where do I end up after n ticks?" (middle unobserved)</td><td>"how probable is <em>this exact observed record</em>?"</td></tr>
+<tr><td>Middle states</td><td>unknown &rarr; <strong>summed out</strong> (&Sigma;<sub>k</sub>)</td><td>known &rarr; <strong>kept and priced</strong>; nothing to sum</td></tr>
+<tr><td>Tool</td><td>matrix powers A<sup>n</sup>, &mu;<sub>n</sub> = A<sup>n</sup>&mu;<sub>0</sub></td><td>the factorization</td></tr>
+<tr><td>Machine instance</td><td>P(work day 3 | work day 0) = A&sup3;[1][1] = 0.9884</td><td>P(1,1,2,1) = 1&middot;0.99&middot;0.01&middot;0.8 = 0.00792</td></tr>
+</table>
+<p><strong>The project is the path question:</strong> the dataset is a complete log; MLE prices the one route reality took. The matrix machinery answers a question the likelihood never asks.</p>
+
+<h3>6.3 The Markov property in density form (S2)</h3>
+<ul>
+<li><strong>The obstacle:</strong> continuous values make every exact-value probability zero (S1 of the probability notes): P(X = x) = 0, so table-lookup factors are identically 0 and MLE dies. Carrier change, same as PMF&rarr;PDF: the <strong>transition density</strong> p(y | x, &theta;) &mdash; for each fixed current value x, a full density curve over next values y. One function replaces infinitely many table rows; likelihood factors are <em>the curve evaluated at the observed point</em> &mdash; finite, informative, &theta;-sensitive.</li>
+<li><strong>The property, transplanted:</strong>
+<p class="math">p(x<sub>i</sub> | x<sub>i&minus;1</sub>, x<sub>i&minus;2</sub>, &hellip;, x<sub>0</sub>, &theta;) = p(x<sub>i</sub> | x<sub>i&minus;1</sub>, &theta;)</p>
+&mdash; equality <em>of functions, pointwise</em>: the full-history curve and the one-step curve are the same curve. Older history doesn't shift, reshape, or rescale it. Correct causal reading: the past is not erased; its influence is entirely <em>mediated</em> by the present (it helped determine today's value); given today, no residual channel remains.</li>
+<li><strong>Worked verification</strong> (AR(1) temperature, &theta; = (&mu;, &phi;, &sigma;&sub;&epsilon;&sub;&sup2;) = (25, 0.5, 4)): the recursion X<sub>i</sub> = 25 + 0.5(X<sub>i&minus;1</sub> &minus; 25) + &epsilon;<sub>i</sub> gives, for today = 28: X<sub>i</sub> | 28 &sim; N(26.5, 4), density at observed 26.5 = 1/&radic;(8&pi;) &asymp; 0.1995. Add "yesterday = 31" to the conditioning: the generating rule contains X<sub>i&minus;1</sub> and fresh &epsilon; only &mdash; X<sub>i&minus;2</sub> appears nowhere and &epsilon; is independent of it &mdash; same curve, same 0.1995. Computed, not asserted.</li>
+<li><strong>Status: a property, not an identity.</strong> Some processes have it, some don't. Counterexample (momentum): X<sub>i</sub> = X<sub>i&minus;1</sub> + 0.8(X<sub>i&minus;1</sub> &minus; X<sub>i&minus;2</sub>) + &epsilon;<sub>i</sub> needs <em>two</em> lags &mdash; given (28, 31) the curve centers at 25.6, given only 28 it's a different object: not Markov (in one variable; order-2 memory). The AR(1) has the property by construction; <strong>the OU process has it as a theorem</strong>, provable at P4 (the solution formula visibly depends only on current value + fresh noise).</li>
+</ul>
+
+<h3>6.4 The master formula</h3>
+<div class="box">
+<p>Substitute the collapse into every factor of the chain rule:</p>
+<p class="math"><strong>p(x<sub>0</sub>, x<sub>1</sub>, &hellip;, x<sub>n</sub> | &theta;) = p(x<sub>0</sub> | &theta;) &middot; &Pi;<sub>i=1</sub><sup>n</sup> p(x<sub>i</sub> | x<sub>i&minus;1</sub>, &theta;)</strong></p>
+<ul>
+<li>Structure identical to the machine's product; carrier upgraded from table entries to transition densities evaluated at observed points.</li>
+<li>Every factor conditions on <em>one</em> predecessor &mdash; the collapse's work; the record's length never increases any factor's arity.</li>
+<li><strong>This is the formula the entire project stands on:</strong> D5 is it verbatim with OU Gaussian factors (mean &mu; + (x<sub>i&minus;1</sub>&minus;&mu;)e<sup>&minus;&theta;&Delta;<sub>i</sub></sup>, variance (&sigma;&sup2;/2&theta;)(1&minus;e<sup>&minus;2&theta;&Delta;<sub>i</sub></sup>)); the Week-2 code is its logarithm &mdash; a sum of n one-step terms; the lone first factor p(x<sub>0</sub>|&theta;) is where the initial-condition decision lives (condition on x<sub>0</sub> and drop it, or model it by the stationary law &mdash; a genuine choice deferred to D5).</li>
+</ul>
+</div>
+
+<hr>
+
+<h2 id="s7">7. The Gaussian AR(1)</h2>
+
+<p><strong>Where we are &rarr; what's new:</strong> the master formula needs each one-step factor to be a concrete density. The AR(1) is the simplest process whose transition density is Gaussian &mdash; and it is the discrete-time skeleton of the OU process: the merge (M1) will literally be "the OU observed at gaps &Delta;<sub>i</sub> is an AR(1) with gap-dependent coefficients."</p>
+
+<h3>7.1 Vocabulary (paper-grade, replacing all scaffolding words)</h3>
+<ul>
+<li><strong>Long-run mean &mu;</strong> (= stationary mean; in the SDE literature, <em>mean-reversion level</em>): E[X<sub>i</sub>] = &mu; in the stationary regime, and lim<sub>k&rarr;&infin;</sub> E[X<sub>i+k</sub> | X<sub>i</sub> = x] = &mu; from any x. Referee-proof precision: &mu; is <em>not</em> the unconditional mean at all times &mdash; started at fixed x<sub>0</sub> &ne; &mu;, E[X<sub>1</sub>] = &mu; + &phi;(x<sub>0</sub>&minus;&mu;) &ne; &mu;. It is the level expectations <em>converge to</em>.</li>
+<li><strong>Mean reversion:</strong> E[X<sub>i</sub> | X<sub>i&minus;1</sub> = x] lies strictly between x and &mu; &mdash; the expected one-step move is directed toward &mu;, proportional to the deviation; realized moves can still go either way (noise on top). Contrast the walk: E[W<sub>k+1</sub>|W<sub>k</sub>=w] = w &mdash; no home, no pull.</li>
+<li><strong>Autoregressive coefficient &phi;</strong>: the fraction of the current deviation that survives one tick (0 &lt; &phi; &lt; 1 &rArr; mean reversion; smaller &phi; = faster reversion). Will also equal the lag-1 autocorrelation (&sect;7.4 &mdash; earned, not assumed).</li>
+<li><strong>Innovation &epsilon;<sub>i</sub></strong>: the new, unforecastable randomness at step i, independent of the entire past.</li>
+</ul>
+<p class="math">X<sub>i</sub> = &mu; + &phi;(X<sub>i&minus;1</sub> &minus; &mu;) + &epsilon;<sub>i</sub>, &nbsp;&nbsp; &epsilon;<sub>i</sub> ~ N(0, &sigma;<sub>&epsilon;</sub>&sup2;) i.i.d., &nbsp; &epsilon;<sub>i</sub> &perp; (X<sub>0</sub>,&hellip;,X<sub>i&minus;1</sub>)</p>
+<ul>
+<li>"Auto-regressive": regresses on its own previous value; "order 1": one lag consulted. &phi; = 1 recovers the random walk (with Gaussian steps): AR(1) = the walk plus a leash.</li>
+</ul>
+
+<h3>7.2 The k-step solution (derived by iterating the recursion)</h3>
+<p>Start at fixed X<sub>0</sub> = x<sub>0</sub>. Substituting the recursion into itself and tracking the accumulating powers (each innovation ages by one factor of &phi; per tick):</p>
+<p class="math">X<sub>k</sub> = &mu; + &phi;<sup>k</sup>(x<sub>0</sub> &minus; &mu;) + &Sigma;<sub>j=1</sub><sup>k</sup> &phi;<sup>k&minus;j</sup> &epsilon;<sub>j</sub></p>
+<ul>
+<li>Check at k = 2: &phi;&sup1;&epsilon;<sub>1</sub> + &phi;&#8304;&epsilon;<sub>2</sub> &#10003; &mdash; oldest innovation carries the highest power, freshest carries 1.</li>
+<li><strong>Moments</strong> (linearity for E; variances of independent scaled terms add, with the scaling squared):
+<p class="math">E[X<sub>k</sub>] = &mu; + &phi;<sup>k</sup>(x<sub>0</sub> &minus; &mu;) &nbsp;&nbsp;&nbsp; Var(X<sub>k</sub>) = &sigma;<sub>&epsilon;</sub>&sup2; (1 &minus; &phi;<sup>2k</sup>) / (1 &minus; &phi;&sup2;)</p>
+(geometric sum &Sigma;<sub>r=0</sub><sup>k&minus;1</sup>(&phi;&sup2;)<sup>r</sup>; sanity: k=1 gives &sigma;<sub>&epsilon;</sub>&sup2;, k=2 gives &sigma;<sub>&epsilon;</sub>&sup2;(1+&phi;&sup2;) &#10003;)</li>
+<li><strong>Gaussianity is exact at every k</strong> &mdash; a constant plus a sum of independent scaled Gaussians is Gaussian (S5 closure; no CLT, no limit needed):
+<p class="math">X<sub>k</sub> ~ N( &mu; + &phi;<sup>k</sup>(x<sub>0</sub>&minus;&mu;), &nbsp; &sigma;<sub>&epsilon;</sub>&sup2;(1&minus;&phi;<sup>2k</sup>)/(1&minus;&phi;&sup2;) )</p></li>
+</ul>
+
+<h3>7.3 The stationary distribution</h3>
+<p>Send k &rarr; &infin; with 0 &lt; &phi; &lt; 1: &phi;<sup>k</sup> &rarr; 0 and &phi;<sup>2k</sup> &rarr; 0, so</p>
+<p class="math">X<sub>k</sub> &nbsp;&xrarr;&nbsp; <strong>&pi; = N( &mu;, &nbsp;&sigma;<sub>&epsilon;</sub>&sup2;/(1&minus;&phi;&sup2;) )</strong></p>
+<ul>
+<li><strong>Both credentials, same as the chain's &pi;:</strong> <em>limiting</em> object (any start x<sub>0</sub>, same destination &mdash; the memory of x<sub>0</sub> vanished with &phi;<sup>k</sup>), and <em>fixed point</em> (feed X<sub>i&minus;1</sub> ~ &pi; through one tick: mean &mu; + &phi;(&mu;&minus;&mu;) = &mu; &#10003;; variance &phi;&sup2;&sigma;<sub>&epsilon;</sub>&sup2;/(1&minus;&phi;&sup2;) + &sigma;<sub>&epsilon;</sub>&sup2; = &sigma;<sub>&epsilon;</sub>&sup2;/(1&minus;&phi;&sup2;) &#10003;). Density where the chain had a vector.</li>
+<li><strong>Anatomy = a tug of war:</strong> numerator &sigma;<sub>&epsilon;</sub>&sup2; = noise injected per tick (spreads); denominator 1&minus;&phi;&sup2; = the leash (contracts). Strong pull (&phi;&rarr;0): variance &rarr; &sigma;<sub>&epsilon;</sub>&sup2;. Weak pull (&phi;&rarr;1): variance blows up &mdash; and at &phi; = 1 exactly you recover the walk, whose variance grew without bound. A stationary variance exists <em>because</em> mean reversion beats noise accumulation; the walk is the boundary case where it doesn't.</li>
+<li>Forward substitution (M1 preview): &phi; = e<sup>&minus;&theta;&Delta;</sup> with the matching innovation variance turns this into the OU stationary law N(&mu;, &sigma;&sup2;/2&theta;); the mean's decay &phi;<sup>k</sup>(x<sub>0</sub>&minus;&mu;) becomes e<sup>&minus;&theta;&Delta;</sup>(x<sub>0</sub>&minus;&mu;).</li>
+</ul>
+
+<h3>7.4 The autocorrelation function: &rho;(k) = &phi;<sup>k</sup></h3>
+<ul>
+<li>In the stationary regime, lag 1: Cov(X<sub>i</sub>, X<sub>i+1</sub>) = Cov(X<sub>i</sub>, &mu; + &phi;(X<sub>i</sub>&minus;&mu;) + &epsilon;<sub>i+1</sub>). Constants drop; bilinearity; Cov(X<sub>i</sub>, &epsilon;<sub>i+1</sub>) = 0 by the innovation's <strong>independence of the past</strong> (the model's defining assumption); Cov(X<sub>i</sub>, X<sub>i</sub>) = Var. So Cov = &phi;&thinsp;Var, and dividing by the (equal) standard deviations:
+<p class="math">&rho;(1) = &phi;</p>
+&mdash; the autoregressive coefficient IS the lag-1 autocorrelation, the promised identity, now earned.</li>
+<li>Lag k: from the k-step solution started at X<sub>i</sub>, covarying with X<sub>i</sub> kills the entire innovation sum (each &epsilon; &perp; X<sub>i</sub>), leaving
+<p class="math">Cov(X<sub>i</sub>, X<sub>i+k</sub>) = &phi;<sup>k</sup> Var(X) &nbsp;&rArr;&nbsp; <strong>&rho;(k) = &phi;<sup>k</sup></strong></p>
+Geometric decay of memory: each extra tick multiplies the correlation by &phi; (at &phi; = 0.5: neighbors 0.5, two apart 0.25, five apart &asymp; 0.03).</li>
+<li>Forward: &phi; = e<sup>&minus;&theta;&Delta;</sup> makes &rho;(k) = e<sup>&minus;&theta;&middot;k&Delta;</sup> &mdash; correlation decays exponentially in <em>elapsed time</em>: exactly D3's autocorrelation and the quantity Cell 1's assert checks (e<sup>&minus;0.1</sup> &asymp; 0.9048).</li>
+</ul>
+
+<h3>7.5 Conditional MLE of the AR(1) <span class="tag o">flagged: revisit before M2</span></h3>
+<p class="caption">You flagged this as not yet solid; it is recorded here in full for the revisit, and nothing before M1&ndash;M2 consumes it.</p>
+<ul>
+<li><strong>Step 1 &mdash; likelihood via the master formula.</strong> Two legal treatments of p(x<sub>0</sub>|&theta;): keep it (modeled by the stationary law &mdash; "full/unconditional MLE") or condition on x<sub>0</sub> and drop it (<strong>conditional MLE</strong> &mdash; the project's choice; cost: discards one observation's information, negligible against n transitions):
+<p class="math">L(&theta;) = &Pi;<sub>i=1</sub><sup>n</sup> p(x<sub>i</sub> | x<sub>i&minus;1</sub>, &theta;)</p></li>
+<li><strong>Step 2 &mdash; each factor is the S2 Gaussian:</strong> X<sub>i</sub> | x<sub>i&minus;1</sub> ~ N(m<sub>i</sub>, &sigma;<sub>&epsilon;</sub>&sup2;), with conditional mean m<sub>i</sub> = &mu; + &phi;(x<sub>i&minus;1</sub>&minus;&mu;) &mdash; the model's one-step-ahead <em>prediction</em>.</li>
+<li><strong>Step 3 &mdash; log-likelihood:</strong>
+<p class="math">&ell;(&theta;) = &minus;(n/2)&thinsp;log(2&pi;&sigma;<sub>&epsilon;</sub>&sup2;) &minus; (1/2&sigma;<sub>&epsilon;</sub>&sup2;) &Sigma;<sub>i</sub> (x<sub>i</sub> &minus; m<sub>i</sub>)&sup2;</p>
+For fixed &sigma;<sub>&epsilon;</sub>&sup2;, maximizing &ell; = minimizing the sum of squared one-step prediction errors: <strong>Gaussian + MLE = least squares</strong>, exactly the S5 MSE derivation in time-series clothes.</li>
+<li><strong>Step 4 &mdash; closed form via the regression trick:</strong> m<sub>i</sub> = &mu;(1&minus;&phi;) + &phi;x<sub>i&minus;1</sub> = a + b&thinsp;x<sub>i&minus;1</sub> &mdash; simple linear regression of today on yesterday ("auto-regression," literally). Solutions:
+<p class="math">&phi;&#770; = sample Cov(x<sub>i&minus;1</sub>, x<sub>i</sub>) / sample Var(x<sub>i&minus;1</sub>) &nbsp;&nbsp;&nbsp; &mu;&#770; = &acirc;/(1&minus;&phi;&#770;) &nbsp;&nbsp;&nbsp; &sigma;&#770;<sub>&epsilon;</sub>&sup2; = mean squared one-step prediction error</p>
+Each estimator is a moment made empirical: &phi;&#770; measures &rho;(1); &mu;&#770; the long-run mean; &sigma;&#770;<sub>&epsilon;</sub>&sup2; the innovation variance. Theory (&sect;7.3&ndash;7.4) and estimation lock together.</li>
+<li><strong>Where it breaks for the project (the punchline):</strong> with gaps, &phi;<sub>i</sub> = e<sup>&minus;&theta;&Delta;<sub>i</sub></sup> and every transition has its own variance v<sub>i</sub>(&theta;) inside every term, tangled with the same &theta; &mdash; no collecting into a + bx, no closed form:
+<p class="math">&ell; = &minus;&frac12; &Sigma;<sub>i</sub> [ log(2&pi;v<sub>i</sub>) + (x<sub>i</sub> &minus; &mu; &minus; e<sup>&minus;&theta;&Delta;<sub>i</sub></sup>(x<sub>i&minus;1</sub>&minus;&mu;))&sup2; / v<sub>i</sub> ]</p>
+&mdash; the exact reason Week 2 hands this to L-BFGS-B. The naive estimator (&Delta;<sub>i</sub> &rarr; mean gap) is the temptation to restore the constant-coefficient world &mdash; and inherit the bias the paper quantifies.</li>
+</ul>
+
+<hr>
+<h2 id="s8">8. Path Space (MIT L17 &sect;1)</h2>
+
+<p><strong>Where we are &rarr; what breaks:</strong> every discrete process so far was specified by its increments &mdash; "say what one tick does; chain the ticks." The silent prerequisite: a next moment exists. In continuous time it doesn't (between any two times lie uncountably many more), so there is no "one tick" whose description generates everything. The recipe dies; the framework must change.</p>
+
+<h3>8.1 The replacement strategy: axiomatize, then outsource existence</h3>
+<ul>
+<li>Since a continuous-time distribution can't be built tick by tick, it is <em>pinned down by properties</em>: state a short list of demands, then (separately) prove some distribution over paths satisfies them.</li>
+<li>The notes are candid that the second half &mdash; the construction (Wiener measure) &mdash; "requires a non-trivial amount of work and is beyond the scope of this class." Our ledger carries the same line as the substrate declaration: <em>BM exists with its stated properties</em> &mdash; definition-layer, cited not derived.</li>
+<li>Internalize the pattern: <strong>axioms now, existence outsourced</strong> &mdash; the standard architecture of the subject, not laziness.</li>
+</ul>
+
+<h3>8.2 The formal object: a function-valued random variable</h3>
+<ul>
+<li><strong>Definition:</strong> a stochastic process is a map
+<p class="math">X : &Omega; &rarr; { real functions on [0, &infin;) }</p>
+Outcome in, <strong>entire function of time</strong> out. One draw of randomness produces one whole trajectory.</li>
+<li><strong>This is the random-variable architecture with the target upgraded</strong> (your own catch, confirmed): RV: &Omega; &rarr; &#8477; (number out); random vector: &Omega; &rarr; &#8477;<sup>d</sup>; stochastic process: &Omega; &rarr; function space. Same skeleton, different targets; "random variable" is conventionally reserved for the &#8477;-valued case, so the function-valued case gets its own name.</li>
+<li><strong>Two views of one process:</strong>
+<ul>
+<li><em>View 1 (time-indexed family; ours until L17):</em> for each fixed t, a random variable X<sub>t</sub>: &Omega; &rarr; &#8477;. Fix a time, get a random number.</li>
+<li><em>View 2 (path space; the lecture's):</em> one random object whose value is a whole trajectory. Make one draw, get a random function. View 1's slices are recovered by <em>evaluation</em>: X<sub>t</sub>(&omega;) = the drawn path &omega;, read at time t.</li>
+</ul></li>
+<li><strong>Convenience convention:</strong> take &Omega; = the path space itself &mdash; each outcome &omega; <em>is</em> a path &mdash; so P directly weights sets of trajectories:
+<p class="math">P(X &isin; A) = P(X<sup>&minus;1</sup>(A)), &nbsp;&nbsp; A = a set of paths</p>
+Events are no longer statements about one number; they are <strong>sets of functions</strong> (e.g. {paths staying below 5 up to time 3}; {paths hitting 100 before 0} &mdash; gambler's ruin's event in its native habitat).</li>
+</ul>
+
+<h3>8.3 Worked instances (2-step universe) and the key distinctions</h3>
+<ul>
+<li>Fair &plusmn;1 walk, two steps: &Omega; = {(+,+), (+,&minus;), (&minus;,+), (&minus;,&minus;)}, |&Omega;| = 4, P(&omega;) = &frac14; each. The path (+,&minus;) IS the function &omega;(0)=0, &omega;(1)=1, &omega;(2)=0.</li>
+<li><em>Endpoint event</em> {&omega;: &omega;(2)=0} = {(+,&minus;), (&minus;,+)}, P = &frac12; &mdash; matches the View-1 binomial count.</li>
+<li><em>Whole-path event</em> {&omega;: &omega;(t) &ge; 0 &forall;t} = {(+,+), (+,&minus;)}, P = &frac12; &mdash; native View-2 territory: marginal distributions of the slices alone cannot answer it.</li>
+<li><strong>Three objects, never to be conflated</strong> (an error made and fixed): &omega; = a whole path (a function); &omega;(3) = one number (that path's value at time 3); W<sub>3</sub> = the <em>evaluation map</em> &omega; &#8614; &omega;(3) (a random variable &mdash; the rule, not the path, not the number).</li>
+<li>3-step universe results (exercise, graded): |&Omega;| = 8, P(&omega;) = &#8539;; {&omega;(2)=0} has 4 members (balanced first pair &times; free third step) &rArr; P = &frac12; &mdash; endpoint events ignore free steps; never-negative event = {(+,+,+), (+,+,&minus;), (+,&minus;,+)} &rArr; P = 3/8 &mdash; whole-path events constrain every step. That numeric contrast (&frac12; vs 3/8) is the entire View-1-vs-View-2 lesson.</li>
+</ul>
+
+<hr>
+
+<h2 id="s9">9. Brownian Motion (MIT L17 &sect;2)</h2>
+
+<p><strong>Where we are &rarr; what this is:</strong> the axiomatize-then-outsource strategy, executed. Brownian motion is defined by three demands; every one of them is a fact you already derived for the calibrated walk, promoted to an axiom of the limit object. (Notes' symbol B(t); our earlier W<sub>t</sub>.)</p>
+
+<h3>9.1 Theorem 2.1 &mdash; the definition</h3>
+<div class="box">
+<p>There exists a probability distribution over <strong>continuous</strong> functions B: &#8477; &rarr; &#8477; satisfying:</p>
+<ul>
+<li><strong>(i)</strong> B(0) = 0 &mdash; anchoring. (Without it, B(t) alone would have no determined distribution; with it, B(t) = B(t)&minus;B(0) inherits demand (ii).)</li>
+<li><strong>(ii)</strong> for all 0 &le; s &lt; t: &nbsp; B(t) &minus; B(s) ~ N(0, t&minus;s) &mdash; <em>two claims fused</em>: increments are Gaussian, AND their law depends only on the <strong>duration</strong>, not the location (the walk's stationary increments, with the distribution now fully specified). Variance = elapsed time: the calibrated Var = ct with c = 1 ("standard").</li>
+<li><strong>(iii)</strong> increments over non-overlapping intervals are mutually <strong>independent</strong> &mdash; disjoint windows draw disjoint randomness (the walk's disjoint-batches fact, surviving the limit).</li>
+</ul>
+<p>Three demands + path continuity; existence = outsourced (Wiener measure). Everything else about BM is a consequence.</p>
+</div>
+<p>Immediate consequences: B(t) ~ N(0, t); E[B(t)] = 0; Var(B(t)) = t; E[B(t)&sup2;] = t (variance + zero mean; no computation &mdash; parameters read off the parameterization).</p>
+
+<h3>9.2 The construction from the walk &mdash; pre-scaled (your fix as the definition), and the erratum</h3>
+<ul>
+<li><strong>The model, stated correctly from the start:</strong> resolution n; ticks &delta; = 1/n; i.i.d. steps with E = 0 and <strong>Var(&xi;<sub>i</sub>) = 1/n = &delta;</strong> &mdash; the calibration &sigma;<sub>S</sub>&sup2; = c&delta; (c = 1) <em>built into the model</em>, not applied afterward. Concrete instance: coin steps of size &plusmn;1/&radic;n. The process: Z<sub>n</sub>(k/n) = &Sigma;<sub>i&le;k</sub> &xi;<sub>i</sub>, straight lines between grid points (continuity).</li>
+<li><strong>Demands verified:</strong> (i) exact at every n (empty sum). (iii) exact at every n (disjoint batches). (ii)-variance <strong>exact at every n</strong>: an increment over [s,t] holds (t&minus;s)n steps of variance 1/n &rArr; Var = t&minus;s &mdash; refinement invariance is a property of the model, nothing to rescue. (ii)-Gaussianity: the one thing only the limit supplies &mdash; sums of many i.i.d. steps sharpen to exactly Gaussian by the CLT (sum version). Formal reduction to the classical CLT: write &xi;<sub>i</sub> = &eta;<sub>i</sub>/&radic;n with &eta; i.i.d. variance-1; then Z<sub>n</sub>(1) = (1/&radic;n)&Sigma;&eta;<sub>i</sub> &rarr; N(0,1) verbatim.</li>
+<li><strong>The walk's approximate Gaussianity upgrades to an identity:</strong> at fixed t, the number of summands &rarr; &infin;, the CLT's limit is <em>reached</em>: B(t) ~ N(0, t) exactly, for every t &gt; 0.</li>
+</ul>
+<div class="err"><strong>Erratum (caught, proved, mailable):</strong> the L17 notes print the construction as Z(k/n) = Y<sub>k</sub> with variance-1 steps and claim Z(1) &rarr; N(0,1) "by CLT." As printed this is false &mdash; Z(1) = Y<sub>n</sub> has Var = n, and rigorously (mass-escape argument: P(|Y<sub>n</sub>| &le; M) &rarr; 0 for every fixed M via the correctly-scaled CLT + continuity sets) Y<sub>n</sub> converges in distribution to <em>no</em> probability law. The intended definition is Z(k/n) = Y<sub>k</sub>/&radic;n &mdash; whose translation is exactly the calibration: effective step variance 1/n = &delta;. Care point: "variance &rarr; &infin;" alone is a red flag, not a proof (weak convergence doesn't control moments; counterexample X<sub>n</sub> = G + n&sup2;&middot;Bern(1/n)); the escaping-mass argument is the court-admissible version. Second erratum in this course (first: L8's stationary variance printed &sigma;&sup2;/(1&minus;&phi;), correct &sigma;&sup2;/(1&minus;&phi;&sup2;)). Submission channel: the MIT OCW contact form (ocw.mit.edu/contact), which accepts attachments.</div>
+
+<h3>9.3 The covariance function: Cov(B(s), B(t)) = min(s, t) &nbsp;<span class="tag g">P1b</span></h3>
+<div class="step"><span class="slabel">Derivation (the split &mdash; the one structural move):</span> for 0 &lt; s &lt; t, write B(t) = B(s) + (B(t)&minus;B(s)). Then by bilinearity:
+<p class="math">Cov(B(s), B(t)) = Cov(B(s), B(s)) + Cov(B(s), B(t)&minus;B(s)) = Var(B(s)) + 0 = s</p>
+First term: demand (ii)+(i) give Var(B(s)) = s. Cross term dies: B(s) is the increment over [0,s], B(t)&minus;B(s) over [s,t] &mdash; non-overlapping &rArr; independent (demand (iii)) &rArr; covariance 0. Symmetry of Cov gives the order-free form:</div>
+<p class="math"><strong>Cov(B(s), B(t)) = min(s, t)</strong></p>
+<ul>
+<li><strong>Meaning:</strong> the covariance equals the <em>length of shared history</em> &mdash; the two variables co-move exactly through the interval both lived through; everything after is fresh noise contributing nothing.</li>
+<li><strong>Importance:</strong> (1) mean function 0 + covariance function min(s,t) is the <em>complete</em> second-moment description &mdash; and for a Gaussian process, mean + covariance determine the entire law: this small formula, with Gaussianity, IS Brownian motion. (2) The technique &mdash; split &rarr; bilinearity &rarr; kill by independence &mdash; is verbatim the OU autocovariance derivation at P5 (&rho;(&Delta;) = e<sup>&minus;&theta;&Delta;</sup>), the quantity Cell 1 asserts.</li>
+<li>Companion computations: P(B(2) &gt; 0 and B(5)&minus;B(2) &gt; 0) = &frac12;&times;&frac12; = &frac14; (independent increments turn joint statements into products &mdash; the mechanism that makes D4's innovations independent across gaps and the likelihood factorize). E[B(t)&sup2;] = t &mdash; which is the &Delta;(s) &equiv; 1 sanity check of the It&ocirc; isometry waiting in L18 (&int;&#8320;<sup>t</sup> 1&thinsp;dB = B(t); isometry predicts Var = &int;&#8320;<sup>t</sup>1&sup2;ds = t &#10003;).</li>
+</ul>
+
+<h3>9.4 The facts list, in our terms</h3>
+<ul>
+<li><strong>Typical size = the standard deviation:</strong> B(t) ~ N(0,t) &rArr; |B(t)| &le; &radic;t with prob &asymp; 68%, &le; 2&radic;t with &asymp; 95%. The path lives in a parabolic sleeve widening as &radic;t &mdash; the notes' "close to the curve x = y&sup2;" is this sleeve, axes (time x, value y): y = &plusmn;&radic;x &hArr; x = y&sup2;. (Making "the whole path forever" precise is the law of the iterated logarithm &mdash; out of scope; the working content is: typical size at time t = &radic;t, the walk's &radic;-law worn as the path's silhouette.)</li>
+<li><strong>Crosses zero infinitely often</strong> &mdash; mean 0 forever, noise never stops. Statement only; nothing downstream uses it.</li>
+<li><strong>Nowhere differentiable</strong> &mdash; next, because it is on the critical path.</li>
+</ul>
+
+<h3>9.5 Nowhere differentiability (Prop 2.4) &mdash; the fact that forces P2</h3>
+<ul>
+<li>Differentiability at t asks whether the difference quotient settles: Q<sub>h</sub> = (B(t+h) &minus; B(t))/h.</li>
+<li>Compute its distribution: numerator ~ N(0, h) by demand (ii) &mdash; location t drops out, duration-only; scaling by 1/h multiplies variance by 1/h&sup2; (S3):
+<p class="math">Q<sub>h</sub> ~ N(0, 1/h) &nbsp;&rarr;&nbsp; Var(Q<sub>h</sub>) = 1/h &rarr; &infin; as h &rarr; 0</p>
+The quotient doesn't settle &mdash; it explodes. No slope, at any point, with probability 1 (Dvoretsky&ndash;Erd&#337;s&ndash;Kakutani for the "no point whatsoever" strengthening; the notes' own proof routes through the running-max machinery we scope out &mdash; the statement + mechanism is all downstream work needs).</li>
+<li><strong>The mechanism in one line:</strong> an increment of typical size &radic;h divided by h has size 1/&radic;h. A smooth function's increment has size (slope)&middot;h, and dividing by h returns the slope. <em>Increments of size h survive division by h; increments of size &radic;h do not.</em> The same &radic;-law that made the variance resolution-free makes the derivative resolution-divergent &mdash; one law, two faces.</li>
+<li>Real-life remark of the notes, which is the project's premise: any process is only ever observed at finitely many sample points &mdash; the continuous object accessed through discrete snapshots. That is literally the setting of the paper: a continuous OU path, observed at irregular times.</li>
+</ul>
+
+<hr>
+
+<h2 id="s10">10. The SDE Notation (P2): the Differential Line, Defined as an Integral Equation</h2>
+
+<p><strong>Where we are &rarr; what breaks:</strong> the project's central equation is written dX<sub>t</sub> = &theta;(&mu; &minus; X<sub>t</sub>)dt + &sigma;dB<sub>t</sub>. In ordinary calculus, "d" is shorthand for derivatives &mdash; but &sect;9.5 proved dB/dt exists at no time, with probability 1. Read as calculus, the line asserts something about an object that isn't there: as it stands it is <em>meaningless</em>, and no manipulation of it is legal until it is given a meaning. P2 supplies the meaning.</p>
+
+<h3>10.1 The anchor: what differential notation already means in calculus</h3>
+<ul>
+<li>Take a plain ODE: x&prime;(t) = g(t), x(0) = x<sub>0</sub>. Its differential form dx = g(t)&thinsp;dt reads: <em>over a tiny interval of length dt, the change in x is rate &times; duration.</em></li>
+<li>Recovering the function from the local statement = <strong>adding up the changes</strong>: chop [0, t] into pieces, sum the piece-changes, shrink &mdash; the sum becomes an integral:
+<p class="math">x(t) &minus; x(0) = &int;&#8320;<sup>t</sup> g(s)&thinsp;ds &nbsp;&nbsp;(Fundamental Theorem of Calculus)</p></li>
+<li>The differential line and the integral line are <strong>two notations for one statement</strong>; "d" was always shorthand for "will be summed." Instance: g(s) = 2s, x<sub>0</sub> = 0 &rArr; x(t) = t&sup2;; the line dx = 2t&thinsp;dt never meant anything beyond this.</li>
+</ul>
+
+<h3>10.2 The audit: which reading survives for a noisy equation?</h3>
+<ul>
+<li>The OU model's verbal content over a small window [t, t+h]: <em>change = pull toward &mu; + noise kick</em>:
+<p class="math">X<sub>t+h</sub> &minus; X<sub>t</sub> &asymp; &theta;(&mu; &minus; X<sub>t</sub>)&middot;h &nbsp;+&nbsp; &sigma;&thinsp;(B(t+h) &minus; B(t))</p>
+Both right-hand objects exist: a number times h, and a Brownian increment ~ N(0, h). Nothing illegal yet.</li>
+<li><strong>Derivative reading</strong> (divide by h, let h &rarr; 0): drift term &rarr; &theta;(&mu;&minus;X<sub>t</sub>), fine; noise term = &sigma;Q<sub>h</sub> ~ N(0, &sigma;&sup2;/h) &mdash; <strong>explodes</strong> (&sect;9.5). Dead exactly where it was proven to die.</li>
+<li><strong>Accumulation reading</strong> (sum over a partition 0 = t<sub>0</sub> &lt; t<sub>1</sub> &lt; &hellip; &lt; t<sub>n</sub> = t, exactly as 10.1 did):
+<p class="math">X<sub>t</sub> &minus; X<sub>0</sub> = &Sigma;<sub>k</sub> &theta;(&mu;&minus;X<sub>t<sub>k</sub></sub>)(t<sub>k+1</sub>&minus;t<sub>k</sub>) &nbsp;+&nbsp; &sigma;&thinsp;&Sigma;<sub>k</sub> (B(t<sub>k+1</sub>) &minus; B(t<sub>k</sub>))</p>
+<ul>
+<li>First sum: a Riemann sum of the continuous path s &#8614; &theta;(&mu;&minus;X<sub>s</sub>) &rArr; converges to an <strong>ordinary integral</strong> &int;&#8320;<sup>t</sup> &theta;(&mu;&minus;X<sub>s</sub>)ds. Ordinary calculus, applied path by path. Nothing new.</li>
+<li>Second sum <strong>telescopes</strong> &mdash; write three pieces: (B(t<sub>1</sub>)&minus;B(t<sub>0</sub>)) + (B(t<sub>2</sub>)&minus;B(t<sub>1</sub>)) + (B(t<sub>3</sub>)&minus;B(t<sub>2</sub>)) = B(t<sub>3</sub>) &minus; B(t<sub>0</sub>): every intermediate value cancels, only endpoints survive. For any partition of [0, t]:
+<p class="math">&Sigma;<sub>k</sub> (B(t<sub>k+1</sub>) &minus; B(t<sub>k</sub>)) = B(t) &minus; B(0) = B(t) &nbsp;&nbsp;<em>exactly, for every partition &mdash; no limit needed</em></p></li>
+</ul></li>
+<li><strong>Verdict:</strong> the derivative door is closed; the accumulation door is fully open, and every object behind it already exists.</li>
+</ul>
+
+<h3>10.3 The definition (P2 proper)</h3>
+<div class="box">
+<p>Since only the accumulation reading survives, the differential notation is <strong>defined</strong> to mean it. For coefficient functions a(x, t) and b(x, t):</p>
+<p class="math"><strong>dX<sub>t</sub> = a(X<sub>t</sub>, t)&thinsp;dt + b(X<sub>t</sub>, t)&thinsp;dB<sub>t</sub> &nbsp;&nbsp;&hArr;<sub>def</sub>&nbsp;&nbsp; X<sub>t</sub> = X<sub>0</sub> + &int;&#8320;<sup>t</sup> a(X<sub>s</sub>, s)&thinsp;ds + &int;&#8320;<sup>t</sup> b(X<sub>s</sub>, s)&thinsp;dB<sub>s</sub> &nbsp;for all t</strong></p>
+<ul>
+<li>A process X<sub>t</sub> is a <strong>solution</strong> of the SDE iff it makes the right-hand (integral) equation true at every t.</li>
+<li>The differential line has <strong>no independent meaning</strong> &mdash; it is compact notation for the integral line, exactly as dx = g&thinsp;dt was for the FTC. Every future manipulation of "d"-symbols must be justifiable on the integral side. That discipline is the entire content of P2.</li>
+</ul>
+</div>
+<div class="warn"><strong>Wrong frame to avoid (a correction we made):</strong> this is <em>not</em> an "anti-derivative" move. Nothing is differentiated and nothing is undone &mdash; dB/dt never exists at any stage. The definition is built from <strong>sums of increments</strong> (things that exist), not undone slopes (things that don't).</div>
+
+<h3>10.4 Worked examples &mdash; SDEs solvable by pure reading</h3>
+<ul>
+<li><strong>Example 1, pure noise:</strong> dX<sub>t</sub> = &sigma;&thinsp;dB<sub>t</sub>, X<sub>0</sub> = 5. Integral form: X<sub>t</sub> = 5 + &sigma;&int;&#8320;<sup>t</sup>dB<sub>s</sub> = 5 + &sigma;B(t) (the telescoped sum). Distribution by S5 rules (constant shifts mean; scaling by &sigma; multiplies variance by &sigma;&sup2;; B(t) ~ N(0, t)):
+<p class="math">X<sub>t</sub> ~ N(5, &sigma;&sup2;t)</p>
+A Brownian motion re-anchored at 5 and re-scaled &mdash; fully solved by reading.</li>
+<li><strong>Example 2, constant drift + noise</strong> (L17's Ex 2.6, "Brownian motion with drift"): dX<sub>t</sub> = a&thinsp;dt + &sigma;&thinsp;dB<sub>t</sub>, X<sub>0</sub> = x<sub>0</sub>, a constant. Integral form: X<sub>t</sub> = x<sub>0</sub> + &int;&#8320;<sup>t</sup>a&thinsp;ds + &sigma;B(t) = x<sub>0</sub> + at + &sigma;B(t):
+<p class="math">X<sub>t</sub> ~ N(x<sub>0</sub> + at, &sigma;&sup2;t)</p>
+Mean drifts linearly, spread grows as &radic;t &mdash; the walk with &mu;<sub>S</sub> &ne; 0, continuous edition.</li>
+</ul>
+
+<h3>10.5 The OU equation under the definition &mdash; meaningful today, not yet solvable</h3>
+<ul>
+<li>With a(X<sub>s</sub>) = &theta;(&mu;&minus;X<sub>s</sub>) and b = &sigma; constant:
+<p class="math">X<sub>t</sub> = X<sub>0</sub> + &int;&#8320;<sup>t</sup> &theta;(&mu; &minus; X<sub>s</sub>)&thinsp;ds + &sigma;B(t)</p>
+Every term is <em>defined</em> &mdash; that was P2's whole job. Read in words: position = start + accumulated pull + accumulated noise.</li>
+<li>But the equation is <strong>self-referential</strong>: X appears on both sides &mdash; the unknown sits inside its own drift integral. Examples 1&ndash;2 escaped this because their right sides contained only known objects. Dissolving the self-reference is what "solving the SDE" means &mdash; P4's integrating-factor job.</li>
+<li><strong>Cost preview (why P3 exists):</strong> the solution will contain &int;&#8320;<sup>t</sup> f(s)&thinsp;dB<sub>s</sub> with a <em>non-constant</em> deterministic weight f(s) = &sigma;e<sup>&minus;&theta;(t&minus;s)</sup> (old kicks damped, recent kicks fresh). Non-constant weights &rArr; the sum &Sigma; f(t<sub>k</sub>)(B(t<sub>k+1</sub>)&minus;B(t<sub>k</sub>)) <strong>no longer telescopes</strong> &mdash; each increment carries a different coefficient, nothing cancels &mdash; a genuinely new object. Defining it (as a limit of weighted increment sums: the walk's summing game with weighted steps) and deriving its law N(0, &int;f&sup2;ds) via the It&ocirc; isometry is precisely <strong>P3</strong>.</li>
+</ul>
+
+<h3>10.6 Status of the equation itself &mdash; where it "comes from"</h3>
+<ul>
+<li>The SDE is a <strong>postulate</strong>: the <em>definition</em> of the OU model (Uhlenbeck&ndash;Ornstein 1930 for particle velocities; Vasicek 1977 for rates) &mdash; exactly as the AR(1) recursion in &sect;7 was postulated, never derived, and then its consequences were derived from it. The ladder derives the SDE's consequences (P4&ndash;P5); the equation itself is the modeler's axiom.</li>
+<li>Kinship with AR(1) &mdash; same sentence, different clock:
+<table class="ftable">
+<tr><th></th><th>AR(1) (&sect;7)</th><th>OU SDE</th></tr>
+<tr><td>Time</td><td>discrete ticks</td><td>continuous</td></tr>
+<tr><td>The pull</td><td class="f">&phi;(X<sub>i&minus;1</sub>&minus;&mu;) per tick</td><td class="f">&theta;(&mu;&minus;X<sub>t</sub>)dt per instant</td></tr>
+<tr><td>The noise</td><td class="f">innovation &epsilon;<sub>i</sub></td><td class="f">&sigma;&thinsp;dB<sub>t</sub></td></tr>
+<tr><td>Status</td><td>postulated model</td><td>postulated model</td></tr>
+</table>
+Sign conventions flip appearances: &phi; multiplies the deviation that <em>survives</em>; &theta; multiplies the <em>pull back</em>. For small &Delta;, &phi; &asymp; 1 &minus; &theta;&Delta;; exactly, &phi; = e<sup>&minus;&theta;&Delta;</sup>. AR(1) is not where the SDE comes from; AR(1) is what the SDE <em>becomes</em> at discrete observation times &mdash; and proving that is M1, the project's spine.</li>
+</ul>
+
+<hr>
+<h2 id="s11">11. The Ladder, the Import Ledger, and the Errata Log</h2>
+
+<h3>11.1 The locked route with status</h3>
+<table class="ftable">
+<tr><th>#</th><th>Topic</th><th>Status</th></tr>
+<tr><td>P1</td><td>Brownian motion from the walk: demands, construction, calibration</td><td class="status-done">&#10003; done (&sect;9)</td></tr>
+<tr><td>P1b</td><td>Cov(B(s),B(t)) = min(s,t)</td><td class="status-done">&#10003; done (&sect;9.3)</td></tr>
+<tr><td>P2</td><td>SDE notation = integral shorthand (definition, worked examples, self-reference of OU)</td><td class="status-done">&#10003; done (&sect;10) &mdash; gate exercise pending (Appendix A)</td></tr>
+<tr><td>P3</td><td>Wiener integral &int;f&thinsp;dB (deterministic f) + It&ocirc; isometry, <em>derived</em> from step functions</td><td class="status-open">&#9711; <strong>NEXT</strong></td></tr>
+<tr><td>P4</td><td>OU explicit solution via integrating factor (&mu;&ne;0 via Y = X&minus;&mu;)</td><td class="status-open">&#9711;</td></tr>
+<tr><td>P5</td><td>Transition density; stationary law; &Delta;&rarr;0 and &Delta;&rarr;&infin; limits; autocorr e<sup>&minus;&theta;&Delta;</sup></td><td class="status-open">&#9711;</td></tr>
+<tr><td>S1</td><td>Chain rule of densities</td><td class="status-done">&#10003; done (&sect;6.1)</td></tr>
+<tr><td>S2</td><td>Markov property (chain + density forms)</td><td class="status-done">&#10003; done (&sect;5.1, &sect;6.3)</td></tr>
+<tr><td>S3</td><td>Gaussian AR(1): stationary law, &rho;(k)=&phi;<sup>k</sup>, conditional MLE</td><td class="status-done">&#10003; done (&sect;7) &mdash; MLE part flagged for revisit before M2</td></tr>
+<tr><td>M1</td><td>Merge: OU = AR(1) with &phi;<sub>i</sub> = e<sup>&minus;&theta;&Delta;<sub>i</sub></sup></td><td class="status-open">&#9711;</td></tr>
+<tr><td>M2</td><td>Exact log-likelihood + naive estimator</td><td class="status-open">&#9711;</td></tr>
+<tr><td>M3</td><td>Poisson process / exponential interarrivals (CV = 1)</td><td class="status-open">&#9711; floats anywhere before code</td></tr>
+<tr><td>C1&ndash;C3</td><td>Exact simulation; MLE hygiene; Monte Carlo recovery</td><td class="status-open">&#9711; Week 2</td></tr>
+</table>
+
+<h3>11.2 The import ledger (the only citable non-derived items)</h3>
+<ul>
+<li><strong>Substrate:</strong> Brownian motion exists with Theorem 2.1's properties (Wiener measure &mdash; out of scope).</li>
+<li><strong>L&sup1;</strong> (consumed at P3, one bridge, four clauses): step-sum Gaussians converge in L&sup2;; the limit is Gaussian; the limit's mean and variance are the limits of the step-sums'; and integrals over disjoint intervals remain independent. All four cross the same limit; declared at CF level.</li>
+<li><strong>L&sup2;</strong> (consumed at P4): interchange of integration order for deterministic integrands (double-Riemann-sum defense) &mdash; chosen over the C&sup1;&times;It&ocirc; product rule because it reuses P3's own step-function machinery.</li>
+<li><strong>L&sup3;</strong> (consumed at P3 and throughout): Gaussian closure &mdash; aX+b of a Gaussian is Gaussian; sums of independent Gaussians are Gaussian with means and variances adding. (Stated in probability notes S5; convolution proof optional enrichment.)</li>
+<li><strong>Exit condition:</strong> reproduce D1&ndash;D5 on blank paper in &le; 30 minutes citing only L&sup1;&ndash;L&sup3; and the substrate.</li>
+</ul>
+
+<h3>11.3 Scope armor (excluded, with the condition that would re-admit each)</h3>
+<ul>
+<li>It&ocirc;'s formula in general; quadratic variation; (dB)&sup2; = dt calculus &mdash; needed only if the diffusion coefficient becomes state-dependent (CIR-type extensions).</li>
+<li>Random/adapted integrands; martingale theory; optional stopping &mdash; needed only beyond deterministic-integrand integrals.</li>
+<li>Girsanov / measure changes; reflection principle / hitting-time laws; heat-equation and Fokker&ndash;Planck PDE track (Einstein census thread parked after extracting its payoff: <em>transition density = one-tick update rule</em>).</li>
+<li>Wiener-measure construction; measure-theoretic probability throughout.</li>
+</ul>
+
+<h3>11.4 Errata log (both caught by our own machinery)</h3>
+<ul>
+<li><strong>L8</strong> (Time Series): AR(1) stationary variance printed &sigma;&sup2;/(1&minus;&phi;); correct &sigma;&sup2;/(1&minus;&phi;&sup2;) (&sect;7.3's derivation).</li>
+<li><strong>L17</strong> (BM): random-walk construction printed without the &radic;n normalization; formal disproof + fix recorded in &sect;9.2; mailable via ocw.mit.edu/contact.</li>
+</ul>
+
+<hr>
+<h2 id="appA">Appendix A. Problem Sets</h2>
+
+<h3>Problem Set 1 &mdash; Random Walks to Markov Factorization</h3>
+
+<div class="problem"><span class="plabel">Q1.</span> Steps i.i.d. with P(S = +2) = &frac14;, P(S = &minus;1) = &frac34;; W<sub>k</sub> = &Sigma;S<sub>i</sub>.
+(a) E[S], Var(S) with intermediate E[S&sup2;]. (b) E[W<sub>100</sub>], Var(W<sub>100</sub>), naming the licensing property and its layer. (c) Approximate distribution: family, theorem + version, both parameters.</div>
+<div class="solution"><strong>Solution.</strong> (a) E[S] = 2(&frac14;) + (&minus;1)(&frac34;) = &minus;&frac14;. E[S&sup2;] = 4(&frac14;) + 1(&frac34;) = 7/4. Var = 7/4 &minus; 1/16 = <strong>27/16</strong>. (b) Linearity (no conditions): E[W<sub>100</sub>] = &minus;25. Variance-addition consuming the <em>steps'</em> independence: Var = 100&middot;27/16 = <strong>168.75</strong>. (c) CLT, <em>sum version</em>: W<sub>100</sub> &asymp; <strong>N(&minus;25, 168.75)</strong> &mdash; second slot is the variance (a slot error we caught: 3&radic;3k/4 is the SD, wrong slot).</div>
+
+<div class="problem"><span class="plabel">Q2.</span> Calibration: with Var(W<sub>t</sub>) = (t/&delta;)&sigma;<sub>S</sub>&sup2;, state the condition making it finite/nonzero as &delta;&rarr;0, and why &delta;-dependence is unacceptable.</div>
+<div class="solution"><strong>Solution.</strong> &sigma;<sub>S</sub>&sup2; = c&delta; &rArr; Var(W<sub>t</sub>) = ct. &delta; is the modeler's discretization choice, not physics; predictions must not depend on it.</div>
+
+<div class="problem"><span class="plabel">Q3.</span> Fair &plusmn;1 fortune walk, ruin 0, target 100, current 30. (a) P(hit 100 first). (b) Derive the recursion, naming the properties licensing a time-free f. (c) Where "equal rises" dies for p &ne; &frac12;, and what replaces it.</div>
+<div class="solution"><strong>Solution.</strong> (a) f(30) = 30/100 = <strong>0.3</strong> (70/100 is the ruin probability &mdash; sanity: nearer ruin &rArr; win &lt; &frac12;). (b) First-step conditioning (total probability over the next move): f(m) = &frac12;f(m+1) + &frac12;f(m&minus;1); the fresh-gambler substitution consumes independent + stationary increments. (c) Division by ratio q/p: rises become geometric with ratio q/p; AP iff p = &frac12;.</div>
+
+<div class="problem"><span class="plabel">Q4.</span> Two-state chain: p<sub>11</sub> = 0.7, p<sub>12</sub> = 0.3, p<sub>21</sub> = 0.4, p<sub>22</sub> = 0.6. (a) A in column convention + column sums. (b) r<sub>11</sub>(2) by routes. (c) Same via A&sup2;. (d) Exact &pi;. (e) &mu;<sub>1</sub> from &mu;<sub>0</sub> = (0.5, 0.5).</div>
+<div class="solution"><strong>Solution.</strong> (a) A = [0.7 0.4; 0.3 0.6], columns sum to 1 &#10003;. (b) 0.7&sup2; + 0.3&middot;0.4 = <strong>0.61</strong>. (c) A&sup2;[1][1] = 0.61 &#10003; (full A&sup2; = [0.61 0.52; 0.39 0.48]). (d) A&pi; = &pi; with &pi;<sub>1</sub>+&pi;<sub>2</sub> = 1: 0.7&pi;<sub>1</sub> + 0.4&pi;<sub>2</sub> = &pi;<sub>1</sub> &rArr; 0.4&pi;<sub>2</sub> = 0.3&pi;<sub>1</sub> &rArr; &pi; = <strong>(4/7, 3/7)</strong>. (e) &mu;<sub>1</sub> = A&mu;<sub>0</sub> = <strong>(0.55, 0.45)</strong>.</div>
+
+<div class="problem"><span class="plabel">Q5.</span> Construct a process where the next value depends on the last <em>two</em> values; state what the chain-rule factor collapses to instead.</div>
+<div class="solution"><strong>Solution.</strong> Momentum/trend model (e.g. X<sub>i</sub> = X<sub>i&minus;1</sub> + 0.8(X<sub>i&minus;1</sub>&minus;X<sub>i&minus;2</sub>) + &epsilon;<sub>i</sub>). The factor collapses only to p(x<sub>i</sub> | x<sub>i&minus;1</sub>, x<sub>i&minus;2</sub>) &mdash; order-2 memory; Markov in the <em>pair</em> (X<sub>i</sub>, X<sub>i&minus;1</sub>).</div>
+
+<div class="problem"><span class="plabel">Q6.</span> (a) Full chain rule for p(x<sub>0</sub>,&hellip;,x<sub>n</sub>|&theta;). (b) Markov-collapsed version.</div>
+<div class="solution"><strong>Solution.</strong> (a) p(x<sub>0</sub>|&theta;)&thinsp;&Pi;<sub>i=1</sub><sup>n</sup> p(x<sub>i</sub> | x<sub>i&minus;1</sub>,&hellip;,x<sub>0</sub>, &theta;) &mdash; identity. (b) p(x<sub>0</sub>|&theta;)&thinsp;&Pi;<sub>i=1</sub><sup>n</sup> p(x<sub>i</sub> | x<sub>i&minus;1</sub>, &theta;) &mdash; the master formula (&sect;6.4).</div>
+
+<div class="problem"><span class="plabel">Q7 (stretch).</span> Weather table (&sect;6.3 numbers): day 0 sunny, day 2 rainy, day 1 unobserved. Compute P(Rain<sub>1</sub> | Sun<sub>0</sub>, Rain<sub>2</sub>).</div>
+<div class="solution"><strong>Solution.</strong> Bayes inside the chain: numerator = P(Rain<sub>1</sub>|Sun<sub>0</sub>)P(Rain<sub>2</sub>|Sun<sub>0</sub>,Rain<sub>1</sub>) = 0.2&middot;0.6 = 0.12; denominator = P(Rain<sub>2</sub>|Sun<sub>0</sub>) = 0.8&middot;0.3 + 0.2&middot;0.6 = 0.36 (computed in-session). Answer: 0.12/0.36 = <strong>1/3</strong>.</div>
+
+<div class="problem"><span class="plabel">Q8.</span> Log of the Q6(b) factorization; what the log does structurally and why the argmax survives.</div>
+<div class="solution"><strong>Solution.</strong> log p = log p(x<sub>0</sub>|&theta;) + &Sigma;<sub>i</sub> log p(x<sub>i</sub>|x<sub>i&minus;1</sub>,&theta;) &mdash; product &rarr; sum of n cheap terms (numerically survivable); log is monotone increasing, so the maximizing &theta; is unchanged (&sect;1.2).</div>
+
+<h3>Problem Set 2 &mdash; Markov Property, Discrete and Density Form</h3>
+<p class="caption">A1, A2, A4 and B1&ndash;B5: submitted/pending at compile time &mdash; solutions to be appended on grading. A3 was solved in-session and is recorded in full.</p>
+
+<div class="problem"><span class="plabel">A1.</span> Vending machine S = {1,2}, p<sub>11</sub>=0.6, p<sub>12</sub>=0.4, p<sub>21</sub>=0.9, p<sub>22</sub>=0.1, P(X<sub>0</sub>=1)=0.5. Log: 1,2,1,1. Compute P(log|&theta;) via the collapsed factorization.</div>
+<div class="problem"><span class="plabel">A2.</span> Same machine, started at 1. (a) P(X<sub>2</sub>=1|X<sub>0</sub>=1) (day 1 unobserved). (b) P of the specific all-stocked path. (c) Why (a) &gt; (b); which tool belongs to which.</div>
+<div class="problem"><span class="plabel">A3.</span> Unknown &theta; = (p<sub>11</sub>, p<sub>21</sub>); counts n<sub>11</sub>=60, n<sub>12</sub>=20, n<sub>21</sub>=15, n<sub>22</sub>=5.</div>
+<div class="solution"><strong>Solution (in-session).</strong> L(&theta;) = p<sub>11</sub><sup>60</sup>(1&minus;p<sub>11</sub>)<sup>20</sup>&middot;p<sub>21</sub><sup>15</sup>(1&minus;p<sub>21</sub>)<sup>5</sup> &mdash; two coin blocks with disjoint parameters. &part;logL/&part;p<sub>11</sub> = 60/p<sub>11</sub> &minus; 20/(1&minus;p<sub>11</sub>) = 0 &rArr; p&#770;<sub>11</sub> = 60/80 = <strong>0.75</strong>; identically p&#770;<sub>21</sub> = 15/20 = <strong>0.75</strong>. Estimates = observed transition frequencies out of each state; counts are sufficient statistics; interleaving order never enters. Project contrast: no such split &mdash; all parameters in every factor &rArr; numerical optimization.</div>
+<div class="problem"><span class="plabel">A4.</span> Two-tick traffic light G,G,Y,Y,R,R,&hellip;: (a) show X<sub>n</sub> alone is not Markov via two histories with the same present but different next-distributions; (b) enlarge the state so it is Markov.</div>
+<div class="problem"><span class="plabel">B1&ndash;B5.</span> AR(1) temperature model &theta; = (25, 0.5, 4): build/read a transition density (B1); verify the collapse on the recursion + momentum contrast (B2); full symbolic likelihood of (29, 27, 25.5) with stationary initial factor (B3); where &theta; bites &mdash; &phi;-candidates 0.5 vs 0.9 pricing a slow return (B4); two true/false on identity-vs-property and conditional independence (B5).</div>
+
+<hr>
+
+<h3>Gate exercise &mdash; P2 (submission pending; blocks P3)</h3>
+<div class="problem"><span class="plabel">P2-G.</span>
+(a) dX<sub>t</sub> = 3&thinsp;dt + 2&thinsp;dB<sub>t</sub>, X<sub>0</sub> = 1: write the integral form, simplify every term, and state the exact distribution of X<sub>t</sub> (both parameters as functions of t).
+(b) Prove the telescoping identity for a general partition: &Sigma;<sub>k=0</sub><sup>n&minus;1</sup>(B(t<sub>k+1</sub>) &minus; B(t<sub>k</sub>)) = B(t) &mdash; write the sum out; say which terms cancel and which survive.
+(c) One sentence: point to the exact term that makes the OU integral equation self-referential, and say why Examples 1&ndash;2 of &sect;10.4 escaped it.</div>
+
+<h2 id="appB">Appendix B. Formula Reference Card</h2>
+
+<table class="ftable">
+<tr><th>Object</th><th>Formula</th><th>Where</th></tr>
+<tr><td>MLE chain</td><td class="f">argmax P(D|&theta;) = argmax log P = argmin [&minus;log P]</td><td>&sect;1</td></tr>
+<tr><td>Walk moments</td><td class="f">E[W<sub>k</sub>] = k&mu;<sub>S</sub>; Var(W<sub>k</sub>) = k&sigma;<sub>S</sub>&sup2;; W<sub>k</sub> &asymp; N(k&mu;<sub>S</sub>, k&sigma;<sub>S</sub>&sup2;)</td><td>&sect;2</td></tr>
+<tr><td>Gambler's ruin</td><td class="f">f(m) = (m+A)/(A+B)</td><td>&sect;3</td></tr>
+<tr><td>Calibration</td><td class="f">&sigma;<sub>S</sub>&sup2; = c&delta; &rArr; Var(W<sub>t</sub>) = ct</td><td>&sect;4</td></tr>
+<tr><td>Markov (PMF)</td><td class="f">P(X<sub>n+1</sub>=j | history) = P(X<sub>n+1</sub>=j | X<sub>n</sub>) = p<sub>ij</sub></td><td>&sect;5</td></tr>
+<tr><td>n-step / evolution</td><td class="f">R(n) = A<sup>n</sup>; &mu;<sub>n</sub> = A<sup>n</sup>&mu;<sub>0</sub></td><td>&sect;5</td></tr>
+<tr><td>Stationary (chain)</td><td class="f">A&pi; = &pi; (&lambda;=1 eigenvector, entries sum 1); columns of A<sup>n</sup> &rarr; &pi;</td><td>&sect;5</td></tr>
+<tr><td>Chain MLE</td><td class="f">p&#770;<sub>ij</sub> = n<sub>ij</sub> / &Sigma;<sub>j&prime;</sub> n<sub>ij&prime;</sub></td><td>&sect;5.5</td></tr>
+<tr><td>Chain rule (identity)</td><td class="f">p(x<sub>0:n</sub>|&theta;) = p(x<sub>0</sub>|&theta;)&Pi; p(x<sub>i</sub>|x<sub>&lt;i</sub>,&theta;)</td><td>&sect;6.1</td></tr>
+<tr><td><strong>Master formula</strong></td><td class="f">p(x<sub>0:n</sub>|&theta;) = p(x<sub>0</sub>|&theta;)&thinsp;&Pi;<sub>i=1</sub><sup>n</sup> p(x<sub>i</sub>|x<sub>i&minus;1</sub>,&theta;)</td><td>&sect;6.4</td></tr>
+<tr><td>AR(1) recursion</td><td class="f">X<sub>i</sub> = &mu; + &phi;(X<sub>i&minus;1</sub>&minus;&mu;) + &epsilon;<sub>i</sub></td><td>&sect;7</td></tr>
+<tr><td>AR(1) k-step</td><td class="f">X<sub>k</sub> = &mu; + &phi;<sup>k</sup>(x<sub>0</sub>&minus;&mu;) + &Sigma;&phi;<sup>k&minus;j</sup>&epsilon;<sub>j</sub></td><td>&sect;7.2</td></tr>
+<tr><td>AR(1) stationary</td><td class="f">&pi; = N(&mu;, &sigma;<sub>&epsilon;</sub>&sup2;/(1&minus;&phi;&sup2;))</td><td>&sect;7.3</td></tr>
+<tr><td>AR(1) autocorr</td><td class="f">&rho;(k) = &phi;<sup>k</sup></td><td>&sect;7.4</td></tr>
+<tr><td>AR(1) MLE</td><td class="f">&phi;&#770; = sCov/sVar; &mu;&#770; = &acirc;/(1&minus;&phi;&#770;); &sigma;&#770;<sub>&epsilon;</sub>&sup2; = MSE of predictions</td><td>&sect;7.5</td></tr>
+<tr><td>BM demands</td><td class="f">B(0)=0; B(t)&minus;B(s) ~ N(0, t&minus;s); disjoint increments &perp;; continuous paths</td><td>&sect;9.1</td></tr>
+<tr><td>BM covariance</td><td class="f">Cov(B(s),B(t)) = min(s,t)</td><td>&sect;9.3</td></tr>
+<tr><td>Difference quotient</td><td class="f">Q<sub>h</sub> ~ N(0, 1/h) &rarr; no derivative anywhere</td><td>&sect;9.5</td></tr>
+<tr><td><strong>SDE definition</strong></td><td class="f">dX<sub>t</sub> = a&thinsp;dt + b&thinsp;dB<sub>t</sub> &hArr;<sub>def</sub> X<sub>t</sub> = X<sub>0</sub> + &int;&#8320;<sup>t</sup>a&thinsp;ds + &int;&#8320;<sup>t</sup>b&thinsp;dB<sub>s</sub></td><td>&sect;10.3</td></tr>
+<tr><td>Telescoping</td><td class="f">&Sigma;<sub>k</sub>(B(t<sub>k+1</sub>)&minus;B(t<sub>k</sub>)) = B(t), any partition</td><td>&sect;10.2</td></tr>
+<tr><td>Read-off solutions</td><td class="f">&sigma;dB &rArr; N(x<sub>0</sub>, &sigma;&sup2;t); &nbsp;a&thinsp;dt+&sigma;dB &rArr; N(x<sub>0</sub>+at, &sigma;&sup2;t)</td><td>&sect;10.4</td></tr>
+<tr><td>OU integral form</td><td class="f">X<sub>t</sub> = X<sub>0</sub> + &int;&#8320;<sup>t</sup>&theta;(&mu;&minus;X<sub>s</sub>)ds + &sigma;B(t) &mdash; self-referential</td><td>&sect;10.5</td></tr>
+<tr><td>Project targets (ahead)</td><td class="f">&phi;<sub>i</sub> = e<sup>&minus;&theta;&Delta;<sub>i</sub></sup>; v<sub>i</sub> = (&sigma;&sup2;/2&theta;)(1&minus;e<sup>&minus;2&theta;&Delta;<sub>i</sub></sup>); stationary N(&mu;, &sigma;&sup2;/2&theta;); &rho;(&Delta;) = e<sup>&minus;&theta;&Delta;</sup></td><td>P4&ndash;P5, M1</td></tr>
+</table>
+
+<p class="caption">End of Part I. Part II begins at P3 (the Wiener integral and It&ocirc; isometry) and runs through the OU solution, the transition density, and the merge.</p>
+
+</body>
+</html>
