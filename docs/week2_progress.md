@@ -1,5 +1,8 @@
 # Week 2 progress and validation
 
+Historical Week 2 snapshot. For the current harness milestone, see
+[Week 3 progress](week3_progress.md).
+
 ## Current scope
 
 Updated 10 September 2026. The owner has chosen to proceed independently and defer

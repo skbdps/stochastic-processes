@@ -1,6 +1,9 @@
 # Prior-art log (kill-criterion search, Aug 22 2026)
 
-**Pre-registered kill criterion.** The project pivots if a published paper compares ≥2 of {exact MLE, naive/PFML,
+This is the supplied August 22 search snapshot, not a new comprehensive novelty search.
+The Week 3 mathematical review adds qualifications below.
+
+**Recorded kill criterion.** The project pivots if a published paper compares ≥2 of {exact MLE, naive/PFML,
 Euler contrast} across ≥2 spacing distributions **with CI coverage** as a reported metric.
 
 **Verdict: does not fire.** No paper satisfies all three axes ([E] ≥2 of our estimators, [S] spacing distribution varied,
@@ -15,8 +18,10 @@ mean-gap-naive baseline — is open.
 | Holý & Tomanová (2018 arXiv:1811.09312 → 2025 *Ann. Oper. Res.*) | E(partial) | noise-robust OU estimation for ultra-high-frequency data; Poisson spacing | coverage; CV dial; naive baseline (their axis is microstructure noise) |
 | Kozłowski (2017) *A&A* 597:A128 and the DRW literature (Kelly 2009; Burke et al. 2021) | S | Monte Carlo over cadence and baseline for OU = damped random walk; baseline ≥ 10τ rule | coverage; estimator comparison |
 
-**Supporting results used in the design.** Tang & Chen (2009, *J. Econometrics* 149:65–81): the mean-reversion MLE has
-bias of order 1/T (T = data span), not 1/n. Yu (2012, *J. Econometrics* 169:114–122): refinement for slow mean reversion.
+**Historical supporting references.** Tang & Chen (2009, *J. Econometrics* 149:65–81) and
+Yu (2012, *J. Econometrics* 169:114–122) motivated investigating finite-span mean-reversion bias.
+The [Week 3 review](week3_mathematics.md) records source-access limits and avoids importing unverified
+coefficients or inferring a coverage threshold from a bias order alone.
 Florens-Zmirou (1989): the Euler contrast. Kessler (1997): higher-order Gaussian contrasts.
 
 **Commitment.** Re-run a targeted 2024–2026 preprint scan immediately before submission.
