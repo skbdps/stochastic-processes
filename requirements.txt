@@ -1,0 +1,10 @@
+# Tested direct dependencies, Python 3.12. See requirements-lock.txt for the
+# complete Linux/Python 3.12 validation environment.
+numpy==2.3.5
+scipy==1.17.0
+matplotlib==3.10.8
+pandas==2.2.3
+nbformat==5.11.1
+ipython==9.17.1
+ipykernel==7.3.0
+pytest==9.1.1
