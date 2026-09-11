@@ -1,0 +1,55 @@
+name: Revision notes validation
+
+on:
+  push:
+    branches: [main, docs/intuitive-stochastic-revision]
+    paths:
+      - 'stochastic_processes_revision.html'
+      - 'index.html'
+      - 'docs/*revision*'
+      - '.github/workflows/revision-notes.yml'
+  pull_request:
+    paths:
+      - 'stochastic_processes_revision.html'
+      - 'index.html'
+      - 'docs/*revision*'
+      - '.github/workflows/revision-notes.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: revision-notes-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Check mathematical examples
+        run: python docs/check_revision_examples.py
+      - name: Install isolated browser-check dependencies
+        run: |
+          python -m pip install playwright==1.62.0
+          python -m playwright install --with-deps chromium
+      - name: Check browser behavior and capture evidence
+        run: python docs/check_revision_browser.py
+      - name: Preserve reviewed source and visual evidence
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: revision-notes-review-${{ github.run_id }}
+          retention-days: 14
+          path: |
+            stochastic_processes_revision.html
+            stochastic_processes_for_OU_notes.html
+            README.md
+            docs/
+            index.html
+            validation/
