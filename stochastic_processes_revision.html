@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Intuition-first revision notes: random walks, Markov chains, Brownian motion, stochastic integrals and exact OU estimation under irregular sampling.">
+<title>From random kicks to OU estimation · Revision notes</title>
+<style>
+:root{--ink:#20323b;--muted:#52646c;--paper:#fffefa;--accent:#14685f;--line:#d7e0dd;--soft:#eef5f1;--warm:#faf2e4}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:2rem}body{margin:0;background:var(--paper);color:var(--ink);font:18px/1.76 Georgia,'Times New Roman',serif}a{color:var(--accent);text-underline-offset:.18em}a:hover{text-decoration-thickness:2px}a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #956213;outline-offset:4px}.skip{position:absolute;left:1rem;top:-10rem;background:white;padding:.5rem;z-index:5}.skip:focus{top:1rem}.layout{display:grid;grid-template-columns:245px minmax(0,860px);gap:54px;max-width:1250px;margin:auto;padding:36px 28px 80px}nav{position:sticky;top:24px;align-self:start;max-height:calc(100vh - 48px);overflow:auto;font:14px/1.5 system-ui,sans-serif;padding-right:14px}nav h2{font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:25px 0 10px}nav a{display:block;text-decoration:none;padding:6px 9px;border-left:2px solid transparent}nav a:hover{border-color:var(--accent);background:var(--soft)}nav .brand{font-size:16px;font-weight:700;padding-bottom:12px;border-bottom:1px solid var(--line)}main{min-width:0}header{padding:28px 0 35px;border-bottom:2px solid var(--accent)}.eyebrow{font:12px/1.5 system-ui,sans-serif;letter-spacing:.13em;text-transform:uppercase;color:var(--accent)}h1{font-size:clamp(2.2rem,5vw,3.5rem);line-height:1.12;letter-spacing:-.04em;margin:22px 0}h2{font-size:1.8rem;line-height:1.25;letter-spacing:-.025em;margin:0 0 22px}h3{font-size:1.2rem;line-height:1.4;margin:30px 0 12px}p{margin:15px 0}.deck{font-size:1.2rem;line-height:1.55}.meta,.source,.small,figcaption{font:13px/1.6 system-ui,sans-serif;color:var(--muted)}section{padding:46px 0 10px;border-bottom:1px solid var(--line);scroll-margin-top:20px}.number{display:block;font:12px/1.5 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}.eq{font-family:Georgia,'Times New Roman',serif;line-height:1.9;font-size:1.04em;background:var(--soft);padding:16px 20px;margin:22px 0;border-radius:5px;overflow-x:auto;text-align:center}.eq .line{display:block;white-space:nowrap}.eq.plain{background:transparent;border-left:2px solid var(--line);text-align:left}.callout{padding:16px 20px;border-left:3px solid var(--accent);background:var(--soft);margin:24px 0}.caution{background:var(--warm);border-color:#956213}.callout p:first-child{margin-top:0}.callout p:last-child{margin-bottom:0}details{margin:22px 0;padding:14px 18px;border:1px solid var(--line);border-radius:5px}summary{cursor:pointer;font:600 15px/1.5 system-ui,sans-serif}details[open] summary{margin-bottom:15px}details p{font-size:.97em}.check{background:#fff;box-shadow:0 2px 8px #21352f08}.check summary::before{content:'SELF-CHECK · ';font-size:11px;letter-spacing:.08em;color:var(--accent)}.bridge{border-top:4px solid var(--accent);padding-top:35px;margin-top:45px}.table-wrap{overflow-x:auto;margin:20px 0}table{width:100%;border-collapse:collapse;font-size:.9em;line-height:1.55}caption{text-align:left;font-weight:bold;margin-bottom:10px}th,td{text-align:left;vertical-align:top;padding:11px 13px;border-bottom:1px solid var(--line)}th{font:600 13px/1.5 system-ui,sans-serif;background:var(--soft)}code,pre{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}code{font-size:.83em;background:var(--soft);padding:2px 4px}pre{font-size:13px;line-height:1.6;overflow:auto;background:#f3f5f2;border:1px solid var(--line);padding:18px;white-space:pre}button{font:600 13px system-ui,sans-serif;color:var(--accent);background:transparent;border:1px solid var(--line);border-radius:4px;padding:9px 12px;cursor:pointer}button:hover{background:var(--soft)}.controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}.lab{background:var(--soft);padding:22px;border-radius:5px;margin:25px 0}.lab label{font:600 15px system-ui,sans-serif;display:block}.lab input{width:100%;margin:18px 0}.lab output{font:16px/1.7 system-ui,sans-serif;display:block}footer{padding:30px 0;font:13px/1.6 system-ui,sans-serif}.source a{white-space:normal}.route{font:15px/1.8 system-ui,sans-serif;padding:18px 0;color:var(--muted)}sub,sup{font-size:.72em;line-height:0}.print-only{display:none}
+@media(max-width:1000px){.layout{grid-template-columns:190px minmax(0,1fr);gap:25px;padding:25px 20px}body{font-size:17px}}
+@media(max-width:760px){.layout{display:block;padding:16px 18px 50px}nav{position:static;max-height:none;padding:0;border-bottom:1px solid var(--line);margin-bottom:20px}nav .navlinks{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}nav h2{grid-column:1/-1}nav a{font-size:12px;padding:5px}nav .brand{font-size:15px}header{padding-top:15px}h2{font-size:1.6rem}.eq{padding:14px 12px;font-size:.94em}section{padding-top:35px}.deck{font-size:1.1rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{body{font-size:11pt;line-height:1.5;color:#111;background:white}.layout{display:block;max-width:none;padding:0}nav,.controls,.lab input,.skip{display:none}header{padding:0 0 14px}h1{font-size:28pt}h2{font-size:19pt}h3{font-size:13pt}.deck{font-size:13pt}section{padding-top:22px;break-before:auto}.eq{overflow:visible;font-size:10pt;break-inside:avoid;padding:10px}.eq .line{white-space:normal}.table-wrap{overflow:visible}table{font-size:9pt}tr{break-inside:avoid}details{break-inside:auto}details::details-content{content-visibility:visible}details> :not(summary){display:block!important}summary{font-size:10pt}h2,h3,summary{break-after:avoid}.source{font-size:8pt}a{color:inherit}.print-only{display:block}pre{white-space:pre-wrap;font-size:8pt}.bridge{margin-top:25px}@page{margin:18mm}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to notes</a>
+<div class="layout">
+<nav aria-label="Contents">
+<div class="brand">STOCHASTIC PROCESSES<br><span class="small">An intuition-first revision companion</span></div>
+<div class="navlinks">
+<h2>The foundations</h2>
+<a href="#start">00 · The question and the route</a>
+<a href="#likelihood">01 · What a likelihood measures</a>
+<a href="#walk">02 · Random kicks, dependent positions</a>
+<a href="#first-step">03 · Think one step ahead</a>
+<a href="#markov">04 · What the present remembers</a>
+<a href="#path-likelihood">05 · The likelihood of a record</a>
+<a href="#ar">06 · Give the process a home</a>
+<a href="#ar-fit">07 · Fit the Gaussian AR(1)</a>
+<a href="#continuous">08 · Refine the clock</a>
+<a href="#brownian">09 · Read Brownian motion correctly</a>
+<a href="#sde">10 · What an SDE actually says</a>
+<h2>Optional bridge to the project</h2>
+<a href="#integral">11 · Weight the noise</a>
+<a href="#ou">12 · Solve the OU model</a>
+<a href="#estimation">13 · Keep the observation gaps</a>
+<h2>Return here when revising</h2>
+<a href="#card">Formula and assumption card</a>
+<a href="#sources">Sources and correction notes</a>
+</div>
+</nav>
+<main id="main">
+<header>
+<div class="eyebrow">Suryansh's OU study · Revised companion · 11 September 2026</div>
+<h1>From random kicks<br>to OU estimation.</h1>
+<p class="deck">A process is easier to understand when every new idea answers a question the previous one leaves open. These notes follow that chain, from independent kicks to a likelihood that respects irregular observation times.</p>
+<p class="meta">Self-contained explanations · Worked derivations · 20 self-checks with solutions · Offline HTML</p>
+<div class="controls"><button id="answers" type="button" aria-pressed="false">Expand all self-check solutions</button><button id="print" type="button">Print / save as PDF</button></div>
+<noscript><p class="small">JavaScript is off. All notes, equations and individual expandable solutions remain available. The gap calculator requires JavaScript; its worked table does not.</p></noscript>
+</header>
+
+<section id="start">
+<span class="number">00 · Orientation</span><h2>One question holds the notes together</h2>
+<p>Suppose a temperature-like quantity tends to return toward a normal level, but unpredictable disturbances keep pushing it around. You observe 29, then 27, then 25.5. Is that evidence of a strong return toward 25? Before answering, you need one more piece of information: <em>how much time passed between those readings?</em> A fall of two units in a minute and the same fall in a day tell different stories about the speed of adjustment.</p>
+<p>The eventual model is the Ornstein–Uhlenbeck process, abbreviated OU:</p>
+<div class="eq"><span class="line">dX<sub>t</sub> = θ(μ − X<sub>t</sub>) dt + σ dB<sub>t</sub>.</span></div>
+<p>For now, read it as a promise: change will contain a systematic pull and a random contribution. We will earn the meaning of the symbols rather than manipulate an unexplained differential equation.</p>
+<div class="route">Independent kicks → dependent positions → state-based prediction → path likelihood → mean reversion → continuous-time noise → an integral equation → the exact OU transition.</div>
+<p><strong>Sections 01–10 are the core revision route.</strong> They cover the scope of the original HTML through SDE notation. Sections 11–13 are an optional continuation into the mathematics used by the project. They are included to connect the foundations to the destination, not to imply that you have already mastered the later material. The separate repository document <a href="docs/ou_derivations.md">OU derivations</a> remains the compact technical reference.</p>
+<details><summary>Notation and the few probability facts we will use</summary>
+<div class="table-wrap"><table><caption>Keep these roles distinct</caption><thead><tr><th>Symbol</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>X<sub>t</sub>; x<sub>i</sub></td><td>A random value at time t; an observed numerical value at time t<sub>i</sub>.</td></tr>
+<tr><td>S<sub>i</sub>; W<sub>k</sub>; B<sub>t</sub></td><td>One random-walk step; the walk after k steps; standard Brownian motion.</td></tr>
+<tr><td>δ; Δ<sub>i</sub></td><td>A numerical tick used to refine a model; the actual observation gap t<sub>i</sub> − t<sub>i−1</sub> &gt; 0.</td></tr>
+<tr><td>μ; θ; σ</td><td>OU long-run level; return speed θ &gt; 0; noise scale σ &gt; 0.</td></tr>
+<tr><td>η = (θ, μ, σ)</td><td>The parameter vector. θ alone never denotes the entire vector here.</td></tr>
+<tr><td>φ; τ²</td><td>AR(1) coefficient and innovation variance. τ² is not the stationary variance.</td></tr>
+<tr><td>p<sub>ij</sub>; A</td><td>Probability of moving from i to j; A<sub>ji</sub> = p<sub>ij</sub>. We retain MIT Lecture 5's column convention.</td></tr>
+<tr><td>N(m, v)</td><td>A Gaussian distribution with mean m and <strong>variance</strong> v, not standard deviation v.</td></tr>
+</tbody></table></div>
+<p>For variables with the required finite moments, E[aU + bV] = aE[U] + bE[V]. Independence is not needed for this identity. Variance is different: Var(U + V) = Var(U) + Var(V) + 2Cov(U,V). Independence makes the covariance term zero; scaling a variable by a multiplies its variance by a².</p>
+<p>Conditional expectation E[Y | X = x] is the average prediction for Y after the information X = x is supplied. Conditional variance describes the uncertainty left around that prediction. The laws of total expectation and total variance say</p>
+<div class="eq"><span class="line">E[Y] = E[E[Y | X]],</span><span class="line">Var(Y) = E[Var(Y | X)] + Var(E[Y | X]).</span></div>
+<p>The second identity separates fresh unpredictability from variation in the predictions themselves. We will use exactly that distinction to find a stationary variance.</p>
+</details>
+<p class="source">Reading map: <a href="#ref-l5">MIT L5</a>, <a href="#ref-l8">L8</a>, <a href="#ref-l17">L17</a>, <a href="#ref-l18">L18</a>, <a href="#ref-l21">L21</a>, and <a href="#ref-ss">Särkkä &amp; Solin</a>. Section and page pointers appear at the end.</p>
+</section>
+
+<section id="likelihood">
+<span class="number">01 · Begin with the estimation question</span><h2>What a likelihood measures</h2>
+<p>A probability model answers, “With these parameters, what data might I see?” Estimation reverses which quantity we vary. The data have arrived and remain fixed; we compare candidate parameters by the probability or density they assign to those same data. This function of the parameters is the <em>likelihood</em>.</p>
+<p>Take ten independent coin flips with seven heads. For a particular ordered sequence, L(p) = p⁷(1 − p)³. For the event “seven heads, order not recorded,” multiply by the number of such sequences, 120. These are different observations and have different likelihood heights, but the factor 120 is constant in p, so both produce the same estimate.</p>
+<div class="eq"><span class="line">ℓ(p) = 7 log p + 3 log(1 − p) + constant,</span><span class="line">ℓ′(p) = 7/p − 3/(1 − p) = 0 ⇒ p̂ = 7/10.</span></div>
+<p><strong>max</strong> is the height of the best likelihood; <strong>argmax</strong> is the parameter where that height occurs. We want the latter. Because log is increasing, it preserves the maximizing parameter. Negation changes maximization into minimization without moving the answer:</p>
+<div class="eq"><span class="line">η̂ = argmax<sub>η</sub> L(η)</span><span class="line">= argmax<sub>η</sub> log L(η) = argmin<sub>η</sub> [−log L(η)].</span></div>
+<p>This is also numerically useful. Products can become too small or too large to represent; logs turn them into sums. The claim is not that likelihood factors are always less than one: density values can exceed one.</p>
+<h3>For continuous data, use density—not point probability</h3>
+<p>A continuously distributed observation has P(X = x) = 0. That does not make estimation impossible. If X has density f<sub>η</sub>, a small interval of width h near x has probability approximately f<sub>η</sub>(x)h. Comparing candidate models for that same narrow interval amounts to comparing f<sub>η</sub>(x), because h is common to the candidates.</p>
+<div class="eq"><span class="line">f(y; m, v) = [1/√(2πv)] exp{−(y − m)²/(2v)}, &nbsp; v &gt; 0.</span></div>
+<p>The Gaussian density rewards a prediction close to y, but it also accounts for the claimed uncertainty. A huge variance reduces the squared-error penalty while spreading probability mass thinly; the normalization prevents “everything is possible” from being a free solution. Consequently, when a variance depends on parameters, its log term must not be dropped.</p>
+<div class="callout"><p><strong>A likelihood is not a probability distribution over parameters.</strong> In frequentist estimation η is a fixed unknown. Writing L(η; data) keeps that distinction visible. A Bayesian posterior requires a prior and a separate normalization.</p></div>
+<details class="check"><summary>1. Does taking a log change the maximum?</summary><p>It generally changes the maximum <em>value</em>, but not the maximizing parameter. For the seven-head count, the maximum probability is about 0.2668 and its logarithm is about −1.3212. Both occur at p = 0.7. The negative log has its minimum at the same p.</p></details>
+<p>So far the coin observations were independent. Our next task is to build a model in which successive values are dependent, and then write its likelihood without pretending otherwise.</p>
+</section>
+
+<section id="walk">
+<span class="number">02 · Build dependence from independence</span><h2>Random kicks, dependent positions</h2>
+<p>Let S₁, S₂, … be independent, identically distributed steps, with mean m<sub>S</sub> and finite variance v<sub>S</sub>. Begin at W₀ = 0 and accumulate them:</p>
+<div class="eq"><span class="line">W<sub>k</sub> = S₁ + ⋯ + S<sub>k</sub>, &nbsp; W<sub>k+1</sub> = W<sub>k</sub> + S<sub>k+1</sub>.</span></div>
+<p>Imagine keeping a running total of independent daily accounting adjustments. Today's adjustment can be independent of yesterday's adjustment even though today's balance and yesterday's balance are strongly related. The balances share nearly all the same adjustments. A random walk has exactly this structure.</p>
+<p>For a fair ±1 walk, W₄ = 4 has probability 1/16. Once you know W₃ = 3, the chance that W₄ = 4 rises to 1/2. Conditioning changes the distribution, so the positions are dependent. The fresh increment W₄ − W₃ = S₄ is nevertheless independent of the earlier steps.</p>
+<h3>Derive the spread rather than memorize it</h3>
+<div class="eq"><span class="line">E[W<sub>k</sub>] = km<sub>S</sub>, &nbsp; Var(W<sub>k</sub>) = kv<sub>S</sub>.</span></div>
+<p>The mean follows by linearity. The variance follows because the <em>summands</em> are independent. For j ≤ k, split W<sub>k</sub> into W<sub>j</sub> and the new steps after j. Those new steps have zero covariance with W<sub>j</sub>, giving</p>
+<div class="eq"><span class="line">Cov(W<sub>j</sub>, W<sub>k</sub>) = Var(W<sub>j</sub>) = jv<sub>S</sub>.</span></div>
+<p>Covariance measures the shared portion of the accumulated history. That argument will return almost unchanged for Brownian motion.</p>
+<p>For the fair ±1 walk, the mean is zero, the variance is k, and the standard deviation is √k. Zero mean means that positive and negative outcomes balance across repeated experiments. It does <em>not</em> mean that an individual path stays near zero. The collection of possible positions spreads out.</p>
+<h3>Where the bell shape enters</h3>
+<p>If v<sub>S</sub> &gt; 0, the central limit theorem gives the normalized statement</p>
+<div class="eq"><span class="line">(W<sub>k</sub> − km<sub>S</sub>)/√(kv<sub>S</sub>) → N(0,1) in distribution.</span></div>
+<p>Thus, for large k, W<sub>k</sub> is approximately N(km<sub>S</sub>, kv<sub>S</sub>). A ±1 walk still lives on a discrete lattice at finite k, so this is not an equality of distributions. Near the center of the fair walk there are many more possible arrangements of up and down steps than at the extremes; the binomial coefficients make the Gaussian-shaped envelope visible. That counting story illustrates the Bernoulli case, while the theorem covers much more general finite-variance steps.</p>
+<p>Two further properties are worth separating. <strong>Independent increments</strong> means that changes over disjoint time windows use disjoint independent steps. <strong>Stationary increments</strong> means that the law of a change depends only on the number of steps in its window, not on where that window begins. Neither statement says that the position has a stationary distribution: its variance still grows with k.</p>
+<details class="check"><summary>2. A walk with unequal step sizes</summary><p>Let P(S = 2) = 1/4 and P(S = −1) = 3/4. Then E[S] = −1/4, E[S²] = 7/4, and Var(S) = 7/4 − 1/16 = 27/16. Therefore E[W₁₀₀] = −25 and Var(W₁₀₀) = 168.75. The CLT approximation is N(−25, 168.75); the second number is the variance, not its square root.</p></details>
+<details class="check"><summary>3. Which changes share randomness?</summary><p>For independent unit-variance steps, W₅ − W₂ uses S₃,S₄,S₅ and W₈ − W₅ uses S₆,S₇,S₈. They are independent. But W₅ − W₂ and W₆ − W₄ share S₅, so their covariance is 1. Non-overlap matters; simply calling both objects “increments” does not make them independent.</p></details>
+<p class="source">Reference: <a href="#ref-l5">MIT L5, random walks</a>. The calculations above follow directly from the stated step assumptions.</p>
+</section>
+
+<section id="first-step">
+<span class="number">03 · A useful detour</span><h2>Think one step ahead</h2>
+<p>A gambler's fortune moves by ±1 and stops at 0 or N. Starting with m units, what is the probability of reaching N before 0? This is not a question about the position at a fixed time. It is a question about which boundary a whole path reaches first.</p>
+<p>Define f(m) to be that success probability. The boundary values are immediate: f(0) = 0 and f(N) = 1. At an interior point, condition on the next step. For a fair walk:</p>
+<div class="eq"><span class="line">f(m) = ½f(m + 1) + ½f(m − 1).</span></div>
+<p>Why can we reuse f after taking a step? The unused steps are independent of the past and have the same distribution as before. After arriving at m + 1, the remaining task is exactly the original task with a different starting fortune.</p>
+<p>Rearrange the equation to obtain f(m + 1) − f(m) = f(m) − f(m − 1). Success probabilities rise by the same amount for every extra unit of fortune. The boundary conditions force that amount to be 1/N:</p>
+<div class="eq"><span class="line">f(m) = m/N.</span></div>
+<p>At 30 with a target of 100, success has probability 0.3; ruin has probability 0.7. The equation is an example of a discrete harmonic function: its value equals an average of neighboring values.</p>
+<details><summary>A biased walk reveals why the direction matters</summary><p>With an upward probability p and downward probability q = 1 − p, the correct recursion is f(m) = pf(m + 1) + qf(m − 1). These coefficients describe <em>departures from the current state</em>. If d<sub>m</sub> = f(m) − f(m − 1), the recursion becomes pd<sub>m+1</sub> = qd<sub>m</sub>. Thus the rises are geometric, not constant. Summing them and using the boundaries gives, for 0 &lt; p &lt; 1 and p ≠ 1/2,</p><div class="eq"><span class="line">f(m) = [1 − (q/p)<sup>m</sup>] / [1 − (q/p)<sup>N</sup>].</span></div><p>Do not confuse this with updating an occupancy probability g<sub>k</sub>(m) = P(W<sub>k</sub> = m). That forward update is g<sub>k+1</sub>(m) = pg<sub>k</sub>(m − 1) + qg<sub>k</sub>(m + 1): it counts arrivals into m. In the fair case the distinction is hidden by equal coefficients.</p></details>
+<details class="check"><summary>4. What changes if the target is −A or +B?</summary><p>Shift fortune by A, so the boundaries become 0 and A + B. Starting at m becomes starting at m + A. The fair-walk probability of hitting +B first is (m + A)/(A + B). From m = 0 it is A/(A + B), not B/(A + B).</p></details>
+<p>The reusable idea is not the gambler's formula. It is that the present state can summarize everything relevant for the remaining prediction. Next we make that statement precise.</p>
+<p class="source">Reference: <a href="#ref-l5">MIT L5, gambler's ruin and first-step analysis</a>.</p>
+</section>
+
+<section id="markov">
+<span class="number">04 · Compress the history into a state</span><h2>What the present remembers</h2>
+<p>A Markov process is not a process with “no dependence.” It is a process for which the present state contains all the past information needed to predict the next state. In discrete time:</p>
+<div class="eq"><span class="line">P(X<sub>n+1</sub> = j | X₀,…,X<sub>n</sub>)</span><span class="line">= P(X<sub>n+1</sub> = j | X<sub>n</sub>).</span></div>
+<p>These conditionals agree on histories where the conditioning is meaningful. Older values may still be strongly associated with future values; their predictive influence is mediated through the current state. In probability language, the next state and the earlier past are <em>conditionally</em> independent given the present.</p>
+<p>The choice of state matters. A position evolving with momentum may need both position and velocity. A recursion depending on X<sub>n</sub> and X<sub>n−1</sub> may fail to be first-order Markov in X<sub>n</sub> alone but become first-order Markov in the pair (X<sub>n</sub>, X<sub>n−1</sub>). A failed Markov assumption can mean that the state is missing information.</p>
+<h3>A transition matrix is a collection of conditional distributions</h3>
+<p>Use a two-state example with p₁₁ = 0.7, p₁₂ = 0.3, p₂₁ = 0.4, and p₂₂ = 0.6. Each p<sub>ij</sub> is the probability of going <em>from i to j</em>. Following the original notes and MIT Lecture 5, put a state's outgoing probabilities in a column:</p>
+<div class="eq"><span class="line">A = [ 0.7 &nbsp; 0.4 ; &nbsp; 0.3 &nbsp; 0.6 ], &nbsp; A<sub>ji</sub> = p<sub>ij</sub>.</span></div>
+<p>The semicolon separates matrix rows. The columns sum to one. For a column vector r<sub>n</sub> of state probabilities, total probability gives r<sub>n+1</sub> = Ar<sub>n</sub>. A time-homogeneous chain uses the same transition matrix at every tick; a general Markov chain need not be homogeneous.</p>
+<p>Starting in state 1, you can return to 1 after two ticks by either 1 → 1 → 1 or 1 → 2 → 1. Add the probabilities of these mutually exclusive routes:</p>
+<div class="eq"><span class="line">P(X₂ = 1 | X₀ = 1) = 0.7² + 0.3 × 0.4 = 0.61.</span></div>
+<p>This sum over intermediate states is exactly matrix multiplication. More generally, Aⁿ holds n-step transition probabilities. It is a compact way to sum over the middle states that were <em>not</em> observed.</p>
+<h3>A stationary distribution is a fixed point, not a promise of convergence</h3>
+<p>A probability column π is stationary when Aπ = π. If the starting state is drawn from π, another transition leaves its distribution unchanged. For our example, the balance equation 0.3π₁ = 0.4π₂, together with π₁ + π₂ = 1, gives π = (4/7, 3/7)ᵀ.</p>
+<p>Whether other starting distributions approach π is a separate question. For a finite chain, irreducibility gives a unique stationary distribution; adding aperiodicity gives convergence from every starting distribution. Having every matrix entry positive is a convenient sufficient condition for both, but is not necessary.</p>
+<div class="callout caution"><p><strong>Three ideas to keep separate:</strong> Markov means the state is sufficient for prediction; time-homogeneous means the transition rule does not change with the calendar; stationary means the joint distribution is unchanged by a time shift. A homogeneous chain need not be stationary when started at a chosen state.</p></div>
+<details class="check"><summary>5. Stationary—but no convergence?</summary><p>Let A = [0 1; 1 0]. It alternates between the two states. The unique stationary distribution is (1/2,1/2)ᵀ, but starting in state 1 gives distributions (1,0)ᵀ, (0,1)ᵀ, (1,0)ᵀ,…, so there is no limit. The missing condition is aperiodicity. Conversely, if every column of A is already π, then Ar = π for every probability vector r. Convergence can occur exactly after one step; finite powers are not “never equal” to the stationary limit.</p></details>
+<p class="source">Reference: <a href="#ref-l5">MIT L5 §3</a> for the column convention and its positive-entry convergence theorem. The counterexamples above can be checked directly by matrix multiplication.</p>
+</section>
+
+<section id="path-likelihood">
+<span class="number">05 · Predicting an endpoint is not pricing a record</span><h2>The likelihood of a dependent record</h2>
+<p>Suppose you observe every state in a record x₀,x₁,…,x<sub>n</sub>. You are no longer asking which of many possible routes reaches an endpoint. The intermediate observations are known and must each contribute to the likelihood.</p>
+<p>The probability chain rule, or its density version, always factors a joint law in time order:</p>
+<div class="eq"><span class="line">p<sub>η</sub>(x₀,…,x<sub>n</sub>) = p<sub>η</sub>(x₀)</span><span class="line">× ∏<sub>i=1</sub><sup>n</sup> p<sub>η</sub>(x<sub>i</sub> | x₀,…,x<sub>i−1</sub>).</span></div>
+<p>So far there is no independence assumption and no Markov assumption. The factor for each observation conditions on its entire recorded past. Now impose the Markov property:</p>
+<div class="eq"><span class="line">p<sub>η</sub>(x₀,…,x<sub>n</sub>)</span><span class="line">= p<sub>η</sub>(x₀) ∏<sub>i=1</sub><sup>n</sup> p<sub>η</sub>(x<sub>i</sub> | x<sub>i−1</sub>).</span></div>
+<p><strong>The product comes from the chain rule; the short conditioning comes from Markov.</strong> Multiplying marginal densities p<sub>η</sub>(x<sub>i</sub>) instead would specify a different model, one that discards the dependence we built the process to represent.</p>
+<p>For continuous states, a transition density p<sub>η</sub>(y | x) is a whole density curve over the next value y for each present value x. Evaluating that curve at the actual next observation supplies a likelihood factor. The event “the path equals these exact real numbers” still has probability zero; a joint density is what we evaluate.</p>
+<h3>What happens to the first observation?</h3>
+<p>A <strong>conditional likelihood</strong> treats x₀ as the supplied starting condition and uses the transition product. A full likelihood also specifies a distribution for X₀ and retains its density. For a stationary model that initial density generally depends on the parameters, so it cannot simply be called a constant and discarded.</p>
+<p>Conditioning on x₀ is a legitimate modeling choice, not an approximation to the transition density. But the information lost relative to modeling X₀ is not automatically negligible in a short, highly persistent record. Keep the choice explicit. “Exact likelihood” can describe exact transition densities in either a conditional or a full formulation.</p>
+<details><summary>Transition counts give a simple Markov-chain MLE</summary><p>With the initial state conditioned on, let n<sub>ij</sub> count observed i → j transitions. The likelihood is ∏<sub>i,j</sub>p<sub>ij</sub><sup>n<sub>ij</sub></sup>, so its log is ∑<sub>i,j</sub>n<sub>ij</sub> log p<sub>ij</sub>. Maximize each outgoing distribution subject to ∑<sub>j</sub>p<sub>ij</sub> = 1. The result is p̂<sub>ij</sub> = n<sub>ij</sub>/∑<sub>j</sub>n<sub>ij</sub> when the denominator is positive. If a state has no observed departures, its outgoing probabilities are not identified by this conditional likelihood. The counts summarize the observed transition factors; a modeled parameter-dependent initial distribution can change the optimization.</p></details>
+<details class="check"><summary>6. Endpoint probability versus a particular route</summary><p>Using A = [0.7 0.4; 0.3 0.6] and starting in state 1, the probability of being in state 1 two ticks later is 0.61. The probability of the specific route (1,1,1), conditional on its start, is only 0.7² = 0.49. The extra 0.12 comes from the other route (1,2,1). Sum unobserved alternatives; multiply the conditional factors of an observed record.</p></details>
+<details class="check"><summary>7. Reconstruct an unobserved middle state</summary><p>Use a homogeneous weather chain with S → S = 0.8, S → R = 0.2, R → S = 0.4 and R → R = 0.6. You observe S on day 0 and R on day 2. Then</p><div class="eq"><span class="line">P(R₁ | S₀,R₂) = (0.2 × 0.6)/(0.8 × 0.2 + 0.2 × 0.6)</span><span class="line">= 0.12/0.28 = 3/7.</span></div><p>The denominator sums the S → S → R and S → R → R routes. This question is completely specified here; it does not rely on a missing weather table or a previous conversation.</p></details>
+<p>We now know the structure of the likelihood. To calculate it, we need a model that supplies its transition densities. The Gaussian AR(1) gives us the simplest useful example with a tendency to return toward a level.</p>
+</section>
+
+<section id="ar">
+<span class="number">06 · Add mean reversion</span><h2>Give the process a home</h2>
+<p>In a random walk, the best prediction of the next position is the current position, plus any fixed step mean. There is no preferred level. To model return toward μ, retain only a fraction φ of the current deviation before adding new noise:</p>
+<div class="eq"><span class="line">X<sub>i</sub> = μ + φ(X<sub>i−1</sub> − μ) + ε<sub>i</sub>,</span><span class="line">ε<sub>i</sub> independently distributed as N(0, τ²),</span><span class="line">ε<sub>i</sub> independent of X₀ and all earlier innovations.</span></div>
+<p>This is an autoregression of order one: tomorrow is regressed on one lag of the process itself. Its Markov property follows directly from the recursion and the independence of the fresh noise.</p>
+<p>With μ = 25, φ = 0.5 and τ² = 4, a reading of 29 gives a next-step distribution N(27,4). The current deviation is four units; the forecast retains half of it. A realized next reading can still exceed 29. Mean reversion describes a conditional expectation, not a rule forcing every observed move toward μ.</p>
+<div class="eq"><span class="line">E[X<sub>i</sub> − X<sub>i−1</sub> | X<sub>i−1</sub> = x]</span><span class="line">= −(1 − φ)(x − μ).</span></div>
+<p>For 0 &lt; φ &lt; 1, the forecast lies between x and μ whenever x ≠ μ. Stable causal AR(1) models more generally allow |φ| &lt; 1: a negative φ gives oscillation around μ. At φ = 0 the next reading forgets the current one completely; at φ = 1 the model is a Gaussian random walk and μ cancels out. A mean-reverting scalar OU process sampled at a positive fixed gap corresponds specifically to 0 &lt; φ &lt; 1.</p>
+<h3>Unroll the recursion and watch the noise age</h3>
+<p>Start at a fixed x₀. At the first step the noise contribution is ε₁. At the second it is φε₁ + ε₂. At the third it is φ²ε₁ + φε₂ + ε₃. In general:</p>
+<div class="eq"><span class="line">X<sub>k</sub> = μ + φ<sup>k</sup>(x₀ − μ)</span><span class="line">+ ∑<sub>j=1</sub><sup>k</sup> φ<sup>k−j</sup> ε<sub>j</sub>.</span></div>
+<p>The initial deviation and every past shock are gradually damped. Independence makes the variances of the weighted shocks add, and each weight must be squared:</p>
+<div class="eq"><span class="line">E[X<sub>k</sub> | X₀ = x₀] = μ + φ<sup>k</sup>(x₀ − μ),</span><span class="line">Var(X<sub>k</sub> | X₀ = x₀) = τ² ∑<sub>r=0</sub><sup>k−1</sup> φ<sup>2r</sup></span><span class="line">= τ²(1 − φ<sup>2k</sup>)/(1 − φ²), &nbsp; |φ| &lt; 1.</span></div>
+<p>The conditional distribution is exactly Gaussian, not merely approximately Gaussian: it is an affine combination of independent Gaussians. No central limit theorem is involved.</p>
+<h3>Stationarity balances retained noise against new noise</h3>
+<p>For |φ| &lt; 1, the memory of x₀ fades and the variance tends to q = τ²/(1 − φ²). You can derive the same quantity without taking a limit. Suppose the current distribution has mean μ and variance q. The next value has variance φ²q + τ². Requiring it to remain q yields q = φ²q + τ².</p>
+<div class="eq"><span class="line">X₀ ∼ N(μ, q), &nbsp; q = τ²/(1 − φ²)</span><span class="line">⇒ the AR(1) process is stationary.</span></div>
+<p>The initialization must be independent of future innovations. A fixed start is not stationary, even though its distribution converges to the same invariant Gaussian. Strict stationarity means every finite collection of values has a distribution unchanged by a common time shift. Weak stationarity only requires a constant mean and a covariance depending on lag; for Gaussian processes, those conditions also imply strict stationarity.</p>
+<h3>Correlation is the surviving fraction of a deviation</h3>
+<p>In stationarity, write X<sub>i+k</sub> as μ + φᵏ(X<sub>i</sub> − μ) plus future innovations. Those future innovations have zero covariance with X<sub>i</sub>. Therefore</p>
+<div class="eq"><span class="line">Cov(X<sub>i</sub>, X<sub>i+k</sub>) = qφ<sup>k</sup>, &nbsp; Corr(X<sub>i</sub>, X<sub>i+k</sub>) = φ<sup>k</sup>.</span></div>
+<p>The same parameter controls both forecast decay and correlation decay. This makes it measurable from a sufficiently informative time record.</p>
+<details class="check"><summary>8. Separate one-step, two-step and stationary variance</summary><p>For μ = 25, φ = 1/2, τ² = 4 and X₀ = 29, X₁ is N(27,4), while X₂ is N(26,5), because 4(1 + 1/4) = 5. The stationary variance is 4/(1 − 1/4) = 16/3, not 8. The stationary mean is 25; the means of the first two readings from this fixed start are not 25.</p></details>
+<p class="source">Reference: <a href="#ref-l8">MIT L8, AR(1) model</a>. Its displayed stationary-variance typo is corrected by the derivation q = φ²q + τ² above.</p>
+</section>
+
+<section id="ar-fit">
+<span class="number">07 · Turn predictions into parameter estimates</span><h2>Fit the Gaussian AR(1)</h2>
+<p>Condition on the observed x₀. There are n transitions, each with conditional mean μ + φ(x<sub>i−1</sub> − μ) and variance τ². Substituting the Gaussian density into the Markov product gives</p>
+<div class="eq"><span class="line">ℓ(μ,φ,τ²) = −(n/2)log(2πτ²)</span><span class="line">− [1/(2τ²)] ∑<sub>i=1</sub><sup>n</sup> [x<sub>i</sub> − μ − φ(x<sub>i−1</sub> − μ)]².</span></div>
+<p>For a fixed positive τ², maximizing this likelihood is equivalent to minimizing the sum of squared one-step prediction errors. The reduction works because every transition has the same variance. The observations themselves do not need to be independent.</p>
+<h3>The regression form makes the algebra transparent</h3>
+<p>Let u<sub>i</sub> = x<sub>i−1</sub> and y<sub>i</sub> = x<sub>i</sub>. Write the predicted value as a + bu<sub>i</sub>, where b = φ and a = μ(1 − φ). Define S(a,b) = ∑(y<sub>i</sub> − a − bu<sub>i</sub>)². Setting its derivative in a to zero gives a = ȳ − bū, where ū and ȳ are the means of the lagged and next-value arrays separately. Substitute this into the derivative in b:</p>
+<div class="eq"><span class="line">b̂ = ∑(u<sub>i</sub> − ū)(y<sub>i</sub> − ȳ) / ∑(u<sub>i</sub> − ū)²,</span><span class="line">â = ȳ − b̂ū, &nbsp; μ̂ = â/(1 − b̂),</span><span class="line">τ̂² = S(â,b̂)/n.</span></div>
+<p>The variance MLE divides by n, not the regression degrees-of-freedom adjustment n − 2. These formulas give the unconstrained conditional Gaussian-regression solution when the lagged array has positive empirical variance and the residual sum of squares is positive. Mapping back to μ also requires b̂ ≠ 1.</p>
+<div class="callout caution"><p><strong>Check the parameter space before accepting the answer.</strong> An unconstrained fitted b̂ can lie outside |φ| &lt; 1. For an OU interpretation it must lie in (0,1). An inadmissible unconstrained optimum is not repaired by silently clipping it and calling the result the same MLE; solve the constrained problem and report boundary behavior. A fitted φ near one also makes μ = a/(1 − φ) unstable.</p></div>
+<p>The population stationary correlation equals φ, but the sample regression slope is not generally the sample Pearson correlation: b̂ = r<sub>uy</sub>s<sub>y</sub>/s<sub>u</sub>. The two sample standard deviations need not coincide. Likewise, the algebraic regression equivalence does not automatically justify every independent-design regression confidence interval for a time series.</p>
+<details class="check"><summary>9. Calculate a conditional fit by hand</summary><p>Use the record (0,2,1,3). The lagged array is (0,2,1), its mean is 1; the next-value array is (2,1,3), its mean is 2. The centered cross-product sum is −1 and the lagged squared-deviation sum is 2. Thus b̂ = −1/2 and â = 5/2. Predicted values are (2.5,1.5,2), residuals are (−0.5,−0.5,1), and S = 1.5. Hence τ̂² = 0.5 and μ̂ = (5/2)/(3/2) = 5/3. The slope is admissible for a stable oscillating AR(1), but not for the positive mean-reverting OU model.</p></details>
+<p>At this point the statistical machinery is ready. The remaining question is how to describe a process between observation times, especially when there is no common tick Δ.</p>
+<p class="source">Reference: <a href="#ref-l8">MIT L8, likelihood-based time-series estimation</a>. The regression and parameter-domain calculations are derived here.</p>
+</section>
+
+<section id="continuous">
+<span class="number">08 · Let the clock become finer</span><h2>Refine time without changing the noise</h2>
+<p>A model indexed by step count does not yet distinguish one second from one day. Suppose each numerical tick lasts δ time units. If every tick retains unit-variance noise, then at time t there are approximately t/δ independent kicks, with variance approximately t/δ. Merely choosing a finer numerical clock would change the modeled uncertainty.</p>
+<p>To obtain a finite nonzero diffusion-scale limit, make a kick's variance proportional to its duration. For centered, unit-variance independent ξ<sub>i</sub>, use</p>
+<div class="eq"><span class="line">one kick = aδ + σ√δ ξ<sub>i</sub>.</span></div>
+<p>At a grid time t = kδ, the accumulated mean is kaδ = at and the variance is kσ²δ = σ²t. Drift scales with duration; random spread scales with the square root of duration. This is a modeling regime, not a claim that every discrete-time stochastic model must ignore its physical tick size.</p>
+<h3>There are two levels of convergence</h3>
+<p>For a fair walk with unit-variance steps ξ<sub>i</sub>, let W<sub>k</sub> = ∑<sub>i=1</sub><sup>k</sup>ξ<sub>i</sub> and define Z<sub>n</sub>(k/n) = W<sub>k</sub>/√n. The ordinary CLT explains why the distribution at a fixed time approaches a Gaussian. A functional central limit theorem is the stronger result asserting convergence of the suitably interpolated <em>whole random path</em> to Brownian motion. The full theorem is used here as a theorem, not proved by a one-time CLT calculation.</p>
+<details><summary>Why the interpolated walk is not already Brownian motion</summary><p>Join consecutive grid points by straight lines. At t = (k + r)/n with 0 ≤ r &lt; 1,</p><div class="eq"><span class="line">Z<sub>n</sub>(t) = (W<sub>k</sub> + rξ<sub>k+1</sub>)/√n,</span><span class="line">Var(Z<sub>n</sub>(t)) = (k + r²)/n.</span></div><p>The target Brownian variance is t = (k + r)/n; the two agree on the grid but not everywhere between grid points. Two disjoint subintervals within one grid cell also share the same ξ<sub>k+1</sub>, so their increments are not independent. These finite-resolution effects disappear in the limit; they cannot be asserted away at finite n.</p></details>
+<h3>One outcome is now an entire path</h3>
+<p>Think of a simulation that produces a whole trajectory. The random input is ω; the resulting curve is t ↦ X<sub>t</sub>(ω). Fix a time t and X<sub>t</sub> is a random variable across repeated simulations. Fix ω and the trajectory is an ordinary function of time. Fix both and X<sub>t</sub>(ω) is one number.</p>
+<p>This distinction matters because the endpoint distribution is not the whole process. “The value at time 3 is positive” is an endpoint event. “The path stayed positive throughout the first three units of time” is a different event involving the joint behavior across times. A family of one-time marginal distributions alone does not determine all such path questions.</p>
+<details class="check"><summary>10. A two-step path-space calculation</summary><p>For a fair ±1 walk, the four step sequences (++),(+−),(−+),(−−) each have probability 1/4. Ending at zero selects (+−),(−+). Staying nonnegative at both recorded times selects (++),(+−). Both events have probability 1/2, but they are not the same event. Their intersection contains only (+−), with probability 1/4.</p></details>
+<details class="check"><summary>11. Check the interpolation error numerically</summary><p>Take n = 4 and t = 1/8, halfway through the first cell. Then k = 0 and r = 1/2, so Var(Z₄(1/8)) = (1/4)/4 = 1/16, whereas a Brownian value at that time has variance 1/8. At t = 1/4, the grid-point variance is 1/4, as required. The normalization is necessary, but it does not make every finite interpolant Brownian.</p></details>
+<p class="source">Reference: <a href="#ref-l17">MIT L17 §§1–2</a>. Its walk display omits the factor 1/√n; the normalized construction and the grid/off-grid distinction are explicit here.</p>
+</section>
+
+<section id="brownian">
+<span class="number">09 · The continuous-time noise model</span><h2>Read Brownian motion correctly</h2>
+<p>Standard Brownian motion B is a process with B₀ = 0, continuous sample paths almost surely, independent increments over disjoint intervals, and Gaussian increments satisfying</p>
+<div class="eq"><span class="line">B<sub>t</sub> − B<sub>s</sub> ∼ N(0, t − s), &nbsp; 0 ≤ s &lt; t.</span></div>
+<p>The law depends on elapsed time, not the starting date: its increments are stationary. Existence of a process with these properties is a mathematical theorem. We use that existence result rather than attempting to construct Wiener measure in revision notes.</p>
+<p>Setting s = 0 gives B<sub>t</sub> ∼ N(0,t). Brownian positions are not independent. For s ≤ t, write B<sub>t</sub> = B<sub>s</sub> + (B<sub>t</sub> − B<sub>s</sub>). The new increment is independent of B<sub>s</sub>, so</p>
+<div class="eq"><span class="line">Cov(B<sub>s</sub>,B<sub>t</sub>) = Var(B<sub>s</sub>) = s,</span><span class="line">hence Cov(B<sub>s</sub>,B<sub>t</sub>) = min(s,t).</span></div>
+<p>The covariance is the duration of shared history. The same decomposition gives B<sub>t</sub> | B<sub>s</sub> = b ∼ N(b,t − s). Brownian motion is therefore Markov: the latest value plus independent future increments determines its future law.</p>
+<p>Every finite vector of Brownian values is jointly Gaussian because it is a linear transformation of independent Gaussian increments. For a Gaussian process, its mean and covariance determine its finite-dimensional distributions. Merely having Gaussian one-time marginals would not establish that joint Gaussian property.</p>
+<h3>Stationary increments do not imply a stationary process</h3>
+<p>Var(B<sub>t</sub>) = t changes with t, so standard Brownian motion is not stationary. Also, a 95% interval such as approximately ±1.96√t concerns the value at one fixed time. It is not a 95% band containing an entire continuous path for all times.</p>
+<h3>Continuous does not mean differentiable</h3>
+<p>A differentiable function typically changes by an amount proportional to a small interval h. Brownian motion has a random change with standard deviation √h. Dividing by h yields</p>
+<div class="eq"><span class="line">(B<sub>t+h</sub> − B<sub>t</sub>)/h ∼ N(0,1/h).</span></div>
+<p>The family of difference quotients does not settle toward a finite ordinary slope. The stronger result is that Brownian paths are almost surely nowhere differentiable. That is a theorem, not a proof obtained merely by observing that the quotient's variance diverges. In particular, “explodes” should not be read as a claim of monotone pathwise divergence.</p>
+<details><summary>Optional intuition: why squared increments accumulate instead of disappearing</summary><p>For a deterministic partition of [0,T] with interval lengths h<sub>j</sub>, let Q = ∑(ΔB<sub>j</sub>)². A centered Gaussian with variance h has squared value of mean h and variance 2h². Independence therefore gives E[Q] = T and Var(Q) = 2∑h<sub>j</sub>² ≤ 2T max h<sub>j</sub>. As the mesh tends to zero, Q tends to T in mean square. This is the basic quadratic-variation calculation behind Itô calculus. It explains why ordinary calculus rules can need extra terms for nonlinear functions of Brownian motion—even when a model's noise coefficient is constant. General Itô calculus is not needed for the linear OU derivation below.</p></details>
+<details class="check"><summary>12. Covariance, correlation and prediction are different numbers</summary><p>Cov(B₂,B₅) = 2, whereas Corr(B₂,B₅) = 2/√(2 × 5) = √(2/5). Given B₂ = 3, the conditional law of B₅ is N(3,3), not N(0,5). The latter is its marginal law before observing B₂.</p></details>
+<details class="check"><summary>13. Calculate an overlapping-increment covariance</summary><p>Let U = B₃ − B₁ and V = B₄ − B₂. Their intervals overlap on [2,3], so their covariance is 1. Expand it explicitly: min(3,4) − min(3,2) − min(1,4) + min(1,2) = 3 − 2 − 1 + 1 = 1. Disjoint Brownian increments are independent; overlapping ones generally are not.</p></details>
+<p class="source">Reference: <a href="#ref-l17">MIT L17 §2</a> for Brownian motion and path regularity; <a href="#ref-l18">L18</a> for the quadratic-variation context.</p>
+</section>
+
+<section id="sde">
+<span class="number">10 · The end of the core revision route</span><h2>What an SDE actually says</h2>
+<p>If B has no ordinary derivative, the symbols dB<sub>t</sub> cannot mean B′(t)dt in ordinary calculus. The safe reading of a stochastic differential equation is an equation for <em>accumulated changes</em>. For an Itô SDE with suitable coefficients and an adapted solution:</p>
+<div class="eq"><span class="line">dX<sub>t</sub> = a(X<sub>t</sub>,t)dt + b(X<sub>t</sub>,t)dB<sub>t</sub></span><span class="line">means X<sub>t</sub> = X₀ + ∫₀<sup>t</sup> a(X<sub>s</sub>,s)ds</span><span class="line">+ ∫₀<sup>t</sup> b(X<sub>s</sub>,s)dB<sub>s</sub>.</span></div>
+<p>The first integral is an ordinary time integral along each realized path. The second is a stochastic integral. “Adapted” means that a quantity at time s uses information available by s, rather than looking ahead into future noise. Existence and uniqueness require conditions; the notation alone does not guarantee them for arbitrary coefficients.</p>
+<p>With a constant noise coefficient σ, the stochastic part is especially simple. Every partition satisfies ∑(B<sub>t<sub>j+1</sub></sub> − B<sub>t<sub>j</sub></sub>) = B<sub>t</sub> − B₀ by telescoping. Thus ∫₀<sup>t</sup>σdB<sub>s</sub> = σB<sub>t</sub>. Nothing has been differentiated and then “undone.” We have summed increments that are well-defined.</p>
+<h3>First solve a model you can read directly</h3>
+<p>For dX<sub>t</sub> = a dt + σ dB<sub>t</sub> with fixed X₀ = x₀, the integral equation immediately gives X<sub>t</sub> = x₀ + at + σB<sub>t</sub>. Therefore X<sub>t</sub> ∼ N(x₀ + at, σ²t). A linear mean trend and a square-root-time standard deviation are simply the calibrated random walk's behavior in continuous time.</p>
+<h3>The OU equation is implicit—but now meaningful</h3>
+<div class="eq"><span class="line">X<sub>t</sub> = X₀ + θ∫₀<sup>t</sup>(μ − X<sub>s</sub>)ds + σB<sub>t</sub>.</span></div>
+<p>The unknown X appears inside its own drift integral. That is the remaining obstacle: the notation has been defined, but the equation has not yet been solved. Solving it will express X using the initial condition and known noise without this self-reference.</p>
+<p>Over a finite interval [t,t+h], its exact increment is</p>
+<div class="eq"><span class="line">X<sub>t+h</sub> − X<sub>t</sub> = θ∫<sub>t</sub><sup>t+h</sup>(μ − X<sub>s</sub>)ds</span><span class="line">+ σ(B<sub>t+h</sub> − B<sub>t</sub>).</span></div>
+<p>Replacing X<sub>s</sub> by X<sub>t</sub> inside the drift integral produces the <em>Euler approximation</em> θ(μ − X<sub>t</sub>)h plus the same Brownian increment. It is not an exact equality for a finite h. When we sum such frozen-drift terms, they remain approximations until a justified limiting argument is made.</p>
+<details class="check"><summary>14. Translate, solve and interpret</summary><p>For dX<sub>t</sub> = 3dt + 2dB<sub>t</sub>, X₀ = 1, the integral equation is X<sub>t</sub> = 1 + ∫₀<sup>t</sup>3ds + 2∫₀<sup>t</sup>dB<sub>s</sub> = 1 + 3t + 2B<sub>t</sub>. Hence X<sub>t</sub> ∼ N(1 + 3t,4t). In the OU equation, the term θ∫₀<sup>t</sup>(μ − X<sub>s</sub>)ds prevents this immediate direct reading because it contains the unknown process.</p></details>
+<div class="callout"><p><strong>Pause here for core revision.</strong> You should now be able to explain why independent noise can produce dependent data, why the likelihood uses conditional densities, and why an SDE is an integral statement. The continuation below connects those ideas to the exact OU formulas; it is additional learning material, not a record that a personal exercise has been completed.</p></div>
+<p class="source">Reference: <a href="#ref-l21">MIT L21 §1</a>; <a href="#ref-ss">Särkkä &amp; Solin, Chapter 4</a>.</p>
+</section>
+
+<section id="integral" class="bridge">
+<span class="number">11 · Optional bridge · A weighted accumulation of noise</span><h2>Weight the noise</h2>
+<p>The AR(1) solution weights old shocks by powers of φ. We should expect a continuous-time mean-reverting model to damp old noise too. The relevant object is ∫f(s)dB<sub>s</sub>: a sum of Brownian increments, each multiplied by a chosen deterministic weight.</p>
+<p>Begin with a step function that equals c<sub>j</sub> on (u<sub>j</sub>,u<sub>j+1</sub>]. Define its integral, rather than guess its meaning:</p>
+<div class="eq"><span class="line">I(f) = ∫<sub>a</sub><sup>b</sup> f(s)dB<sub>s</sub></span><span class="line">= ∑<sub>j</sub> c<sub>j</sub>(B<sub>u<sub>j+1</sub></sub> − B<sub>u<sub>j</sub></sub>).</span></div>
+<p>Each summand is a scaled centered Gaussian, and distinct increments are independent. Therefore the result is Gaussian with mean zero and variance ∑c<sub>j</sub>²(u<sub>j+1</sub> − u<sub>j</sub>) = ∫f(s)²ds. Notice that the weights are squared before integration. Squaring ∫f(s)ds would be a different calculation.</p>
+<h3>The isometry makes the limiting definition reliable</h3>
+<p>For deterministic step functions f and g on a common partition, the same calculation gives E[(I(f) − I(g))²] = ∫(f − g)². Thus, if step functions f<sub>m</sub> approximate a deterministic function f in squared-integral norm, their random integrals get close in mean square.</p>
+<p>Completeness of the space of square-integrable random variables supplies a limit. This defines I(f) for every deterministic f with ∫f² &lt; ∞, independently of the approximating sequence. The identity carried to the limit is the Itô isometry:</p>
+<div class="eq"><span class="line">E[(∫<sub>a</sub><sup>b</sup> f(s)dB<sub>s</sub>)²] = ∫<sub>a</sub><sup>b</sup> f(s)²ds.</span></div>
+<p>The approximations are centered Gaussians whose variances converge. Their mean-square limit therefore has the Gaussian law</p>
+<div class="eq"><span class="line">∫<sub>a</sub><sup>b</sup> f(s)dB<sub>s</sub> ∼ N(0, ∫<sub>a</sub><sup>b</sup> f(s)²ds).</span></div>
+<p>Using a common partition also gives Cov(I(f),I(g)) = ∫fg. Integrals of deterministic functions supported on disjoint intervals are independent. An integral over a future interval is independent of the Brownian past and of an independent initial condition.</p>
+<div class="callout caution"><p><strong>Deterministic weights are an important restriction.</strong> General adapted random integrands need a broader construction, and their integrals need not be Gaussian. The OU model below uses deterministic exponential weights, so this simpler theory is enough.</p></div>
+<details class="check"><summary>15. A piecewise weight and a smooth weight</summary><p>First let f(s) = 2 on (0,1] and f(s) = −1 on (1,3]. Then I(f) = 2B₁ − (B₃ − B₁), with variance 4 × 1 + 1 × 2 = 6, so I(f) ∼ N(0,6). Next, ∫₀<sup>t</sup>s dB<sub>s</sub> has variance ∫₀<sup>t</sup>s²ds = t³/3, hence distribution N(0,t³/3). It is not obtained by treating dB as an ordinary ds.</p></details>
+<p class="source">References: <a href="#ref-l18">MIT L18</a> and <a href="#ref-ss">Särkkä &amp; Solin §4.1</a>. The deterministic step-function derivation is the route used here; general stochastic-integration theory is outside this companion.</p>
+</section>
+
+<section id="ou">
+<span class="number">12 · Optional bridge · The continuous analogue of damped shocks</span><h2>Solve the OU model</h2>
+<p>Return to dX<sub>t</sub> = θ(μ − X<sub>t</sub>)dt + σdB<sub>t</sub>, with θ &gt; 0 and σ &gt; 0. Subtract the target level: Y<sub>t</sub> = X<sub>t</sub> − μ. The deterministic part is now the familiar decay equation dY = −θYdt. Its integrating factor is e<sup>θt</sup>.</p>
+<p>The deterministic integrating-factor product rule, valid here because the factor is smooth and has finite variation, gives d(e<sup>θt</sup>Y<sub>t</sub>) = σe<sup>θt</sup>dB<sub>t</sub>. Integrating and rearranging yields</p>
+<div class="eq"><span class="line">X<sub>t</sub> = μ + e<sup>−θt</sup>(X₀ − μ)</span><span class="line">+ σ∫₀<sup>t</sup> e<sup>−θ(t−s)</sup>dB<sub>s</sub>.</span></div>
+<p>The formula says exactly what the AR(1) expansion said. The first term is the target. The second is the part of the initial deviation that survives. The integral contains all later shocks, with an exponential discount according to their age. A shock at s close to t is almost undamped; an old shock has less remaining influence.</p>
+<details><summary>Verify the solution in the integral equation</summary><p>To avoid relying on formal differential manipulation, define Z<sub>t</sub> = ∫₀<sup>t</sup>e<sup>−θ(t−u)</sup>dB<sub>u</sub>. Interchange the ordinary time integral and the Wiener integral for this bounded deterministic kernel on a finite time triangle. The relevant stochastic Fubini result applies here; this is an imported theorem with its conditions satisfied, not an unrestricted swap of integrals.</p><div class="eq"><span class="line">θ∫₀<sup>t</sup>Z<sub>s</sub>ds</span><span class="line">= ∫₀<sup>t</sup>[θ∫<sub>u</sub><sup>t</sup>e<sup>−θ(s−u)</sup>ds]dB<sub>u</sub></span><span class="line">= ∫₀<sup>t</sup>(1 − e<sup>−θ(t−u)</sup>)dB<sub>u</sub> = B<sub>t</sub> − Z<sub>t</sub>.</span></div><p>Also θ∫₀<sup>t</sup>e<sup>−θs</sup>(X₀ − μ)ds = (X₀ − μ)(1 − e<sup>−θt</sup>). Substituting the proposed X into X₀ − θ∫₀<sup>t</sup>(X<sub>s</sub> − μ)ds + σB<sub>t</sub> reproduces the proposed X exactly. Two solutions driven by the same B with the same X₀ have difference D<sub>t</sub> = −θ∫₀<sup>t</sup>D<sub>s</sub>ds; the associated ordinary equation with D₀ = 0 has only the zero solution. This also verifies uniqueness in this linear case.</p></details>
+<h3>The transition density now follows from one variance integral</h3>
+<p>Restart the solution from an observed value x at time s. The future noise is independent of what happened before s. For any Δ &gt; 0,</p>
+<div class="eq"><span class="line">X<sub>s+Δ</sub> | X<sub>s</sub> = x ∼ N(m<sub>Δ</sub>(x), v<sub>Δ</sub>),</span><span class="line">m<sub>Δ</sub>(x) = μ + e<sup>−θΔ</sup>(x − μ),</span><span class="line">v<sub>Δ</sub> = σ²∫₀<sup>Δ</sup>e<sup>−2θr</sup>dr</span><span class="line">= [σ²/(2θ)](1 − e<sup>−2θΔ</sup>).</span></div>
+<p>The Gaussian law is exact because the weight in the stochastic integral is deterministic. It proves the Markov property and gives everything needed for exact simulation at observed times. There is no need to simulate thousands of hidden intermediate Euler steps just to generate this model's endpoint transition.</p>
+<h3>Check the formula at the extremes</h3>
+<p>For a tiny gap, e<sup>−θΔ</sup> ≈ 1 − θΔ. The mean becomes x + θ(μ − x)Δ to first order and the variance becomes σ²Δ to first order, recovering the Euler intuition. For a very long gap, the mean tends to μ and the variance tends to q = σ²/(2θ). Prediction eventually forgets the observed start.</p>
+<p>If X₀ ∼ N(μ,q), independently of future Brownian increments, the whole OU process is stationary. Its covariance is q e<sup>−θ|t−s|</sup> and its correlation is e<sup>−θ|t−s|</sup>. From a fixed x₀ it is not stationary: Var(X<sub>t</sub>) = q(1 − e<sup>−2θt</sup>). The approach to a stationary law must not be confused with stationary initialization.</p>
+<p>The deviation's half-life is log(2)/θ. θ has units of inverse time, while σ has units of the state variable divided by √time. Thus σ²/(2θ) correctly has units of a variance. These unit checks can expose missing gaps or missing factors of two.</p>
+<div class="lab">
+<label for="gap">A gap changes both prediction and uncertainty</label>
+<p class="small">Fixed parameters: θ = 1, μ = 25, σ = 2; current reading x = 29. Move Δ from 0.05 to 3 time units.</p>
+<input id="gap" type="range" min="0.05" max="3" step="0.05" value="0.50" aria-describedby="gap-result">
+<output id="gap-result" for="gap" aria-live="polite">Δ = 0.50 · retained deviation = 0.6065 · predicted mean = 27.4261 · variance = 1.2642 · standard deviation = 1.1244</output>
+</div>
+<div class="table-wrap"><table><caption>The same example, without the slider</caption><thead><tr><th>Gap Δ</th><th>Retained fraction e<sup>−Δ</sup></th><th>Conditional mean</th><th>Conditional variance</th></tr></thead><tbody><tr><td>0.10</td><td>0.9048</td><td>28.6193</td><td>0.3625</td></tr><tr><td>0.50</td><td>0.6065</td><td>27.4261</td><td>1.2642</td></tr><tr><td>1.00</td><td>0.3679</td><td>26.4715</td><td>1.7293</td></tr><tr><td>3.00</td><td>0.0498</td><td>25.1991</td><td>1.9950</td></tr></tbody></table></div>
+<details class="check"><summary>16. Recover a discrete-time AR(1)</summary><p>At a fixed observation spacing Δ, define φ = e<sup>−θΔ</sup> and τ² = [σ²/(2θ)](1 − φ²). The exact observed OU process is X<sub>i</sub> = μ + φ(X<sub>i−1</sub> − μ) + ε<sub>i</sub>, with independent Gaussian innovations of variance τ². Its stationary variance is τ²/(1 − φ²) = σ²/(2θ). Its k-step correlation is φᵏ = e<sup>−θkΔ</sup>: the elapsed time is kΔ, not just Δ.</p></details>
+<details class="check"><summary>17. Do two transitions agree with one longer transition?</summary><p>Let φ(h) = e<sup>−θh</sup> and v(h) = q(1 − φ(h)²). Two successive gaps h and k retain φ(k)φ(h) = φ(h + k) of the starting deviation. Their combined noise variance is φ(k)²v(h) + v(k) = q[φ(k)²(1 − φ(h)²) + 1 − φ(k)²] = q[1 − φ(h + k)²] = v(h + k). This is a strong check for the simulator and the transition formula.</p></details>
+<p class="source">References: <a href="#ref-l21">MIT L21 §1.2</a>; <a href="#ref-ss">Särkkä &amp; Solin, Examples 4.5 and 6.2</a>; the repository's <a href="docs/ou_derivations.md">OU derivations</a>.</p>
+</section>
+
+<section id="estimation">
+<span class="number">13 · Optional bridge · The project's statistical question</span><h2>Keep the observation gaps</h2>
+<p>Write the observed data as (t₀,x₀),…,(t<sub>n</sub>,x<sub>n</sub>), with Δ<sub>i</sub> = t<sub>i</sub> − t<sub>i−1</sub> &gt; 0. The continuous-time OU rule is homogeneous, but its recorded one-step transition changes with each Δ<sub>i</sub>. There is no single constant φ for an irregular record.</p>
+<div class="callout caution"><p><strong>Observation-time assumption.</strong> The formulas here apply when the times are fixed in advance, or when the whole observation grid is generated independently of the entire OU path, including X₀. For a random grid we condition on its realized values. Sampling when the process hits a threshold is different: conditioning on that sampling event can change the observation law. Markov alone does not justify treating a hitting-time sample as an ordinary Gaussian transition at its realized gap.</p></div>
+<p>Define φ<sub>i</sub> = e<sup>−θΔ<sub>i</sub></sup>, m<sub>i</sub> = μ + φ<sub>i</sub>(x<sub>i−1</sub> − μ), and v<sub>i</sub> = [σ²/(2θ)](1 − φ<sub>i</sub>²). The exact conditional log-likelihood is</p>
+<div class="eq"><span class="line">ℓ(η | x₀, times)</span><span class="line">= −½∑<sub>i=1</sub><sup>n</sup>[log(2πv<sub>i</sub>) + (x<sub>i</sub> − m<sub>i</sub>)²/v<sub>i</sub>].</span></div>
+<p>Each transition contributes a forecast, an uncertainty and a realized prediction error. Long gaps mean more decay toward μ and more accumulated noise. The likelihood accounts for both; replacing every gap by its average changes both.</p>
+<h3>Three estimators differ in the transition they pretend generated the data</h3>
+<div class="table-wrap"><table><thead><tr><th>Method</th><th>Conditional mean</th><th>Conditional variance</th><th>What changes?</th></tr></thead><tbody>
+<tr><td>Exact, gap-aware</td><td>μ + e<sup>−θΔ<sub>i</sub></sup>(x<sub>i−1</sub> − μ)</td><td>[σ²/(2θ)](1 − e<sup>−2θΔ<sub>i</sub></sup>)</td><td>Uses each actual gap.</td></tr>
+<tr><td>Mean-gap / PFML</td><td>Same exact formula, using Δ̄ everywhere</td><td>Same exact formula, using Δ̄ everywhere</td><td>Misspecifies the clock when gaps vary.</td></tr>
+<tr><td>Euler pseudo-likelihood</td><td>x<sub>i−1</sub> + θ(μ − x<sub>i−1</sub>)Δ<sub>i</sub></td><td>σ²Δ<sub>i</sub></td><td>Keeps the gaps but approximates the transition.</td></tr>
+</tbody></table></div>
+<p>These are two distinct approximation errors: ignoring spacing variation and approximating continuous-time dynamics. A small average gap is not enough to guarantee a good Euler approximation if some gaps are large relative to 1/θ. Equidistant sampling makes the exact and mean-gap objectives agree; it does not generally make Euler exact.</p>
+<h3>Irregular sampling still permits useful analytic profiling</h3>
+<p>A closed-form solution for the joint optimum in θ,μ,σ is not generally available. However, saying “everything must be optimized numerically” misses a useful reduction. Fix a candidate θ and set</p>
+<div class="eq"><span class="line">b<sub>i</sub> = 1 − φ<sub>i</sub>, &nbsp; c<sub>i</sub> = (1 − φ<sub>i</sub>²)/(2θ),</span><span class="line">d<sub>i</sub> = x<sub>i</sub> − φ<sub>i</sub>x<sub>i−1</sub>.</span></div>
+<p>Then the residual is d<sub>i</sub> − b<sub>i</sub>μ and v<sub>i</sub> = σ²c<sub>i</sub>. At this fixed θ, μ solves a weighted least-squares problem. Differentiate ∑(d<sub>i</sub> − b<sub>i</sub>μ)²/c<sub>i</sub> with respect to μ and set the derivative to zero:</p>
+<div class="eq"><span class="line">μ̂(θ) = [∑ b<sub>i</sub>d<sub>i</sub>/c<sub>i</sub>] / [∑ b<sub>i</sub>²/c<sub>i</sub>],</span><span class="line">S(θ) = ∑ [d<sub>i</sub> − b<sub>i</sub>μ̂(θ)]²/c<sub>i</sub>,</span><span class="line">σ̂²(θ) = S(θ)/n.</span></div>
+<p>Substituting back leaves a one-dimensional objective:</p>
+<div class="eq"><span class="line">NLL<sub>profile</sub>(θ)</span><span class="line">= ½{n[log(2π) + 1 + log(S(θ)/n)] + ∑ log c<sub>i</sub>}.</span></div>
+<p>This formula assumes S(θ) &gt; 0. If the residuals vanish, a Gaussian likelihood can diverge as σ² approaches zero; no ordinary interior variance MLE exists there. The profiling formulas concern the <em>conditional</em> likelihood with free μ and positive σ. Extra constraints, priors or an initial stationary-density term can change this reduction. A one-dimensional search also needs appropriate bounds, boundary checks and convergence diagnostics; profiling is not a guarantee of an interior optimum.</p>
+<details><summary>Translate the equations into stable numerical operations</summary><p>When θΔ is tiny, direct subtraction in 1 − exp(−2θΔ) loses significant digits. Use <code>expm1(z)</code>, which computes exp(z) − 1 accurately near zero. The following excerpt illustrates one evaluation, not an optimizer or a replacement for the project's implementation.</p>
+<pre><code># Inputs: positive theta, positive gaps, and x with len(x) = len(gaps) + 1.
+# Validate finite values and dimensions before calling this calculation.
+phi = np.exp(-theta * gaps)
+b = -np.expm1(-theta * gaps)
+c = -np.expm1(-2.0 * theta * gaps) / (2.0 * theta)
+d = x[1:] - phi * x[:-1]
+
+# Profile the level using gap-dependent inverse-variance weights.
+mu_hat = np.sum(b * d / c) / np.sum(b * b / c)
+residual = d - b * mu_hat
+sigma2_hat = np.mean(residual * residual / c)
+if not np.isfinite(sigma2_hat) or sigma2_hat &lt;= 0:
+    raise ValueError("Degenerate or non-finite profiled variance")
+
+# Keep the variance normalization; it depends on theta and the gaps.
+n = gaps.size
+nll = 0.5 * (n * (np.log(2 * np.pi) + 1 + np.log(sigma2_hat))
+             + np.sum(np.log(c)))</code></pre>
+<p>For a joint optimization, log-parameterization can enforce θ &gt; 0 and σ &gt; 0. Exact conditional simulation uses x<sub>i</sub> = m<sub>i</sub> + √v<sub>i</sub>z<sub>i</sub> with independent z<sub>i</sub> ∼ N(0,1). At the true parameters and under the stated sampling model, standardized innovations are independent standard normals. Residuals computed after fitting parameters need not retain that exact finite-sample distribution.</p></details>
+<details><summary>Why ignoring irregularity can lower the inferred return speed</summary><p>This is a large-sample illustration, not a finite-sample guarantee. Assume a stationary OU process, positive independent identically distributed gaps D independent of the entire path, a finite mean gap d, and the usual convergence of empirical regression moments as the observation horizon grows. Let q = σ²/(2θ). Consecutive sampled values have covariance qE[e<sup>−θD</sup>], so the constant-coefficient regression target is φ* = E[e<sup>−θD</sup>]. Mapping it to a constant-gap OU model gives θ* = −log(φ*)/d.</p><p>Because x ↦ e<sup>−θx</sup> is convex, Jensen's inequality gives E[e<sup>−θD</sup>] ≥ e<sup>−θd</sup>, and hence θ* ≤ θ. The inequality is strict for a nondegenerate gap distribution. For exponentially distributed gaps of mean d, direct integration gives E[e<sup>−θD</sup>] = 1/(1 + θd), so θ* = log(1 + θd)/d. With θ = 1 and d = 0.5, this is approximately 0.81093.</p><p>This explains one systematic distortion caused by an average clock. It does not prove that every finite-sample mean-gap estimate is below the truth, that exact MLE is unbiased, or that the asymptotic target determines interval coverage. The project's README identifies the mean-gap method as prior work rather than a new estimator; this calculation is a pedagogical derivation under the assumptions above.</p></details>
+<details class="check"><summary>18. Recover OU parameters from a valid fixed-gap AR fit</summary><p>For 0 &lt; φ &lt; 1 and gap Δ &gt; 0, θ = −log φ/Δ and σ² = 2θτ²/(1 − φ²). For example, φ = 1/2, τ² = 4 and Δ = 1 yield θ = log 2 and σ² = (32/3)log 2. A negative fitted φ cannot be inserted into this real-valued OU conversion.</p></details>
+<details class="check"><summary>19. Why can the log-variance term not be omitted?</summary><p>If you keep only squared error divided by v<sub>i</sub>, increasing σ² makes every penalty smaller without limit. The log v<sub>i</sub> terms penalize that spreading and make a nondegenerate variance estimate possible. For fixed θ and μ, differentiating the full objective in σ² gives σ̂² = (1/n)∑residual<sub>i</sub>²/c<sub>i</sub>.</p></details>
+<details class="check"><summary>20. Does an exact model imply unbiased estimates?</summary><p>No. “Exact” describes the transition law used by the simulator or likelihood. Bias, root mean squared error and interval coverage describe an estimator across repeated datasets. They still depend on sample size, total time span, spacing, parameter values and the inference procedure. A correct Gaussian transition does not by itself establish finite-sample accuracy or certify a confidence interval.</p></details>
+<p class="source">Transition reference: <a href="#ref-ss">Särkkä &amp; Solin, Example 6.2</a>. Project definitions and prior-work attribution: <a href="README.md">repository README</a> and <a href="docs/ou_derivations.md">OU derivations</a>. The profiling and Jensen calculations are derived explicitly in this section.</p>
+</section>
+
+<section id="card">
+<span class="number">Revision card</span><h2>Remember the assumption with the formula</h2>
+<div class="table-wrap"><table><thead><tr><th>Object</th><th>Result</th><th>Assumption you must say aloud</th></tr></thead><tbody>
+<tr><td>Random walk</td><td>E[W<sub>k</sub>] = km<sub>S</sub>; Var(W<sub>k</sub>) = kv<sub>S</sub></td><td>Independent, identically distributed finite-variance steps; fixed start 0.</td></tr>
+<tr><td>Homogeneous finite chain</td><td>r<sub>n</sub> = Aⁿr₀; Aπ = π</td><td>Column convention. Convergence additionally needs suitable mixing conditions.</td></tr>
+<tr><td>Markov record</td><td>L<sub>conditional</sub> = ∏p<sub>η</sub>(x<sub>i</sub> | x<sub>i−1</sub>)</td><td>Condition on the start; use the correct observed transition, including its gap.</td></tr>
+<tr><td>Stationary Gaussian AR(1)</td><td>q = τ²/(1 − φ²); ρ(k) = φᵏ</td><td>|φ| &lt; 1, stationary initialization, independent Gaussian innovations.</td></tr>
+<tr><td>Brownian motion</td><td>B<sub>t</sub> − B<sub>s</sub> ∼ N(0,t − s); Cov(B<sub>s</sub>,B<sub>t</sub>) = min(s,t)</td><td>Standard Brownian motion; positions are not independent.</td></tr>
+<tr><td>Weighted noise</td><td>∫f dB ∼ N(0,∫f²)</td><td>Deterministic square-integrable f; do not generalize Gaussianity to all random weights.</td></tr>
+<tr><td>OU transition</td><td>m = μ + e<sup>−θΔ</sup>(x − μ); v = q(1 − e<sup>−2θΔ</sup>)</td><td>θ,σ &gt; 0; positive gap; fixed or path-independent observation times.</td></tr>
+<tr><td>Stationary OU</td><td>q = σ²/(2θ); ρ(h) = e<sup>−θ|h|</sup></td><td>Stationary initial law, independent of future noise.</td></tr>
+<tr><td>AR-to-OU conversion</td><td>θ = −log φ/Δ; σ² = 2θτ²/(1 − φ²)</td><td>Fixed gap and 0 &lt; φ &lt; 1; not every stable AR(1) has this embedding.</td></tr>
+</tbody></table></div>
+<p>For a blank-page revision session, reconstruct this sequence: independent kicks create covariance through shared history; the Markov property shortens the chain rule; Gaussian transitions create a prediction-error likelihood; weighted noise yields the exact OU variance; the recorded gaps determine each likelihood factor. Being able to explain those connections is more valuable than remembering an isolated list of equations.</p>
+</section>
+
+<section id="sources">
+<span class="number">Reading map and provenance</span><h2>Return to the sources with a question</h2>
+<p>The exposition and worked examples in this companion are written independently. The following primary sources are pointers for checking definitions, theorem statements and the standard model formulas. No source PDFs or copied figures are bundled with this file. Page numbers below are printed page or slide numbers unless labeled otherwise.</p>
+<div class="table-wrap"><table><thead><tr><th>Source</th><th>Where to look</th><th>Question to take with you</th></tr></thead><tbody>
+<tr id="ref-l5"><td><a href="https://ocw.mit.edu/courses/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/f5784e4facf3de690210d17c97358eba_MIT18_S096F13_lecnote5.pdf">MIT 18.S096, Lecture 5: Stochastic Processes I</a> (2013)</td><td>Random walks and gambler's ruin; §3, especially pp. 3–5.</td><td>Why does summing intermediate routes produce matrix multiplication? Which convention does A use?</td></tr>
+<tr id="ref-l8"><td><a href="https://ocw.mit.edu/courses/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/1926c83ecd7ea700f7cb63914c6d7c0f_MIT18_S096F13_lecnote8.pdf">MIT 18.S096, Lecture 8: Time Series Analysis I</a> (2013)</td><td>AR(1), slides 17–18; likelihood discussion, slide 28 onward.</td><td>How do stable coefficients determine the stationary moments? What changes between conditional and full likelihood?</td></tr>
+<tr id="ref-l17"><td><a href="https://ocw.mit.edu/courses/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/3b97c6b0c282dd9dc024c4c7ffe3fba8_MIT18_S096F13_lecnote17.pdf">MIT 18.S096, Lecture 17: Stochastic Processes II</a> (2013)</td><td>§1 path space; §2 Brownian motion, especially p. 2.</td><td>What is random when the outcome is a function? Which statements concern a fixed time and which concern a whole path?</td></tr>
+<tr id="ref-l18"><td><a href="https://ocw.mit.edu/courses/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/ef2c66c8079ba656210ad1fd4a5e2fa8_MIT18_S096F13_lecnote18.pdf">MIT 18.S096, Lecture 18: Itô calculus</a> (2013)</td><td>Stochastic integration and the quadratic-variation motivation.</td><td>Why are weighted Brownian increments a different integration problem from ordinary time integration?</td></tr>
+<tr id="ref-l21"><td><a href="https://ocw.mit.edu/courses/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/a671d0d2abe626c371fd5850ad670397_MIT18_S096F13_lecnote21.pdf">MIT 18.S096, Lecture 21: Stochastic Differential Equations</a> (2013)</td><td>§1 integral interpretation; §1.2, p. 2, the zero-mean OU solution.</td><td>Why does a deterministic integrating factor remove the OU drift?</td></tr>
+<tr id="ref-ss"><td><a href="https://users.aalto.fi/~ssarkka/pub/sde_book.pdf">Simo Särkkä &amp; Arno Solin, Applied Stochastic Differential Equations</a> (Cambridge University Press, 2019; author-hosted copy)</td><td>§4.1; Example 4.5, p. 50 (PDF p. 58); Example 6.2, p. 81 (PDF p. 89); §6.5 for steady-state behavior.</td><td>How does a linear continuous-time model become an exact discrete-time transition at an arbitrary interval?</td></tr>
+</tbody></table></div>
+<h3>Corrections retained without interrupting the route</h3>
+<p>The currently linked MIT Lecture 8 slide 17 prints τ²/(1 − φ) in its AR(1) variance formula; the correct denominator is 1 − φ². Lecture 17 p. 2 defines its interpolated walk without the spatial factor 1/√n required by its stated unit-variance steps. Both displays were checked in the original PDFs on 11 September 2026. These are local corrections to the displayed formulas, not a claim of a comprehensive audit of the course.</p>
+<p>This companion also corrects the original HTML's off-grid interpolation claims, the absolute statement that matrix powers never equal their stationary limit at finite n, the inconsistent weather exercise, the missing k in one AR-to-OU decay substitution, the unrestricted AR-to-OU fit interpretation, and the finite-partition equality used for a frozen drift. Stationary initialization, deterministic-integrand Gaussianity and independent sampling times are stated where they matter. Numerical OU optimization is explained more precisely through conditional profiling.</p>
+<p>The <a href="stochastic_processes_for_OU_notes.html">original learning notes</a> remain unchanged for comparison. Historical session labels, personal gate statuses and unfinished exercise placeholders are not carried forward as claims of current progress. The optional bridge does not change the project's computational milestones or certify research results.</p>
+</section>
+<footer>End of companion · All mathematical content is readable offline. Source links and repository-relative documents require their respective files or network access. Use the contents to return to a concept; expand a self-check only after attempting it.</footer>
+</main>
+</div>
+<script>
+'use strict';
+// The document remains readable without JavaScript; these are optional aids.
+const checks = Array.from(document.querySelectorAll('details.check'));
+const answerButton = document.getElementById('answers');
+answerButton.addEventListener('click', () => {
+  const expand = !checks.every(check => check.open);
+  checks.forEach(check => { check.open = expand; });
+  answerButton.textContent = expand ? 'Collapse all self-check solutions' : 'Expand all self-check solutions';
+  answerButton.setAttribute('aria-pressed', String(expand));
+});
+const gap = document.getElementById('gap');
+const result = document.getElementById('gap-result');
+function updateGap() {
+  const dt = Number(gap.value);
+  if (!Number.isFinite(dt) || dt <= 0) return;
+  // Exact OU transition: theta=1, mu=25, sigma=2, starting value=29.
+  // expm1 avoids cancellation in the conditional variance at short gaps.
+  const phi = Math.exp(-dt);
+  const variance = -2 * Math.expm1(-2 * dt);
+  result.textContent = `Δ = ${dt.toFixed(2)} · retained deviation = ${phi.toFixed(4)} · predicted mean = ${(25 + 4 * phi).toFixed(4)} · variance = ${variance.toFixed(4)} · standard deviation = ${Math.sqrt(variance).toFixed(4)}`;
+}
+gap.addEventListener('input', updateGap);
+updateGap();
+// Expand every derivation for printing, then restore the reading state.
+let beforePrint = [];
+window.addEventListener('beforeprint', () => {
+  beforePrint = Array.from(document.querySelectorAll('details')).map(d => [d, d.open]);
+  beforePrint.forEach(([d]) => { d.open = true; });
+});
+window.addEventListener('afterprint', () => {
+  beforePrint.forEach(([d, open]) => { d.open = open; });
+  beforePrint = [];
+});
+document.getElementById('print').addEventListener('click', () => window.print());
+</script>
+</body>
+</html>
