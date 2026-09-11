@@ -32,79 +32,15 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - name: Install isolated documentation-check dependencies
+      - name: Check mathematical examples
+        run: python docs/check_revision_examples.py
+      - name: Install isolated browser-check dependencies
         run: |
           python -m pip install playwright==1.62.0
           python -m playwright install --with-deps chromium
-      - name: Validate and capture browser evidence
-        run: |
-          mkdir -p validation
-          python - <<'PY'
-          import hashlib, json, math, re, sys
-          from pathlib import Path
-          from playwright.sync_api import sync_playwright
-          root = Path.cwd()
-          source = root / 'stochastic_processes_revision.html'
-          errors, checks = [], []
-          with sync_playwright() as p:
-              browser = p.chromium.launch()
-              page = browser.new_page()
-              page.on('pageerror', lambda error: errors.append(str(error)))
-              page.goto(source.as_uri())
-              assert page.locator('details.check').count() == 20
-              ids = page.locator('[id]').evaluate_all('(els) => els.map(e => e.id)')
-              assert len(ids) == len(set(ids)), 'Duplicate IDs'
-              for href in page.locator('a[href]').evaluate_all('(els) => els.map(e => e.getAttribute("href"))'):
-                  if href.startswith('#'):
-                      assert href[1:] in ids, href
-                  elif not re.match(r'^https?://', href):
-                      assert (root / href.split('#')[0]).is_file(), href
-              checks.append('20 self-checks, unique IDs, all fragment and repository-relative links')
-              page.locator('#answers').click()
-              assert page.locator('details.check[open]').count() == 20
-              page.locator('#answers').click()
-              assert page.locator('details.check[open]').count() == 0
-              checks.append('expand/collapse all solutions')
-              for gap in (0.05, 0.5, 1.0, 3.0):
-                  page.locator('#gap').fill(str(gap))
-                  expected_mean = f'{25 + 4 * math.exp(-gap):.4f}'
-                  expected_variance = f'{-2 * math.expm1(-2 * gap):.4f}'
-                  output = page.locator('#gap-result').inner_text()
-                  assert expected_mean in output and expected_variance in output, output
-              page.locator('#gap').fill('0.5')
-              checks.append('exact OU calculator at four gaps')
-              for width in (320, 375, 768, 1024, 1440):
-                  page.set_viewport_size({'width': width, 'height': 1000})
-                  overflow = page.evaluate('document.documentElement.scrollWidth > innerWidth + 1')
-                  if overflow:
-                      errors.append(f'Page-level horizontal overflow at {width}px')
-                  page.screenshot(path=f'validation/viewport-{width}.png')
-              checks.append('five viewport screenshots and overflow measurements')
-              page.set_viewport_size({'width': 1440, 'height': 1000})
-              for section in ('ar', 'brownian', 'ou', 'estimation', 'sources'):
-                  page.locator('#' + section).screenshot(path=f'validation/section-{section}.png')
-              page.pdf(path='validation/revision-print.pdf', format='A4', print_background=True)
-              checks.append('A4 print render')
-              nojs = browser.new_context(java_script_enabled=False, viewport={'width': 375, 'height': 900})
-              fallback = nojs.new_page()
-              fallback.goto(source.as_uri())
-              fallback.locator('details.check summary').first.click()
-              assert fallback.locator('details.check[open]').count() == 1
-              checks.append('no-JavaScript content and native disclosure')
-              report = {'commit': __import__('os').environ.get('GITHUB_SHA'),
-                        'html_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),
-                        'browser': browser.version, 'checks': checks, 'errors': errors}
-              Path('validation/browser-report.json').write_text(json.dumps(report, indent=2))
-              print(json.dumps(report, indent=2))
-              browser.close()
-          assert not errors, errors
-          PY
-      - name: Run mathematical example tests when present
-        run: |
-          if [ -f docs/check_revision_examples.py ]; then
-            python docs/check_revision_examples.py
-          fi
-      - name: Preserve exact reviewed source and visual evidence
+      - name: Check browser behavior and capture evidence
+        run: python docs/check_revision_browser.py
+      - name: Preserve reviewed source and visual evidence
         if: always()
         uses: actions/upload-artifact@v5
         with:
