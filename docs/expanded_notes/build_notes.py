@@ -49,6 +49,7 @@ def build() -> None:
          "--mathml", "--wrap=none", "--no-highlight"],
         input=markdown, text=True, encoding="utf-8", check=True, capture_output=True
     ).stdout
+    raw_body = body
     body = re.sub(r'(<math display="(inline|block)".*?</math>)',
                   lambda m: '<span class="math ' +
                   ('inline' if m[2] == 'inline' else 'display') + '">' + m[1] + '</span>',
@@ -97,6 +98,13 @@ def build() -> None:
     rendered = prefix + ''.join(sections) + suffix
     actual = digest(rendered)
     if actual != EXPECTED_HTML:
+        diagnostics = HERE / "validation"
+        diagnostics.mkdir(exist_ok=True)
+        (diagnostics / "unmatched-render.html").write_text(rendered, encoding="utf-8")
+        (diagnostics / "pandoc-body.html").write_text(raw_body, encoding="utf-8")
+        (diagnostics / "renderer-version.txt").write_text(subprocess.run(
+            ["pandoc", "--version"], check=True, capture_output=True, text=True).stdout,
+            encoding="utf-8")
         raise ValueError(f"HTML did not reproduce the approved edition: {actual}")
 
     output = ROOT / "stochastic_processes_expanded_notes.html"
