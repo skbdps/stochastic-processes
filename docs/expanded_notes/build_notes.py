@@ -26,6 +26,23 @@ def digest(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
+def normalize_original_sign_tags(body: str) -> str:
+    """Retain the delivered edition's unary-sign MathML classification.
+
+    Distribution builds of the same Pandoc version differ in their texmath
+    sign classification. The official static binary writes mo for 260 signs
+    where the original distribution binary writes mi. Only sign elements in
+    unary positions are normalized: beginning of a row/cell or following a
+    relation, comma, or opening delimiter. Binary operators and all equation
+    text/TeX annotations are untouched. The complete output hash below remains
+    the acceptance test; this is not a relaxation of content verification.
+    """
+    pattern = (r'(<mrow>|<mtd(?:\s[^>]*)?>|<mo>[=,≈≥]</mo>|'
+               r'<mo\s[^>]*form="prefix"[^>]*>[\[({]</mo>)'
+               r'<mo>([−+±×])</mo>')
+    return re.sub(pattern, lambda m: m[1] + '<mi>' + m[2] + '</mi>', body)
+
+
 def build() -> None:
     version = subprocess.run(["pandoc", "--version"], check=True, capture_output=True,
                              text=True).stdout.splitlines()[0]
@@ -50,6 +67,7 @@ def build() -> None:
         input=markdown, text=True, encoding="utf-8", check=True, capture_output=True
     ).stdout
     raw_body = body
+    body = normalize_original_sign_tags(body)
     body = re.sub(r'(<math display="(inline|block)".*?</math>)',
                   lambda m: '<span class="math ' +
                   ('inline' if m[2] == 'inline' else 'display') + '">' + m[1] + '</span>',
