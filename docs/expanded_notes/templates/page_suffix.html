@@ -1,0 +1,23 @@
+
+<footer class="endnote">End of the expanded teaching edition. The explanations, equations and code are contained in this file. Only the external source links need internet access. Mathematical assumptions and the scope of imported theorems are identified in the chapters and in the proof-status note.</footer></main></div><script>
+'use strict';
+document.body.classList.add('has-js');
+const contents = document.getElementById('contents-disclosure');
+const smallScreen = window.matchMedia('(max-width:1000px)');
+contents.open = !smallScreen.matches;
+smallScreen.addEventListener('change', event => { contents.open = !event.matches; });
+document.getElementById('print-book').addEventListener('click', () => window.print());
+document.getElementById('open-contents').addEventListener('click', () => {
+  contents.open = true;
+  document.getElementById('book-contents').scrollIntoView({behavior:'smooth'});
+  contents.querySelector('summary').focus({preventScroll:true});
+});
+// Clipboard access can be unavailable for local files; reading the code never
+// depends on this optional button or any network request.
+const copy = document.getElementById('copy-code');
+copy.addEventListener('click', async () => {
+  const text = document.querySelector('#code-example').closest('section').querySelector('pre').innerText;
+  try { await navigator.clipboard.writeText(text); copy.textContent = 'Code copied'; }
+  catch (_) { copy.textContent = 'Select the code below to copy'; }
+});
+</script></body></html>

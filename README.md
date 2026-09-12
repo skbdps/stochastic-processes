@@ -7,6 +7,21 @@ $$
 dX_t = \theta(\mu-X_t)\,dt + \sigma\,dW_t.
 $$
 
+## Read the expanded teaching notes
+
+**Current notes: [Stochastic processes, derived step by step](stochastic_processes_expanded_notes.html).**
+This is the complete rewritten teaching edition with all **13 chapters and 149
+core subsections**, including explicit derivations, worked examples and the
+executable OU likelihood appendix. Download the HTML and open it in a browser,
+or open `index.html` from a checkout. The file works offline; external source
+links require internet access.
+
+[Editable chapter sources, reproducible build and checks](docs/expanded_notes/README.md)
+are included. The earlier [short revision](stochastic_processes_revision.html)
+and [original learning notes](stochastic_processes_for_OU_notes.html) are preserved.
+This documentation update does not change the research implementation, results,
+or the separate Week 3 branch. The research status below remains unchanged.
+
 **Current stage: Week 2 computational milestone.** The written OU derivations,
 simulator, estimation demonstration, tests and reproducible results are available.
 The project is proceeding independently; professor outreach is deferred.
@@ -56,6 +71,10 @@ installation; recorded measurements are in the progress document.
 
 | Path | Purpose |
 | --- | --- |
+| `stochastic_processes_expanded_notes.html` | Current complete teaching edition: 13 chapters, 149 core subsections, offline MathML |
+| `index.html` | Entry point to the expanded edition |
+| `docs/expanded_notes/` | Editable sources, exact build, executable example and 47 mathematical checks |
+| `stochastic_processes_revision.html` | Earlier shorter revision, preserved for comparison |
 | `ou_irregular/ou.py` | Exact simulation; equidistant, exponential and Gamma gaps; exact/PFML/Euler likelihoods; multistart fitting; analytic checks |
 | `notebooks/01_exact_mle_demo.ipynb` | Four Week 2 experiments and a clearly marked Euler preview, with executed outputs |
 | `tests/test_ou.py` | Mathematical checks and optimizer regression tests |
