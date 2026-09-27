@@ -2,6 +2,10 @@
 
 This document turns the Week 3 **harness v1** row of `OU_master_plan_v2.pdf` into mathematical definitions and implementation requirements. The accompanying progress record reports execution results. The derivations below were worked through for this repository's jointly estimated three-parameter OU model; they are not transcriptions of a paper's coefficient tables. This is development and smoke validation, not a certified coverage study or frozen preregistration.
 
+Updated 27 September 2026 for the [numerical validation update](week3_validation_update.md).
+The [plan amendment](plan_amendment_week3_validation.md) records post-exploratory
+interpretation decisions and the Week 4 covariance-coordinate handoff.
+
 ## 1. What Week 3 requires
 
 | Mathematical task | Programmatic task | Location |
@@ -157,7 +161,10 @@ Use working parameters $(\log\theta,\mu,\log\sigma)$ and deterministic multiple 
 
 ### Profiling reference derivation
 
-This subsection provides an independent mathematical reference. A profiled likelihood optimizer is **not** implemented in the Week 3 harness, which fits jointly in its working parameters.
+The 27 September update implements these profiling identities in the strict
+Week 3 fitter. It profiles `alpha = theta * mu` rather than `mu` in the low-theta
+tail to avoid an unnecessary unstable division. The original 10 September
+implementation used joint L-BFGS-B optimization; its outputs remain archived.
 
 For the exact objective with fixed $\theta$, let $b_i=1-\phi_i$, $y_i=x_i-\phi_i x_{i-1}$, and $w_i=(1-\phi_i^2)/(2\theta)$, so $y_i=b_i\mu+\eta_i$ and $\operatorname{Var}(\eta_i)=\sigma^2w_i$. Differentiating gives
 
@@ -168,11 +175,38 @@ $$
 \frac{(y_i-b_i\widehat\mu(\theta))^2}{w_i}.
 $$
 
-These formulas could be substituted into $L$ for an independent one-dimensional check of an interior joint optimum. The corresponding PFML derivation replaces all gaps by $\widehat\Delta$. Euler has the same algebra with $b_i=\theta\Delta_i$, $y_i=x_i-x_{i-1}$, and $w_i=\Delta_i$. Constraints, degenerate data, or a zero denominator would require explicit handling rather than division followed by a fabricated estimate.
+Substituting these formulas into $L$ gives a one-dimensional profile objective.
+The production search expands a dimensionless range, refines sampled local
+minima, and compares endpoint and Brownian-drift/iid limiting objectives. This
+finite numerical search does not prove a global maximum for every irregular
+path. A separate test reference finds roots of the analytic envelope score in
+stationary-variance coordinates; it does not call the production solver.
+
+For PFML, conditional Gaussian regression with an intercept gives OLS slope
+`phi` and residual variance `v`. An interior OU map requires `0 < phi < 1`:
+`theta = -log(phi)/mean_gap`, `mu = intercept/(1-phi)`, and
+`sigma^2 = 2*theta*v/(1-phi^2)`. The profiled SSE is a convex quadratic in phi,
+so an unrestricted OLS slope outside this interval puts the constrained
+optimum on its closure. A finite numerical approximation to that boundary is
+retained but excluded from point summaries.
+
+Euler uses weighted regression of `diff(x)/sqrt(gap)` on `sqrt(gap)` and
+`-x_previous*sqrt(gap)`. The coefficients are `theta*mu` and `theta`; diffusion
+variance is the residual sum of squares divided by K. Euler requires theta>0,
+but does not require `1-theta*gap` to be positive. Degenerate residual variance
+and rank-deficient data receive explicit classifications.
+
+All strict fits now use observed-data coordinates `y=(x-a)/b`, `u=t/m`, where
+a is the observed state mean, b its positive RMS centered scale, and m the
+realized mean gap. Original units are recovered by `theta_x=theta_y/m`,
+`mu_x=a+b*mu_y`, `sigma_x=b*sigma_y/sqrt(m)`, and `NLL_x=NLL_y+K*log(b)`.
+No truth parameter enters these numerical scales. The affine state Jacobian
+has one factor per conditional transition, and conditioning on timestamps
+introduces no time-density Jacobian.
 
 ### Population PFML diagnostic for the joint model
 
-This is an **original reference derivation for the model fitted by our implementation**, conditional on stationarity, iid exogenous gaps, finite moments, and an interior population optimum. It is a limiting mathematical sanity check, not a finite-sample correction. The population-limit and floored-Laplace formulas in this subsection are not implemented benchmark routines and are not generated simulation results.
+This is an **original reference derivation for the model fitted by our implementation**, conditional on stationarity, iid exogenous gaps, finite moments, and an interior population optimum. It is a limiting mathematical sanity check, not a finite-sample correction. The raw, unfloored Gamma special case is implemented by `ou.pfml_limit` using `log1p(z)/z`; the floored-Laplace formulas below remain reference derivations. These are not generated simulation results.
 
 Write $V=\sigma^2/(2\theta)$, $m=E[D']$, and $A=E[e^{-\theta D'}]$. The lag-one covariance of centered observations is $VA$. The best population Gaussian AR(1) regression therefore has coefficient $A$, mean $\mu$, and residual variance $V(1-A^2)$. Mapping those moments back into a fixed-gap OU transition yields
 
@@ -250,12 +284,12 @@ NumPy documents `SeedSequence` spawning as a way to produce reproducible child s
 
 The repository's design derives a stable cell identifier from serialized scientific inputs and uses `SeedSequence(root_seed, spawn_key=(*cell_key_words, replication)).spawn(2)` for gap and path children. The estimator list does not determine data seeds, so estimator order does not change a path. Adding another grid cell should not reshuffle existing cells' random draws. Record the root seed, cell identity, and spawn keys; do not use Python's process-randomized `hash()` as a persistent scientific seed.
 
-Save the resolved configuration, one raw record per estimator/replication, summaries, and figures. The raw record must allow a reader to distinguish a rejected fit, a missing mathematical quantity, and an actual zero. Figures should identify the smoke run, nominal CV, all estimator names, success conditioning, and the absence of certified coverage.
+Save the resolved configuration, one raw record per estimator/replication, summaries, and figures. The raw record must allow a reader to distinguish a rejected fit, a missing mathematical quantity, and an actual zero. Figures identify the smoke run, nominal CV, estimator names, the versioned point-validity condition, and uncomputed coverage. Approximate MCSE bars quantify uncertainty in Monte Carlo bias/RMSE, not intervals for an individual path's estimate. Strict replay checks source/runtime provenance as well as hashes of actual input arrays when available.
 
 The following remain **Week 4 or later**, irrespective of a successful Week 3 smoke run:
 
 - Full observed-Hessian construction, conditioning checks, and interval validity policy.
-- Wald intervals and delta-method covariance transformation for $(\theta,\mu,\sigma)$; the Jacobian is $\operatorname{diag}(\widehat\theta,1,\widehat\sigma)$, but its implementation and validation are not completed by writing this formula.
+- Wald intervals and delta-method covariance transformation for $(\theta,\mu,\sigma)$. The Jacobian from original log working coordinates is $\operatorname{diag}(\widehat\theta,1,\widehat\sigma)$; from the normalized working coordinates it is $\operatorname{diag}(\widehat\theta,b,\widehat\sigma)$. The amendment specifies the coordinate maps; interval implementation and validation remain outstanding.
 - The certification cell at $q=0.5,n=1000$ with sufficient replications; smoke point estimates cannot certify coverage.
 - Bootstrap spot checks and any finite-span bias correction.
 - A committed frozen preregistration of grids, thresholds, seeds, replications, floor fraction, failure policy, and no-peeking rules.

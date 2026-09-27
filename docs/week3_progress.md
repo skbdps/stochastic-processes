@@ -1,5 +1,12 @@
 # Week 3: completed harness, mathematical work, and validation
 
+**Historical record of the 10 September implementation.** The
+[27 September validation update](week3_validation_update.md) supersedes the
+fitting, point-validity, provenance and plotting behavior described below.
+The original smoke artifacts and their stated counts remain preserved;
+the corrected same-input run is stored separately. See also the
+[versioned plan amendment](plan_amendment_week3_validation.md).
+
 Updated 10 September 2026. The **Week 3 programming exit is complete**: one YAML
 runs the exact simulator, all three estimators, saved replication records, metrics
 and figures. Mathematical reference notes and source checks are documented in
