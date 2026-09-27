@@ -1,0 +1,96 @@
+{
+  "artifact_sha256": {
+    "bootstrap_draws.csv": "467b78c923943b28158c96dc69dd1047cfb98cee94619f510c0ce76e520a0f6b",
+    "bootstrap_summary.csv": "5494a3e226f810ac28485e6d02364710b908fb4b637e097a59a91c5afe6607da",
+    "cells.json": "7ce5a41212c6917513f7b60bac1c98369bfd813836a6ef7e90c7a401d44e0bf8",
+    "certification.csv": "6001b7d3ed98c919bec55cc0a704977309a2c3443794bd117a54f5af21118c86",
+    "coverage_summary.csv": "97bb3ebe87851029c2d40882ca143547ced158e6c73574e65afde549c7bccd4e",
+    "figures/week4_bootstrap_spotchecks.png": "0c211980b69ef7fac61036c4c331dec9a29f6524df4c5f9543f33e7235dca704",
+    "figures/week4_checkpoint_coverage.png": "9e5f1f56950599bd4abbebfb7a3645aecd14ac469717a9b3dc9f917ea84b6dcd",
+    "inference_failures.csv": "6a33817613e341865dd696b294fabb64129e5a0eec358243ef740262fd99d10d",
+    "resolved_config.json": "8398e5aa5a2c588635815f81b9173386dbdffc3cadc5012990d5bdcd794056f2"
+  },
+  "bootstrap": {
+    "attempted_draws": 3000,
+    "dependency_exceptions": 0,
+    "draw_status_counts": {
+      "valid_interior": 3000
+    },
+    "planned_checks": 6,
+    "planned_draws": 3000,
+    "status_counts": {
+      "valid": 6
+    },
+    "valid_draws": 3000
+  },
+  "certification": {
+    "interval_status_counts": {
+      "valid": 2000
+    },
+    "interval_valid": 2000,
+    "planned_paths": 2000,
+    "point_status_counts": {
+      "valid_interior": 2000
+    },
+    "point_valid": 2000,
+    "retained_rows": 2000
+  },
+  "checkpoint_in_reference_band": {
+    "mu": true,
+    "sigma": true,
+    "theta": true
+  },
+  "checkpoint_reference_band": [
+    0.94,
+    0.96
+  ],
+  "dependencies": {
+    "PyYAML": "6.0.3",
+    "matplotlib": "3.10.8",
+    "numpy": "2.3.5",
+    "pandas": "2.2.3",
+    "scipy": "1.17.0"
+  },
+  "elapsed_seconds": 15.253538574999766,
+  "finished_utc": "2026-09-27T18:24:37.184116+00:00",
+  "frozen_config_file_sha256": "a02f99aa82898e22dd4dde76f9b1eb12b4acc940e7f695cab0d170e1ee34ac25",
+  "headline_experiments_run": false,
+  "interpretation": "Reference-band misses trigger investigation, never seed or interval retuning; see Week 4 progress report.",
+  "overridden_scientific_dependencies": [],
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+  "preregistration_commit": "1b1255b0650ad7efcf700316bd1cccf704af4d2d",
+  "preregistration_sha256": "d7b1a7b6a6afa6351d3115ade91100402f846eb931952b394ecec4b68dd2813a",
+  "project": "ou-irregular-sampling-week4",
+  "python_version": "3.12.14",
+  "registered_configuration_matches": true,
+  "registered_procedure_matches": true,
+  "resolved_config_sha256": "66844e989d1e9dfddcb13fe8eef5c3d4fad70c7a01215e34e560a2592196a24b",
+  "schema_version": 1,
+  "source_sha256": {
+    "ou_irregular/__init__.py": "a67e08449d1a86c5c4bca1ef42dc7036504f8408b608a8739f6626eaf6f88aa5",
+    "ou_irregular/config.py": "933fcbec310b1485a62c2be381f298a340cce86b8ff23932eac3eaaafb8b3d95",
+    "ou_irregular/estimators.py": "75848a02d9479991bdd7d2dcf384aa4075f6c96a6638adeb661113134a2558e9",
+    "ou_irregular/inference/__init__.py": "0a23553dd8101d901416ce5d30fd2360046411ab449e252abb5d21553b39d0ff",
+    "ou_irregular/inference/adapters.py": "15f5d388f61db9a2b83ed9741a690d5f3267c6d6f3671e04593492d4ef751c3d",
+    "ou_irregular/inference/bootstrap.py": "cf0f5192500949dff5b0bc96365b5747c42b75fd41634b0340e1bb8dd72224b9",
+    "ou_irregular/inference/contracts.py": "2ca5727baef6471addc2826223f0013a9fbdf240ea597f7852c6f0f0618bb16c",
+    "ou_irregular/inference/coordinates.py": "948678cd390305948b14269247b5fa92933591500e5d4872a544c57e00a66142",
+    "ou_irregular/inference/hessian.py": "a225717d9999b8be100e860d39e6a97dc99b091bd53e153b2340c746d2b5def1",
+    "ou_irregular/inference/wald.py": "2664a02831e860045186b833fdcaf11ef0fafa76a7cfeac25c3c54aca05db744",
+    "ou_irregular/metrics.py": "2c8bd1b63c8c6bc24bd2600186338da1afc20dd5fd9d803a8b115d502522dc97",
+    "ou_irregular/ou.py": "3fd7db4001d1973599662d4507aa89e506ba3d36f483f689561e5f4ca57236fa",
+    "ou_irregular/plots.py": "c3bbc78514a00979b6f785dbd3e6a3d7d14022baa3a3f16b3876b00da179a761",
+    "ou_irregular/runner.py": "77864b3d711e02bc58af007ffea5299eac1dc5eaf7bb6d44b3e5d0dab5cec51b",
+    "ou_irregular/spacing.py": "e442fcd4f856b4d3b8126574a9078e42f7aabdf4fd026b30ba35aff665554887",
+    "ou_irregular/week4/__init__.py": "80abef9aca4f4ce97b7b13df555814c6d30c94c523765e18061f5cef55e32e81",
+    "ou_irregular/week4/config.py": "fee87355cdc725b24e28a90a57435b2c6325fb85b50b4b9294a2949fd7d17990",
+    "ou_irregular/week4/plots.py": "40b559e78d97ef085a0e8cb76ae46b4559ceb26a4486e14c535e5b88400ecae3",
+    "ou_irregular/week4/runner.py": "493b09effd0427481758cd37a7e563b81f2c2d053e8ced69e1fa58b6c6973276",
+    "ou_irregular/week4/simulation.py": "ad52bdb4095ae4ed5cdf666d3ef840956af950d9901b057ff7bb70dda173a7f8",
+    "ou_irregular/week4/summaries.py": "a2076ebf69a915d5b98ddbcec93505d14637a88f49c1d8de231899edef7b0f29"
+  },
+  "started_utc": "2026-09-27T18:24:21.930576+00:00",
+  "status": "completed",
+  "study_role": "registered_week4_validation",
+  "unexpected_pipeline_exceptions": 0
+}

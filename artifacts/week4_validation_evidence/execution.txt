@@ -1,0 +1,15 @@
+Checkpoint: 250/2000 planned paths retained
+Checkpoint: 500/2000 planned paths retained
+Checkpoint: 750/2000 planned paths retained
+Checkpoint: 1000/2000 planned paths retained
+Checkpoint: 1250/2000 planned paths retained
+Checkpoint: 1500/2000 planned paths retained
+Checkpoint: 1750/2000 planned paths retained
+Checkpoint: 2000/2000 planned paths retained
+Bootstrap CV=0 exact: 500/500 valid; valid
+Bootstrap CV=0 pfml: 500/500 valid; valid
+Bootstrap CV=0 euler: 500/500 valid; valid
+Bootstrap CV=2 exact: 500/500 valid; valid
+Bootstrap CV=2 pfml: 500/500 valid; valid
+Bootstrap CV=2 euler: 500/500 valid; valid
+Saved artifacts/week4_validation: completed

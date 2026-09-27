@@ -10,3 +10,5 @@ artifacts/*
 !artifacts/week3_smoke/
 !artifacts/week3_validation_rerun/
 !artifacts/week3_validation_evidence/
+!artifacts/week4_validation/
+!artifacts/week4_validation_evidence/

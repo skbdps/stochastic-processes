@@ -1,0 +1,49 @@
+{
+  "arithmetic_atol": 2e-14,
+  "arithmetic_rtol": 2e-12,
+  "artifact_hashes_verified": 9,
+  "audit_passed": true,
+  "audited_utc": "2026-09-27T18:29:13.539747+00:00",
+  "bootstrap_check_keys_verified": 6,
+  "bootstrap_draw_keys_verified": 3000,
+  "bootstrap_parameter_quantile_pairs_verified": 18,
+  "bootstrap_sample_standard_deviations_verified": 18,
+  "bootstrap_source_path_replays": 2,
+  "certification_keys_verified": 2000,
+  "checkpoint_input_replays": 2000,
+  "coverage_counts": {
+    "mu": {
+      "covered": 1897,
+      "planned": 2000,
+      "valid_intervals": 2000
+    },
+    "sigma": {
+      "covered": 1883,
+      "planned": 2000,
+      "valid_intervals": 2000
+    },
+    "theta": {
+      "covered": 1889,
+      "planned": 2000,
+      "valid_intervals": 2000
+    }
+  },
+  "freeze_hashes_verified": true,
+  "input_replay_hashes_exact": true,
+  "new_model_fits_performed": 0,
+  "original_artifacts_unchanged": true,
+  "preregistration_commit": "1b1255b0650ad7efcf700316bd1cccf704af4d2d",
+  "scope": "Provenance, full planned keys, exact seeded input replay, raw-to-summary arithmetic, and Week 3 preservation. Does not independently refit models, recompute Hessians, or certify nominal coverage.",
+  "script_sha256": "92d391a820fc14da801c59f36ac41edd1a2ac596e0647dfe20573f4b0c4dad1f",
+  "source_hashes_verified": 21,
+  "source_manifest_sha256": "223f1b2cb0147d4ee13c1a634141127253a6a9cc3bca24921da62c52112f102e",
+  "week3_preservation": {
+    "week3_smoke": {
+      "artifact_hashes_verified": 8
+    },
+    "week3_validation_rerun": {
+      "artifact_hashes_verified": 11,
+      "source_hashes_verified": 8
+    }
+  }
+}
