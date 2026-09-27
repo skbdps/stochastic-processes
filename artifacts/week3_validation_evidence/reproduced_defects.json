@@ -1,0 +1,286 @@
+{
+  "before": {
+    "python": "3.12.14",
+    "versions": {
+      "numpy": "2.3.5",
+      "scipy": "1.17.0"
+    },
+    "reported_fixture": {
+      "cell_id": "f8d4e4a0284815907238717ce73c66fe15dbe632869f978cfd54f905b681ba41",
+      "rep": 0,
+      "n": 250,
+      "q": 0.5,
+      "cv": 2,
+      "root_seed": 20260910
+    },
+    "state_scale_fits": [
+      {
+        "estimator": "exact",
+        "original": {
+          "theta": 1.260668750073763,
+          "mu": -0.017686819150261945,
+          "sigma": 0.49389569308982,
+          "nll": -297.5683245463001,
+          "success": true
+        },
+        "scaled": {
+          "theta": 1.5009277550730313,
+          "mu": -2.7151712775944038e-08,
+          "sigma": 5.083062281090767e-07,
+          "nll": -3737.1812781993276,
+          "success": true
+        },
+        "scaled_nll_mapped_to_original": -297.1191492662233
+      },
+      {
+        "estimator": "pfml",
+        "original": {
+          "theta": 0.6397301705021827,
+          "mu": -0.04938593331898336,
+          "sigma": 0.32496424097325316,
+          "nll": -51.252950314489325,
+          "success": true
+        },
+        "scaled": {
+          "theta": 0.6432472046293346,
+          "mu": -5.225480103412012e-08,
+          "sigma": 3.2575142460475166e-07,
+          "nll": -3491.3120619762794,
+          "success": true
+        },
+        "scaled_nll_mapped_to_original": -51.24993304317513
+      },
+      {
+        "estimator": "euler",
+        "original": {
+          "theta": 0.4211224367117965,
+          "mu": 0.011481182044671055,
+          "sigma": 0.44029068210116346,
+          "nll": -276.2590617170483,
+          "success": true
+        },
+        "scaled": {
+          "theta": 0.32048340452636154,
+          "mu": 9.419154779255656e-09,
+          "sigma": 4.4090071219762234e-07,
+          "nll": -3715.9723362762443,
+          "success": true
+        },
+        "scaled_nll_mapped_to_original": -275.91020734314
+      }
+    ],
+    "stress_fits": [
+      {
+        "estimator": "exact",
+        "theta": 4.1596442365533814,
+        "mu": -0.03567259776504461,
+        "sigma": 0.9381891089095863,
+        "nll": 73.66612084376551,
+        "success": true
+      },
+      {
+        "estimator": "pfml",
+        "theta": 4.1596442365533814,
+        "mu": -0.03567259776504461,
+        "sigma": 0.9381891089095863,
+        "nll": 73.66612084376551,
+        "success": true
+      },
+      {
+        "estimator": "euler",
+        "theta": 0.22162220723736473,
+        "mu": -0.03567116339462426,
+        "sigma": 0.1446137910962701,
+        "nll": 72.20225382753199,
+        "success": true
+      }
+    ],
+    "stress_fixture": {
+      "n": 250,
+      "gap": 5,
+      "theta": 1,
+      "mu": 0,
+      "sigma": 0.5,
+      "seed": 1,
+      "unrestricted_slope": -0.10811104913036998
+    },
+    "invalid_ar1_result": [
+      -0.5877866649021191,
+      -0.7500000000000001,
+      0.22908721532072346
+    ],
+    "small_cv_pfml_result": [
+      -0.0,
+      -0.0
+    ],
+    "source_sha256": {
+      "estimators.py": "fa658fe9fd696b06e5c20cf60a1615fbcd5797593dac780e0a8dac3988839c28",
+      "ou.py": "1078a3c2759e45d0b8d665182236975058f7ac18384b1e7c04cebc9db1eeb4be"
+    },
+    "snapshot_commit": "d3d8c8f47db1e232d70bc8c87c05f6076d066ed0"
+  },
+  "after": {
+    "python": "3.12.14",
+    "versions": {
+      "numpy": "2.3.5",
+      "scipy": "1.17.0"
+    },
+    "reported_fixture": {
+      "cell_id": "f8d4e4a0284815907238717ce73c66fe15dbe632869f978cfd54f905b681ba41",
+      "rep": 0,
+      "n": 250,
+      "q": 0.5,
+      "cv": 2,
+      "root_seed": 20260910
+    },
+    "state_scale_fits": [
+      {
+        "estimator": "exact",
+        "original": {
+          "theta": 1.2606693321012166,
+          "mu": -0.017686843957707726,
+          "sigma": 0.4938957284189364,
+          "nll": -297.5683245463034,
+          "success": true,
+          "optimizer_success": true,
+          "fit_status": "valid_interior",
+          "valid_for_point_summary": true,
+          "reason": "interior profile minimum separated from expanded endpoints and limiting objectives",
+          "solver": "normalized_exact_profile"
+        },
+        "scaled": {
+          "theta": 1.2606693613378064,
+          "mu": -1.7686844570685002e-08,
+          "sigma": 4.938957300223329e-07,
+          "nll": -3737.6304534794076,
+          "success": true,
+          "optimizer_success": true,
+          "fit_status": "valid_interior",
+          "valid_for_point_summary": true,
+          "reason": "interior profile minimum separated from expanded endpoints and limiting objectives",
+          "solver": "normalized_exact_profile"
+        },
+        "scaled_nll_mapped_to_original": -297.5683245463033
+      },
+      {
+        "estimator": "pfml",
+        "original": {
+          "theta": 0.6397302094505202,
+          "mu": -0.04938591870692746,
+          "sigma": 0.3249642462291865,
+          "nll": -51.25295031448945,
+          "success": true,
+          "optimizer_success": true,
+          "fit_status": "valid_interior",
+          "valid_for_point_summary": true,
+          "reason": "admissible AR(1) OLS slope",
+          "solver": "normalized_ar1_ols"
+        },
+        "scaled": {
+          "theta": 0.6397302094505202,
+          "mu": -4.938591870692747e-08,
+          "sigma": 3.249642462291865e-07,
+          "nll": -3491.3150792475935,
+          "success": true,
+          "optimizer_success": true,
+          "fit_status": "valid_interior",
+          "valid_for_point_summary": true,
+          "reason": "admissible AR(1) OLS slope",
+          "solver": "normalized_ar1_ols"
+        },
+        "scaled_nll_mapped_to_original": -51.252950314489226
+      },
+      {
+        "estimator": "euler",
+        "original": {
+          "theta": 0.42112176475207064,
+          "mu": 0.01148113351089812,
+          "sigma": 0.44029068942290495,
+          "nll": -276.25906171706396,
+          "success": true,
+          "optimizer_success": true,
+          "fit_status": "valid_interior",
+          "valid_for_point_summary": true,
+          "reason": "interior Euler weighted-regression solution",
+          "solver": "normalized_euler_wls"
+        },
+        "scaled": {
+          "theta": 0.42112176475207036,
+          "mu": 1.148113351089818e-08,
+          "sigma": 4.4029068942290475e-07,
+          "nll": -3716.3211906501683,
+          "success": true,
+          "optimizer_success": true,
+          "fit_status": "valid_interior",
+          "valid_for_point_summary": true,
+          "reason": "interior Euler weighted-regression solution",
+          "solver": "normalized_euler_wls"
+        },
+        "scaled_nll_mapped_to_original": -276.259061717064
+      }
+    ],
+    "stress_fits": [
+      {
+        "estimator": "exact",
+        "theta": 5.52620422318571,
+        "mu": -0.03567435595999808,
+        "sigma": 1.081375155302194,
+        "nll": 73.66612081465416,
+        "success": true,
+        "optimizer_success": true,
+        "fit_status": "boundary",
+        "valid_for_point_summary": false,
+        "reason": "AR(1) slope <= 0: theta tends to infinity (phi=0 boundary)",
+        "solver": "normalized_ar1_ols"
+      },
+      {
+        "estimator": "pfml",
+        "theta": 5.52620422318571,
+        "mu": -0.03567435595999808,
+        "sigma": 1.081375155302194,
+        "nll": 73.66612081465416,
+        "success": true,
+        "optimizer_success": true,
+        "fit_status": "boundary",
+        "valid_for_point_summary": false,
+        "reason": "AR(1) slope <= 0: theta tends to infinity (phi=0 boundary)",
+        "solver": "normalized_ar1_ols"
+      },
+      {
+        "estimator": "euler",
+        "theta": 0.22162220982607397,
+        "mu": -0.03567115647361885,
+        "sigma": 0.14461379126220597,
+        "nll": 72.20225382753193,
+        "success": true,
+        "optimizer_success": true,
+        "fit_status": "valid_interior",
+        "valid_for_point_summary": true,
+        "reason": "interior Euler weighted-regression solution",
+        "solver": "normalized_euler_wls"
+      }
+    ],
+    "stress_fixture": {
+      "n": 250,
+      "gap": 5,
+      "theta": 1,
+      "mu": 0,
+      "sigma": 0.5,
+      "seed": 1,
+      "unrestricted_slope": -0.10811104913036998
+    },
+    "invalid_ar1_result": {
+      "exception": "ValueError",
+      "message": "AR(1) slope must lie strictly between 0 and 1 for an interior OU fit"
+    },
+    "small_cv_pfml_result": [
+      1.0,
+      0.5
+    ],
+    "source_sha256": {
+      "estimators.py": "75848a02d9479991bdd7d2dcf384aa4075f6c96a6638adeb661113134a2558e9",
+      "ou.py": "3fd7db4001d1973599662d4507aa89e506ba3d36f483f689561e5f4ca57236fa"
+    },
+    "note": "Patched working-tree solver; final source hashes recorded in validation run manifest."
+  }
+}

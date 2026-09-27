@@ -1,0 +1,96 @@
+cell 15b77182099f: n=250, theta*gap=0.1, CV=0.0
+cell cec2c40e6afe: n=250, theta*gap=0.1, CV=1.0
+cell 235ef1f8035b: n=250, theta*gap=0.1, CV=2.0
+cell d02797036202: n=250, theta*gap=0.5, CV=0.0
+cell c9336ddbf546: n=250, theta*gap=0.5, CV=1.0
+cell f8d4e4a02848: n=250, theta*gap=0.5, CV=2.0
+cell d3c988ccf3b1: n=250, theta*gap=1.0, CV=0.0
+cell 6b01c943c3bb: n=250, theta*gap=1.0, CV=1.0
+cell a28cd55993f1: n=250, theta*gap=1.0, CV=2.0
+{
+  "config_sha256": "da624a23766c4c7b67fda90ee4c1a9ff68c279a8bba6886f4059da76ec4055d5",
+  "dependency_versions_sha256": "b0ecbe17bac2b19dfe67c8100483afff1eeaeb4deaca5954deec71dfa773399f",
+  "derived_environment": {
+    "dependency_versions_sha256": "b0ecbe17bac2b19dfe67c8100483afff1eeaeb4deaca5954deec71dfa773399f",
+    "python": "3.12.14",
+    "versions": {
+      "PyYAML": "6.0.3",
+      "matplotlib": "3.10.8",
+      "numpy": "2.3.5",
+      "pandas": "2.2.3",
+      "scipy": "1.17.0"
+    }
+  },
+  "derived_source_sha256": {
+    "metrics.py": "2c8bd1b63c8c6bc24bd2600186338da1afc20dd5fd9d803a8b115d502522dc97",
+    "plots.py": "c3bbc78514a00979b6f785dbd3e6a3d7d14022baa3a3f16b3876b00da179a761",
+    "runner.py": "77864b3d711e02bc58af007ffea5299eac1dc5eaf7bb6d44b3e5d0dab5cec51b"
+  },
+  "output_sha256": {
+    "boundary_fits.csv": "6dc3dcaa9607edaa9982c4e8aef52fe201d8ff5ddc3c7b33bf2f79c666345d8a",
+    "estimator_comparisons.csv": "d50bf6ce33bae7663686034db75572ad5d58f37275f4f34057cffe2cb6a59717",
+    "failures.csv": "6dc3dcaa9607edaa9982c4e8aef52fe201d8ff5ddc3c7b33bf2f79c666345d8a",
+    "figures/week3_bias_vs_cv.png": "debe93dd1c9da8ae68cc780bffb49d792518014fbd34938b4df5fa67f1dd1873",
+    "figures/week3_fit_failure_rate.png": "953540832479e77455f86d46fdfe31da2b8f32ed1689e682195203b0ebf5819d",
+    "figures/week3_rmse_ratio_vs_cv.png": "607eb628e8c6530f44a7ee193e76e709195270970b0edef7d6814c3b39e2578d",
+    "figures/week3_rmse_vs_cv.png": "062f3652a6b582b533cad49f3fef573327074a748cb903381411cc38696ecf5d",
+    "replications.csv": "def1636d189bbdb6866c4df16f7c3e96f0d246f4e0dbb547ba2d5d488a00ab64",
+    "spacing.csv": "5dfab7ead0ab5e284a95efe58cb451b9a6e9d67446726a996ce7f5653c68a4ce",
+    "summary.csv": "dc0d40a7ef324e6deb037842bc05cbaa8d3381643f7bba1cf58d80848946a91f",
+    "spacing_summary.csv": "396a60d0a430293cc507c0b918188d171f4b5fe446370bf241bc04e5fe48f829"
+  },
+  "phase": "smoke",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+  "project": "ou-irregular-sampling",
+  "python": "3.12.14",
+  "result_schema_version": 2,
+  "schema_version": 1,
+  "source_sha256": {
+    "__init__.py": "a67e08449d1a86c5c4bca1ef42dc7036504f8408b608a8739f6626eaf6f88aa5",
+    "config.py": "933fcbec310b1485a62c2be381f298a340cce86b8ff23932eac3eaaafb8b3d95",
+    "estimators.py": "75848a02d9479991bdd7d2dcf384aa4075f6c96a6638adeb661113134a2558e9",
+    "metrics.py": "2c8bd1b63c8c6bc24bd2600186338da1afc20dd5fd9d803a8b115d502522dc97",
+    "ou.py": "3fd7db4001d1973599662d4507aa89e506ba3d36f483f689561e5f4ca57236fa",
+    "plots.py": "c3bbc78514a00979b6f785dbd3e6a3d7d14022baa3a3f16b3876b00da179a761",
+    "runner.py": "77864b3d711e02bc58af007ffea5299eac1dc5eaf7bb6d44b3e5d0dab5cec51b",
+    "spacing.py": "e442fcd4f856b4d3b8126574a9078e42f7aabdf4fd026b30ba35aff665554887"
+  },
+  "started_utc": "2026-09-27T17:44:26.230351+00:00",
+  "status": "completed",
+  "validity_counts": {
+    "n_planned": 540,
+    "n_valid": 540,
+    "n_optimizer_success": 540,
+    "n_excluded": 0,
+    "validity_policy": "classified_interior_v2",
+    "n_valid_interior": 540,
+    "n_boundary": 0,
+    "n_boundary_suspected": 0,
+    "n_degenerate": 0,
+    "n_numerical_failure": 0,
+    "n_simulation_failure": 0,
+    "n_legacy_usable": 0,
+    "n_legacy_excluded": 0
+  },
+  "versions": {
+    "PyYAML": "6.0.3",
+    "matplotlib": "3.10.8",
+    "numpy": "2.3.5",
+    "pandas": "2.2.3",
+    "scipy": "1.17.0"
+  },
+  "cells": 9,
+  "replications_per_cell": 20,
+  "planned_fits": 540,
+  "recorded_fits": 540,
+  "failed_fits": 0,
+  "excluded_fits": 0,
+  "ci_status": "not_computed_week3",
+  "elapsed_seconds": 2.938,
+  "figures": [
+    "figures/week3_bias_vs_cv.png",
+    "figures/week3_rmse_ratio_vs_cv.png",
+    "figures/week3_fit_failure_rate.png",
+    "figures/week3_rmse_vs_cv.png"
+  ]
+}

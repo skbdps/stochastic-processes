@@ -14,7 +14,9 @@ import json
 import os
 from pathlib import Path
 import platform
+import shutil
 import time
+import warnings
 
 # The likelihoods operate on small vectors. Avoid BLAS thread oversubscription
 # in the command-line process, consistently with the Week 2 reproduction runner.
@@ -27,7 +29,8 @@ import yaml
 
 from .config import ExperimentConfig, canonical_json, load_config
 from .estimators import fit_estimator
-from .metrics import add_twin_comparisons, summarize_results
+from .metrics import (add_twin_comparisons, summarize_results, point_validity,
+                      validity_counts, paired_estimator_comparisons)
 from .ou import simulate_ou
 from .plots import plot_summary
 from .spacing import generate_times
@@ -72,8 +75,19 @@ def replication_streams(seed, cell_id, rep):
 def _failed_record(estimator, message):
     return {"estimator": estimator, "theta": np.nan, "mu": np.nan, "sigma": np.nan,
             "success": False, "initial_success": False, "retried": False,
+            "optimizer_success": False, "valid_for_point_summary": False,
+            "fit_status": "simulation_failure", "reason": message, "solver": "not_run",
             "attempted_starts": 0, "nll": np.nan, "status": -1, "message": message,
             "error": message}
+
+
+def array_digest(values):
+    """Identify the actual input array, not just the random seed that made it.
+
+    Canonical little-endian float64 bytes make hashes independent of native
+    byte order. This catches changed simulation code or lost input resolution.
+    """
+    return hashlib.sha256(np.asarray(values, dtype="<f8").tobytes()).hexdigest()
 
 
 def run_replication(config, cell, rep):
@@ -95,7 +109,9 @@ def run_replication(config, cell, rep):
                                    spacing.times, path_rng)
         if observations.shape != (cell["n"],) or not np.isfinite(observations).all():
             raise FloatingPointError("simulator returned nonfinite or incorrectly shaped observations")
-        diagnostics = {**spacing.diagnostics, "simulation_success": True, "simulation_error": ""}
+        diagnostics = {**spacing.diagnostics, "simulation_success": True, "simulation_error": "",
+                       "times_sha256": array_digest(spacing.times),
+                       "observations_sha256": array_digest(observations)}
     except (ValueError, FloatingPointError, RuntimeError, OverflowError) as error:
         # A failed simulation is visible in every estimator's denominator. It
         # is not silently replaced with a fresh seed or omitted from the cell.
@@ -112,11 +128,28 @@ def run_replication(config, cell, rep):
 def _provenance(config):
     package = Path(__file__).resolve().parent
     versions = {name: metadata.version(name) for name in ("numpy", "scipy", "pandas", "matplotlib", "PyYAML")}
-    return {"project": PROJECT, "schema_version": 1, "phase": config.phase,
+    return {"project": PROJECT, "schema_version": 1, "result_schema_version": 2,
+            "phase": config.phase,
             "config_sha256": hashlib.sha256(canonical_json(config.to_dict()).encode()).hexdigest(),
             "python": platform.python_version(), "platform": platform.platform(),
-            "versions": versions, "source_sha256": {
+            "versions": versions,
+            "dependency_versions_sha256": hashlib.sha256(canonical_json(versions).encode()).hexdigest(),
+            "source_sha256": {
                 path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in sorted(package.glob("*.py"))}}
+
+
+def provenance_differences(saved, current):
+    """Compare scientific code and runtime versions, not machine-specific paths.
+
+    Dependency fingerprints cover version identities, not installed binary-file
+    contents. Platform is recorded separately; bitwise cross-platform equality
+    is not promised. Missing historical evidence also counts as a mismatch.
+    """
+    differences = {}
+    for key in ("source_sha256", "versions", "python"):
+        if saved.get(key) != current.get(key):
+            differences[key] = {"saved": saved.get(key), "executing": current.get(key)}
+    return differences
 
 
 def _validated_saved_rows(run_dir, run_metadata):
@@ -151,19 +184,44 @@ def _validated_saved_rows(run_dir, run_metadata):
     return config, frame
 
 
-def replot(run_dir):
+def replot(run_dir, output_dir=None):
     """Recompute aggregates and figures solely from saved replication rows.
 
-    Coverage stays uncomputed in Week 3. Point metrics condition on successful
-    finite fits, with total/failure counts retained in every summary row.
+    A changed implementation must write a separate derived run. Old rows keep
+    their original success/finite policy; no new boundary diagnosis is invented
+    without a refit. Classified rows use the shared point-validity policy.
     """
     run_dir = Path(run_dir)
     run_metadata = json.loads((run_dir / "run_metadata.json").read_text())
     if run_metadata.get("project") != PROJECT:
         raise ValueError("Not an OU experiment output directory")
-    _, frame = _validated_saved_rows(run_dir, run_metadata)
+    config, frame = _validated_saved_rows(run_dir, run_metadata)
+    current = _provenance(config)
+    differences = provenance_differences(run_metadata, current)
+    destination = run_dir if output_dir is None else Path(output_dir)
+    if differences and destination.resolve() == run_dir.resolve():
+        raise ValueError("Replot provenance mismatch: use a separate --output directory to preserve historical outputs")
+    if destination.resolve() != run_dir.resolve():
+        if destination.exists() and any(destination.iterdir()):
+            raise FileExistsError("Derived output must be a new or empty directory")
+        destination.mkdir(parents=True, exist_ok=True)
+        for name in ("replications.csv", "resolved_config.json", "config.yaml", "cells.json",
+                     "spacing.csv", "spacing_summary.csv"):
+            if (run_dir / name).exists():
+                shutil.copyfile(run_dir / name, destination / name)
+        run_metadata["derived_from"] = {
+            "run_directory": str(run_dir),
+            "manifest_sha256": hashlib.sha256((run_dir / "run_metadata.json").read_bytes()).hexdigest(),
+            "provenance_differences": differences}
+    run_dir = destination
     summary = add_twin_comparisons(summarize_results(frame))
     _csv_write(run_dir / "summary.csv", summary)
+    _csv_write(run_dir / "failures.csv", frame.loc[~point_validity(frame)])
+    # Boundaries may be numerical successes, so give them their own export as
+    # well as retaining them among all point-summary exclusions.
+    boundary = frame["fit_status"].isin(["boundary", "boundary_suspected"]) if "fit_status" in frame else pd.Series(False, index=frame.index)
+    _csv_write(run_dir / "boundary_fits.csv", frame.loc[boundary])
+    _csv_write(run_dir / "estimator_comparisons.csv", paired_estimator_comparisons(frame))
     paths = plot_summary(summary, run_dir / "figures")
     # Raw-estimate provenance stays unchanged when only aggregation/plots rerun.
     # Record current derived-code hashes and refresh digests of regenerated files.
@@ -171,8 +229,10 @@ def replot(run_dir):
     run_metadata["derived_source_sha256"] = {
         name: hashlib.sha256((package / name).read_bytes()).hexdigest()
         for name in ("runner.py", "metrics.py", "plots.py")}
+    run_metadata["derived_environment"] = {key: current[key] for key in ("python", "versions", "dependency_versions_sha256")}
+    run_metadata["validity_counts"] = validity_counts(frame)
     hashes = run_metadata.setdefault("output_sha256", {})
-    for path in [run_dir / "summary.csv", *paths]:
+    for path in [*run_dir.glob("*.csv"), *paths]:
         hashes[str(path.relative_to(run_dir))] = hashlib.sha256(path.read_bytes()).hexdigest()
     _json_write(run_dir / "run_metadata.json", run_metadata)
     return summary, paths
@@ -209,7 +269,7 @@ def run_experiment(config, output_dir, *, overwrite=False):
     frame = pd.DataFrame(rows)
     _csv_write(output_dir / "replications.csv", frame)
     _csv_write(output_dir / "spacing.csv", pd.DataFrame(spacing_rows))
-    failures = frame.loc[~frame["success"].astype(bool)]
+    failures = frame.loc[~point_validity(frame)]
     _csv_write(output_dir / "failures.csv", failures)
     summary, paths = replot(output_dir)
     spacing_frame = pd.DataFrame(spacing_rows)
@@ -221,10 +281,12 @@ def run_experiment(config, output_dir, *, overwrite=False):
             spacing_summary[f"mean_{column}"] = spacing_frame.groupby("cell_id")[column].mean()
     _csv_write(output_dir / "spacing_summary.csv", spacing_summary.reset_index())
     run_metadata = json.loads((output_dir / "run_metadata.json").read_text())
-    run_metadata.update(status="completed" if failures.empty else "completed_with_fit_failures",
+    counts = validity_counts(frame)
+    run_metadata.update(status="completed" if failures.empty else "completed_with_excluded_fits",
                         cells=len(cells), replications_per_cell=config.replications,
                         planned_fits=len(cells) * config.replications * len(config.estimators),
                         recorded_fits=len(frame), failed_fits=len(failures),
+                        excluded_fits=len(failures), validity_counts=counts,
                         ci_status="not_computed_week3", elapsed_seconds=round(time.perf_counter() - started, 3),
                         figures=[str(path.relative_to(output_dir)) for path in paths])
     # File hashes permit checking saved raw data before interpreting or replaying it.
@@ -235,15 +297,56 @@ def run_experiment(config, output_dir, *, overwrite=False):
     return run_metadata
 
 
-def replay(run_dir, cell_id, rep):
-    """Reconstruct one saved replication without consuming any earlier RNG stream."""
+def replay(run_dir, cell_id, rep, *, allow_provenance_mismatch=False, output_dir=None):
+    """Strict historical replay, or an explicitly recorded patched-code replay.
+
+    Raw-file integrity does not prove historical code identity. By default a
+    source/dependency mismatch stops before any fitting. An intentional replay
+    with changed code requires a separate output directory and records both
+    provenance records, the original raw hash and exact input hashes.
+    """
     run_dir = Path(run_dir)
     run_metadata = json.loads((run_dir / "run_metadata.json").read_text())
-    config, _ = _validated_saved_rows(run_dir, run_metadata)
+    config, saved = _validated_saved_rows(run_dir, run_metadata)
+    current = _provenance(config)
+    differences = provenance_differences(run_metadata, current)
+    if differences:
+        if not allow_provenance_mismatch or output_dir is None:
+            raise ValueError("Replay provenance mismatch: deliberate patched-code replay requires --allow-provenance-mismatch and a separate --output directory")
+        warnings.warn("PATCHED-CODE REPLAY: executing source/runtime differs from the historical run", RuntimeWarning)
+    if output_dir is not None:
+        output_dir = Path(output_dir)
+        if output_dir.resolve() == run_dir.resolve():
+            raise ValueError("Replay output must be separate from the source run")
+        if output_dir.exists() and any(output_dir.iterdir()):
+            raise FileExistsError("Replay output must be a new or empty directory")
     matches = [cell for cell in config.cells() if cell["cell_id"] == cell_id]
     if len(matches) != 1:
         raise ValueError("cell_id must be an exact ID from cells.json")
-    return pd.DataFrame(run_replication(config, matches[0], rep)[0])
+    result = pd.DataFrame(run_replication(config, matches[0], rep)[0])
+    historical = saved[(saved.cell_id == cell_id) & (saved.rep == rep)]
+    input_identity = "not_recorded_in_historical_run"
+    if {"times_sha256", "observations_sha256"}.issubset(historical):
+        hash_columns = ["times_sha256", "observations_sha256"]
+        if historical[hash_columns].notna().all().all():
+            input_identity = all(key in result and historical[key].iloc[0] == result[key].iloc[0]
+                                 for key in hash_columns)
+            if not input_identity:
+                raise ValueError("Replay did not reconstruct identical input arrays")
+        else:
+            input_identity = "unavailable_for_historical_simulation_failure"
+    if output_dir is not None:
+        output_dir.mkdir(parents=True, exist_ok=True)
+        _csv_write(output_dir / "replications.csv", result)
+        _json_write(output_dir / "replay_metadata.json", {
+            "project": PROJECT, "kind": "patched_code_replay" if differences else "strict_replay",
+            "source_run": str(run_dir), "cell_id": cell_id, "rep": rep,
+            "source_manifest_sha256": hashlib.sha256((run_dir / "run_metadata.json").read_bytes()).hexdigest(),
+            "source_raw_sha256": hashlib.sha256((run_dir / "replications.csv").read_bytes()).hexdigest(),
+            "saved_provenance": run_metadata, "executing_provenance": current,
+            "provenance_differences": differences, "input_identity": input_identity,
+            "output_sha256": hashlib.sha256((output_dir / "replications.csv").read_bytes()).hexdigest()})
+    return result
 
 
 def main():
@@ -255,19 +358,24 @@ def main():
     run.add_argument("--overwrite", action="store_true")
     plotting = commands.add_parser("replot", help="rebuild summaries and figures from saved rows")
     plotting.add_argument("--run-dir", required=True, type=Path)
+    plotting.add_argument("--output", type=Path, help="separate derived run; required if provenance differs")
     repeating = commands.add_parser("replay", help="regenerate one replication as CSV on stdout")
     repeating.add_argument("--run-dir", required=True, type=Path)
     repeating.add_argument("--cell-id", required=True)
     repeating.add_argument("--rep", required=True, type=int)
+    repeating.add_argument("--allow-provenance-mismatch", action="store_true")
+    repeating.add_argument("--output", type=Path)
     arguments = parser.parse_args()
     if arguments.command == "run":
         print(json.dumps(run_experiment(load_config(arguments.config), arguments.output,
                                         overwrite=arguments.overwrite), indent=2))
     elif arguments.command == "replot":
-        summary, paths = replot(arguments.run_dir)
+        summary, paths = replot(arguments.run_dir, arguments.output)
         print(f"Regenerated {len(summary)} summary rows and {len(paths)} figures")
     else:
-        print(replay(arguments.run_dir, arguments.cell_id, arguments.rep).to_csv(index=False), end="")
+        print(replay(arguments.run_dir, arguments.cell_id, arguments.rep,
+                     allow_provenance_mismatch=arguments.allow_provenance_mismatch,
+                     output_dir=arguments.output).to_csv(index=False), end="")
 
 
 if __name__ == "__main__":

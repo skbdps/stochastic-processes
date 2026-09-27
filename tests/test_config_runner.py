@@ -72,7 +72,7 @@ def test_end_to_end_replay_and_replot_from_raw_rows(tmp_path):
     summary, figures = replot(directory)
     assert summary.coverage.isna().all()
     assert set(summary.ci_status) == {"not_computed_week3"}
-    assert len(figures) == 3 and all(path.is_file() for path in figures)
+    assert len(figures) == 4 and all(path.is_file() for path in figures)
     with pytest.raises(FileExistsError):
         run_experiment(config, directory)
     # Truncated data cannot silently change simulation denominators on replot.

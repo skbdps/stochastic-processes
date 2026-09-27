@@ -2,7 +2,6 @@
 
 import numpy as np
 import pytest
-from scipy.optimize import OptimizeResult
 from scipy.stats import norm
 
 from ou_irregular import ou
@@ -133,88 +132,44 @@ def test_invalid_controls_raise(name, value):
         fit_estimator(**kwargs)
 
 
-def _result(objective, success, starts=3):
-    return dict(theta=1.0, mu=0.0, sigma=0.5, nll=objective, success=success,
-                nit=12, status=0 if success else 2, message="test result",
-                n_starts=starts, n_finite=starts, n_successful=starts if success else 0,
-                selected_start=0, best_nll=objective, objective_gap=0.0,
-                objective_tolerance=ou.OBJECTIVE_TIE_ATOL + ou.OBJECTIVE_TIE_RTOL * abs(objective))
-
-
-def test_initial_success_never_retries(monkeypatch):
-    calls = []
-
-    def fake_fit(*args, n_starts, **kwargs):
-        calls.append(n_starts)
-        return _result(-100, True, n_starts)
-
-    monkeypatch.setattr(ou, "fit", fake_fit)
-    fitted = fit_estimator("exact", [0.1, 0.4, 0.2], [0, 1, 2])
-    assert calls == [3]
-    assert fitted["initial_success"] and not fitted["retried"]
-    assert fitted["attempted_starts"] == 3
+def test_legacy_start_controls_remain_accepted_but_are_not_fictitious_attempts():
+    times = np.arange(200) * 0.25
+    x = ou.simulate_ou(1, 0, 0.5, times, np.random.default_rng(16))
+    fitted = fit_estimator("exact", x, times, n_starts=3, retry_starts=5)
+    assert fitted["success"] and fitted["initial_success"]
+    assert not fitted["retried"] and fitted["attempted_starts"] == 0
+    assert fitted["n_starts"] == 0 and fitted["selected_start"] == -1
+    assert fitted["requested_n_starts"] == 3 and fitted["requested_retry_starts"] == 5
+    assert fitted["solver"] == "normalized_ar1_ols"
     assert fitted["error"] is None
 
 
-def test_retry_has_five_deterministic_starts_and_does_not_change_model(monkeypatch):
-    starts, objectives = [], []
+@pytest.mark.parametrize("estimator", ESTIMATORS)
+def test_week3_fit_never_calls_legacy_gap_clamping_or_joint_optimizer(monkeypatch, estimator):
+    def forbidden(*args, **kwargs):
+        pytest.fail("Week 3 must use its strict objective and documented solver")
 
-    def fake_minimize(nll, start, args, **kwargs):
-        starts.append(start.copy())
-        objectives.append(nll(np.array([0, 0, -0.7]), *args))
-        success = len(starts) > 3
-        return OptimizeResult(x=np.array([0.0, 0.0, -0.7]), fun=-100.0,
-                              success=success, status=0 if success else 2, nit=1,
-                              message="test success" if success else "test failure")
-
-    monkeypatch.setattr(ou, "minimize", fake_minimize)
-    fitted = fit_estimator("euler", [0.1, 0.4, 0.2, 0.3], [0, 0.5, 1.5, 2])
-    assert fitted["success"] and fitted["retried"] and not fitted["initial_success"]
-    assert fitted["attempted_starts"] == len(starts) == 8
-    assert fitted["n_starts"] == 5
-    np.testing.assert_array_equal(starts[:3], starts[3:6])
-    assert len({tuple(start) for start in starts[3:]}) == 5
-    np.testing.assert_array_equal(objectives, np.full(8, objectives[0]))
+    for name in ("fit", "ou_neg_loglik", "naive_neg_loglik", "euler_neg_loglik"):
+        monkeypatch.setattr(ou, name, forbidden)
+    times = np.cumsum(np.r_[0, np.random.default_rng(7).uniform(0.02, 0.5, 249)])
+    x = ou.simulate_ou(1, 0, 0.5, times, np.random.default_rng(16))
+    fitted = fit_estimator(estimator, x, times)
+    assert fitted["valid_for_point_summary"], fitted
 
 
-@pytest.mark.parametrize("retry_objective,expected_success", [(-999.0, False), (-1000 + 5e-8, True), (-1001, True)])
-def test_retry_respects_best_objective_instead_of_accepting_worse_convergence(monkeypatch, retry_objective, expected_success):
-    outcomes = iter([_result(-1000.0, False), _result(retry_objective, True, 5)])
-    monkeypatch.setattr(ou, "fit", lambda *args, **kwargs: next(outcomes))
-    fitted = fit_estimator("exact", [0.1, 0.4, 0.2], [0, 1, 2])
-    assert fitted["success"] == expected_success
-    assert fitted["nll"] == (retry_objective if expected_success else -1000)
-    assert fitted["best_nll"] == min(-1000, retry_objective)
-    assert fitted["attempted_starts"] == 8
+@pytest.mark.parametrize("estimator,routine", [("exact", "_exact_solution"),
+                                               ("pfml", "_ar1_solution"),
+                                               ("euler", "_euler_solution")])
+def test_solver_exceptions_record_nan_failure_and_are_not_dropped(monkeypatch, estimator, routine):
+    from ou_irregular import estimators
 
+    def fail(*args, **kwargs):
+        raise RuntimeError("controlled solver exception")
 
-def test_optimizer_exceptions_record_nan_failure_and_are_not_dropped(monkeypatch):
-    calls = []
-
-    def fail(*args, n_starts, **kwargs):
-        calls.append(n_starts)
-        raise RuntimeError("no finite solution")
-
-    monkeypatch.setattr(ou, "fit", fail)
-    fitted = fit_estimator("pfml", [0.1, 0.4, 0.2], [0, 1, 2])
-    assert calls == [3, 5]
-    assert not fitted["success"] and fitted["retried"]
+    monkeypatch.setattr(estimators, routine, fail)
+    fitted = fit_estimator(estimator, [0.1, 0.4, 0.2, 0.3], [0, 0.5, 1.5, 2])
+    assert not fitted["success"] and not fitted["optimizer_success"]
+    assert not fitted["valid_for_point_summary"] and fitted["fit_status"] == "numerical_failure"
+    assert not fitted["retried"] and fitted["attempted_starts"] == 0
     assert np.all(np.isnan([fitted["theta"], fitted["mu"], fitted["sigma"]]))
-    assert "initial fit: RuntimeError" in fitted["error"]
-    assert "retry fit: RuntimeError" in fitted["error"]
-
-
-def test_retry_can_recover_initial_exception_and_preserves_error(monkeypatch):
-    calls = []
-
-    def fake_fit(*args, n_starts, **kwargs):
-        calls.append(n_starts)
-        if len(calls) == 1:
-            raise RuntimeError("initial optimizer error")
-        return _result(-1000, True, n_starts)
-
-    monkeypatch.setattr(ou, "fit", fake_fit)
-    fitted = fit_estimator("exact", [0.1, 0.4, 0.2], [0, 1, 2])
-    assert fitted["success"] and fitted["retried"]
-    assert fitted["attempted_starts"] == 8
-    assert "initial optimizer error" in fitted["error"]
+    assert "RuntimeError: controlled solver exception" in fitted["error"]

@@ -7,10 +7,12 @@ $$
 dX_t = \theta(\mu-X_t)\,dt + \sigma\,dW_t.
 $$
 
-**Current stage: Week 3 experiment harness.** One YAML now generates schedules,
+**Current stage: Week 3 validation update.** One YAML now generates schedules,
 exact OU paths, three estimator fits, raw replication records, metrics and figures.
 The project is proceeding independently; professor outreach remains deferred.
-See [Week 3 completion and run guide](docs/week3_progress.md) and
+See the [27 September validation update](docs/week3_validation_update.md),
+[post-exploratory plan amendment](docs/plan_amendment_week3_validation.md),
+[original Week 3 completion record](docs/week3_progress.md) and
 [mathematical requirements and primary sources](docs/week3_mathematics.md).
 The [Week 2 record](docs/week2_progress.md) and [OU derivations](docs/ou_derivations.md)
 remain available. Written notes do not certify the owner's personal theory exercise.
@@ -34,11 +36,16 @@ python -m ou_irregular.runner replot --run-dir artifacts/my_week3_run
 The supplied smoke grid is 3 coarseness values × 3 CV values × 20 replications ×
 3 estimators = **540 fits**. Its 250 observations per path have 249 gaps. Existing
 outputs are protected; use a fresh directory or `--overwrite` for a known OU run.
-Committed [smoke artifacts](artifacts/week3_smoke/) include estimates, spacing
-and optimizer diagnostics, summaries, configurations, source hashes and three PNGs.
+The original [smoke artifacts](artifacts/week3_smoke/) are preserved. The separate
+[validation rerun](artifacts/week3_validation_rerun/) uses exactly the same inputs,
+with normalized profile/regression solvers, explicit fit validity, paired estimator
+comparisons, and four figures including approximate Monte Carlo error bars.
 
 The harness checks saved data against the planned design before replotting and
-can replay one replication by its recorded cell ID. Its coverage fields are
+can replay one replication by its recorded cell ID. Replay checks source and
+dependency provenance; deliberate changed-code replay requires a separate output
+directory. Replotting historical outputs with changed code also requires a new
+derived output directory. See the update report for commands. Its coverage fields are
 explicitly uncomputed: Hessians, Wald intervals, certification and preregistration
 remain Week 4. The tiny smoke sample cannot establish a research threshold.
 
@@ -55,7 +62,6 @@ python -m pip install -r requirements.txt
 python run_all.py
 ```
 
-The repository is private, so cloning requires access to the owner's GitHub account.
 On Windows activate with `.venv\Scripts\activate` instead. The direct dependencies
 are pinned in `requirements.txt`; `requirements-lock.txt` records their complete
 dependency closure for the validated Linux/Python 3.12 environment.
@@ -78,9 +84,11 @@ installation; recorded measurements are in the progress document.
 | Path | Purpose |
 | --- | --- |
 | `ou_irregular/config.py`, `configs/week3_smoke.yaml` | Validated, serialized experiment definition |
-| `ou_irregular/spacing.py`, `ou_irregular/estimators.py` | Gap flooring and strict exact/PFML/Euler fitting with retry diagnostics |
+| `ou_irregular/spacing.py`, `ou_irregular/estimators.py` | Gap flooring and normalized exact-profile/PFML-OLS/Euler-WLS fitting with validity diagnostics |
 | `ou_irregular/metrics.py`, `ou_irregular/plots.py`, `ou_irregular/runner.py` | Bias/RMSE and MCSE, nominal equidistant comparisons, run/replot/replay |
 | `docs/week3_progress.md`, `docs/week3_mathematics.md` | Requirements, completed work, formulas, source checks and limitations |
+| `docs/week3_validation_update.md`, `docs/plan_amendment_week3_validation.md` | Feedback decisions, numerical evidence, solver semantics and plan corrections |
+| `artifacts/week3_validation_evidence/`, `scripts/validate_week3_update.py` | Input identities, before/after reconciliation, independent references and test evidence |
 | `ou_irregular/ou.py` | Exact simulation; equidistant, exponential and Gamma gaps; exact/PFML/Euler likelihoods; multistart fitting; analytic checks |
 | `notebooks/01_exact_mle_demo.ipynb` | Four Week 2 experiments and a clearly marked Euler preview, with executed outputs |
 | `tests/test_ou.py` | Mathematical checks and optimizer regression tests |

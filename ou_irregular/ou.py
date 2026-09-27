@@ -174,32 +174,84 @@ def fit(nll, x, times, n_starts=3):
 
 
 # ------------------------------------------------------------ analytic cross-checks
+def _positive_scalar(value, name, *, allow_zero=False):
+    """Validate public benchmark scalars without silently coercing booleans."""
+    if isinstance(value, (bool, np.bool_)) or not np.isscalar(value):
+        raise ValueError(f"{name} must be a finite scalar")
+    try:
+        value = float(value)
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise ValueError(f"{name} must be a finite scalar") from exc
+    if not np.isfinite(value) or (value < 0 if allow_zero else value <= 0):
+        raise ValueError(f"{name} must be finite and {'nonnegative' if allow_zero else 'positive'}")
+    return value
+
+
 def ar1_closed_form(x, dt):
-    """Closed-form conditional MLE on EQUIDISTANT data: the exact likelihood is a Gaussian AR(1)
-    regression of x_i on x_{i-1} with intercept, so the MLE is OLS + the map
-    theta = -log(phi)/dt, mu = a/(1-phi), sigma^2 = 2 theta v/(1 - phi^2), v = mean sq. residual."""
-    X, Y = x[:-1], x[1:]
-    b = np.cov(X, Y, ddof=0)[0, 1] / np.var(X)
-    a = Y.mean() - b * X.mean()
-    resid = Y - a - b * X
-    v = np.mean(resid ** 2)
-    theta = -np.log(b) / dt
-    mu = a / (1.0 - b)
-    sigma2 = 2.0 * theta * v / (1.0 - b ** 2)
-    return theta, mu, np.sqrt(sigma2)
+    """Conditional regular-grid OU MLE, only for an admissible AR(1) fit.
+
+    OLS gives intercept a, slope phi and innovation variance v. The map is
+    theta=-log(phi)/dt, mu=a/(1-phi), sigma²=2*theta*v/(1-phi²).
+    Raise ValueError for invalid/degenerate data, zero residual variance or
+    phi outside (0,1): those samples have no finite interior mapped OU MLE.
+    Center/scale observed values before regression; no simulation truth enters.
+    Week 2 likelihoods and generic optimizer are unchanged by this helper fix.
+    """
+    dt = _positive_scalar(dt, "dt")
+    try:
+        x = np.asarray(x, dtype=float)
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise ValueError("x must be a finite one-dimensional array") from exc
+    if x.ndim != 1 or len(x) < 3 or not np.isfinite(x).all():
+        raise ValueError("x must be finite, one-dimensional, with at least 3 observations")
+    center = np.mean(x.astype(np.longdouble))
+    centered = x.astype(np.longdouble) - center
+    scale = np.max(np.abs(centered))
+    if not np.isfinite(scale) or scale <= 0:
+        raise ValueError("x has no usable state variation")
+    y = np.asarray(centered / scale, dtype=float)
+    X, Y = y[:-1], y[1:]
+    xc, yc = X - X.mean(), Y - Y.mean()
+    predictor_variance = float(np.dot(xc, xc))
+    if predictor_variance <= 64 * np.finfo(float).eps ** 2:
+        raise ValueError("AR(1) predictors have no usable variation")
+    phi = float(np.dot(xc, yc) / predictor_variance)
+    if not 0 < phi < 1:
+        raise ValueError("AR(1) slope must lie strictly between 0 and 1 for an interior OU fit")
+    intercept = Y.mean() - phi * X.mean()
+    variance = float(np.mean((Y - intercept - phi * X) ** 2))
+    if not np.isfinite(variance) or variance <= 64 * np.finfo(float).eps ** 2:
+        raise ValueError("AR(1) residual variance must be positive")
+    theta = -np.log(phi) / dt
+    mu = float(center + scale * (intercept / (1 - phi)))
+    sigma = float(scale * np.sqrt(2 * theta * variance / -np.expm1(2 * np.log(phi))))
+    if not np.isfinite([theta, mu, sigma]).all() or theta <= 0 or sigma <= 0:
+        raise ValueError("mapped OU parameters are not representable")
+    return theta, mu, sigma
 
 
 def pfml_limit(theta, sigma, mean_gap, cv=1.0):
-    """Large-n limit of the naive/PFML estimator under i.i.d. Gamma gaps independent of the path.
-    PFML's phi estimate converges to Corr(X_i, X_{i-1}) = E[e^{-theta gap}] (Gamma MGF at -theta);
-    its stationary-variance estimate is consistent, so sigma_hat^2 / (2 theta_hat) = sigma^2/(2 theta)."""
-    if cv == 0:
-        return theta, sigma
-    k, s = cv ** -2, mean_gap * cv ** 2
-    phi_bar = (1.0 + theta * s) ** (-k)          # E[exp(-theta * Gamma(k, s))]
-    theta_lim = -np.log(phi_bar) / mean_gap
-    sigma_lim = sigma * np.sqrt(theta_lim / theta)
-    return theta_lim, sigma_lim
+    """Population PFML target for RAW, UNFLOORED independent Gamma gaps.
+
+    For z=theta*mean_gap*CV², r=log1p(z)/z (r=1 at z=0). Then
+    theta_limit=theta*r and sigma_limit=sigma*sqrt(r). Computing log1p
+    directly preserves continuity as CV tends to zero; forming 1+z first
+    destroys small increments. A floored gap law requires another benchmark.
+    Invalid scalars or nonrepresentable intermediate products raise ValueError.
+    """
+    theta = _positive_scalar(theta, "theta")
+    sigma = _positive_scalar(sigma, "sigma")
+    mean_gap = _positive_scalar(mean_gap, "mean_gap")
+    cv = _positive_scalar(cv, "cv", allow_zero=True)
+    z_extended = np.longdouble(theta) * mean_gap * np.longdouble(cv) ** 2
+    if not np.isfinite(z_extended) or z_extended > np.finfo(float).max:
+        raise ValueError("theta*mean_gap*cv**2 is not representable")
+    z = float(z_extended)
+    r = 1.0 if z == 0.0 else np.log1p(z) / z
+    theta_limit, sigma_limit = theta * r, sigma * np.sqrt(r)
+    if not np.isfinite([theta_limit, sigma_limit]).all() or theta_limit <= 0 or sigma_limit <= 0:
+        raise ValueError("PFML population target is not representable")
+    return float(theta_limit), float(sigma_limit)
 
 
 def euler_limit_equidistant(theta, sigma, dt):

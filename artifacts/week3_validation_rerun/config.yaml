@@ -1,0 +1,30 @@
+estimators:
+- exact
+- pfml
+- euler
+gap_floor:
+  cv_threshold: 1.5
+  fraction: 1.0e-06
+grid:
+  cv:
+  - 0.0
+  - 1.0
+  - 2.0
+  n:
+  - 250
+  theta_mean_gap:
+  - 0.1
+  - 0.5
+  - 1.0
+name: week3_smoke
+optimizer:
+  n_starts: 3
+  retry_starts: 5
+phase: smoke
+replications: 20
+schema_version: 1
+seed: 20260910
+truth:
+  mu: 0.0
+  sigma: 0.5
+  theta: 1.0

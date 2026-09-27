@@ -1,0 +1,19 @@
+{
+  "after_max_absolute_nll_reference_difference": 1.5916157281026244e-12,
+  "after_max_parameter_tolerance_fraction": 0.005813775687000586,
+  "after_outcomes": {
+    "valid_interior": 540
+  },
+  "baseline_commit": "4513a4b1cafa88560bffef5e267b53fae2ed3fc1",
+  "configuration_unchanged": true,
+  "historical_artifacts_unchanged": true,
+  "identical_input_pairs": 180,
+  "matched_fit_rows": 540,
+  "material_baseline_discrepancies": 2,
+  "nll_atol": 1e-07,
+  "nll_change_max": 4.547473508864641e-13,
+  "nll_change_min": -2.404476617812179e-10,
+  "nll_rtol": 1e-09,
+  "parameter_atol": 1e-06,
+  "parameter_rtol": 0.0001
+}

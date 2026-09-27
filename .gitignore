@@ -8,3 +8,5 @@ venv/
 *.egg-info/
 artifacts/*
 !artifacts/week3_smoke/
+!artifacts/week3_validation_rerun/
+!artifacts/week3_validation_evidence/
