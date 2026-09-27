@@ -1,0 +1,22 @@
+# Week 3 integration check, not a headline study or frozen preregistration.
+schema_version: 1
+name: week3_smoke
+phase: smoke
+seed: 20260910
+replications: 20
+truth:
+  theta: 1.0
+  mu: 0.0
+  sigma: 0.5
+grid:
+  theta_mean_gap: [0.1, 0.5, 1.0]
+  cv: [0.0, 1.0, 2.0]
+  n: [250]
+estimators: [exact, pfml, euler]
+gap_floor:
+  # Exploratory epsilon; freeze and sensitivity-check it in Week 4/E3.
+  fraction: 0.000001
+  cv_threshold: 1.5
+optimizer:
+  n_starts: 3
+  retry_starts: 5

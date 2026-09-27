@@ -1,0 +1,54 @@
+{
+  "cells": 9,
+  "ci_status": "not_computed_week3",
+  "config_sha256": "da624a23766c4c7b67fda90ee4c1a9ff68c279a8bba6886f4059da76ec4055d5",
+  "derived_source_sha256": {
+    "metrics.py": "6a7b77621d1834801cf3b235fc8af87a8e5fe2de8d618b437160877fae374822",
+    "plots.py": "2b0430d3c0cdcc15a86535b87eb240f71954c5efd7b398a37ab9c94b7c118118",
+    "runner.py": "a617f2f6385a4af7aea5cfe8e5b392b89469beb6fa25731a063dbf7bd97024cd"
+  },
+  "elapsed_seconds": 24.232,
+  "failed_fits": 0,
+  "figures": [
+    "figures/week3_bias_vs_cv.png",
+    "figures/week3_rmse_ratio_vs_cv.png",
+    "figures/week3_fit_failure_rate.png"
+  ],
+  "output_sha256": {
+    "failures.csv": "41637630c451ea296c237e2258acd593f9826b95c974d7d04ea2baf924a38d4f",
+    "figures/week3_bias_vs_cv.png": "f8150e79b5d0328227982ac7621b37c4f997de85c5e25d00c580d95a89f8b611",
+    "figures/week3_fit_failure_rate.png": "1b74b52e6bdf68bd92e8404ebad0a6be7059f3d03199f1cda52755d95ff7314d",
+    "figures/week3_rmse_ratio_vs_cv.png": "08725323fe857526e121608bb4119a5ef454b4b938af541dd9ae7791420a7a0f",
+    "replications.csv": "690ecd1e001a630ec2e8a50bfa71171e4c6b29779221ea4a3d7e9f92ad465db0",
+    "spacing.csv": "d8a6a6e726b1658d6674154672630f001eb31178718356522b6dea3e697dc7a6",
+    "spacing_summary.csv": "396a60d0a430293cc507c0b918188d171f4b5fe446370bf241bc04e5fe48f829",
+    "summary.csv": "51a4ebbd8c89079ce7a163948fd1ffebe188d9dd1870bd5dbe5265c45a4c2111"
+  },
+  "phase": "smoke",
+  "planned_fits": 540,
+  "platform": "Linux-6.18.35-x86_64-with-glibc2.39",
+  "project": "ou-irregular-sampling",
+  "python": "3.12.14",
+  "recorded_fits": 540,
+  "replications_per_cell": 20,
+  "schema_version": 1,
+  "source_sha256": {
+    "__init__.py": "a67e08449d1a86c5c4bca1ef42dc7036504f8408b608a8739f6626eaf6f88aa5",
+    "config.py": "933fcbec310b1485a62c2be381f298a340cce86b8ff23932eac3eaaafb8b3d95",
+    "estimators.py": "fa658fe9fd696b06e5c20cf60a1615fbcd5797593dac780e0a8dac3988839c28",
+    "metrics.py": "6a7b77621d1834801cf3b235fc8af87a8e5fe2de8d618b437160877fae374822",
+    "ou.py": "1078a3c2759e45d0b8d665182236975058f7ac18384b1e7c04cebc9db1eeb4be",
+    "plots.py": "2b0430d3c0cdcc15a86535b87eb240f71954c5efd7b398a37ab9c94b7c118118",
+    "runner.py": "a617f2f6385a4af7aea5cfe8e5b392b89469beb6fa25731a063dbf7bd97024cd",
+    "spacing.py": "e442fcd4f856b4d3b8126574a9078e42f7aabdf4fd026b30ba35aff665554887"
+  },
+  "started_utc": "2026-09-10T21:49:12.035765+00:00",
+  "status": "completed",
+  "versions": {
+    "PyYAML": "6.0.3",
+    "matplotlib": "3.10.8",
+    "numpy": "2.3.5",
+    "pandas": "2.2.3",
+    "scipy": "1.17.0"
+  }
+}

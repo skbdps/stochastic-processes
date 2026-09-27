@@ -7,27 +7,13 @@ $$
 dX_t = \theta(\mu-X_t)\,dt + \sigma\,dW_t.
 $$
 
-## Read the expanded teaching notes
-
-**Current notes: [Stochastic processes, derived step by step](stochastic_processes_expanded_notes.html).**
-This is the complete rewritten teaching edition with all **13 chapters and 149
-core subsections**, including explicit derivations, worked examples and the
-executable OU likelihood appendix. Download the HTML and open it in a browser,
-or open `index.html` from a checkout. The file works offline; external source
-links require internet access.
-
-[Editable chapter sources, reproducible build and checks](docs/expanded_notes/README.md)
-are included. The earlier [short revision](stochastic_processes_revision.html)
-and [original learning notes](stochastic_processes_for_OU_notes.html) are preserved.
-This documentation update does not change the research implementation, results,
-or the separate Week 3 branch. The research status below remains unchanged.
-
-**Current stage: Week 2 computational milestone.** The written OU derivations,
-simulator, estimation demonstration, tests and reproducible results are available.
-The project is proceeding independently; professor outreach is deferred.
-See [progress and validation](docs/week2_progress.md) for the revised scope and
-[OU derivations](docs/ou_derivations.md) for the mathematical reference. The owner's
-optional closed-notes theory exercise is not certified by the code or these notes.
+**Current stage: Week 3 experiment harness.** One YAML now generates schedules,
+exact OU paths, three estimator fits, raw replication records, metrics and figures.
+The project is proceeding independently; professor outreach remains deferred.
+See [Week 3 completion and run guide](docs/week3_progress.md) and
+[mathematical requirements and primary sources](docs/week3_mathematics.md).
+The [Week 2 record](docs/week2_progress.md) and [OU derivations](docs/ou_derivations.md)
+remain available. Written notes do not certify the owner's personal theory exercise.
 
 The next research stages will measure finite-sample bias, RMSE and confidence-interval
 coverage across a wider spacing grid, with equidistant comparisons. The current
@@ -36,7 +22,27 @@ establish coverage certification or an operating-region boundary. The mean-gap
 estimator is the PFML estimator attributed to Aït-Sahalia & Mykland (2003), not a
 new estimator introduced by this project.
 
-## Reproduce the Week 2 milestone
+## Run the Week 3 harness
+
+After installing the environment below:
+
+```bash
+python -m ou_irregular.runner run --config configs/week3_smoke.yaml --output artifacts/my_week3_run
+python -m ou_irregular.runner replot --run-dir artifacts/my_week3_run
+```
+
+The supplied smoke grid is 3 coarseness values × 3 CV values × 20 replications ×
+3 estimators = **540 fits**. Its 250 observations per path have 249 gaps. Existing
+outputs are protected; use a fresh directory or `--overwrite` for a known OU run.
+Committed [smoke artifacts](artifacts/week3_smoke/) include estimates, spacing
+and optimizer diagnostics, summaries, configurations, source hashes and three PNGs.
+
+The harness checks saved data against the planned design before replotting and
+can replay one replication by its recorded cell ID. Its coverage fields are
+explicitly uncomputed: Hessians, Wald intervals, certification and preregistration
+remain Week 4. The tiny smoke sample cannot establish a research threshold.
+
+## Environment and Week 2 reproduction
 
 Use Python 3.12 and run from a checkout of this repository:
 
@@ -71,10 +77,10 @@ installation; recorded measurements are in the progress document.
 
 | Path | Purpose |
 | --- | --- |
-| `stochastic_processes_expanded_notes.html` | Current complete teaching edition: 13 chapters, 149 core subsections, offline MathML |
-| `index.html` | Entry point to the expanded edition |
-| `docs/expanded_notes/` | Editable sources, exact build, executable example and 47 mathematical checks |
-| `stochastic_processes_revision.html` | Earlier shorter revision, preserved for comparison |
+| `ou_irregular/config.py`, `configs/week3_smoke.yaml` | Validated, serialized experiment definition |
+| `ou_irregular/spacing.py`, `ou_irregular/estimators.py` | Gap flooring and strict exact/PFML/Euler fitting with retry diagnostics |
+| `ou_irregular/metrics.py`, `ou_irregular/plots.py`, `ou_irregular/runner.py` | Bias/RMSE and MCSE, nominal equidistant comparisons, run/replot/replay |
+| `docs/week3_progress.md`, `docs/week3_mathematics.md` | Requirements, completed work, formulas, source checks and limitations |
 | `ou_irregular/ou.py` | Exact simulation; equidistant, exponential and Gamma gaps; exact/PFML/Euler likelihoods; multistart fitting; analytic checks |
 | `notebooks/01_exact_mle_demo.ipynb` | Four Week 2 experiments and a clearly marked Euler preview, with executed outputs |
 | `tests/test_ou.py` | Mathematical checks and optimizer regression tests |
@@ -84,7 +90,6 @@ installation; recorded measurements are in the progress document.
 | `docs/week2_progress.md` | Current scope, validation evidence and next steps |
 | `docs/prior_art_log.md`, `docs/related_work_notes.md` | Historical prior-art notes supplied with the project |
 | `OU_master_plan_v2.pdf` | Original master plan; the progress document records the outreach deferral |
-| `stochastic_processes_for_OU_notes.html` | Original learning notes through P2, supplemented by the derivations document |
 
 ## Teaser: exact MLE versus PFML
 
@@ -106,10 +111,8 @@ on spacing. All table values regenerate from `results/cell4_teaser_naive_vs_exac
 
 ## Next stage
 
-Week 3 builds the configurable experiment harness with per-replication seed/config
-records, high-CV gap-floor logging, three estimators and plotting. Week 4 handles
+Week 3 now provides the configurable harness and an exploratory 3×3 run. Week 4 handles
 Fisher information, Wald intervals, certification and preregistration before any
-headline experiments. The Gamma helper and Euler preview here are prototypes,
-not evidence that those later milestones are finished.
+headline experiments. Successful smoke execution does not certify those later statistical milestones.
 
 Author: Suryansh Kumar.
