@@ -7,10 +7,15 @@ $$
 dX_t = \theta(\mu-X_t)\,dt + \sigma\,dW_t.
 $$
 
-**Current stage: Week 3 validation update.** One YAML now generates schedules,
-exact OU paths, three estimator fits, raw replication records, metrics and figures.
+**Current stage: Week 4 inference and preregistration.** Separate object-oriented
+modules add observed-information Wald intervals and conditional bootstrap diagnostics
+to the validated point estimators. The Week 3 APIs, schema and archives are preserved.
 The project is proceeding independently; professor outreach remains deferred.
-See the [27 September validation update](docs/week3_validation_update.md),
+See the [Week 4 results and validation](docs/week4_progress.md),
+[mathematical derivations](docs/week4_mathematics.md),
+[modular architecture](docs/week4_architecture.md) and
+[preregistered protocol](preregistration.md). Earlier work remains in the
+[27 September validation update](docs/week3_validation_update.md),
 [post-exploratory plan amendment](docs/plan_amendment_week3_validation.md),
 [original Week 3 completion record](docs/week3_progress.md) and
 [mathematical requirements and primary sources](docs/week3_mathematics.md).
@@ -22,7 +27,52 @@ coverage across a wider spacing grid, with equidistant comparisons. The current
 notebook establishes point-estimation behavior at selected settings; it does not
 establish coverage certification or an operating-region boundary. The mean-gap
 estimator is the PFML estimator attributed to Aït-Sahalia & Mykland (2003), not a
-new estimator introduced by this project.
+new estimator introduced by this project. Week 4 evaluates the exact regular
+checkpoint and two fixed-path bootstrap diagnostics; E1/E2 remain future work.
+
+## Run Week 4 independently
+
+Use the pinned environment below, then:
+
+```bash
+python -m pytest -q
+python -m ou_irregular.week4.runner run --config configs/week4_validation.yaml --output artifacts/my_week4_run
+```
+
+This runs 2,000 exact-MLE regular paths at q=0.5, n=1000, followed by 500
+conditional bootstrap draws per estimator on each of two fixed paths (CV=0 and 2).
+The published [validation artifacts](artifacts/week4_validation/) include raw
+records, coverage counts, Monte Carlo uncertainty, interval endpoints, figures
+and source/configuration provenance. Existing output directories are protected.
+The protocol was [committed before execution](https://github.com/skbdps/stochastic-processes/commit/1b1255b0650ad7efcf700316bd1cccf704af4d2d).
+
+`ou_irregular.inference` contains reusable services and small protocols for
+estimators, likelihoods and simulators. Its concrete adapters call the unchanged
+Week 3 APIs. `ou_irregular.week4` owns configuration, simulation experiments,
+coverage accounting and reporting. Neither the inference core nor the Week 3
+runner depends on Week 4 orchestration. Services can be replaced by composition;
+custom scientific dependencies are labeled as unregistered diagnostics.
+
+Natural-scale Wald intervals use the full observed Hessian and delta-method
+covariance map. Their positive-parameter lower bounds are not clipped. Invalid
+intervals remain in the operational coverage denominator. PFML/Euler covariance
+is model-based; their plug-in bootstrap is diagnostic under misspecification.
+Selected-path bootstrap checks do not establish bootstrap coverage.
+
+Both figures can also be regenerated directly from saved summary tables:
+
+```python
+from pathlib import Path
+import pandas as pd
+from ou_irregular.week4.plots import DiagnosticFigureWriter
+
+run = Path("artifacts/week4_validation")
+DiagnosticFigureWriter().write(
+    pd.read_csv(run / "coverage_summary.csv"),
+    pd.read_csv(run / "bootstrap_summary.csv"),
+    Path("artifacts/my_week4_figures"),
+)
+```
 
 ## Run the Week 3 harness
 
@@ -46,8 +96,9 @@ can replay one replication by its recorded cell ID. Replay checks source and
 dependency provenance; deliberate changed-code replay requires a separate output
 directory. Replotting historical outputs with changed code also requires a new
 derived output directory. See the update report for commands. Its coverage fields are
-explicitly uncomputed: Hessians, Wald intervals, certification and preregistration
-remain Week 4. The tiny smoke sample cannot establish a research threshold.
+explicitly uncomputed. Week 4 inference lives in its own runner and artifacts;
+historical Week 3 rows are not retroactively changed. The tiny smoke sample cannot
+establish a research threshold.
 
 ## Environment and Week 2 reproduction
 
@@ -83,6 +134,10 @@ installation; recorded measurements are in the progress document.
 
 | Path | Purpose |
 | --- | --- |
+| `ou_irregular/inference/` | Data contracts, adapters, normalization, numerical Hessians, Wald and bootstrap services |
+| `ou_irregular/week4/`, `configs/week4_validation.yaml` | Independent Week 4 orchestration, seed addressing, coverage accounting and figures |
+| `preregistration.md`, `docs/week4_*.md` | Frozen design, mathematics, architecture, execution evidence and limitations |
+| `tests/week4/`, `artifacts/week4_validation/`, `artifacts/week4_validation_evidence/` | Numerical/invariance/isolation tests, raw checkpoint and bootstrap evidence |
 | `ou_irregular/config.py`, `configs/week3_smoke.yaml` | Validated, serialized experiment definition |
 | `ou_irregular/spacing.py`, `ou_irregular/estimators.py` | Gap flooring and normalized exact-profile/PFML-OLS/Euler-WLS fitting with validity diagnostics |
 | `ou_irregular/metrics.py`, `ou_irregular/plots.py`, `ou_irregular/runner.py` | Bias/RMSE and MCSE, nominal equidistant comparisons, run/replot/replay |
@@ -119,8 +174,8 @@ on spacing. All table values regenerate from `results/cell4_teaser_naive_vs_exac
 
 ## Next stage
 
-Week 3 now provides the configurable harness and an exploratory 3×3 run. Week 4 handles
-Fisher information, Wald intervals, certification and preregistration before any
-headline experiments. Successful smoke execution does not certify those later statistical milestones.
+Week 5 will implement E1 using the registered design and reusable inference
+services, retaining both coverage denominators and uncertainty-aware practical
+criteria. Week 4 does not run headline experiments or establish an operating boundary.
 
 Author: Suryansh Kumar.
