@@ -6,8 +6,12 @@ the *Week 3 Feedback and Validation Checklist*, which identifies baseline commit
 `4513a4b`. It is not a retrospective preregistration and does not report new
 experimental results or certify that a software correction passed.
 
-The original [OU_master_plan_v2.pdf](../OU_master_plan_v2.pdf) remains unchanged
-as the historical plan. For future implementation and interpretation, the
+**Repository note — 6 October 2026:** the original master-plan PDF has been
+removed from the current checkout at the owner's request; its historical version
+remains in Git history. This amendment remains the record of the adopted
+interpretation changes.
+
+For future implementation and interpretation, the
 replacement clauses below take precedence over the specified passages of that
 PDF. All other scientific design choices remain in force unless a separately
 dated amendment changes them. The numerical fixes, tests, provenance and rerun

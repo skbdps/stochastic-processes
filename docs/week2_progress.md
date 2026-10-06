@@ -3,6 +3,10 @@
 Historical Week 2 snapshot. For the current harness milestone, see
 [Week 3 progress](week3_progress.md).
 
+**Repository note — 6 October 2026:** the master-plan PDF was subsequently removed
+from the current checkout. References below to retaining it describe the historical
+Week 2 state. Current setup and reproduction instructions are in the [README](../README.md).
+
 ## Current scope
 
 Updated 10 September 2026. The owner has chosen to proceed independently and defer

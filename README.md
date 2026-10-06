@@ -30,9 +30,97 @@ estimator is the PFML estimator attributed to Aït-Sahalia & Mykland (2003), not
 new estimator introduced by this project. Week 4 evaluates the exact regular
 checkpoint and two fixed-path bootstrap diagnostics; E1/E2 remain future work.
 
+## Quick start: reproduce the Week 3 and Week 4 results locally
+
+Install **Git and Python 3.12** first. Run all commands from the repository root.
+No Jupyter server, GPU or external dataset is required; both runners generate
+CSVs and PNG figures automatically.
+
+### 1. Clone and install
+
+```bash
+git clone -c core.autocrlf=false https://github.com/skbdps/stochastic-processes.git
+cd stochastic-processes
+```
+
+The clone option preserves the file bytes used by the archived source and protocol
+checks, including on Windows.
+
+**macOS / Linux (bash or zsh):**
+
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+**Windows PowerShell:**
+
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
+On Windows, use `.\.venv\Scripts\python.exe` in place of `python` in the commands
+below. This uses the virtual environment without requiring PowerShell activation.
+On macOS/Linux, keep the virtual environment activated.
+
+### 2. Test and reproduce both experiments
+
+```bash
+python -m pytest -q
+python -m ou_irregular.runner run --config configs/week3_smoke.yaml --output artifacts/local_week3
+python -m ou_irregular.week4.runner run --config configs/week4_validation.yaml --output artifacts/local_week4
+python scripts/validate_week4_artifacts.py --run-dir artifacts/local_week4 --output artifacts/local_week4_audit.json
+```
+
+The Week 3 command runs the **corrected validation experiment**, corresponding to
+`artifacts/week3_validation_rerun/`. The earlier `artifacts/week3_smoke/` archive
+records the original solver and is retained as historical evidence. The Week 4
+command reproduces the registered checkpoint and bootstrap diagnostics; it does
+not run the future E1/E2 research grids.
+
+Use new output names, such as `artifacts/local_week4_2`, when repeating a run, and
+update the audit command to use that directory. The runners protect nonempty
+outputs. Local result directories are ignored by Git; the committed archives are
+preserved. The audit report is deliberately outside the run directory so it does
+not alter the set of files recorded in the run manifest.
+
+### 3. Inspect the results
+
+| Output | What to check |
+| --- | --- |
+| `artifacts/local_week3/replications.csv` | 540 fit rows: 9 cells × 20 datasets × 3 estimators |
+| `artifacts/local_week3/summary.csv` | Bias, RMSE, Monte Carlo uncertainty and regular-design comparisons |
+| `artifacts/local_week3/figures/` | Four plots of bias, RMSE, RMSE ratios and fit-failure rates |
+| `artifacts/local_week4/coverage_summary.csv` | Exact-MLE checkpoint coverage for theta, mu and sigma over 2,000 datasets |
+| `artifacts/local_week4/bootstrap_summary.csv` | Six selected-path checks; raw results are the 3,000 rows in `bootstrap_draws.csv` |
+| `artifacts/local_week4/figures/` | Checkpoint coverage and bootstrap diagnostic plots |
+| `artifacts/local_week4_audit.json` | Successful audit of the new run's provenance, seeded inputs, counts and summary arithmetic |
+
+Both run directories also contain the resolved configuration and
+`run_metadata.json`. The published checkpoint coverage is **94.45% (theta),
+94.85% (mu), and 94.15% (sigma)**. The full recorded validation suite had 520
+passing tests. These are reference results, not targets to tune a run toward.
+
+The direct dependencies are pinned in `requirements.txt`. To reproduce the recorded
+Linux environment more closely, use **Python 3.12.14** and install
+`requirements-lock.txt` instead; that complete dependency list is specific to the
+recorded Linux environment. Other platforms should start with `requirements.txt`.
+Exact historical replay requires the recorded Python and scientific dependency
+versions, and its test is skipped if those versions differ. Audit a new run using
+the same environment that generated it. The audit verifies saved evidence; it does
+not independently refit the models or recompute the Hessians. Floating-point
+results, figure bytes and timing metadata can differ across machines.
+
+The original master-plan PDF has been removed from the current checkout. The
+[adopted amendment](docs/plan_amendment_week3_validation.md),
+[preregistered protocol](preregistration.md) and progress reports document the
+implemented methods and interpretation rules.
+
 ## Run Week 4 independently
 
-Use the pinned environment below, then:
+After completing the quick-start installation:
 
 ```bash
 python -m pytest -q
@@ -76,7 +164,7 @@ DiagnosticFigureWriter().write(
 
 ## Run the Week 3 harness
 
-After installing the environment below:
+After completing the quick-start installation:
 
 ```bash
 python -m ou_irregular.runner run --config configs/week3_smoke.yaml --output artifacts/my_week3_run
@@ -100,22 +188,16 @@ explicitly uncomputed. Week 4 inference lives in its own runner and artifacts;
 historical Week 3 rows are not retroactively changed. The tiny smoke sample cannot
 establish a research threshold.
 
-## Environment and Week 2 reproduction
+## Optional: reproduce the Week 2 notebook
 
-Use Python 3.12 and run from a checkout of this repository:
+After completing the quick-start installation, run:
 
 ```bash
-git clone https://github.com/skbdps/stochastic-processes.git
-cd stochastic-processes
-python3.12 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
 python run_all.py
 ```
 
-On Windows activate with `.venv\Scripts\activate` instead. The direct dependencies
-are pinned in `requirements.txt`; `requirements-lock.txt` records their complete
-dependency closure for the validated Linux/Python 3.12 environment.
+This rewrites the tracked Week 2 notebook, CSVs and teaser figure. It is separate
+from the Week 3/4 quick start, which writes to fresh local output directories.
 
 `run_all.py` runs pytest and executes every notebook code cell with the same Python
 interpreter, regenerating the executed notebook, all four replication CSVs and the
@@ -152,7 +234,6 @@ installation; recorded measurements are in the progress document.
 | `docs/ou_derivations.md` | Wiener integral, OU solution, transition law, stationarity, likelihoods and optional exercises |
 | `docs/week2_progress.md` | Current scope, validation evidence and next steps |
 | `docs/prior_art_log.md`, `docs/related_work_notes.md` | Historical prior-art notes supplied with the project |
-| `OU_master_plan_v2.pdf` | Original master plan; the progress document records the outreach deferral |
 
 ## Teaser: exact MLE versus PFML
 
