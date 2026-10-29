@@ -1,0 +1,6 @@
+tree e9751ad40a408870f00980e210653799800885c3
+parent cf9ecb6043f029b679606d737b825740ad029c54
+author Codex <codex@openai.com> 1793307384 -0700
+committer Codex <codex@openai.com> 1793307384 -0700
+
+Week 5: freeze reviewed E1 engine before headline execution

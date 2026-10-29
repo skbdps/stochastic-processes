@@ -1,0 +1,21 @@
+{
+  "reviewer": "ChatGPT visual inspection",
+  "reviewed_utc": "2026-10-29T21:11:33.087392+00:00",
+  "all_panels_legible": true,
+  "reviewed_pngs": [
+    "F2_availability.png",
+    "F2_coverage.png",
+    "F3_mu_absolute.png",
+    "F3_relative_bias.png",
+    "F4_rmse_ratios.png"
+  ],
+  "figure_manifest_sha256": "e2dcd4eb57c9b28e706cff2edcbe36699e57cd992fff068462afa38d52f1fa55",
+  "notes": [
+    "Inspected all five headline PNGs individually after the independent full audit.",
+    "All seven CV values, three estimators and three parameters are retained across F2-F4 and companions.",
+    "Coverage panels label all-planned and interval-valid denominators; their equality here follows from 100% interval availability.",
+    "MC intervals, signed original-unit mu bias, logarithmic RMSE ratios, nominal references and shared-baseline caveats are visible.",
+    "CV ticks, parameter labels, legends and captions are legible without overlap.",
+    "Near-zero or exactly-zero coverage is retained with Wilson intervals; no cell was hidden."
+  ]
+}

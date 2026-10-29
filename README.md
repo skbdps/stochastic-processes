@@ -7,10 +7,12 @@ $$
 dX_t = \theta(\mu-X_t)\,dt + \sigma\,dW_t.
 $$
 
-**Current stage on `weeks5-8-sequential`: Week 5 implementation and pre-E1 validation.**
-The E1 experiment engine, comparisons, persistence, independent audit and figures
-are implemented. The headline experiment is not yet complete at this code-freeze
-checkpoint. Weeks 6–8 have not begun. See the [Week 5 progress record](docs/week5_progress.md),
+**Current stage on `weeks5-8-sequential`: Week 5 E1 complete and audited.**
+The registered seven-cell experiment contains 14,000 paths and 42,000 fits, with
+all point fits and intervals valid. Exact inference meets the practical criteria
+throughout E1. PFML and Euler have parameter-specific breaches; one PFML sigma
+cell remains statistically unresolved. Weeks 6–8 have not begun at this checkpoint.
+See the [Week 5 results](docs/week5_progress.md),
 [mathematics](docs/week5_mathematics.md) and [architecture](docs/week5_architecture.md).
 The Week 3/4 APIs and archives remain preserved. The project proceeds independently.
 See the [Week 4 results and validation](docs/week4_progress.md),
@@ -30,8 +32,8 @@ notebook establishes point-estimation behavior at selected settings; it does not
 establish coverage certification or an operating-region boundary. The mean-gap
 estimator is the PFML estimator attributed to Aït-Sahalia & Mykland (2003), not a
 new estimator introduced by this project. Week 4 evaluates the exact regular
-checkpoint and two fixed-path bootstrap diagnostics; the headline E1/E2 results
-will be recorded only after their full runs and audits finish.
+checkpoint and two fixed-path bootstrap diagnostics. E1 results are now available;
+E2 remains the next sequential stage.
 
 ## Week 5: frozen E1 execution
 
@@ -66,6 +68,16 @@ The review JSON identifies `reviewer`, `reviewed_pngs` (all five PNG filenames),
 The seal checks unchanged audited scientific evidence, metadata and figure inputs.
 Complete raw partitions, uncertainty tables, paired comparisons, failure records,
 source/configuration hashes and replay evidence remain in the run directory.
+
+For the published archive, first restore its recorded local freeze commit object
+from the documented identical-tree mapping, then audit. The connector published
+the same tree with different commit metadata; the original run record is retained.
+The restoration helper changes no refs, source files or run evidence.
+
+```bash
+python scripts/restore_recorded_commit.py --mapping artifacts/week5_evidence/freeze_publication_mapping.json --run-dir artifacts/week5_e1
+python -m ou_irregular.week5.runner audit --run-dir artifacts/week5_e1 --output artifacts/my_published_e1_audit.json
+```
 
 The historical Week 4 auditor compares an exact recursive source map. Run that
 audit in a detached checkout of its published Week 4 revision; adding the new

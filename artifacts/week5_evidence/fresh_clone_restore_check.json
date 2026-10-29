@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "reviewer": "independent design/provenance review agent",
+  "helper_sha256": "501d77a4107c3335bf5a91ac1d4919c16bcbecc75761147e669678791b5d4654",
+  "mapping_sha256": "3016dce3a4452289d1d102d7357d766c553b80ca834a905ac58cc5a90a56fd09",
+  "copied_run_metadata_sha256": "0670cd9c098739c2ef4acac1721400166a62f1f365f3efab1e9c7d88825b98ac",
+  "source_dependency_files_verified": 35,
+  "source_dependency_mismatches": [],
+  "recorded_commit_absent_before": true,
+  "recorded_commit_available_after": true,
+  "refs_and_head_unchanged": true,
+  "copied_worktree_files_unchanged": true,
+  "scope": "Single fresh local clone with --no-local --no-checkout --single-branch; restore object and resolve source dependencies; no repeated scientific computation or full statistical artifact audit."
+}

@@ -5,6 +5,12 @@ completed headline computations. The governing protocol remains the published
 preregistration and dated Week 3 amendment; the implementation plan makes no
 scientific amendment.
 
+**Completion:** the full registered E1 is complete, independently audited and
+visually reviewed. It contains 14,000 source paths, 42,000 point/interval records
+and all 63 parameter-summary rows. All 42,000 point fits and intervals are valid.
+No E1 scientific rerun, resampling, threshold change or estimator substitution
+was made. Week 6 implementation begins only after publication of this record.
+
 ## Status at the pre-E1 freeze
 
 The published handoff `cf9ecb6043f029b679606d737b825740ad029c54` was verified
@@ -83,12 +89,163 @@ and PyYAML versions. Notebook-only packages are unavailable in the current
 environment, and the configured shell proxy prevented installing them. Their
 absence is recorded; notebook execution is not claimed.
 
+## Published freeze and reproducibility detail
+
+The exact code tree `e9751ad40a408870f00980e210653799800885c3` was frozen
+locally as `da519f589281e343b1748f5e4f7a68a51ceb1d7c` and published by the
+GitHub connector as `559bf903ecba1bf7ccbb72b78276a70e1c908b32`. Both commits
+have the same parent and identical files; their author/committer metadata,
+timestamps and messages differ. The guarded branch update returned success
+before the E1 run invocation.
+
+An initial attempt to import the connector commit locally failed because its
+original timezone was +0530. Execution was inadvertently launched before that
+local-ref synchronization finished, so its provenance faithfully records the
+local freeze `da519...`. This bookkeeping issue did not alter any scientific
+source or input. The root manifest has not been relabelled. All 35 recorded
+dependency digests match both commits. The exact local commit bytes and mapping
+are preserved in `artifacts/week5_evidence/`.
+
+A focused independent fresh-clone check verified that
+`scripts/restore_recorded_commit.py` restores the otherwise absent original
+commit object, resolves all 35 dependency hashes and leaves refs and copied run
+files unchanged. This preserves the existing auditor's exact commit-file check.
+Run the following before auditing the published E1 in a fresh clone:
+
+```bash
+python scripts/restore_recorded_commit.py --mapping artifacts/week5_evidence/freeze_publication_mapping.json --run-dir artifacts/week5_e1
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m ou_irregular.week5.runner audit --run-dir artifacts/week5_e1 --output artifacts/my_e1_audit.json
+```
+
 ## Headline E1 results
 
-Pending at this pre-execution code checkpoint. No headline numerical conclusion
-is inferred from the small validation sample. This section will be completed only
-after the registered 14,000 paths / 42,000 fits, independent audit, figure review
-and completion seal have actually finished.
+The design is q=0.5, n=1000 observations (999 transitions), truth (1,0,0.5),
+CV={0,0.25,0.5,1,1.5,2,3}, R=2000 per cell, seed 20261001. Exact stationary OU
+sources and conditional likelihoods follow the registration. The one raw
+execution used seven workers and 250-path immutable partitions; it took 57.55
+seconds, excluding postprocessing and audit. Its 56 partitions retain every
+planned source/estimator record. The final status is `completed`.
+
+The independent audit passed all planned-key checks, raw-to-table arithmetic,
+fine-Hessian/covariance identities, recorded numerical gates and the fixed replay
+of 14 source paths / 42 fits. It verified 63 parameter rows, 63 independent
+regular-reference rows, 63 paired-comparison rows, seven spacing rows and 21
+rows each for outcomes and numerical diagnostics. There are no pipeline errors,
+invalid point fits or unavailable intervals. The failed-fit export is retained
+with its schema and zero data rows. Operational and conditional coverage are
+equal here because all intervals are available, not because their definitions
+were combined. Each per-cell/method availability is 2000/2000; its 95% Wilson
+interval is approximately [99.8083%,100%].
+
+An independent mathematical/results review also recomputed 71 selected
+raw-record arithmetic and classification identities, all matching. The largest
+recorded condition number is 261.31, relative Hessian discrepancy 3.88e-7,
+whitened discrepancy 3.02e-6 and standardized score 5.42e-6. The observed major
+coverage failures therefore occur with accepted numerical inference, rather
+than through unavailable intervals. This does not certify unrun E2 cells.
+
+The full machine-readable evidence is under
+[artifacts/week5_e1](../artifacts/week5_e1/). The following table reports coverage
+and truth-relative bias in percent. Each coverage denominator is 2000. W means
+within criteria, B supported breach, U unresolved; these pointwise labels use
+the registered Monte Carlo uncertainty rules, not point estimates alone.
+
+| CV | Estimator | Theta coverage | Sigma coverage | Theta relative bias | Sigma relative bias | Theta / sigma class |
+| ---: | --- | ---: | ---: | ---: | ---: | --- |
+| 0 | exact | 95.40% | 95.05% | +1.03% | +0.12% | W / W |
+| 0 | pfml | 95.40% | 95.05% | +1.03% | +0.12% | W / W |
+| 0 | euler | 2.30% | 0.00% | -20.78% | -20.57% | B / B |
+| 0.25 | exact | 95.20% | 95.15% | +1.23% | +0.20% | W / W |
+| 0.25 | pfml | 95.25% | 94.15% | -0.28% | -0.56% | W / W |
+| 0.25 | euler | 1.70% | 0.00% | -21.58% | -20.20% | B / B |
+| 0.5 | exact | 95.80% | 95.30% | +1.10% | +0.16% | W / W |
+| 0.5 | pfml | 89.75% | 79.45% | -4.64% | -2.72% | W / U |
+| 0.5 | euler | 0.25% | 0.00% | -24.30% | -19.27% | B / B |
+| 1 | exact | 95.85% | 95.10% | +1.07% | +0.10% | W / W |
+| 1 | pfml | 30.45% | 5.75% | -18.07% | -9.89% | B / B |
+| 1 | euler | 0.00% | 0.00% | -32.86% | -16.38% | B / B |
+| 1.5 | exact | 96.35% | 95.45% | +1.51% | +0.10% | W / W |
+| 1.5 | pfml | 1.10% | 0.05% | -32.06% | -18.16% | B / B |
+| 1.5 | euler | 0.00% | 0.00% | -42.43% | -13.39% | B / B |
+| 2 | exact | 95.70% | 95.25% | +1.46% | +0.08% | W / W |
+| 2 | pfml | 0.00% | 0.00% | -43.98% | -25.75% | B / B |
+| 2 | euler | 0.00% | 0.10% | -51.22% | -10.87% | B / B |
+| 3 | exact | 95.20% | 94.35% | +2.39% | +0.00% | W / W |
+| 3 | pfml | 0.00% | 0.00% | -61.01% | -38.46% | B / B |
+| 3 | euler | 0.00% | 6.90% | -64.47% | -7.50% | B / B |
+
+### Interpretation and uncertainty
+
+Exact theta/sigma estimates meet the registered practical criteria at all seven
+CV values. Exact coverage ranges are 95.20–96.35% for theta, 94.15–95.60% for mu
+and 94.35–95.45% for sigma. These are observed finite-sample outcomes, not proof
+of exact 95% calibration. Exact theta bias is positive: approximately 1.03% at
+regular spacing and 2.39% at CV=3. At CV=3 its relative-bias Monte Carlo interval
+is [1.89%,2.90%], still inside the practical criterion.
+
+PFML theta is within criteria through CV=0.5 and has supported breaches at
+CV>=1. PFML sigma is within criteria at CV=0 and 0.25, unresolved at CV=0.5,
+and has supported breaches at CV>=1. The unresolved sigma cell covers
+1589/2000=79.45%; its Wilson interval [77.62%,81.16%] crosses 80%. It must not
+be labelled a supported coverage breach. At CV=1, sigma coverage is only
+115/2000=5.75%, so the supported breach follows from coverage even though the
+bias interval straddles the -10% threshold.
+
+Euler theta and sigma have supported breaches at every E1 CV, including the
+regular reference. Deterioration is not monotone for every metric: Euler sigma's
+relative bias improves from -20.57% at CV=0 to -7.50% at CV=3, but coverage at
+CV=3 is only 138/2000=6.90%. A small bias alone does not establish satisfactory
+interval performance. PFML/Euler intervals continue to use their registered
+model-based inverse Hessians; no robust covariance or interval substitution
+was introduced.
+
+Zero observed coverage is retained with a Wilson upper bound of approximately
+0.1917% at R=2000. Its zero plug-in coverage MCSE does not prove that the
+population coverage probability is zero.
+
+At CV=3, exact RMSE relative to its independent regular reference is 1.415 for
+theta (95% log-delta Monte Carlo interval 1.349–1.485), 1.365 for mu
+(1.307–1.427), and 0.863 for sigma (0.825–0.903). Thus this irregularity sweep
+increases theta/mu error while decreasing exact sigma RMSE at this endpoint.
+References match nominal n/truth/mean gap, not realized span. Ratios sharing a
+regular reference are correlated and do not form simultaneous inference.
+Euler sigma's ratio of 0.378 compares with its own poor regular baseline and
+does not make its absolute performance acceptable.
+
+Exact does not uniformly minimize point RMSE. At CV=0.25, PFML theta RMSE is
+0.08464 versus exact 0.08652. On the same 2000 common-valid paths, the paired
+exact/PFML RMSE ratio is 1.0222 (Monte Carlo interval 1.0106–1.0340).
+At CV>=0.5, exact theta RMSE is lower than PFML's in these data. Such comparisons
+use covariance from shared paths, not an independent-sample standard error.
+
+Mu is retained in original state units because its truth is zero. At CV=3,
+exact/PFML/Euler RMSEs are 0.03095/0.03702/0.03913 and operational coverages
+94.15%/93.70%/99.50%. The paired exact-minus-PFML mu RMSE difference is
+-0.00607 (Monte Carlo interval -0.00688 to -0.00526); their coverage difference
+is 0.45 percentage points (interval -0.60 to 1.50). All relative-to-truth mu
+metrics remain undefined. The increasing Euler mu coverage is not evidence that
+its misspecified covariance is robust or universally calibrated.
+
+### Spacing, figures and remaining scope
+
+The registered floor was applied without renormalization. Mean clipped-gap
+fractions at nominal CV 1.5, 2 and 3 are 0.1718%, 2.4597% and 17.8223%.
+At CV=3 the across-path mean realized gap is 0.501919 and mean realized span
+501.416925; the regular span is 499.5. The saved source summaries include
+realized CV, minimum gaps, spans, clips and their Monte Carlo uncertainty.
+These results describe the registered floored designs. Floor sensitivity and
+possible numerical anomalies will be examined only under the later dated E3
+diagnostic protocol, after the complete E2 run.
+
+F2 presents both coverage denominators for all three parameters; its companion
+shows availability. F3 gives theta/sigma relative bias and a companion for signed
+mu bias and RMSE. F4 gives all three independent regular-reference RMSE ratios.
+All five PNGs were visually inspected individually, and matching PDFs plus a
+hashed figure manifest are retained. Figures are reproduced from saved tables.
+
+E1 alone does not establish a universal smooth operating boundary, simultaneous
+grid guarantees, behavior at other n/q values, or novelty. The next stage is
+the full registered 60-cell E2 grid, implemented only after Week 5 publication.
 
 Personal reading completion and theory mastery are not certified by this code
 or its tests. The project makes no novelty or publication-readiness claim.

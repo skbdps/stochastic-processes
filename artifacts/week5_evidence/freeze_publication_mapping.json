@@ -1,0 +1,12 @@
+{
+  "local_recorded_commit": "da519f589281e343b1748f5e4f7a68a51ceb1d7c",
+  "published_freeze_commit": "559bf903ecba1bf7ccbb72b78276a70e1c908b32",
+  "identical_tree": "e9751ad40a408870f00980e210653799800885c3",
+  "published_before_execution": true,
+  "run_started_utc": "2026-10-29T21:07:06.207862+00:00",
+  "original_commit_object_file": "artifacts/week5_evidence/local_freeze_git_commit.txt",
+  "original_commit_object_sha256": "94ff61565ac0f08a14ab89b249fa193995b0c40fdebf243ed50fb6d070304044",
+  "disposition": "The connector created a commit with the exact local tree but different author/committer metadata, timestamps and commit message. An initial local import failed on timezone reconstruction; execution captured the local frozen commit before HEAD synchronization. Preserve the original manifest and source data. Import the archived commit object for fresh-clone audit; no refs or files need changing. No scientific setting, source file or input address changed.",
+  "published_commit_committer_utc": "2026-10-29T21:06:37Z",
+  "publication_order_evidence": "The GitHub connector update_ref returned success for expected head cf9ecb6043f029b679606d737b825740ad029c54 before the E1 execution invocation. The timestamp above is the published commit committer timestamp, not a server publication receipt."
+}
