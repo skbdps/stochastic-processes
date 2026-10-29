@@ -50,3 +50,10 @@ def test_missing_duplicate_cells_and_invalid_counts():
     for cells, reps in [((), 2), ((cell, cell), 2), ((cell,), True), ((cell,), 0)]:
         with pytest.raises(ValueError):
             RunDesign("test", 1, reps, cells)
+
+
+def test_design_materializes_iterables_before_validation():
+    cell = Cell(10, .5, 0)
+    assert RunDesign("test", 1, 2, (c for c in [cell])).cells == (cell,)
+    with pytest.raises(ValueError):
+        RunDesign("test", 1, 2, iter(()))

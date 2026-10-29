@@ -7,10 +7,12 @@ $$
 dX_t = \theta(\mu-X_t)\,dt + \sigma\,dW_t.
 $$
 
-**Current stage: Week 4 inference and preregistration.** Separate object-oriented
-modules add observed-information Wald intervals and conditional bootstrap diagnostics
-to the validated point estimators. The Week 3 APIs, schema and archives are preserved.
-The project is proceeding independently; professor outreach remains deferred.
+**Current stage on `weeks5-8-sequential`: Week 5 implementation and pre-E1 validation.**
+The E1 experiment engine, comparisons, persistence, independent audit and figures
+are implemented. The headline experiment is not yet complete at this code-freeze
+checkpoint. Weeks 6–8 have not begun. See the [Week 5 progress record](docs/week5_progress.md),
+[mathematics](docs/week5_mathematics.md) and [architecture](docs/week5_architecture.md).
+The Week 3/4 APIs and archives remain preserved. The project proceeds independently.
 See the [Week 4 results and validation](docs/week4_progress.md),
 [mathematical derivations](docs/week4_mathematics.md),
 [modular architecture](docs/week4_architecture.md) and
@@ -28,7 +30,47 @@ notebook establishes point-estimation behavior at selected settings; it does not
 establish coverage certification or an operating-region boundary. The mean-gap
 estimator is the PFML estimator attributed to Aït-Sahalia & Mykland (2003), not a
 new estimator introduced by this project. Week 4 evaluates the exact regular
-checkpoint and two fixed-path bootstrap diagnostics; E1/E2 remain future work.
+checkpoint and two fixed-path bootstrap diagnostics; the headline E1/E2 results
+will be recorded only after their full runs and audits finish.
+
+## Week 5: frozen E1 execution
+
+Use the `weeks5-8-sequential` branch and the pinned Python environment. Run from
+the repository root, with the same thread settings for execution, resume and
+audit. These variables are part of the recorded numerical environment.
+
+```bash
+export OPENBLAS_NUM_THREADS=1
+export OMP_NUM_THREADS=1
+python -m ou_irregular.week5.runner run --validation --replications 8 --workers 4 --output artifacts/my_e1_validation
+python -m ou_irregular.week5.runner run --workers 7 --partition-size 250 --output artifacts/my_e1
+```
+
+The second command requires every declared scientific dependency to be committed
+before starting. It runs exactly seven cells, 14,000 source paths and 42,000 fits.
+The validation command uses a separate seed namespace and cannot supply headline
+evidence. Resume the same run using the same command plus `--resume`; completed
+partitions are verified and retained. Use a fresh directory for a distinct run.
+The runner stops at `audited_pending_visual_review` after numerical audit and
+figure generation. Inspect all five PNG figures before preparing the review
+record and using `finalize`; this is an evidence check, not an external approval.
+
+```bash
+python -m ou_irregular.week5.runner audit --run-dir artifacts/my_e1 --output artifacts/my_e1_repeat_audit.json
+python -m ou_irregular.week5.runner replot --run-dir artifacts/my_e1 --output artifacts/my_e1_figures
+python -m ou_irregular.week5.runner finalize --run-dir artifacts/my_e1 --review-file path/to/visual_review.json
+```
+
+The review JSON identifies `reviewer`, `reviewed_pngs` (all five PNG filenames),
+`figure_manifest_sha256` and `all_panels_legible: true`, with inspection notes.
+The seal checks unchanged audited scientific evidence, metadata and figure inputs.
+Complete raw partitions, uncertainty tables, paired comparisons, failure records,
+source/configuration hashes and replay evidence remain in the run directory.
+
+The historical Week 4 auditor compares an exact recursive source map. Run that
+audit in a detached checkout of its published Week 4 revision; adding the new
+packages changes that recursive map even though the old files are unchanged.
+The new experiment auditor uses explicit dependency-file manifests.
 
 ## Quick start: reproduce the Week 3 and Week 4 results locally
 

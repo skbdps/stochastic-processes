@@ -68,9 +68,9 @@ class RunDesign:
             raise ValueError("name must be nonempty")
         if self.scope not in ("headline", "validation", "exploratory"):
             raise ValueError("unknown scientific scope")
+        object.__setattr__(self, "cells", tuple(self.cells))
         if not self.cells or not all(isinstance(c, Cell) for c in self.cells):
             raise ValueError("cells must contain scientific Cell objects")
-        object.__setattr__(self, "cells", tuple(self.cells))
         if len({c.identity for c in self.cells}) != len(self.cells):
             raise ValueError("duplicate scientific cells")
 

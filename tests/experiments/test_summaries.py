@@ -12,6 +12,7 @@ def fixture_records():
     for rep in range(3):
         for name in ESTIMATORS:
             row = {**design.cells[0].to_dict(), "rep": rep, "estimator": name,
+                   "nll": 0.0,
                    "point_valid": rep < 2, "interval_valid": rep == 0,
                    "interval_status": "valid" if rep == 0 else "unavailable",
                    "realized_span": 4.5}
@@ -36,7 +37,7 @@ def test_hand_calculated_metrics_and_failure_denominators():
     assert theta.interval_availability == pytest.approx(1/3)
     assert theta.conditional_wilson_lower < 1
     assert summary.query("parameter == 'mu'").relative_rmse.isna().all()
-    assert spacing_summary(data).n_planned.tolist() == [3]
+    assert spacing_summary(data, design).n_planned.tolist() == [3]
 
 
 @pytest.mark.parametrize("failure", ["missing_group", "missing_rep", "duplicate", "metadata"])
@@ -58,8 +59,58 @@ def test_no_valid_fits_keep_operational_denominator():
     design, data = fixture_records()
     data["point_valid"] = False
     data["interval_valid"] = False
+    data["interval_status"] = "unavailable"
     summary = ExperimentSummarizer().summarize(data, design)
     assert summary.bias.isna().all() and summary.mcse_rmse.isna().all()
     assert summary.coverage_conditional.isna().all()
     assert summary.coverage_operational.eq(0).all()
     assert summary.operational_wilson_upper.gt(0).all()
+
+
+@pytest.mark.parametrize("value", [0, -1, np.nan, np.inf])
+def test_interval_valid_reported_se_rejected(value):
+    design, data = fixture_records()
+    data.loc[0, "theta_se"] = value
+    with pytest.raises(ValueError, match="reported SEs"):
+        ExperimentSummarizer().summarize(data, design)
+
+
+@pytest.mark.parametrize("kind", ["floating_rep", "boolean_rep", "status", "source"])
+def test_strict_keys_status_and_source_sharing(kind):
+    design, data = fixture_records()
+    if kind == "floating_rep":
+        data["rep"] = data.rep.astype(float)
+    elif kind == "boolean_rep":
+        data["rep"] = data.rep.astype(object)
+        data.loc[0, "rep"] = False
+    elif kind == "status":
+        data.loc[0, "interval_status"] = "nonpositive_hessian"
+    else:
+        data["times_sha256"] = "same"
+        data.loc[0, "times_sha256"] = "different"
+    with pytest.raises(ValueError):
+        validate_records(data, design)
+
+
+def test_spacing_rejects_incomplete_or_impossible_diagnostics():
+    design, data = fixture_records()
+    with pytest.raises(ValueError):
+        spacing_summary(data.iloc[1:], design)
+    data["realized_span"] = np.inf
+    with pytest.raises(ValueError):
+        spacing_summary(data, design)
+
+
+@pytest.mark.parametrize("kind", ["nonfinite_objective", "boolean_parameter", "squared_error_overflow"])
+def test_invalid_valid_point_or_unrepresentable_summary_blocks_completion(kind):
+    design, data = fixture_records()
+    if kind == "nonfinite_objective":
+        data.loc[0, "nll"] = np.inf
+    elif kind == "boolean_parameter":
+        data["theta"] = data.theta.astype(object)
+        data.loc[0, "theta"] = True
+    else:
+        data["theta"] = data.theta.astype(float)
+        data.loc[0, "theta"] = 1e200
+    with pytest.raises(ValueError):
+        ExperimentSummarizer().summarize(data, design)

@@ -12,3 +12,9 @@ artifacts/*
 !artifacts/week3_validation_evidence/
 !artifacts/week4_validation/
 !artifacts/week4_validation_evidence/
+!artifacts/week5_validation/
+!artifacts/week5_validation_final/
+!artifacts/week5_validation_layout_review/
+!artifacts/week5_evidence/
+!artifacts/week5_e1/
+artifacts/**/.execution.lock
