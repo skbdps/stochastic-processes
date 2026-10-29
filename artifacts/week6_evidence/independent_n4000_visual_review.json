@@ -1,0 +1,27 @@
+{
+  "all_panels_legible": true,
+  "audit_sha256": "3f34b7b4d96bf214999e204d9a3a71776b342d0dfbfdb636457fb98569a0e8c1",
+  "figure_manifest_sha256": "75d18071014416a9ae9413ef57d2f72c408edfd0433bc23c9c468b8a42031df3",
+  "image_sha256": {
+    "F5_operational_n4000.png": "a17e8b835ce70edf085108972e1d1aaed6cf02972c06efa1d2d40e2d8e5c4c11",
+    "F6_availability_n4000.png": "733cbde37c3639dfed5c33d5a64224af7d14de14dc4c86d57a66f5e69bbaa687",
+    "F6_conditional_n4000.png": "0cab39941b823da7d625230a662ffd54c98eba9d6af31a713f08c4c2692b8c2d"
+  },
+  "layout_or_annotation_issues": [],
+  "observations": [
+    "Both coverage images retain nine parameter/method panels with all four q rows and five CV columns; the availability image retains all six panels.",
+    "Registered E2, n=4000, and R=2000 labels are correct and prominent.",
+    "Percentages, classification letters, S=2,000 annotations, axes, colorbars, and complete captions are legible without clipping.",
+    "Mu has no truth-relative practical labels; F5 uses the saved joint W/B/U classification.",
+    "All n=4,000 interval counts are 2,000, so conditional and operational coverages coincide; colored zeroes remain distinct from undefined coverage. No gray-NA cell occurs in this slice.",
+    "Fixed 0-100% colorbars, denominator captions, pointwise-classification scope and model-based covariance labels are present."
+  ],
+  "review_kind": "actual visual inspection of saved headline PNGs",
+  "reviewed_pngs": [
+    "F5_operational_n4000.png",
+    "F6_conditional_n4000.png",
+    "F6_availability_n4000.png"
+  ],
+  "reviewer": "independent reviewer /root/week5_comparison_math",
+  "scope": "n=4000 only; this is not the complete nine-PNG visual seal"
+}

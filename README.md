@@ -7,13 +7,16 @@ $$
 dX_t = \theta(\mu-X_t)\,dt + \sigma\,dW_t.
 $$
 
-**Current stage on `weeks5-8-sequential`: Week 5 E1 complete and audited.**
-The registered seven-cell experiment contains 14,000 paths and 42,000 fits, with
-all point fits and intervals valid. Exact inference meets the practical criteria
-throughout E1. PFML and Euler have parameter-specific breaches; one PFML sigma
-cell remains statistically unresolved. Week 6 E2 code and development validation
-are complete; its headline run is pending at this code-freeze checkpoint.
-Weeks 7–8 have not begun.
+**Current stage on `weeks5-8-sequential`: Weeks 5–6 headline experiments complete and audited.**
+E1 retains 14,000 paths and 42,000 fits. E2 retains the complete 60-cell grid:
+120,000 paths and 360,000 fit records, including 86 unavailable intervals.
+Exact theta meets the practical criteria in 55/60 E2 cells; the five breaches
+are driven by positive bias at n=250,q=0.1, while its coverage remains near 95%
+there. Exact sigma meets the criteria throughout E2. PFML/Euler have extensive
+parameter-specific breaches, and five E2 parameter cells remain unresolved.
+See the [Week 6 results](docs/week6_progress.md) and
+[full-grid mathematics](docs/week6_mathematics.md). Week 7 diagnostics and the
+Week 8 gate have not begun at this completed Week 6 checkpoint.
 See the [Week 5 results](docs/week5_progress.md),
 [mathematics](docs/week5_mathematics.md) and [architecture](docs/week5_architecture.md).
 The Week 3/4 APIs and archives remain preserved. The project proceeds independently.
@@ -35,7 +38,7 @@ establish coverage certification or an operating-region boundary. The mean-gap
 estimator is the PFML estimator attributed to Aït-Sahalia & Mykland (2003), not a
 new estimator introduced by this project. Week 4 evaluates the exact regular
 checkpoint and two fixed-path bootstrap diagnostics. E1 results are now available;
-E2 remains the next sequential stage.
+E2 is also complete; exploratory follow-up will preserve both headline archives.
 
 ## Week 5: frozen E1 execution
 
@@ -337,9 +340,9 @@ on spacing. All table values regenerate from `results/cell4_teaser_naive_vs_exac
 
 ## Next stage
 
-Week 5 E1 is complete. The reviewed Week 6 E2 implementation is ready for its
-registered full-grid execution. Weeks 7–8 begin only after E2 is completed and
-published; exploratory diagnostics and any optional extension require dated
-protocols before their affected data are generated.
+Weeks 5–6 are complete. Week 7 will specify dated exploratory diagnostic
+selection and methods before affected reruns. Week 8 will record the core gate,
+using buffer time for unresolved implementation issues or a separately specified
+optional extension if the core is secure. Neither stage changes headline E1/E2.
 
 Author: Suryansh Kumar.

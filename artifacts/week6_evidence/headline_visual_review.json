@@ -1,0 +1,17 @@
+{
+  "reviewer": "root (n250), week5_design_review (n1000), week5_comparison_math (n4000)",
+  "reviewed_pngs": [
+    "F5_operational_n1000.png",
+    "F5_operational_n250.png",
+    "F5_operational_n4000.png",
+    "F6_availability_n1000.png",
+    "F6_availability_n250.png",
+    "F6_availability_n4000.png",
+    "F6_conditional_n1000.png",
+    "F6_conditional_n250.png",
+    "F6_conditional_n4000.png"
+  ],
+  "figure_manifest_sha256": "75d18071014416a9ae9413ef57d2f72c408edfd0433bc23c9c468b8a42031df3",
+  "all_panels_legible": true,
+  "notes": "All nine actual headline PNGs inspected. Full4x5 grids, labels, denominators, classifications, colorbars and captions legible. n250 conditional denominators1961/1999/1993 and zero percentages visible. All three reviewers pass. Independent source/failure reconciliation and raw arithmetic reports stored separately in week6_evidence. The earlier validation execution-state incident remains cause-unresolved."
+}
