@@ -1,0 +1,26 @@
+AFTER_RAW raw_complete_pending_audit raw_complete_pending_audit
+BEFORE_TABLES raw_complete_pending_audit
+AFTER_TABLES raw_complete_pending_audit
+WRITE_OPEN audit_and_figures 5 ('/workspace/scratch/d0cfea18f849/stochastic-processes/artifacts/week6_validation_fresh/.run_metadata.json.i82g212t.tmp', None, 655554)
+  File "<stdin>", line 33, in <module>
+  File "/workspace/scratch/d0cfea18f849/stochastic-processes/ou_irregular/experiments/workflow.py", line 36, in analyze_and_audit
+    atomic_json(path, metadata)
+  File "/workspace/scratch/d0cfea18f849/stochastic-processes/ou_irregular/experiments/storage.py", line 52, in atomic_json
+    return atomic_bytes(path, (canonical(value) + "\n").encode(), immutable=immutable)
+  File "/workspace/scratch/d0cfea18f849/stochastic-processes/ou_irregular/experiments/storage.py", line 33, in atomic_bytes
+    descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", suffix=".tmp", dir=path.parent)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/tempfile.py", line 357, in mkstemp
+    return _mkstemp_inner(dir, prefix, suffix, flags, output_type)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/tempfile.py", line 256, in _mkstemp_inner
+    fd = _os.open(file, flags, 0o600)
+  File "<stdin>", line 15, in hook
+RENAME audit_and_figures 5 ('/workspace/scratch/d0cfea18f849/stochastic-processes/artifacts/week6_validation_fresh/.run_metadata.json.i82g212t.tmp', 'artifacts/week6_validation_fresh/run_metadata.json', -1, -1)
+  File "<stdin>", line 33, in <module>
+  File "/workspace/scratch/d0cfea18f849/stochastic-processes/ou_irregular/experiments/workflow.py", line 36, in analyze_and_audit
+    atomic_json(path, metadata)
+  File "/workspace/scratch/d0cfea18f849/stochastic-processes/ou_irregular/experiments/storage.py", line 52, in atomic_json
+    return atomic_bytes(path, (canonical(value) + "\n").encode(), immutable=immutable)
+  File "/workspace/scratch/d0cfea18f849/stochastic-processes/ou_irregular/experiments/storage.py", line 39, in atomic_bytes
+    os.replace(temporary, path)
+  File "<stdin>", line 17, in hook
+FINISHED passed

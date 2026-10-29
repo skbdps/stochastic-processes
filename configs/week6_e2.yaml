@@ -1,0 +1,9 @@
+experiment: E2
+seed: 20261002
+replications: 2000
+truth: {theta: 1.0, mu: 0.0, sigma: 0.5}
+q: [0.1, 0.5, 1.0, 2.0]
+cv: [0.0, 0.5, 1.0, 2.0, 3.0]
+n: [250, 1000, 4000]
+floor_fraction: 0.000001
+floor_cv_threshold: 1.5

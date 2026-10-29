@@ -1,0 +1,79 @@
+week6_e2_validation n=250 q=0.1 CV=0: 4/4 paths saved
+week6_e2_validation n=250 q=0.1 CV=0.5: 4/4 paths saved
+week6_e2_validation n=250 q=0.1 CV=1: 4/4 paths saved
+week6_e2_validation n=250 q=0.5 CV=0: 4/4 paths saved
+week6_e2_validation n=250 q=0.1 CV=2: 4/4 paths saved
+week6_e2_validation n=250 q=0.1 CV=3: 4/4 paths saved
+week6_e2_validation n=250 q=0.5 CV=0.5: 4/4 paths saved
+week6_e2_validation n=250 q=0.5 CV=1: 4/4 paths saved
+week6_e2_validation n=250 q=0.5 CV=2: 4/4 paths saved
+week6_e2_validation n=250 q=0.5 CV=3: 4/4 paths saved
+week6_e2_validation n=250 q=1 CV=0: 4/4 paths saved
+week6_e2_validation n=250 q=1 CV=0.5: 4/4 paths saved
+week6_e2_validation n=250 q=1 CV=1: 4/4 paths saved
+week6_e2_validation n=250 q=1 CV=3: 4/4 paths saved
+week6_e2_validation n=250 q=1 CV=2: 4/4 paths saved
+week6_e2_validation n=250 q=2 CV=0: 4/4 paths saved
+week6_e2_validation n=250 q=2 CV=0.5: 4/4 paths saved
+week6_e2_validation n=250 q=2 CV=1: 4/4 paths saved
+week6_e2_validation n=250 q=2 CV=2: 4/4 paths saved
+week6_e2_validation n=250 q=2 CV=3: 4/4 paths saved
+week6_e2_validation n=1000 q=0.1 CV=0: 4/4 paths saved
+week6_e2_validation n=1000 q=0.1 CV=0.5: 4/4 paths saved
+week6_e2_validation n=1000 q=0.1 CV=1: 4/4 paths saved
+week6_e2_validation n=1000 q=0.1 CV=2: 4/4 paths saved
+week6_e2_validation n=1000 q=0.1 CV=3: 4/4 paths saved
+week6_e2_validation n=1000 q=0.5 CV=0: 4/4 paths saved
+week6_e2_validation n=1000 q=0.5 CV=1: 4/4 paths saved
+week6_e2_validation n=1000 q=0.5 CV=2: 4/4 paths saved
+week6_e2_validation n=1000 q=0.5 CV=3: 4/4 paths saved
+week6_e2_validation n=1000 q=1 CV=0: 4/4 paths saved
+week6_e2_validation n=1000 q=1 CV=0.5: 4/4 paths saved
+week6_e2_validation n=1000 q=1 CV=1: 4/4 paths saved
+week6_e2_validation n=1000 q=0.5 CV=0.5: 4/4 paths saved
+week6_e2_validation n=1000 q=1 CV=2: 4/4 paths saved
+week6_e2_validation n=1000 q=1 CV=3: 4/4 paths saved
+week6_e2_validation n=1000 q=2 CV=0: 4/4 paths saved
+week6_e2_validation n=1000 q=2 CV=1: 4/4 paths saved
+week6_e2_validation n=1000 q=2 CV=0.5: 4/4 paths saved
+week6_e2_validation n=1000 q=2 CV=2: 4/4 paths saved
+week6_e2_validation n=1000 q=2 CV=3: 4/4 paths saved
+week6_e2_validation n=4000 q=0.1 CV=1: 4/4 paths saved
+week6_e2_validation n=4000 q=0.1 CV=0.5: 4/4 paths saved
+week6_e2_validation n=4000 q=0.1 CV=2: 4/4 paths saved
+week6_e2_validation n=4000 q=0.1 CV=0: 4/4 paths saved
+week6_e2_validation n=4000 q=0.1 CV=3: 4/4 paths saved
+week6_e2_validation n=4000 q=0.5 CV=2: 4/4 paths saved
+week6_e2_validation n=4000 q=0.5 CV=1: 4/4 paths saved
+week6_e2_validation n=4000 q=0.5 CV=0: 4/4 paths saved
+week6_e2_validation n=4000 q=0.5 CV=3: 4/4 paths saved
+week6_e2_validation n=4000 q=1 CV=0.5: 4/4 paths saved
+week6_e2_validation n=4000 q=1 CV=1: 4/4 paths saved
+week6_e2_validation n=4000 q=1 CV=0: 4/4 paths saved
+week6_e2_validation n=4000 q=0.5 CV=0.5: 4/4 paths saved
+week6_e2_validation n=4000 q=1 CV=2: 4/4 paths saved
+week6_e2_validation n=4000 q=2 CV=0: 4/4 paths saved
+week6_e2_validation n=4000 q=1 CV=3: 4/4 paths saved
+week6_e2_validation n=4000 q=2 CV=2: 4/4 paths saved
+week6_e2_validation n=4000 q=2 CV=0.5: 4/4 paths saved
+week6_e2_validation n=4000 q=2 CV=1: 4/4 paths saved
+week6_e2_validation n=4000 q=2 CV=3: 4/4 paths saved
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/scratch/d0cfea18f849/stochastic-processes/ou_irregular/week6/runner.py", line 93, in <module>
+    main()
+  File "/workspace/scratch/d0cfea18f849/stochastic-processes/ou_irregular/week6/runner.py", line 68, in main
+    result = analyze_and_audit(args.output, design, render_figures)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/d0cfea18f849/stochastic-processes/ou_irregular/experiments/workflow.py", line 30, in analyze_and_audit
+    report = audit_run(output, design, replay=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/d0cfea18f849/stochastic-processes/ou_irregular/experiments/audit.py", line 756, in audit_run
+    return _audit_run(Path(output_dir), design, replay=replay)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/d0cfea18f849/stochastic-processes/ou_irregular/experiments/audit.py", line 796, in _audit_run
+    _require(metadata["status"] in {"raw_complete_pending_audit", "audited_pending_visual_review", "completed"}, "run is incomplete or requires implementation review")
+  File "/workspace/scratch/d0cfea18f849/stochastic-processes/ou_irregular/experiments/audit.py", line 84, in _require
+    raise ValueError(message)
+ValueError: run is incomplete or requires implementation review

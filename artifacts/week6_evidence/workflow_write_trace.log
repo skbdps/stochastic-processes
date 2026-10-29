@@ -1,0 +1,13 @@
+ENTRY raw_complete_pending_audit functions_identical True
+BEFORE_TABLES raw_complete_pending_audit
+AFTER_TABLES raw_complete_pending_audit
+ROOT_REPLACE 1 phase audit PID 5 new_status audited_pending_visual_review
+  File "<stdin>", line 33, in <module>
+  File "/workspace/scratch/d0cfea18f849/stochastic-processes/ou_irregular/experiments/workflow.py", line 36, in analyze_and_audit
+    atomic_json(path, metadata)
+  File "/workspace/scratch/d0cfea18f849/stochastic-processes/ou_irregular/experiments/storage.py", line 52, in atomic_json
+    return atomic_bytes(path, (canonical(value) + "\n").encode(), immutable=immutable)
+  File "/workspace/scratch/d0cfea18f849/stochastic-processes/ou_irregular/experiments/storage.py", line 39, in atomic_bytes
+    os.replace(temporary, path)
+  File "<stdin>", line 18, in traced_replace
+FINISH passed

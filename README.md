@@ -11,7 +11,9 @@ $$
 The registered seven-cell experiment contains 14,000 paths and 42,000 fits, with
 all point fits and intervals valid. Exact inference meets the practical criteria
 throughout E1. PFML and Euler have parameter-specific breaches; one PFML sigma
-cell remains statistically unresolved. Weeks 6–8 have not begun at this checkpoint.
+cell remains statistically unresolved. Week 6 E2 code and development validation
+are complete; its headline run is pending at this code-freeze checkpoint.
+Weeks 7–8 have not begun.
 See the [Week 5 results](docs/week5_progress.md),
 [mathematics](docs/week5_mathematics.md) and [architecture](docs/week5_architecture.md).
 The Week 3/4 APIs and archives remain preserved. The project proceeds independently.
@@ -83,6 +85,32 @@ The historical Week 4 auditor compares an exact recursive source map. Run that
 audit in a detached checkout of its published Week 4 revision; adding the new
 packages changes that recursive map even though the old files are unchanged.
 The new experiment auditor uses explicit dependency-file manifests.
+
+## Week 6: frozen E2 execution
+
+The separate Week 6 entry point composes the reviewed Week 5 engine. It retains
+all 60 registered cells: q={0.1,0.5,1,2}, CV={0,0.5,1,2,3}, n={250,1000,4000},
+R=2000, seed 20261002. See the [Week 6 progress record](docs/week6_progress.md)
+and [mathematics](docs/week6_mathematics.md), including the preserved development
+execution-state incident and its bounded disposition.
+
+```bash
+export OPENBLAS_NUM_THREADS=1
+export OMP_NUM_THREADS=1
+python -m ou_irregular.week6.runner run --validation --replications 4 --workers 4 --output artifacts/my_e2_validation
+python -m ou_irregular.week6.runner run --workers 12 --partition-size 500 --output artifacts/my_e2
+python -m ou_irregular.week6.runner audit --run-dir artifacts/my_e2 --output artifacts/my_e2_repeat_audit.json
+python -m ou_irregular.week6.runner replot --run-dir artifacts/my_e2 --output artifacts/my_e2_figures
+python -m ou_irregular.week6.runner finalize --run-dir artifacts/my_e2 --review-file path/to/e2_visual_review.json
+```
+
+Resume adds `--resume` to the original run command, with the same environment.
+Headline execution requires committed dependencies. The runner retains 120,000
+source paths and 360,000 fit records, then audits before accepting a visual seal.
+The review record must identify all nine current PNGs and their figure-manifest
+hash, using the same fields described for Week 5. F5/F6 and availability heatmaps
+show every registered grid cell; complete uncertainty and failure tables remain
+available even when a heatmap shows a rounded percentage.
 
 ## Quick start: reproduce the Week 3 and Week 4 results locally
 
@@ -309,8 +337,9 @@ on spacing. All table values regenerate from `results/cell4_teaser_naive_vs_exac
 
 ## Next stage
 
-Week 5 will implement E1 using the registered design and reusable inference
-services, retaining both coverage denominators and uncertainty-aware practical
-criteria. Week 4 does not run headline experiments or establish an operating boundary.
+Week 5 E1 is complete. The reviewed Week 6 E2 implementation is ready for its
+registered full-grid execution. Weeks 7–8 begin only after E2 is completed and
+published; exploratory diagnostics and any optional extension require dated
+protocols before their affected data are generated.
 
 Author: Suryansh Kumar.

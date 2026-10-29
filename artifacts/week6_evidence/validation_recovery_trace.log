@@ -1,0 +1,16 @@
+after_run_raw raw_complete_pending_audit raw_complete_pending_audit
+before_tables raw_complete_pending_audit
+after_tables running_incomplete unchanged False
+Traceback (most recent call last):
+  File "<stdin>", line 21, in <module>
+  File "/workspace/scratch/d0cfea18f849/stochastic-processes/ou_irregular/experiments/workflow.py", line 30, in analyze_and_audit
+    report = audit_run(output, design, replay=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/d0cfea18f849/stochastic-processes/ou_irregular/experiments/audit.py", line 756, in audit_run
+    return _audit_run(Path(output_dir), design, replay=replay)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/d0cfea18f849/stochastic-processes/ou_irregular/experiments/audit.py", line 796, in _audit_run
+    _require(metadata["status"] in {"raw_complete_pending_audit", "audited_pending_visual_review", "completed"}, "run is incomplete or requires implementation review")
+  File "/workspace/scratch/d0cfea18f849/stochastic-processes/ou_irregular/experiments/audit.py", line 84, in _require
+    raise ValueError(message)
+ValueError: run is incomplete or requires implementation review

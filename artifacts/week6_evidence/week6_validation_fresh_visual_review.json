@@ -1,0 +1,17 @@
+{
+  "reviewer": "root (n250), week5_design_review (n1000), week5_comparison_math (n4000)",
+  "reviewed_pngs": [
+    "F5_operational_n1000.png",
+    "F5_operational_n250.png",
+    "F5_operational_n4000.png",
+    "F6_availability_n1000.png",
+    "F6_availability_n250.png",
+    "F6_availability_n4000.png",
+    "F6_conditional_n1000.png",
+    "F6_conditional_n250.png",
+    "F6_conditional_n4000.png"
+  ],
+  "figure_manifest_sha256": "ebabeef545278c2681287f55db0472e9f10c0aed8b46ef775b32b3ecb3098691",
+  "all_panels_legible": true,
+  "notes": "All nine fresh validation PNGs inspected. Full grids, percent labels, denominators, classifications, legends and captions legible. Validation-only scope explicit. Original and fresh figures byte-identical (validation_equivalence.json). All intervals available in this small validation; NA branch is covered separately by tests. No claim that the preserved state incident is cause-resolved."
+}

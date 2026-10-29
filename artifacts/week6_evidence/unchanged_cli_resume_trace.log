@@ -1,0 +1,3 @@
+RAW_RETURN raw_complete_pending_audit DISK raw_complete_pending_audit
+{"fits": 720, "output": "artifacts/week6_validation", "paths": 240, "scope": "validation", "status": "audited_pending_visual_review"}
+COUNTS {"raw": 0, "replay": 120} RAW_PARTITIONS_UNCHANGED 60
