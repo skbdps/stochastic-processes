@@ -1,0 +1,39 @@
+{
+  "baseline_commit": "65ab31687533d38bac7bbdd944b5599f430fa69b",
+  "baseline_files_checked": 1494,
+  "baseline_manifest_sha256": "20da5cf93a73eea21aadf11b0e65c774318fd70ea38735b36700ecea34ec6e35",
+  "changed_baseline_files": [],
+  "checked_at_utc": "2026-10-30T13:35:42.508735+00:00",
+  "current_scientific_freeze": "6c97d939b4a9902e4127751ff263b5e03ebe7188",
+  "headline_archive_files": {
+    "week5_e1": 86,
+    "week6_e2": 335
+  },
+  "new_studies": {
+    "floor": {
+      "code_commit": "6c97d939b4a9902e4127751ff263b5e03ebe7188",
+      "interval_valid_records": 72000,
+      "planned_fit_records": 72000,
+      "planned_paths": 24000,
+      "point_valid_records": 72000,
+      "replayed_fits": 72,
+      "replayed_source_paths": 24,
+      "retained_failure_records": 0,
+      "run_identity_sha256": "46120e4bc6925e90d43a872931635c309dcd7bd5dafb5e745e1a5bcefd21efa9",
+      "status": "completed"
+    },
+    "followup": {
+      "code_commit": "6c97d939b4a9902e4127751ff263b5e03ebe7188",
+      "interval_valid_records": 59556,
+      "planned_fit_records": 60000,
+      "planned_paths": 20000,
+      "point_valid_records": 59579,
+      "replayed_fits": 12,
+      "replayed_source_paths": 4,
+      "retained_failure_records": 444,
+      "run_identity_sha256": "544294ea3f595eb6d7c9335a1fb24f040aa61f528646b22c7098d240594f0b23",
+      "status": "completed"
+    }
+  },
+  "scope": "before completion-documentation README update; all earlier tracked files byte-identical"
+}

@@ -1,0 +1,11 @@
+{
+  "scope": "supplemental_note_extraction_after_passed_independent_review",
+  "review_script_or_result_changed": false,
+  "archive_changes": false,
+  "cause": "Reviewer supplied a literal expected count of 232 unique failed source paths before computing the deduplicated count; the count from the saved failure export is 231.",
+  "expected_literal_in_supplemental_assertion": 232,
+  "observed_unique_failed_source_paths": 231,
+  "supplemental_notes_written_before_assertion": false,
+  "root_informed_before_corrected_note_extraction": true,
+  "resolution": "Use the computed source count in the supplementary interpretation. No change to the passed independent review or either archive is indicated."
+}

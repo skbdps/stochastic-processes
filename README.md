@@ -7,7 +7,7 @@ $$
 dX_t = \theta(\mu-X_t)\,dt + \sigma\,dW_t.
 $$
 
-**Current stage on `weeks5-8-sequential`: Weeks 5–6 headline experiments complete and audited; Week 7 implementation and recovery validation are in progress.**
+**Current stage on `weeks5-8-sequential`: Weeks 5–7 complete and audited; Week 8 awaits its separate completion gate.**
 E1 retains 14,000 paths and 42,000 fits. E2 retains the complete 60-cell grid:
 120,000 paths and 360,000 fit records, including 86 unavailable intervals.
 Exact theta meets the practical criteria in 55/60 E2 cells; the five breaches
@@ -15,10 +15,15 @@ are driven by positive bias at n=250,q=0.1, while its coverage remains near 95%
 there. Exact sigma meets the criteria throughout E2. PFML/Euler have extensive
 parameter-specific breaches, and five E2 parameter cells remain unresolved.
 See the [Week 6 results](docs/week6_progress.md) and
-[full-grid mathematics](docs/week6_mathematics.md). Week 7 follows the dated
-[exploratory protocol](docs/week7_exploratory_protocol.md). Its full selected-path,
-10,000-replication follow-up and paired-floor studies have not yet run; Week 8
-has not begun. The [recovery record](docs/week7_recovery_20261030.md) distinguishes
+[full-grid mathematics](docs/week6_mathematics.md). Week 7 completed the dated
+[exploratory protocol](docs/week7_exploratory_protocol.md): all 53 selected sources,
+20,000 independent follow-up paths and 24,000 paired-floor realizations.
+The follow-up retains 444 unavailable-interval records; all 72,000 floor-study
+fits and intervals are valid. Neither study has a pipeline error, and E1/E2
+remain unchanged. See the [Week 7 completion report](docs/week7_progress.md),
+[one-page findings memo](docs/week7_findings_memo.pdf), and
+[numerical disposition](docs/week7_numerical_disposition.md). Week 8 has not begun.
+The [recovery record](docs/week7_recovery_20261030.md) distinguishes
 published module checkpoints, fresh validation and lost unpublished evidence.
 See the [Week 5 results](docs/week5_progress.md),
 [mathematics](docs/week5_mathematics.md) and [architecture](docs/week5_architecture.md).
@@ -34,14 +39,14 @@ See the [Week 4 results and validation](docs/week4_progress.md),
 The [Week 2 record](docs/week2_progress.md) and [OU derivations](docs/ou_derivations.md)
 remain available. Written notes do not certify the owner's personal theory exercise.
 
-The next research stages will measure finite-sample bias, RMSE and confidence-interval
-coverage across a wider spacing grid, with equidistant comparisons. The current
+The completed E1/E2 studies measure finite-sample bias, RMSE and confidence-interval
+coverage across a wider spacing grid, with equidistant comparisons. The original
 notebook establishes point-estimation behavior at selected settings; it does not
 establish coverage certification or an operating-region boundary. The mean-gap
 estimator is the PFML estimator attributed to Aït-Sahalia & Mykland (2003), not a
 new estimator introduced by this project. Week 4 evaluates the exact regular
 checkpoint and two fixed-path bootstrap diagnostics. E1 results are now available;
-E2 is also complete; exploratory follow-up will preserve both headline archives.
+E2 and the fixed Week 7 exploratory follow-up are also complete; both headline archives are preserved.
 
 ## Week 5: frozen E1 execution
 
@@ -343,11 +348,10 @@ on spacing. All table values regenerate from `results/cell4_teaser_naive_vs_exac
 
 ## Next stage
 
-Weeks 5–6 are complete. Week 7 is implementing and validating the already dated
-exploratory selection and diagnostic protocol before its full studies. It will
-publish audited results and a one-page findings memo before Week 8 begins.
-Week 8 will record the core gate,
+Weeks 5–7 are complete. The Week 7 publication includes all fixed exploratory
+studies, audited results, numerical dispositions and a one-page findings memo.
+Week 8 will now record the separate core gate,
 using buffer time for unresolved implementation issues or a separately specified
-optional extension if the core is secure. Neither stage changes headline E1/E2.
+optional extension if the core is secure. These stages preserve headline E1/E2.
 
 Author: Suryansh Kumar.

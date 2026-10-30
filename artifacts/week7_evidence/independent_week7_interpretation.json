@@ -1,0 +1,94 @@
+{
+  "floor_all_common_interval_valid_counts_equal_2000": true,
+  "floor_all_common_point_valid_counts_equal_2000": true,
+  "floor_all_practical_classifications_unchanged_across_epsilons": true,
+  "floor_contrasts_with_coverage_discordances": [
+    {
+      "cv": 2.0,
+      "estimator": "exact",
+      "floor_fraction": 0.0001,
+      "n_a_only_cover": 0,
+      "n_b_only_cover": 1,
+      "operational_coverage_difference": -0.0005,
+      "operational_coverage_difference_mc_lower": -0.001479981992270027,
+      "operational_coverage_difference_mc_upper": 0.000479981992270027,
+      "operational_coverage_difference_mcse": 0.0005,
+      "parameter": "theta"
+    },
+    {
+      "cv": 3.0,
+      "estimator": "exact",
+      "floor_fraction": 1e-08,
+      "n_a_only_cover": 1,
+      "n_b_only_cover": 0,
+      "operational_coverage_difference": 0.0005,
+      "operational_coverage_difference_mc_lower": -0.000479981992270027,
+      "operational_coverage_difference_mc_upper": 0.001479981992270027,
+      "operational_coverage_difference_mcse": 0.0005,
+      "parameter": "mu"
+    },
+    {
+      "cv": 3.0,
+      "estimator": "exact",
+      "floor_fraction": 0.0001,
+      "n_a_only_cover": 1,
+      "n_b_only_cover": 0,
+      "operational_coverage_difference": 0.0005,
+      "operational_coverage_difference_mc_lower": -0.000479981992270027,
+      "operational_coverage_difference_mc_upper": 0.001479981992270027,
+      "operational_coverage_difference_mcse": 0.0005,
+      "parameter": "theta"
+    },
+    {
+      "cv": 3.0,
+      "estimator": "pfml",
+      "floor_fraction": 0.0001,
+      "n_a_only_cover": 2,
+      "n_b_only_cover": 1,
+      "operational_coverage_difference": 0.0005,
+      "operational_coverage_difference_mc_lower": -0.0011976616154723918,
+      "operational_coverage_difference_mc_upper": 0.002197661615472392,
+      "operational_coverage_difference_mcse": 0.0008661698015184617,
+      "parameter": "mu"
+    },
+    {
+      "cv": 3.0,
+      "estimator": "euler",
+      "floor_fraction": 0.0001,
+      "n_a_only_cover": 0,
+      "n_b_only_cover": 1,
+      "operational_coverage_difference": -0.0005,
+      "operational_coverage_difference_mc_lower": -0.001479981992270027,
+      "operational_coverage_difference_mc_upper": 0.000479981992270027,
+      "operational_coverage_difference_mcse": 0.0005,
+      "parameter": "mu"
+    }
+  ],
+  "floor_contrasts_with_zero_observed_coverage_discordances": 67,
+  "floor_pointwise_mc_intervals_excluding_zero": {
+    "bias_difference": 4,
+    "rmse_difference": 5
+  },
+  "followup_failed_fit_records": 444,
+  "followup_failure_export_sha256": "40ac6dff9c01f2d30427166f2d977b29c6d220bcb51da0a6df9cf9bb0e819ce3",
+  "followup_point_invalid_count": 421,
+  "followup_point_valid_interval_unavailable_count": 23,
+  "followup_unique_failure_sources_by_cv": {
+    "0.0": 212,
+    "0.5": 19
+  },
+  "followup_unique_sources_with_unavailable_fit_or_interval": 231,
+  "notes": [
+    "444 retained unavailable fit records correspond to 231 source paths; estimator failure records are not independent failed paths.",
+    "All floor point and interval fits are eligible, but PFML/Euler can still have severe bias and undercoverage.",
+    "Five of 72 epsilon contrasts have observed coverage discordance; all five pointwise approximate Monte Carlo difference intervals include zero.",
+    "The other 67 contrasts have empirical paired coverage difference and MCSE both zero because no discordances were observed; this is not proof of zero population sensitivity.",
+    "Some small point-metric changes have pointwise Monte Carlo intervals excluding zero; a blanket claim that epsilon has exactly no effect is unsupported.",
+    "Floor practical classifications are unchanged across the three tested epsilons; conclusions remain restricted to the fixed exploratory design.",
+    "CV=0 is one exact shared negative control per replication, not three independent control samples.",
+    "The original registered parameter intervals and failure statuses remain unchanged."
+  ],
+  "review_finished_utc": "2026-10-30T13:35:21.097908+00:00",
+  "review_started_utc": "2026-10-30T13:35:07.194164+00:00",
+  "source_result_sha256": "a4e243c72eb7af2920f96a47abd71c07de1c91f5849b58c22b15b2d589eebeb8"
+}
