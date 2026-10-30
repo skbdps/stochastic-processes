@@ -1,0 +1,24 @@
+.............................................F.......................    [100%]
+=================================== FAILURES ===================================
+_ test_cell_parser_rejects_noncanonical_or_contradictory_metadata[calm_event_probability-0.5] _
+
+field = 'calm_event_probability', value = 0.5
+
+    @pytest.mark.parametrize("field,value", [
+        ("cell_id", "0" * 64), ("source_namespace", 4), ("source_namespace", 8.),
+        ("source_policy_version", "registered_ou_source_v1"), ("floor_policy_version", "different"),
+        ("ratio", 5), ("n", 1000.), ("true_theta", True), ("calm_sojourn_mean", 10.),
+        ("burst_arrival_rate", 5.), ("calm_event_probability", .5), ("cv", 1.),
+        ("raw_cv_squared", float("nan")), ("mean_gap", .6),
+    ])
+    def test_cell_parser_rejects_noncanonical_or_contradictory_metadata(field, value):
+        saved = e4.full_design().cells[1].to_dict()
+        saved[field] = value
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/week8/test_design.py:132: Failed
+=========================== short test summary info ============================
+FAILED tests/week8/test_design.py::test_cell_parser_rejects_noncanonical_or_contradictory_metadata[calm_event_probability-0.5]
+1 failed, 68 passed in 1.92s

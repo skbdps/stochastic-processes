@@ -1,0 +1,15 @@
+{
+  "fits_generated": 0,
+  "focused_tests": 73,
+  "independent_deterministic_assertions": 170,
+  "independent_review_method": "Exact rational 2x2 resolvents, independent canonical hashes, and rehashed nextafter tampering of derived calibration fields; read-only review reported in session.",
+  "initial_failure": "No-op tamper fixture used actual r=5 probability 0.5; corrected to 0.4.",
+  "root_source_and_test_review": "passed",
+  "source_sha256": {
+    "ou_irregular/week8/__init__.py": "a917e2ffbe0b003bb8b409aaf538aea40a6744ad7d8e11607bfbdf30d02efaab",
+    "ou_irregular/week8/design.py": "b3fbf27b4680a92a2c78e9647a8eb15eabdffaa175df5434a5e70424392f1ac7",
+    "tests/week8/test_design.py": "bd3ddfd66de028d09c8e72e16362ee4cbfc7c528d0f4613fe10ea4e462915904"
+  },
+  "sources_generated": 0,
+  "status": "passed_design_contract_only"
+}
