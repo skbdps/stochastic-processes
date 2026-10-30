@@ -1,0 +1,29 @@
+{
+  "combined_design_source_harness_tests": 149,
+  "counts_overlap": true,
+  "files_sha256": {
+    "docs/week8_source.md": "f0e0ed27a723a899bbfa0e326aba6cabb3ff368e963f186545999bc09c8d96b2",
+    "ou_irregular/week8/source.py": "73adae7cf326984e43916a80993ac7cce541a0d406264eb0482a8c2849338ce5",
+    "scripts/week8_validate_source.py": "9548f7c410a91d88374df86ace56b5e98759dbf28bcea50d3921a4b780bc46c5",
+    "tests/week8/test_source.py": "f6afa0b5a401e2820cd51c40aa6f8416d01faf6fe7a253b34de453f7bcbf4ee2",
+    "tests/week8/test_source_validation.py": "e699af0f2a5c363b372874dcd25ba3163f457e6de349e169d9559b60b73c82a2"
+  },
+  "fits_generated": 0,
+  "full_seed_observations_generated": 0,
+  "harness_review_method": "Literal arrays and mocked source/provenance boundaries; random generator and OU functions prohibited.",
+  "independent_harness_tests": 37,
+  "independent_source_deterministic_assertions": 238,
+  "initial_harness_failures": 15,
+  "initial_harness_log_encoding": "gzip; exact native stdout bytes preserved",
+  "initial_harness_log_uncompressed_sha256": "d8918d180f8049bfa55f7e85e9d56b4f701e54f9f544b9fe4c7955594cc24f87",
+  "initial_harness_passes": 22,
+  "initial_test_log_provenance": "Two initial invocations shared one log path; one complete log retained, not claimed as two independent outputs.",
+  "repairs": [
+    "strict row metadata/schema/address/count verification",
+    "preserve terminal failed report and complete unavailable checks when evaluator raises"
+  ],
+  "root_source_harness_test_review": "passed",
+  "source_review_method": "Rational resolvents, 80-digit Decimal reference, scripted race fixtures and pure seed addresses; independent session reviewer, no real RNG allocations.",
+  "status": "passed_source_implementation_contract_only",
+  "stochastic_validation_executed": false
+}
