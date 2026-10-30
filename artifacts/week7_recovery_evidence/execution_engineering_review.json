@@ -1,0 +1,63 @@
+{
+  "checked": [
+    "Only the exact fixed full designs or exact separate-namespace validation designs are accepted, including cell order and all physical cells.",
+    "Full exploratory entry requests committed-dependency capture before output creation or source work; code review confirms composition with the previously reviewed actual recorded-Git-byte verifier.",
+    "Pure preflight and raw-complete resume do not alter bytes, append histories or generate sources; closed audited/completed states reject raw resume.",
+    "A complete, clean postprocessing-review state returns cached metadata while retaining its original error fields; incomplete review states cannot claim cached completion.",
+    "Interrupted execution resumes only remaining source addresses; a complete cell ahead of the root map is adopted through the cached cell return without regeneration.",
+    "Exact canonical design bytes, provenance identity and dependency membership, environment, numerical procedure, completed-cell counts and root/cell layouts are verified before mutation.",
+    "Every committed and orphan partition is scanned for explicit string pipeline-error evidence, including cells absent from a lagging root map. Nonempty, missing and malformed error fields block automatic replay.",
+    "Ordinary invalid point candidates with an empty pipeline-error field remain retained statistical outcomes rather than becoming implementation errors or triggering resampling.",
+    "Orphan adoption requires exact byte equality and preserves its original replication range even when the requested partition size changes. Byte-different orphans are not overwritten.",
+    "Fresh pipeline failures retain all planned rows and explicit error counts, then block automatic retry.",
+    "A synthetic spawn-worker failure preserves the completed cell and honest incomplete status; resumption completes only unfinished work.",
+    "Nonblocking root-lock exclusion, archive-ancestor protection, symbolic-link rejection and observed-workspace-sync containment prevent unintended output mutation.",
+    "Injected external root drift preserves observed bytes and an adjacent incident record; cached exception handling does not overwrite the changed root, and the incident blocks later automatic resume.",
+    "A partial set of regular PNG/PDF files without a figure manifest can survive a cached postprocessing resume without any figure-completion claim. Unknown extensions and symbolic links still reject. A present figure manifest retains exact file-set/hash verification."
+  ],
+  "combined_test_log": {
+    "observed_summary": ".......................................................                  [100%]\n55 passed in 31.32s",
+    "path": "artifacts/week7_recovery_evidence/execution_module_tests.txt",
+    "sha256": "5b842ab765b6ba9ada5517b719e89f37565ad8b1a18a251339ea2491f47fb2c7"
+  },
+  "documentation_file": "docs/week7_execution.md",
+  "documentation_sha256": "0b96f12235e414e9bb2ad08aacd9e0b742daeeac897a7663f3148bd4d973a117",
+  "full_scientific_sources_generated": 0,
+  "headline_artifacts_modified": false,
+  "independent_test_execution": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MPLCONFIGDIR=/tmp/ou_recovery_mpl .venv/bin/python -m pytest -q tests/week7/test_execution_lifecycle.py",
+    "exit_code": 0,
+    "fixture_boundary": "Actual orchestrator, historical _execute_cell and CellStore; only historical source_records replaced by deterministic literal records. Worker-exception test uses synthetic Future objects and verifies the requested spawn context.",
+    "result": "36 passed in 17.16s"
+  },
+  "limitations": [
+    "The engineering tests generate no OU observations; native worker/partition equivalence and source/fit records are validated by the separate mathematical execution review and its eight native reference cases.",
+    "Raw completion remains pending reporting, independent artifact audit, figures, actual visual review and scientific publication.",
+    "Advisory locks and before/after byte guards do not provide atomic exclusion against every noncooperating external writer.",
+    "Fault injections and isolated-output containment do not identify or claim to repair the cause of the historical runtime incidents.",
+    "The partial-figure allowance does not certify file names, content correctness or figure completion; those require the later plotting and audit stages."
+  ],
+  "production_source_edits_by_reviewer": false,
+  "random_sources_generated_by_this_reviewer": 0,
+  "recorded_utc": "2026-10-30T08:45:40.339395+00:00",
+  "review_refinements": [
+    {
+      "identified_by": "engineering source review",
+      "issue": "The known epsilon-table-manifest filename was absent from the raw root-layout allowlist.",
+      "resolution": "epsilon_table_manifest.json is explicitly allowed for later postprocessing; its substantive validation remains with the reporting/audit stages."
+    },
+    {
+      "identified_by": "root integration review",
+      "issue": "A plotting interruption can leave PNG/PDF files before figure_manifest.json, so requiring that manifest for every nonempty figure directory blocked legitimate cached postprocessing recovery.",
+      "resolution": "Only ordinary PNG/PDF files are permitted without a manifest; saved bytes and review-required status are preserved. Two focused lifecycle regressions verify the narrow exception and rejection boundaries."
+    }
+  ],
+  "reviewer": "independent_recovery_path_engineering_agent",
+  "schema_version": 1,
+  "scope": "guarded_week7_raw_execution_lifecycle_provenance_and_failure_handling",
+  "source_file": "ou_irregular/week7/execution.py",
+  "source_sha256": "101d29198135b4cf8423ac60f6c9afb613ddd8e2d5e379586365d613d0db4865",
+  "status": "approved_for_module_freeze_and_subsequent_validation",
+  "test_file": "tests/week7/test_execution_lifecycle.py",
+  "test_sha256": "87e8b9ddfbb3c04fab82890771c128a7c009f81f0033a2a212e2e0a792196ab3"
+}

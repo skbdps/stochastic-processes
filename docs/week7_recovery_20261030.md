@@ -149,3 +149,40 @@ after inference errors. The earlier 133-test stdout is preserved separately as
 certifies the repaired module. The mathematical extension preserves the prior
 note as an exact byte prefix. Execution, tables, full audit, figures and the
 final runner remain pending at this checkpoint; no full Week 7 study has run.
+
+### Guarded execution checkpoint
+
+Paired comparisons were published as
+`11d4a13187dfca35df1d8d9d449fb12f865a479f` before this module began.
+The reconstruction uses one new Week 7 orchestration module for both fixed
+studies, composing the unchanged durable cell engine and registered services.
+This technical refinement extends root-manifest byte protection to the
+follow-up as well as the paired-floor study. It changes no scientific setting.
+The exact source policies, full-versus-validation design checks and lifecycle
+contract are documented in [week7_execution.md](week7_execution.md).
+
+Fresh combined verification observed **55 passing tests in 31.32 seconds**:
+11 implementation tests, eight native composition/equivalence checks and
+36 independent lifecycle tests. Current execution source SHA-256:
+`101d29198135b4cf8423ac60f6c9afb613ddd8e2d5e379586365d613d0db4865`.
+Source, technical note and all three test files remained byte-identical during
+the final combined gate.
+
+The native checks used only fixed R=2 validation designs: four follow-up source
+realizations/12 fits, and 24 floor-variant realizations/72 fits across eight
+coupling groups. Scientific rows matched direct original-service composition
+and matched across one/two workers and one/two-replication partitions.
+Compressed partition bytes matched whenever boundaries matched. Other tests
+used literal mocked records to check interruption, orphan recovery, root lag,
+all durable pipeline-error records, frozen identities, locks, output protection
+and injected manifest drift. Raw-complete verification changes no lifecycle
+history and generates no new source.
+
+A narrow integration refinement permits unfinished ordinary PNG/PDF files
+when their figure manifest has not yet been written. It leaves them incomplete;
+later plotting must verify exact planned names and byte-equal adoption. A
+present manifest still binds its complete file set and hashes. The earlier
+eight-test native log is preserved separately as
+`execution_reference_pre_partial_figure_tests.txt`; the final combined gate
+covers the refined implementation. Reporting, complete audit, plotting and
+the final runner are still pending. No full scientific seed has been used.
