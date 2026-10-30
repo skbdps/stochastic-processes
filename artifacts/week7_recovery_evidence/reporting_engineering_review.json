@@ -1,0 +1,56 @@
+{
+  "checked": [
+    "Read-only reporting preflight and both table writers leave root lifecycle bytes unchanged and do not generate or refit sources.",
+    "The raw provenance must already contain the exact reporting dependency set; missing reporting dependencies reject before derived outputs.",
+    "Only complete clean raw or complete zero-error postprocessing-review states may write. Incomplete, audited and completed states cannot create or recreate tables.",
+    "The reporting stage owns the nonblocking root execution lock and retains original postprocessing-review status and error fields.",
+    "An undeclared partial standard table or epsilon CSV is adopted only through immutable exact-byte equality; different prior evidence is never overwritten.",
+    "A declared standard table that is missing or changed cannot be regenerated silently. Its manifest requires exactly the six standard CSVs plus the failed-fit gzip, with valid row counts and hashes.",
+    "Followup runs reject epsilon CSV or manifest artifacts before writing.",
+    "The epsilon manifest binds exact run/design identity, canonical resolved-design bytes, source policy, all actual cell-manifest bytes and every actual partition digest/range/count.",
+    "The epsilon output retains exactly 71 columns and the full 72 comparison keys; manifest input hash, source policy, directions, table columns and declared file identity are checked before writes.",
+    "A valid raw partition and matching cell-manifest change, while root bytes remain unchanged, is detected after the standard stage and blocks epsilon table/manifest commit.",
+    "Injected external root drift preserves the observed root and adjacent expected/observed incident evidence. Restoring old root bytes does not bypass the incident block on retry.",
+    "All previously written raw and derived evidence remains intact when an immutable-write or consistency check fails."
+  ],
+  "combined_test_log": {
+    "path": "artifacts/week7_recovery_evidence/reporting_module_tests.txt",
+    "result": "44 passed, 3 skipped, 2 warnings in 105.28s",
+    "sha256": "739475ab0bb968a5bf14725157134d8a1a68b8ccee691e180349c6ff9a6373e5",
+    "skips": "Three explicitly floor-only arithmetic reference cases skip the followup fixture; corresponding floor cases execute.",
+    "warnings": "Two pandas FutureWarnings originate in the unchanged historical standard writer when concatenating the all-invalid followup fixture."
+  },
+  "documentation_file": "docs/week7_reporting.md",
+  "documentation_sha256": "79311caa8cb4816adbacc479c5603ba36eaddfe454bfbccfe0b90e50e4f03edf",
+  "full_scientific_sources_generated": 0,
+  "headline_artifacts_modified": false,
+  "independent_test_execution": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MPLCONFIGDIR=/tmp/ou_recovery_mpl .venv/bin/python -m pytest -q tests/week7/test_reporting_lifecycle.py",
+    "exit_code": 0,
+    "fixture_boundary": "Actual reviewed raw execution/storage with source_records replaced by typed literal records. Both OuSampleSource.sample and PairedFloorSource.sample raise if called. Reporting reads saved records only.",
+    "result": "28 passed in 77.53s"
+  },
+  "limitations": [
+    "The fixtures are literal synthetic records, not OU simulations or scientific findings.",
+    "Independent numerical table arithmetic and failure-denominator checks are recorded in the separate mathematical reporting review.",
+    "This module does not perform the future full raw-array replay, independent artifact audit, plotting, visual review or completed-week seal.",
+    "Stage-boundary checks are bounded observations under an advisory lock; they do not provide atomic exclusion against all noncooperating writers or establish the cause of historical runtime incidents.",
+    "The mutating writer intentionally rejects closed archives; no separate general closed-archive verification API is introduced in this module."
+  ],
+  "production_source_edits_by_reviewer": false,
+  "random_sources_generated_by_this_reviewer": 0,
+  "recorded_utc": "2026-10-30T09:09:09.654124+00:00",
+  "review_findings": [],
+  "reviewer": "independent_recovery_path_engineering_agent",
+  "schema_version": 1,
+  "scope": "saved_raw_reporting_lifecycle_provenance_immutable_artifacts_and_drift_detection",
+  "source_file": "ou_irregular/week7/reporting.py",
+  "source_sha256": "14d6bd477dd72d257e03f45ff8272d1ea8845d3d68ca346e04f7a903ba74eabe",
+  "status": "approved_for_module_freeze_and_subsequent_validation",
+  "test_file": "tests/week7/test_reporting_lifecycle.py",
+  "test_fixture_dependency": {
+    "path": "tests/week7/test_execution_lifecycle.py",
+    "sha256": "87e8b9ddfbb3c04fab82890771c128a7c009f81f0033a2a212e2e0a792196ab3"
+  },
+  "test_sha256": "39bf429c1ce0adf3405c276b1d592496b819eb4d96a84c370dad78e2092a85ae"
+}

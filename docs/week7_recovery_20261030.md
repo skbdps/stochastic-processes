@@ -186,3 +186,50 @@ eight-test native log is preserved separately as
 `execution_reference_pre_partial_figure_tests.txt`; the final combined gate
 covers the refined implementation. Reporting, complete audit, plotting and
 the final runner are still pending. No full scientific seed has been used.
+
+The guarded execution checkpoint was subsequently published and imported as
+`7476e636d1d9542401580b4fd7c42b85b8cd2236`, with the exact reviewed tree
+`16ba48af7f8c94a889d22781fe487b212ffbdd0b`. The branch update used the
+expected prior head `11d4a13187dfca35df1d8d9d449fb12f865a479f` and did
+not force-push. Main was independently checked and remained at the original
+Week 4 baseline.
+
+After that publication, a read-only verification of both complete headline
+artifact maps, audit bindings and visual-review seals passed on 30 October
+2026 UTC. E1 retains 14,000 source paths and 42,000 point/interval-valid fits.
+E2 retains 120,000 source paths and all 360,000 fit records: 359,915 valid
+points, 359,914 valid intervals and 86 retained failure records. Both archives
+retain zero pipeline errors. No headline observations or fits were regenerated
+for this check. Reporting is the next unfinished module.
+
+### Saved-record reporting checkpoint
+
+The reporting module was implemented after publication of guarded execution.
+It composes the unchanged seven-artifact standard table writer, calculates
+all 72 paired epsilon rows in four bounded CV groups, and binds the 71-column
+table to every raw cell manifest and partition. The writer never advances or
+repairs root lifecycle state. Its exact prerequisites, immutable partial-output
+behavior and input-binding schema are described in
+[week7_reporting.md](week7_reporting.md).
+
+The final focused gate observed **44 passing tests, three explicit floor-only
+skips and two historical pandas FutureWarnings in 105.28 seconds**. These are
+nine implementation checks, seven independent arithmetic/composition checks
+and 28 independent lifecycle checks. The tests use literal saved-record
+fixtures and generate no random observations or native fits. The warnings
+concern the existing pandas concatenation behavior under the pinned runtime;
+the historical writer is unchanged.
+
+Source SHA-256:
+`14d6bd477dd72d257e03f45ff8272d1ea8845d3d68ca346e04f7a903ba74eabe`.
+Source, technical note and all three test files retained identical hashes
+through the final gate. The independent checks confirm exact standard-table
+composition, retained failure candidates, own-valid versus common-valid
+denominators, hand-calculated paired Monte Carlo uncertainty, missing mu
+relative metrics, full keys, release of raw CV groups, immutable partial
+adoption, declared-artifact refusal, raw-input drift detection and preserved
+root-manifest incidents. Earlier native R=2 execution archives remain unchanged.
+
+This checkpoint certifies reporting from saved records. The separate floor
+source/arithmetic audit, plots, final runner, full exploratory computations
+and weekly completion remain pending. No full Week 7 seed has been used.

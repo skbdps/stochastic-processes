@@ -1,0 +1,842 @@
+{
+  "schema_version": 1,
+  "reviewer": "independent scientific-table review /root/recovery_path_math",
+  "reviewed_utc": "2026-10-30T09:07:59Z",
+  "outcome": "approved_for_saved_reporting_scientific_composition_scope",
+  "blocking_findings": [],
+  "scope": "Only Week 7 saved-raw reporting: bounded paired epsilon arithmetic, unchanged standard table composition, complete fixed-grid accounting, failure/missing-value retention and scientific input identity. No production source edits, new simulator runs, source replays, full-seed observations, audit, plots or later modules.",
+  "reviewed_source_files_sha256": {
+    "configs/week5_e1.yaml": "54accfb910a09f14112dbe494830d206ecba0ad4ce5e5112ad2726513091fe3e",
+    "configs/week6_e2.yaml": "e47783af312e169d4611bae8a8287b30bdd3a79b343ff5b0345394fb30e40855",
+    "docs/plan_amendment_week3_validation.md": "6eff66aa749c53cd2a0dbe1c4ac60a2ad4f72c341a34e68c0bc80d8f45a1df4f",
+    "docs/week7_execution.md": "0b96f12235e414e9bb2ad08aacd9e0b742daeeac897a7663f3148bd4d973a117",
+    "docs/week7_exploratory_protocol.md": "5313a9e90d034b401d2245834263f4c36e01ff2ab404246dd158268af9ee796c",
+    "docs/week7_mathematics.md": "a312a110d7c5f0ad6d903f6b8d045a242b8ee9ecb30e63edc5403e715b41ec92",
+    "docs/week7_reporting.md": "79311caa8cb4816adbacc479c5603ba36eaddfe454bfbccfe0b90e50e4f03edf",
+    "ou_irregular/__init__.py": "a67e08449d1a86c5c4bca1ef42dc7036504f8408b608a8739f6626eaf6f88aa5",
+    "ou_irregular/config.py": "933fcbec310b1485a62c2be381f298a340cce86b8ff23932eac3eaaafb8b3d95",
+    "ou_irregular/estimators.py": "75848a02d9479991bdd7d2dcf384aa4075f6c96a6638adeb661113134a2558e9",
+    "ou_irregular/experiments/__init__.py": "51225c4afd4ac2d6aa6357406717fd33a347556ac3985e1a83482ce4d27dc60e",
+    "ou_irregular/experiments/analysis.py": "0275b2839f021668482d202a5b3a6fb3186eb8f53a9e9a09cd1115d0376021b5",
+    "ou_irregular/experiments/audit.py": "3ed95084221eed9749da34d8409495f480ffccf20e81b962a6e458b973ddcfea",
+    "ou_irregular/experiments/comparisons.py": "75e794d0bc2f16dc016fc1c52c3311f001911b82eef8915fe1ca7ae16133cc71",
+    "ou_irregular/experiments/design.py": "e01f63ed458b0ce9324aad7ce59b4932e4c487c626485dc240efa272b3468ab2",
+    "ou_irregular/experiments/execution.py": "9df6bb716969c850f2959c1ec59c0285bd221c2312748889526c8fc8e8422f83",
+    "ou_irregular/experiments/provenance.py": "340f6c6a5934866473f3c6887ba1a5dafc7de13692eafa3ecdfb471a3dda7731",
+    "ou_irregular/experiments/storage.py": "38693fd06435879b986df1712b595be5f253545295200ca172a78f5aa0cba523",
+    "ou_irregular/experiments/summaries.py": "ac6c8a63e23df3c72626f571295c9f78e12fc1a34105744b4ca7ab2950f9c4e5",
+    "ou_irregular/experiments/workflow.py": "3990b6469cd3dfdc4c2474d996b4ab3eb71b48668d2749ca217330e0dc889f52",
+    "ou_irregular/inference/__init__.py": "0a23553dd8101d901416ce5d30fd2360046411ab449e252abb5d21553b39d0ff",
+    "ou_irregular/inference/adapters.py": "15f5d388f61db9a2b83ed9741a690d5f3267c6d6f3671e04593492d4ef751c3d",
+    "ou_irregular/inference/contracts.py": "2ca5727baef6471addc2826223f0013a9fbdf240ea597f7852c6f0f0618bb16c",
+    "ou_irregular/inference/coordinates.py": "948678cd390305948b14269247b5fa92933591500e5d4872a544c57e00a66142",
+    "ou_irregular/inference/hessian.py": "a225717d9999b8be100e860d39e6a97dc99b091bd53e153b2340c746d2b5def1",
+    "ou_irregular/inference/wald.py": "2664a02831e860045186b833fdcaf11ef0fafa76a7cfeac25c3c54aca05db744",
+    "ou_irregular/ou.py": "3fd7db4001d1973599662d4507aa89e506ba3d36f483f689561e5f4ca57236fa",
+    "ou_irregular/spacing.py": "e442fcd4f856b4d3b8126574a9078e42f7aabdf4fd026b30ba35aff665554887",
+    "ou_irregular/week4/__init__.py": "80abef9aca4f4ce97b7b13df555814c6d30c94c523765e18061f5cef55e32e81",
+    "ou_irregular/week4/config.py": "fee87355cdc725b24e28a90a57435b2c6325fb85b50b4b9294a2949fd7d17990",
+    "ou_irregular/week4/simulation.py": "ad52bdb4095ae4ed5cdf666d3ef840956af950d9901b057ff7bb70dda173a7f8",
+    "ou_irregular/week4/summaries.py": "a2076ebf69a915d5b98ddbcec93505d14637a88f49c1d8de231899edef7b0f29",
+    "ou_irregular/week5/config.py": "4af622c35dd38cf628bc77f1fa5c4f682e580534ec499ba7da6e9d761ced8e88",
+    "ou_irregular/week6/config.py": "387a600d53794d9bb5b78ee189e07fcacf2abab659fec6b1162b68481cea98a5",
+    "ou_irregular/week7/__init__.py": "03fe4570a05eb5fc3e87b0418a671c60d86b5e40b63eebbbe2b256e98f30f0fd",
+    "ou_irregular/week7/execution.py": "101d29198135b4cf8423ac60f6c9afb613ddd8e2d5e379586365d613d0db4865",
+    "ou_irregular/week7/floor_comparisons.py": "6cc387ee2e158cd37ac7c57b30f7c8f9a2557a3b730d02144382306c5a13931d",
+    "ou_irregular/week7/floor_source.py": "56d5f4150e8c254d53f8a3a13a0196e315287ddb83a7f7533e0af1dc0576c84e",
+    "ou_irregular/week7/path_diagnostics.py": "d42e37c96f192dbb01aa389106293f0a1cc8a1f36d4e18e7eda35b5895339302",
+    "ou_irregular/week7/reporting.py": "14d6bd477dd72d257e03f45ff8272d1ea8845d3d68ca346e04f7a903ba74eabe",
+    "ou_irregular/week7/selection.py": "7f4b6c8cce0f202f742ce2588b3030085f61ac7f69a3b295ee9478ba17a7c3ea",
+    "preregistration.md": "d7b1a7b6a6afa6351d3115ade91100402f846eb931952b394ecec4b68dd2813a",
+    "requirements-lock.txt": "b4b0c1e53322a2f56928e8566e531cf86e88a19cb84f51cdf4c372c98ff5d406",
+    "requirements.txt": "919704d71ed85034108ee67f9bf08a38f24ffd7ceacbbf90fa7c197fd297e176",
+    "tests/week7/test_reporting.py": "359fc558b7e1d3ce98ff4fe649c5edf10c03d17ba05c6d30d071da41ae36a6ad",
+    "tests/week7/test_reporting_reference.py": "3cee4b734839260a56aa82aaebefeb1b9ef28167ff5f7487cb041619fa64ba46",
+    "tests/week7/test_reporting_lifecycle.py": "39bf429c1ce0adf3405c276b1d592496b819eb4d96a84c370dad78e2092a85ae",
+    "tests/week7/test_floor_comparisons_reference.py": "7f682d0220ca3f6cdea1c3728e943ac9e9fb48a4fd24095d5b791312b4ca60a6"
+  },
+  "focused_reference_validation": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MPLCONFIGDIR=/tmp/ou_recovery_mpl .venv/bin/python -m pytest -q tests/week7/test_reporting_reference.py",
+    "passed": 7,
+    "skipped": 3,
+    "warnings": 2,
+    "elapsed_seconds_reported_by_pytest": 13.31,
+    "skip_reason": "Three paired-floor-only assertions explicitly skip the follow-up fixture; they are not counted as no-op passes.",
+    "output_file": "artifacts/week7_recovery_evidence/reporting_math_tests.txt",
+    "output_sha256": "b62318e7877823780cf4158e729dd9a650d97e0cb5cef85edc0fbcac31222681",
+    "capture": "Faithful concatenation of actual stdout observed from exec chunk 69af5b and write_stdin chunks 0c3989/8804fa, session 72481. No additional test invocation was made to reconstruct this log."
+  },
+  "final_validation": {
+    "gate": "Author-captured combined three-file gate, independently read back and bound by this reviewer.",
+    "test_files": [
+      "tests/week7/test_reporting.py",
+      "tests/week7/test_reporting_reference.py",
+      "tests/week7/test_reporting_lifecycle.py"
+    ],
+    "basetemp": "/tmp/ou_week7_reporting_final_v_2gagkh",
+    "passed": 44,
+    "skipped": 3,
+    "warnings": 2,
+    "elapsed_seconds_reported_by_pytest": 105.28,
+    "reference_assertion_cases_included": 7,
+    "explicit_floor_only_reference_skips": 3,
+    "output_file": "artifacts/week7_recovery_evidence/reporting_module_tests.txt",
+    "output_sha256": "739475ab0bb968a5bf14725157134d8a1a68b8ccee691e180349c6ff9a6373e5",
+    "stdout": "...........sss.................................                          [100%]\n=============================== warnings summary ===============================\ntests/week7/test_reporting_reference.py::test_standard_composition_and_every_raw_byte_are_preserved[followup]\ntests/week7/test_reporting_reference.py::test_standard_composition_and_every_raw_byte_are_preserved[followup]\n  /tmp/ou_stochastic_recovery_20261030/ou_irregular/experiments/analysis.py:81: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.\n    reference_data = pd.concat([data, read_cell(output, design, reference, identity)], ignore_index=True)\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n44 passed, 3 skipped, 2 warnings in 105.28s (0:01:45)\n",
+    "author_confirmed_all_five_source_doc_test_hashes_unchanged_during_gate": true,
+    "independent_readback_confirmed_both_literal_raw_dependency_manifests_match_current_bytes": true,
+    "extra_test_cycle_after_combined_gate": false
+  },
+  "scientific_composition_findings": [
+    "All four CV groups are processed in the fixed order; every group loads exactly three complete physical cells and yields 18 rows. Weak references to all read_cell DataFrames and the concatenated raw DataFrame are dead before each yield returns. This bounded-memory finding concerns only the additional epsilon pass.",
+    "The bounded epsilon output, full reviewed epsilon_comparisons output and saved CSV are byte-identical across all 72 rows and all 71 ordered columns.",
+    "The two standard table sets and their seven-entry manifests are byte-identical to independent invocation of the unchanged historical writer on preserved raw copies.",
+    "Own-valid standard metrics differ as expected from paired common-valid metrics. The hand-computed bias, MSE, RMSE-ratio and all-planned coverage references retain the correct shared-pair covariance.",
+    "Unavailable points retain parameter rows, planned counts, finite numerical candidates, status and failure reasons; their point metrics remain undefined. Unavailable intervals contribute zero to all-planned operational coverage, while conditional coverage is undefined when no interval is available.",
+    "Mu relative metrics remain undefined. Absolute mu metrics and defined absolute-RMSE ratios are retained. No missing-point metric is replaced with zero.",
+    "The identical CV=0 control yields unit defined RMSE ratios and zero paired uncertainty in this R5 fixture; it is one shared control, not independent epsilon samples.",
+    "The raw input descriptor binds the complete 12-cell partition/manifest map, design, source policy and run identity, without root lifecycle bytes. The floor R5 source policy correctly reports 60 physical realizations, 20 independent coupling groups and 180 fit records.",
+    "Samplers, source_records and estimator fit interfaces are guarded against invocation during reporting. Every raw/root byte remains identical to the pre-reporting copy, and root status remains raw_complete_pending_audit."
+  ],
+  "literal_fixture_evidence": {
+    "followup": {
+      "scope": "Literal fabricated unit-test records; not simulated observations and not source-replay evidence.",
+      "temporary_output": "/tmp/ou_week7_reporting_final_v_2gagkh/reporting_literal_reference_followup0/guarded_report",
+      "seed_label_in_fixed_validation_design": 21261007,
+      "replications": 2,
+      "physical_cell_count": 2,
+      "raw_fit_record_count": 12,
+      "source_policy": {
+        "actual_to_seed_anchor": {
+          "02b2a4527d24e8efc14cc8c7ad94e870a01e112e1fbe498357b6d00478400ad3": "02b2a4527d24e8efc14cc8c7ad94e870a01e112e1fbe498357b6d00478400ad3",
+          "22f160a706b9d06e7dcfbe9f15c8dce3831728735ecdccb2262ec2a8399ab505": "22f160a706b9d06e7dcfbe9f15c8dce3831728735ecdccb2262ec2a8399ab505"
+        },
+        "name": "registered_ou_source_v1",
+        "planned_fit_records": 12,
+        "planned_independent_coupling_groups": 4,
+        "planned_source_realizations": 4,
+        "renormalize_floored_gaps": false,
+        "root_seed": 21261007,
+        "seed_anchor_floor_fraction": null,
+        "stationary_initialization": true
+      },
+      "run_identity": "af59dea0a3f7cfce84aa67f45877e214a2981133675d8148d8d0826f36d72517",
+      "root_status": "raw_complete_pending_audit",
+      "source_dependency_manifest_matches_current_bytes": true,
+      "every_raw_and_root_file_matches_pre_reporting_copy": true,
+      "raw_files_sha256": {
+        "cells/02b2a4527d24e8efc14cc8c7ad94e870a01e112e1fbe498357b6d00478400ad3/cell_manifest.json": "2f691c4daacb3eadaf729a8cb50dcc2dec5e3b28d4838315eb414983ca5411a9",
+        "cells/02b2a4527d24e8efc14cc8c7ad94e870a01e112e1fbe498357b6d00478400ad3/part-000000-000002.jsonl.gz": "ebd5e04aa03ebcbfd60cb514df161dfe9e3ba5070bc31314531d2aee2a32d9bd",
+        "cells/22f160a706b9d06e7dcfbe9f15c8dce3831728735ecdccb2262ec2a8399ab505/cell_manifest.json": "453a7052535947ae349fead7fe731f71ef9b74abee82e4ca860e6c1a4ea78e25",
+        "cells/22f160a706b9d06e7dcfbe9f15c8dce3831728735ecdccb2262ec2a8399ab505/part-000000-000002.jsonl.gz": "05f46cc4cdb8e61ddaef56cd9d58d0fa5cc6cc9a4cd887a0e8295c675cbe9f35",
+        "resolved_design.json": "a14f1d5d033fc1832232daaaba9581204103ac464b1e7dfc169d185fb7787e45",
+        "run_metadata.json": "968ea41ef00bc53617b226e8f8db29695ae64ef761df27af31e3e144870b4c69"
+      },
+      "all_seven_standard_artifact_bytes_and_manifest_match_unchanged_legacy_writer": true,
+      "standard_table_manifest": {
+        "failed_fits.csv.gz": {
+          "rows": 6,
+          "sha256": "3769e12e88de582ef695cbfa3dd9cc667244b988010d3af0ca1b0305cdf07c2d"
+        },
+        "numerical_diagnostics.csv": {
+          "rows": 6,
+          "sha256": "289e6a61c13f906e7f4c7e1a7a011fb691b7faacb4d3776ac67eb96f0f8abc0a"
+        },
+        "outcome_counts.csv": {
+          "rows": 6,
+          "sha256": "3896a98261bdcaacc9940e23fa164fa4b8f57d33bd2a054a03c4b35e0e2d0d4b"
+        },
+        "paired_comparisons.csv": {
+          "rows": 18,
+          "sha256": "992609b1fb24f06128e8af510c507ceec05ef73545de3ff3f576f7e39fb91309"
+        },
+        "parameter_summary.csv": {
+          "rows": 18,
+          "sha256": "668f97000ef1f21121e9e29f5290d60698f5b0ae164a481a507c08d755148447"
+        },
+        "regular_comparisons.csv": {
+          "rows": 18,
+          "sha256": "00f2b55eb7bc4ea2515b4cdac46f45d588daa33d65a52ebab559be075016865d"
+        },
+        "spacing_summary.csv": {
+          "rows": 2,
+          "sha256": "d99479330f1cdf02220894fb88022b72d696d9b508e3d945e8fa3ff335e62f47"
+        }
+      },
+      "retained_failed_fit_rows": 6,
+      "literal_candidate_estimates_nll_bounds_ses_and_statuses_retained": true,
+      "epsilon_artifacts_absent": true,
+      "all_invalid_cv_half_parameter_rows_retained": 9
+    },
+    "floor": {
+      "scope": "Literal fabricated unit-test records; not simulated observations and not source-replay evidence.",
+      "temporary_output": "/tmp/ou_week7_reporting_final_v_2gagkh/reporting_literal_reference_floor0/guarded_report",
+      "seed_label_in_fixed_validation_design": 21261009,
+      "replications": 5,
+      "physical_cell_count": 12,
+      "raw_fit_record_count": 180,
+      "source_policy": {
+        "actual_to_seed_anchor": {
+          "0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945": "0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945",
+          "235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3": "235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3",
+          "23889a74340ad5b5c5019887daa7f9933c2774dab7139d7740fcb9d413ad9cce": "a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda",
+          "2ba0afbf32c8fcee7dc26bf0881c5905cb7db8afd550357167788e73e3d5beb2": "0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945",
+          "5b6a1ac0563863b754130440d6118d4ba10b04443d09788ddcca84334b8c05a7": "b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e",
+          "73410fdb847dcc57098654b9b5d9eaa9a63fcaa2b33ec1e7e14e173dd8a44bdd": "235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3",
+          "7d8f236383608719ede6086a0df72b0133caae0a37e9140b4e2e59e56257c53b": "b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e",
+          "977e8c489b9f01d2395e659d5f00af1670003d03a44f0f41e2d3974215d1740c": "0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945",
+          "a6878345903c80840ea4ad607a3cf5d769eb86a36d6cc42309928242989247f2": "a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda",
+          "a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda": "a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda",
+          "b38f1c3a2fdde9b0660b523dc49c293ae21e55d4db20366309975d5d8b1eff0a": "235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3",
+          "b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e": "b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e"
+        },
+        "name": "week7_paired_floor_v1_shared_gamma_stationary_x0_and_standard_normal_innovations",
+        "planned_fit_records": 180,
+        "planned_independent_coupling_groups": 20,
+        "planned_source_realizations": 60,
+        "renormalize_floored_gaps": false,
+        "root_seed": 21261009,
+        "seed_anchor_floor_fraction": 1e-06,
+        "stationary_initialization": true
+      },
+      "run_identity": "356771121e8e7b2f26b58a685ed522557f13526aea5386b0e4cce505d47a7afa",
+      "root_status": "raw_complete_pending_audit",
+      "source_dependency_manifest_matches_current_bytes": true,
+      "every_raw_and_root_file_matches_pre_reporting_copy": true,
+      "raw_files_sha256": {
+        "cells/0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945/cell_manifest.json": "96044c658cf8022579bc5012dff318c52fb7852fcdb373eeb023e7e8b8bd8c9b",
+        "cells/0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945/part-000000-000002.jsonl.gz": "22b58772a17bde8178899d1e629f1bac6d5cb1b54ccc1e962369f35d177cdad2",
+        "cells/0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945/part-000002-000004.jsonl.gz": "17b68686b1979f89dca9c61805fd1aa68b6362dac312bf6d1139c90dac20ba67",
+        "cells/0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945/part-000004-000005.jsonl.gz": "83984308d4e860d3d9eb6c6afce3d9b8bc679cba034c787a1aa55f0993a0fb3d",
+        "cells/235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3/cell_manifest.json": "228a8f29ec38ccbdfbfc6b1e565d925aa47704c0ec1b3088894b53b5da7e067f",
+        "cells/235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3/part-000000-000002.jsonl.gz": "7ce8db99e362e0b33079ba6559b95f48a3a6d3e8b962cf9d311df64db542cc06",
+        "cells/235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3/part-000002-000004.jsonl.gz": "6678287063831036e382405808d6080d18d5bf2b00ac6296e29d88d8a5595ae6",
+        "cells/235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3/part-000004-000005.jsonl.gz": "de1282c5c2a145bb4851031c3f1259089405bf39370b49ace395bbd25ebcb7eb",
+        "cells/23889a74340ad5b5c5019887daa7f9933c2774dab7139d7740fcb9d413ad9cce/cell_manifest.json": "0a3a2ff0d6bab9f7eefdb47d74603e448d36f29f5da26dc93e51f65339b843a7",
+        "cells/23889a74340ad5b5c5019887daa7f9933c2774dab7139d7740fcb9d413ad9cce/part-000000-000002.jsonl.gz": "f539fb35e72b0ceca6bc8447dac08b82ed14a5f140244ac946cb24145d6d9aea",
+        "cells/23889a74340ad5b5c5019887daa7f9933c2774dab7139d7740fcb9d413ad9cce/part-000002-000004.jsonl.gz": "da80b01f1b14bbc43126caac1ab28c96ce7e9770bdb473048b3180c918355361",
+        "cells/23889a74340ad5b5c5019887daa7f9933c2774dab7139d7740fcb9d413ad9cce/part-000004-000005.jsonl.gz": "0b522e5edb41e2cdbb1892a18447d4fbd2addacb4c5cde46698a4ac948af200e",
+        "cells/2ba0afbf32c8fcee7dc26bf0881c5905cb7db8afd550357167788e73e3d5beb2/cell_manifest.json": "3f33098c7c6d5ef7497cc389b00884d00e4829f0558a7656f65572e7293d694a",
+        "cells/2ba0afbf32c8fcee7dc26bf0881c5905cb7db8afd550357167788e73e3d5beb2/part-000000-000002.jsonl.gz": "2d2bfe768627e7758bc2df8128579a1539616333d08d6238867801221d07c744",
+        "cells/2ba0afbf32c8fcee7dc26bf0881c5905cb7db8afd550357167788e73e3d5beb2/part-000002-000004.jsonl.gz": "d08f0b5a2dd3052b65dbb81ddecb9ecf31b555d2e6676ec1f5f83d90da2b0415",
+        "cells/2ba0afbf32c8fcee7dc26bf0881c5905cb7db8afd550357167788e73e3d5beb2/part-000004-000005.jsonl.gz": "af922e693e3601fbbc9e1c07b2501a40832c6d2d30f53d4d6b34214099fe09e0",
+        "cells/5b6a1ac0563863b754130440d6118d4ba10b04443d09788ddcca84334b8c05a7/cell_manifest.json": "f2c157e4964419d0a88650d2bf2e3a425844f7985fdf65e96daef7bb39378adb",
+        "cells/5b6a1ac0563863b754130440d6118d4ba10b04443d09788ddcca84334b8c05a7/part-000000-000002.jsonl.gz": "f3deef2ff3266c36e368defe369a730dba408be4e29ed5aeb6b56eda4761ddf4",
+        "cells/5b6a1ac0563863b754130440d6118d4ba10b04443d09788ddcca84334b8c05a7/part-000002-000004.jsonl.gz": "42d3d9c01666836fb1282929cadeab57b304601e3f3bc926496d5f34a0375c95",
+        "cells/5b6a1ac0563863b754130440d6118d4ba10b04443d09788ddcca84334b8c05a7/part-000004-000005.jsonl.gz": "c202eca3552526a6097eb1912c1cfb77e91709f23c50539797f41a99dfee4454",
+        "cells/73410fdb847dcc57098654b9b5d9eaa9a63fcaa2b33ec1e7e14e173dd8a44bdd/cell_manifest.json": "223d67f945e85619d06f92b0d7d33d294732515561a9a72cf3e9ba000c944425",
+        "cells/73410fdb847dcc57098654b9b5d9eaa9a63fcaa2b33ec1e7e14e173dd8a44bdd/part-000000-000002.jsonl.gz": "05b5677869227c5304d008d437030a346881d116e0c9f98fff7d696cb069a608",
+        "cells/73410fdb847dcc57098654b9b5d9eaa9a63fcaa2b33ec1e7e14e173dd8a44bdd/part-000002-000004.jsonl.gz": "ae6fa4d08366f6725bff3abb2af6516c57c15c5b161d4eab430b9a7dc3385f57",
+        "cells/73410fdb847dcc57098654b9b5d9eaa9a63fcaa2b33ec1e7e14e173dd8a44bdd/part-000004-000005.jsonl.gz": "ecaa7546dcc63e780cd7112a5edb932db2c308aaf6fa4931f570c0684aab264c",
+        "cells/7d8f236383608719ede6086a0df72b0133caae0a37e9140b4e2e59e56257c53b/cell_manifest.json": "fcf673b0ee511de05eb4ba4baa40d61a2a0dfed5f03c706202e61038e23df0bd",
+        "cells/7d8f236383608719ede6086a0df72b0133caae0a37e9140b4e2e59e56257c53b/part-000000-000002.jsonl.gz": "4668e0bb2ae0e1eae20dc6f3e92ced888445683770ce4bfa11f7e17281bfeb3f",
+        "cells/7d8f236383608719ede6086a0df72b0133caae0a37e9140b4e2e59e56257c53b/part-000002-000004.jsonl.gz": "b87287d2d9cbe1820ff9c2639d441fc86dcab05b4b64c763d99588e824aa36c5",
+        "cells/7d8f236383608719ede6086a0df72b0133caae0a37e9140b4e2e59e56257c53b/part-000004-000005.jsonl.gz": "1e11f2d4fad7faa5b20d4d70990153b2452da445b3851103c24263459c6cfe9c",
+        "cells/977e8c489b9f01d2395e659d5f00af1670003d03a44f0f41e2d3974215d1740c/cell_manifest.json": "f804d9a8ce11fb6608a6a3586f15fb7993862705d4048dcb710dca5252efbf47",
+        "cells/977e8c489b9f01d2395e659d5f00af1670003d03a44f0f41e2d3974215d1740c/part-000000-000002.jsonl.gz": "d0f4953ed2de244d59dcb05368af2ea158e6127f6b947c8f0d04d000b0e63ea2",
+        "cells/977e8c489b9f01d2395e659d5f00af1670003d03a44f0f41e2d3974215d1740c/part-000002-000004.jsonl.gz": "5f1a5d4301b001286505f58e1d184e8b5609b0b225a30f690b16193017a8b8b6",
+        "cells/977e8c489b9f01d2395e659d5f00af1670003d03a44f0f41e2d3974215d1740c/part-000004-000005.jsonl.gz": "53fb7149959cfa050232e205af5392f6047e910130cd5fe445d77e02ad3b4585",
+        "cells/a6878345903c80840ea4ad607a3cf5d769eb86a36d6cc42309928242989247f2/cell_manifest.json": "5158f3742a25d0f46bcc722a18c92e305e3cd78a99448839913366a4797deb52",
+        "cells/a6878345903c80840ea4ad607a3cf5d769eb86a36d6cc42309928242989247f2/part-000000-000002.jsonl.gz": "7e4912339767f20d739bb80a0b49eb6a9b1a40a251381dfa725a0a9e82a9bac3",
+        "cells/a6878345903c80840ea4ad607a3cf5d769eb86a36d6cc42309928242989247f2/part-000002-000004.jsonl.gz": "8fc10fee218a496b49d36d2fa1cbd9fdca4b7fb17799e661b5f9105ab083a5a0",
+        "cells/a6878345903c80840ea4ad607a3cf5d769eb86a36d6cc42309928242989247f2/part-000004-000005.jsonl.gz": "e2fdbf3cf167059e34dee9b1582b408516f62b8954a0afd2964502d2608538d5",
+        "cells/a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda/cell_manifest.json": "13c1b4e545f539d42e5a0f7e814e0c751f5546977eb128c2b234422184490414",
+        "cells/a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda/part-000000-000002.jsonl.gz": "aa3cd593baa27cd83b809ca2718fe7965b82a0dabb359a018fb6840e76ecaec5",
+        "cells/a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda/part-000002-000004.jsonl.gz": "ad2bbd9f44e7fee79ae5e6ed72c483ad8eab1c0462835c6185597509bf279792",
+        "cells/a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda/part-000004-000005.jsonl.gz": "79ffd4597b223eb1a4eb92cba84b1ca6d8d33dd428d8f7659f26d895a81f6ac0",
+        "cells/b38f1c3a2fdde9b0660b523dc49c293ae21e55d4db20366309975d5d8b1eff0a/cell_manifest.json": "5499acbb0b191e41c6b3d19eb2df1b5f0ebd5caac4a425f5be7fc61a28e333c5",
+        "cells/b38f1c3a2fdde9b0660b523dc49c293ae21e55d4db20366309975d5d8b1eff0a/part-000000-000002.jsonl.gz": "664e3dd85ea757e758554a2764fe46a15b8d4d1b8181c31295ed0ff8ed83b588",
+        "cells/b38f1c3a2fdde9b0660b523dc49c293ae21e55d4db20366309975d5d8b1eff0a/part-000002-000004.jsonl.gz": "464c2de9572918f454892a4857ee04aaf8cbf9df6777b422e28ff7f40fdd23d5",
+        "cells/b38f1c3a2fdde9b0660b523dc49c293ae21e55d4db20366309975d5d8b1eff0a/part-000004-000005.jsonl.gz": "38d8faa664e23b125331ae2a50652cbccc1254eb5efb6103f12809188b406ba1",
+        "cells/b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e/cell_manifest.json": "7b754dabcc272c5cfec0ede9a1fc7b4838b0788b6b328de0106ab4a581141638",
+        "cells/b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e/part-000000-000002.jsonl.gz": "fa653aea7413caf03a5a307dcc21e9f022e2c653a17bf54f9fff7bad61d26dc6",
+        "cells/b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e/part-000002-000004.jsonl.gz": "e347f9c2eaae7064a93f1b2527fa7e821337b68d157d16075545247db1b24030",
+        "cells/b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e/part-000004-000005.jsonl.gz": "e4c3fd0c9c9af901110533a3cceafd6c08281e749e36be30ed189bbf1729aba2",
+        "resolved_design.json": "6e1ce82dccc8856d4e584135e5039d46cb922d29adc255764e0008eea55c02e3",
+        "run_metadata.json": "23658cd2d92c2f82a7766e01db77391201ae26527bc2af84282a8b2cb918d110"
+      },
+      "all_seven_standard_artifact_bytes_and_manifest_match_unchanged_legacy_writer": true,
+      "standard_table_manifest": {
+        "failed_fits.csv.gz": {
+          "rows": 75,
+          "sha256": "16e050255a2b40be3e2c69d81be22e69ac8ab083d48e71b3dd999e01fcb86bc6"
+        },
+        "numerical_diagnostics.csv": {
+          "rows": 36,
+          "sha256": "a6169ec2c03f2503668982de034577f8f75e5d5cef0e36a74922f0edd286d8ae"
+        },
+        "outcome_counts.csv": {
+          "rows": 106,
+          "sha256": "61e1a3d2497632ed4fcbaf9f5dbf6d3403845820f9962c95eee9f0cccfd97439"
+        },
+        "paired_comparisons.csv": {
+          "rows": 108,
+          "sha256": "3f623b99b37fd7c5f3bfc9f3ccab60247aa99187d35c8ccc76195f8a9f56664e"
+        },
+        "parameter_summary.csv": {
+          "rows": 108,
+          "sha256": "d07fb987c2ee51bb9c1ee766d3bb074211fd1732905bf2f4aacb18fc42755d6b"
+        },
+        "regular_comparisons.csv": {
+          "rows": 108,
+          "sha256": "64a3c9dcc9d2a6ec73909def1f7b2f4f4152c78a31868cbb0d3d91ea5228861b"
+        },
+        "spacing_summary.csv": {
+          "rows": 12,
+          "sha256": "9bdacbab247dc72f4e5b293716470a00ad6ab0f7ecdc389ecb3ad06ff8404d5e"
+        }
+      },
+      "retained_failed_fit_rows": 75,
+      "literal_candidate_estimates_nll_bounds_ses_and_statuses_retained": true,
+      "epsilon_manifest": {
+        "design_sha256": "a0b39f276b1160f25bc5a0a54adc4f9334de5ba09264b841127f87ffe9f40bbc",
+        "difference_direction": "epsilon_minus_registered_floor",
+        "project": "ou-week7-paired-floor-reporting",
+        "ratio_direction": "epsilon_over_registered_floor",
+        "raw_input_sha256": "d153dd2c430e75bd010f683a2a0067c6aa167307860478af6e357af2f4aea381",
+        "raw_inputs": {
+          "cells": {
+            "0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945": {
+              "manifest_sha256": "96044c658cf8022579bc5012dff318c52fb7852fcdb373eeb023e7e8b8bd8c9b",
+              "partitions": [
+                {
+                  "filename": "part-000000-000002.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "22b58772a17bde8178899d1e629f1bac6d5cb1b54ccc1e962369f35d177cdad2",
+                  "start": 0,
+                  "stop": 2
+                },
+                {
+                  "filename": "part-000002-000004.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "17b68686b1979f89dca9c61805fd1aa68b6362dac312bf6d1139c90dac20ba67",
+                  "start": 2,
+                  "stop": 4
+                },
+                {
+                  "filename": "part-000004-000005.jsonl.gz",
+                  "rows": 3,
+                  "sha256": "83984308d4e860d3d9eb6c6afce3d9b8bc679cba034c787a1aa55f0993a0fb3d",
+                  "start": 4,
+                  "stop": 5
+                }
+              ]
+            },
+            "235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3": {
+              "manifest_sha256": "228a8f29ec38ccbdfbfc6b1e565d925aa47704c0ec1b3088894b53b5da7e067f",
+              "partitions": [
+                {
+                  "filename": "part-000000-000002.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "7ce8db99e362e0b33079ba6559b95f48a3a6d3e8b962cf9d311df64db542cc06",
+                  "start": 0,
+                  "stop": 2
+                },
+                {
+                  "filename": "part-000002-000004.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "6678287063831036e382405808d6080d18d5bf2b00ac6296e29d88d8a5595ae6",
+                  "start": 2,
+                  "stop": 4
+                },
+                {
+                  "filename": "part-000004-000005.jsonl.gz",
+                  "rows": 3,
+                  "sha256": "de1282c5c2a145bb4851031c3f1259089405bf39370b49ace395bbd25ebcb7eb",
+                  "start": 4,
+                  "stop": 5
+                }
+              ]
+            },
+            "23889a74340ad5b5c5019887daa7f9933c2774dab7139d7740fcb9d413ad9cce": {
+              "manifest_sha256": "0a3a2ff0d6bab9f7eefdb47d74603e448d36f29f5da26dc93e51f65339b843a7",
+              "partitions": [
+                {
+                  "filename": "part-000000-000002.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "f539fb35e72b0ceca6bc8447dac08b82ed14a5f140244ac946cb24145d6d9aea",
+                  "start": 0,
+                  "stop": 2
+                },
+                {
+                  "filename": "part-000002-000004.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "da80b01f1b14bbc43126caac1ab28c96ce7e9770bdb473048b3180c918355361",
+                  "start": 2,
+                  "stop": 4
+                },
+                {
+                  "filename": "part-000004-000005.jsonl.gz",
+                  "rows": 3,
+                  "sha256": "0b522e5edb41e2cdbb1892a18447d4fbd2addacb4c5cde46698a4ac948af200e",
+                  "start": 4,
+                  "stop": 5
+                }
+              ]
+            },
+            "2ba0afbf32c8fcee7dc26bf0881c5905cb7db8afd550357167788e73e3d5beb2": {
+              "manifest_sha256": "3f33098c7c6d5ef7497cc389b00884d00e4829f0558a7656f65572e7293d694a",
+              "partitions": [
+                {
+                  "filename": "part-000000-000002.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "2d2bfe768627e7758bc2df8128579a1539616333d08d6238867801221d07c744",
+                  "start": 0,
+                  "stop": 2
+                },
+                {
+                  "filename": "part-000002-000004.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "d08f0b5a2dd3052b65dbb81ddecb9ecf31b555d2e6676ec1f5f83d90da2b0415",
+                  "start": 2,
+                  "stop": 4
+                },
+                {
+                  "filename": "part-000004-000005.jsonl.gz",
+                  "rows": 3,
+                  "sha256": "af922e693e3601fbbc9e1c07b2501a40832c6d2d30f53d4d6b34214099fe09e0",
+                  "start": 4,
+                  "stop": 5
+                }
+              ]
+            },
+            "5b6a1ac0563863b754130440d6118d4ba10b04443d09788ddcca84334b8c05a7": {
+              "manifest_sha256": "f2c157e4964419d0a88650d2bf2e3a425844f7985fdf65e96daef7bb39378adb",
+              "partitions": [
+                {
+                  "filename": "part-000000-000002.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "f3deef2ff3266c36e368defe369a730dba408be4e29ed5aeb6b56eda4761ddf4",
+                  "start": 0,
+                  "stop": 2
+                },
+                {
+                  "filename": "part-000002-000004.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "42d3d9c01666836fb1282929cadeab57b304601e3f3bc926496d5f34a0375c95",
+                  "start": 2,
+                  "stop": 4
+                },
+                {
+                  "filename": "part-000004-000005.jsonl.gz",
+                  "rows": 3,
+                  "sha256": "c202eca3552526a6097eb1912c1cfb77e91709f23c50539797f41a99dfee4454",
+                  "start": 4,
+                  "stop": 5
+                }
+              ]
+            },
+            "73410fdb847dcc57098654b9b5d9eaa9a63fcaa2b33ec1e7e14e173dd8a44bdd": {
+              "manifest_sha256": "223d67f945e85619d06f92b0d7d33d294732515561a9a72cf3e9ba000c944425",
+              "partitions": [
+                {
+                  "filename": "part-000000-000002.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "05b5677869227c5304d008d437030a346881d116e0c9f98fff7d696cb069a608",
+                  "start": 0,
+                  "stop": 2
+                },
+                {
+                  "filename": "part-000002-000004.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "ae6fa4d08366f6725bff3abb2af6516c57c15c5b161d4eab430b9a7dc3385f57",
+                  "start": 2,
+                  "stop": 4
+                },
+                {
+                  "filename": "part-000004-000005.jsonl.gz",
+                  "rows": 3,
+                  "sha256": "ecaa7546dcc63e780cd7112a5edb932db2c308aaf6fa4931f570c0684aab264c",
+                  "start": 4,
+                  "stop": 5
+                }
+              ]
+            },
+            "7d8f236383608719ede6086a0df72b0133caae0a37e9140b4e2e59e56257c53b": {
+              "manifest_sha256": "fcf673b0ee511de05eb4ba4baa40d61a2a0dfed5f03c706202e61038e23df0bd",
+              "partitions": [
+                {
+                  "filename": "part-000000-000002.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "4668e0bb2ae0e1eae20dc6f3e92ced888445683770ce4bfa11f7e17281bfeb3f",
+                  "start": 0,
+                  "stop": 2
+                },
+                {
+                  "filename": "part-000002-000004.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "b87287d2d9cbe1820ff9c2639d441fc86dcab05b4b64c763d99588e824aa36c5",
+                  "start": 2,
+                  "stop": 4
+                },
+                {
+                  "filename": "part-000004-000005.jsonl.gz",
+                  "rows": 3,
+                  "sha256": "1e11f2d4fad7faa5b20d4d70990153b2452da445b3851103c24263459c6cfe9c",
+                  "start": 4,
+                  "stop": 5
+                }
+              ]
+            },
+            "977e8c489b9f01d2395e659d5f00af1670003d03a44f0f41e2d3974215d1740c": {
+              "manifest_sha256": "f804d9a8ce11fb6608a6a3586f15fb7993862705d4048dcb710dca5252efbf47",
+              "partitions": [
+                {
+                  "filename": "part-000000-000002.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "d0f4953ed2de244d59dcb05368af2ea158e6127f6b947c8f0d04d000b0e63ea2",
+                  "start": 0,
+                  "stop": 2
+                },
+                {
+                  "filename": "part-000002-000004.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "5f1a5d4301b001286505f58e1d184e8b5609b0b225a30f690b16193017a8b8b6",
+                  "start": 2,
+                  "stop": 4
+                },
+                {
+                  "filename": "part-000004-000005.jsonl.gz",
+                  "rows": 3,
+                  "sha256": "53fb7149959cfa050232e205af5392f6047e910130cd5fe445d77e02ad3b4585",
+                  "start": 4,
+                  "stop": 5
+                }
+              ]
+            },
+            "a6878345903c80840ea4ad607a3cf5d769eb86a36d6cc42309928242989247f2": {
+              "manifest_sha256": "5158f3742a25d0f46bcc722a18c92e305e3cd78a99448839913366a4797deb52",
+              "partitions": [
+                {
+                  "filename": "part-000000-000002.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "7e4912339767f20d739bb80a0b49eb6a9b1a40a251381dfa725a0a9e82a9bac3",
+                  "start": 0,
+                  "stop": 2
+                },
+                {
+                  "filename": "part-000002-000004.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "8fc10fee218a496b49d36d2fa1cbd9fdca4b7fb17799e661b5f9105ab083a5a0",
+                  "start": 2,
+                  "stop": 4
+                },
+                {
+                  "filename": "part-000004-000005.jsonl.gz",
+                  "rows": 3,
+                  "sha256": "e2fdbf3cf167059e34dee9b1582b408516f62b8954a0afd2964502d2608538d5",
+                  "start": 4,
+                  "stop": 5
+                }
+              ]
+            },
+            "a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda": {
+              "manifest_sha256": "13c1b4e545f539d42e5a0f7e814e0c751f5546977eb128c2b234422184490414",
+              "partitions": [
+                {
+                  "filename": "part-000000-000002.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "aa3cd593baa27cd83b809ca2718fe7965b82a0dabb359a018fb6840e76ecaec5",
+                  "start": 0,
+                  "stop": 2
+                },
+                {
+                  "filename": "part-000002-000004.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "ad2bbd9f44e7fee79ae5e6ed72c483ad8eab1c0462835c6185597509bf279792",
+                  "start": 2,
+                  "stop": 4
+                },
+                {
+                  "filename": "part-000004-000005.jsonl.gz",
+                  "rows": 3,
+                  "sha256": "79ffd4597b223eb1a4eb92cba84b1ca6d8d33dd428d8f7659f26d895a81f6ac0",
+                  "start": 4,
+                  "stop": 5
+                }
+              ]
+            },
+            "b38f1c3a2fdde9b0660b523dc49c293ae21e55d4db20366309975d5d8b1eff0a": {
+              "manifest_sha256": "5499acbb0b191e41c6b3d19eb2df1b5f0ebd5caac4a425f5be7fc61a28e333c5",
+              "partitions": [
+                {
+                  "filename": "part-000000-000002.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "664e3dd85ea757e758554a2764fe46a15b8d4d1b8181c31295ed0ff8ed83b588",
+                  "start": 0,
+                  "stop": 2
+                },
+                {
+                  "filename": "part-000002-000004.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "464c2de9572918f454892a4857ee04aaf8cbf9df6777b422e28ff7f40fdd23d5",
+                  "start": 2,
+                  "stop": 4
+                },
+                {
+                  "filename": "part-000004-000005.jsonl.gz",
+                  "rows": 3,
+                  "sha256": "38d8faa664e23b125331ae2a50652cbccc1254eb5efb6103f12809188b406ba1",
+                  "start": 4,
+                  "stop": 5
+                }
+              ]
+            },
+            "b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e": {
+              "manifest_sha256": "7b754dabcc272c5cfec0ede9a1fc7b4838b0788b6b328de0106ab4a581141638",
+              "partitions": [
+                {
+                  "filename": "part-000000-000002.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "fa653aea7413caf03a5a307dcc21e9f022e2c653a17bf54f9fff7bad61d26dc6",
+                  "start": 0,
+                  "stop": 2
+                },
+                {
+                  "filename": "part-000002-000004.jsonl.gz",
+                  "rows": 6,
+                  "sha256": "e347f9c2eaae7064a93f1b2527fa7e821337b68d157d16075545247db1b24030",
+                  "start": 2,
+                  "stop": 4
+                },
+                {
+                  "filename": "part-000004-000005.jsonl.gz",
+                  "rows": 3,
+                  "sha256": "e4c3fd0c9c9af901110533a3cceafd6c08281e749e36be30ed189bbf1729aba2",
+                  "start": 4,
+                  "stop": 5
+                }
+              ]
+            }
+          },
+          "design_sha256": "a0b39f276b1160f25bc5a0a54adc4f9334de5ba09264b841127f87ffe9f40bbc",
+          "resolved_design_sha256": "6e1ce82dccc8856d4e584135e5039d46cb922d29adc255764e0008eea55c02e3",
+          "run_identity": "356771121e8e7b2f26b58a685ed522557f13526aea5386b0e4cce505d47a7afa",
+          "source_policy": {
+            "actual_to_seed_anchor": {
+              "0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945": "0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945",
+              "235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3": "235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3",
+              "23889a74340ad5b5c5019887daa7f9933c2774dab7139d7740fcb9d413ad9cce": "a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda",
+              "2ba0afbf32c8fcee7dc26bf0881c5905cb7db8afd550357167788e73e3d5beb2": "0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945",
+              "5b6a1ac0563863b754130440d6118d4ba10b04443d09788ddcca84334b8c05a7": "b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e",
+              "73410fdb847dcc57098654b9b5d9eaa9a63fcaa2b33ec1e7e14e173dd8a44bdd": "235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3",
+              "7d8f236383608719ede6086a0df72b0133caae0a37e9140b4e2e59e56257c53b": "b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e",
+              "977e8c489b9f01d2395e659d5f00af1670003d03a44f0f41e2d3974215d1740c": "0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945",
+              "a6878345903c80840ea4ad607a3cf5d769eb86a36d6cc42309928242989247f2": "a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda",
+              "a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda": "a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda",
+              "b38f1c3a2fdde9b0660b523dc49c293ae21e55d4db20366309975d5d8b1eff0a": "235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3",
+              "b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e": "b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e"
+            },
+            "name": "week7_paired_floor_v1_shared_gamma_stationary_x0_and_standard_normal_innovations",
+            "planned_fit_records": 180,
+            "planned_independent_coupling_groups": 20,
+            "planned_source_realizations": 60,
+            "renormalize_floored_gaps": false,
+            "root_seed": 21261009,
+            "seed_anchor_floor_fraction": 1e-06,
+            "stationary_initialization": true
+          }
+        },
+        "reporting_contract": "week7_saved_raw_tables_v1",
+        "run_identity": "356771121e8e7b2f26b58a685ed522557f13526aea5386b0e4cce505d47a7afa",
+        "schema_version": 1,
+        "table": {
+          "columns": [
+            "cell_id",
+            "reference_cell_id",
+            "seed_anchor_cell_id",
+            "floor_fraction",
+            "reference_floor_fraction",
+            "estimator",
+            "parameter",
+            "truth",
+            "n",
+            "theta_mean_gap",
+            "mean_gap",
+            "cv",
+            "source_seed",
+            "source_coupling_policy",
+            "comparison_type",
+            "difference_direction",
+            "ratio_direction",
+            "point_subset",
+            "coverage_subset",
+            "n_planned",
+            "n_point_valid_a",
+            "n_point_valid_b",
+            "n_interval_valid_a",
+            "n_interval_valid_b",
+            "n_common_point_valid",
+            "n_common_interval_valid",
+            "bias_a_common",
+            "bias_b_common",
+            "mse_a_common",
+            "mse_b_common",
+            "rmse_a_common",
+            "rmse_b_common",
+            "relative_bias_a_common",
+            "relative_bias_b_common",
+            "relative_rmse_a_common",
+            "relative_rmse_b_common",
+            "squared_error_covariance_common",
+            "bias_difference",
+            "bias_difference_mcse",
+            "bias_difference_mc_lower",
+            "bias_difference_mc_upper",
+            "mse_difference",
+            "mse_difference_mcse",
+            "mse_difference_mc_lower",
+            "mse_difference_mc_upper",
+            "relative_bias_difference",
+            "relative_bias_difference_mcse",
+            "relative_bias_difference_mc_lower",
+            "relative_bias_difference_mc_upper",
+            "rmse_difference",
+            "rmse_difference_mcse",
+            "rmse_difference_mc_lower",
+            "rmse_difference_mc_upper",
+            "rmse_ratio",
+            "rmse_ratio_mcse",
+            "rmse_ratio_log_mcse",
+            "rmse_ratio_mc_lower",
+            "rmse_ratio_mc_upper",
+            "rmse_ratio_uncertainty",
+            "n_covered_a",
+            "n_covered_b",
+            "n_both_cover",
+            "n_a_only_cover",
+            "n_b_only_cover",
+            "n_neither_cover",
+            "operational_coverage_a",
+            "operational_coverage_b",
+            "operational_coverage_difference",
+            "operational_coverage_difference_mcse",
+            "operational_coverage_difference_mc_lower",
+            "operational_coverage_difference_mc_upper"
+          ],
+          "filename": "epsilon_comparisons.csv",
+          "rows": 72,
+          "sha256": "1c5eb1298dcc63b88018348a9fde754b27b8988103364066315433d9a52d7894"
+        }
+      },
+      "common_valid_rational_reference": {
+        "cv": 1.5,
+        "epsilon_a": 1e-08,
+        "epsilon_b": 1e-06,
+        "estimator": "exact",
+        "parameter": "theta",
+        "planned": 5,
+        "common_point_valid": 3,
+        "errors_a_common": [
+          1,
+          2,
+          4
+        ],
+        "errors_b_common": [
+          2,
+          1,
+          3
+        ],
+        "bias_difference": "1/3",
+        "bias_difference_mcse": "2/3",
+        "mse_difference": "7/3",
+        "mse_difference_mcse": "sqrt(76)/3",
+        "rmse_ratio": "sqrt(3/2)",
+        "rmse_ratio_log_mcse": "5/28",
+        "coverage_contingency_both_a_only_b_only_neither": [
+          1,
+          1,
+          2,
+          1
+        ],
+        "operational_coverage_difference": "-1/5",
+        "operational_coverage_difference_mcse": "sqrt(0.14)",
+        "own_valid_a_bias": "107/4",
+        "own_valid_a_rmse": "sqrt(10021/4)",
+        "own_a_conditional_coverage": "2/3",
+        "own_a_operational_coverage": "2/5"
+      },
+      "all_invalid_estimator_variant": {
+        "cv": 3,
+        "epsilon": 0.0001,
+        "estimator": "euler",
+        "parameter_rows_retained": 3,
+        "common_point_count": 0,
+        "point_metrics_and_point_uncertainties": "undefined/NaN",
+        "operational_coverage_difference": "-3/5",
+        "operational_coverage_difference_mcse": "sqrt(0.06)"
+      },
+      "invalid_interval_hessian_retention": {
+        "cv": 1.5,
+        "epsilon": 1e-08,
+        "estimator": "exact",
+        "finite_condition_numbers": [
+          3,
+          4,
+          5,
+          203
+        ],
+        "nonfinite_count": 1,
+        "max": 203,
+        "median": 4.5,
+        "invalid_interval_value_203_not_filtered": true
+      }
+    }
+  },
+  "historical_package_preservation": {
+    "baseline_commit": "7476e636d1d9542401580b4fd7c42b85b8cd2236",
+    "files_checked": 46,
+    "changed_files": []
+  },
+  "earlier_native_R2_archives_preserved": [
+    {
+      "kind": "followup",
+      "layout": "workers1_partition1",
+      "recorded_root_metadata_sha256_unchanged": true,
+      "partition_hashes_checked": 4,
+      "all_recorded_partition_hashes_unchanged": true
+    },
+    {
+      "kind": "followup",
+      "layout": "workers2_partition1",
+      "recorded_root_metadata_sha256_unchanged": true,
+      "partition_hashes_checked": 4,
+      "all_recorded_partition_hashes_unchanged": true
+    },
+    {
+      "kind": "followup",
+      "layout": "workers2_partition2",
+      "recorded_root_metadata_sha256_unchanged": true,
+      "partition_hashes_checked": 2,
+      "all_recorded_partition_hashes_unchanged": true
+    },
+    {
+      "kind": "floor",
+      "layout": "workers1_partition1",
+      "recorded_root_metadata_sha256_unchanged": true,
+      "partition_hashes_checked": 24,
+      "all_recorded_partition_hashes_unchanged": true
+    },
+    {
+      "kind": "floor",
+      "layout": "workers2_partition1",
+      "recorded_root_metadata_sha256_unchanged": true,
+      "partition_hashes_checked": 24,
+      "all_recorded_partition_hashes_unchanged": true
+    },
+    {
+      "kind": "floor",
+      "layout": "workers2_partition2",
+      "recorded_root_metadata_sha256_unchanged": true,
+      "partition_hashes_checked": 12,
+      "all_recorded_partition_hashes_unchanged": true
+    }
+  ],
+  "limitations_and_nonblocking_observations": [
+    "All new raw fixtures use fabricated literal records and descriptive hashes with fixed validation-design metadata. They are table arithmetic/storage tests, not OU realizations, source audits, coverage experiments or evidence of scientific run completion.",
+    "No existing execution-only native output was upgraded to include reporting dependencies. The six preserved native R2 outputs still match their recorded root metadata and partition hashes.",
+    "Two pandas FutureWarnings arise at the unchanged historical analysis.py concatenation with all-missing entries. The pinned environment executes correctly; no historical source was changed to suppress this warning.",
+    "Cross-epsilon contrasts at one CV share random inputs and their registered-floor reference; multiple regular-reference contrasts also share the identical CV0 control. These rows must not be treated as mutually independent measurements or simultaneous guarantees.",
+    "Fresh native end-to-end integration of the later complete pipeline, source/numerical auditing, figures, scientific disposition and full Week7 completion remain outside this module approval."
+  ]
+}

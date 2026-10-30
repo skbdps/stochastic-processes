@@ -1,0 +1,9 @@
+..sss.....                                                               [100%]
+=============================== warnings summary ===============================
+tests/week7/test_reporting_reference.py::test_standard_composition_and_every_raw_byte_are_preserved[followup]
+tests/week7/test_reporting_reference.py::test_standard_composition_and_every_raw_byte_are_preserved[followup]
+  /tmp/ou_stochastic_recovery_20261030/ou_irregular/experiments/analysis.py:81: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+    reference_data = pd.concat([data, read_cell(output, design, reference, identity)], ignore_index=True)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+7 passed, 3 skipped, 2 warnings in 13.31s
