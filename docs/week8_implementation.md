@@ -153,3 +153,42 @@ and actual-gap Euler definitions, derives their expected-objective minimizers,
 and explains matched-marginal interpretation. It changes no registered summary
 target or estimator. Reporting is the next implementation module; fitted
 validation and full E4 execution remain pending.
+
+## 4. Reporting from saved raw evidence
+
+The execution checkpoint was published at
+`f890048b24aac649cd95e41cd05b57edf81e993e` before this module began.
+`ou_irregular/week8/reporting.py` composes the existing truth-based summaries
+and paired-estimator calculations with explicit independent E4 reference maps,
+a one-copy-per-path source summary and immutable table publication. See
+[the reporting contract](week8_reporting.md). Its nine output schemas preserve
+all planned groups and the complete failure header even when no fit fails.
+
+Independent review verified the contrast arithmetic, eligibility and reference
+rules, source deduplication, complete input bindings, exact table keys/schemas,
+publication order and all 39 imported repository modules within the 54-file
+dependency union. Root reviewed production code and every test case.
+
+The first focused run passed 66 cases and failed one fixture assertion that
+compared an analytical value of 0.5000000000000001 exactly with 0.5. The fixture
+now uses a tight floating-point tolerance. Review also identified two real
+input-validation gaps: Boolean aliases for numeric scientific metadata/truth,
+and internally consistent clipping counts despite a zero floor. Seven added
+regressions failed against the preserved initial code. The narrow three-hunk
+repair rejects those inputs without changing formulas, schemas, sources or
+inference. The final focused suite passed **74 tests in 155.50 seconds**.
+
+The tests use literal source/fit records and mocked scientific boundaries; no
+sampling schedules, OU observations or fits were generated. Initial source,
+failed outputs, repair diff, final output and hashes are retained under
+`artifacts/week8_development/reporting/`. CSV-corruption fixtures preserve
+unmodified tokens so incidental floating-point reformatting cannot mask the
+intended rejection. Exact partial output can be adopted; a conflicting late
+partial table blocks all new publication.
+
+Reviewed reporting SHA-256:
+`7d4d913f033f2385fe0434dec0f1161233d9ac95a3343f07bd93f7b07dfac25a`.
+
+Independent numerical audit is the next module. Fitted R=4 validation and the
+full E4 experiment remain pending; table schema/binding verification does not
+substitute for independent arithmetic or numerical replay.
