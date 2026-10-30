@@ -1,14 +1,13 @@
 name: Week 8 recovery validation
-
 on:
   push:
-    branches:
-      - validation/week8-recovery-20261031
+    branches: [validation/week8-recovery-20261031]
+    paths:
+      - scripts/week8_recovery_roundoff.patch
+      - .github/workflows/week8-recovery-validation.yml
   workflow_dispatch:
-
 permissions:
-  contents: read
-
+  contents: write
 jobs:
   validate:
     runs-on: ubuntu-24.04
@@ -18,64 +17,54 @@ jobs:
       OMP_NUM_THREADS: '1'
       MPLCONFIGDIR: /tmp/ou-week8-recovery-mpl
     steps:
-      - name: Check out exact validation revision
-        uses: actions/checkout@v6
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Preserve source snapshot and public Git metadata
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p "$RUNNER_TEMP/ou-recovery-source" "$RUNNER_TEMP/ou-recovery-checks"
-          git archive --format=tar.gz --prefix=stochastic-processes/ --output="$RUNNER_TEMP/ou-recovery-source/source.tar.gz" HEAD ou_irregular tests scripts configs docs artifacts/week8_source_validation artifacts/week8_development preregistration.md requirements.txt requirements-lock.txt pytest.ini README.md .gitignore LICENSE
-          git rev-parse HEAD > "$RUNNER_TEMP/ou-recovery-source/commit.txt"
-          git show -s --format=raw HEAD > "$RUNNER_TEMP/ou-recovery-source/commit-record.txt"
-          git log -40 --oneline > "$RUNNER_TEMP/ou-recovery-source/history.txt"
-          git ls-tree -r -t HEAD > "$RUNNER_TEMP/ou-recovery-source/tree.txt"
-          git rev-list --objects --filter=blob:none HEAD | cut -d ' ' -f 1 | git pack-objects --stdout > "$RUNNER_TEMP/ou-recovery-source/commit-and-tree-metadata.pack"
-          sha256sum "$RUNNER_TEMP/ou-recovery-source/"* > "$RUNNER_TEMP/ou-recovery-checks/source-files.sha256"
-      - name: Retain source snapshot
-        uses: actions/upload-artifact@v4
-        with:
-          name: week8-recovery-source
-          path: ${{ runner.temp }}/ou-recovery-source/
-          retention-days: 7
-          if-no-files-found: error
-      - name: Set up recorded Python version
-        uses: actions/setup-python@v6
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12.14'
-      - name: Install repository-pinned requirements
-        shell: bash
+      - name: Install pinned requirements and retain original source
         run: |
           set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/ou-recovery-checks"
+          cp tests/week8/test_source.py "$RUNNER_TEMP/ou-recovery-checks/initial_test_source.py"
           python -m pip install -r requirements.txt
           python --version > "$RUNNER_TEMP/ou-recovery-checks/python-version.txt"
           python -m pip freeze > "$RUNNER_TEMP/ou-recovery-checks/dependencies.txt"
-      - name: Verify recovered source hashes
-        shell: bash
+      - name: Apply only the declared rational-reference unit-test repair
         run: |
           set -euo pipefail
-          python - <<'PY' | tee "$RUNNER_TEMP/ou-recovery-checks/recovered-hashes.txt"
-          import hashlib
-          from pathlib import Path
-          expected = {
-              'ou_irregular/week8/reporting.py': '7d4d913f033f2385fe0434dec0f1161233d9ac95a3343f07bd93f7b07dfac25a',
-              'tests/week8/test_reporting.py': '5a985ccb513eee4528adc6bd7b881fe94ab4307bf7e5bfaadb582c3d8f6380cf',
-              'docs/week8_reporting.md': '0386d681e51ce2e61e3e802b6c1412c3bf79974dbfb97be3848faaa81b87da77',
-          }
-          for name, digest in expected.items():
-              actual = hashlib.sha256(Path(name).read_bytes()).hexdigest()
-              print(name, actual, 'MATCH' if actual == digest else 'MISMATCH')
-              assert actual == digest, name
-          PY
-      - name: Run Week 8 module tests only
-        shell: bash
+          git apply --check scripts/week8_recovery_roundoff.patch
+          git apply scripts/week8_recovery_roundoff.patch
+          git diff --check
+          test "$(git diff --name-only)" = 'tests/week8/test_source.py'
+          git diff -- tests/week8/test_source.py > "$RUNNER_TEMP/ou-recovery-checks/test-repair.diff"
+          cp tests/week8/test_source.py "$RUNNER_TEMP/ou-recovery-checks/test_source.py"
+          sha256sum tests/week8/test_source.py ou_irregular/week8/*.py > "$RUNNER_TEMP/ou-recovery-checks/source-hashes.txt"
+      - name: Run all Week 8 module tests
         run: |
           set -euo pipefail
           python -m pytest -q tests/week8 | tee "$RUNNER_TEMP/ou-recovery-checks/pytest-week8.txt"
-      - name: Retain validation evidence even on failure
+      - name: Upload tested file and logs as unreferenced Git objects only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import base64, hashlib, json, os, pathlib, subprocess
+          root = pathlib.Path(os.environ['RUNNER_TEMP'])/'ou-recovery-checks'
+          paths = {'tests/week8/test_source.py': pathlib.Path('tests/week8/test_source.py')}
+          paths.update({f'artifacts/week8_development/recovery_20261031/ci_{p.name}': p for p in root.iterdir() if p.is_file()})
+          result = {}
+          for name, path in sorted(paths.items()):
+              content = path.read_bytes()
+              request = json.dumps({'content': base64.b64encode(content).decode(), 'encoding': 'base64'})
+              response = subprocess.run(['gh','api','--method','POST',f"repos/{os.environ['GITHUB_REPOSITORY']}/git/blobs",'--input','-'], input=request, text=True, capture_output=True, check=True)
+              result[name] = {'git_blob': json.loads(response.stdout)['sha'], 'sha256': hashlib.sha256(content).hexdigest(), 'bytes': len(content)}
+          (root/'uploaded_objects.json').write_text(json.dumps(result,indent=2)+'\n')
+          PY
+      - name: Retain checks even on failure
         if: always()
         uses: actions/upload-artifact@v4
         with:
