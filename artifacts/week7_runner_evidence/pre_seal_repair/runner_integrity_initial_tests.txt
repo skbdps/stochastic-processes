@@ -1,0 +1,16 @@
+..............F...............F..                                        [100%]
+=================================== FAILURES ===================================
+_ test_nonroot_artifact_change_during_visual_review_publication_cannot_be_sealed[followup] _
+tests/week7/test_runner_integrity.py:341: in test_nonroot_artifact_change_during_visual_review_publication_cannot_be_sealed
+    with pytest.raises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE ValueError
+_ test_nonroot_artifact_change_during_visual_review_publication_cannot_be_sealed[floor] _
+tests/week7/test_runner_integrity.py:341: in test_nonroot_artifact_change_during_visual_review_publication_cannot_be_sealed
+    with pytest.raises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE ValueError
+=========================== short test summary info ============================
+FAILED tests/week7/test_runner_integrity.py::test_nonroot_artifact_change_during_visual_review_publication_cannot_be_sealed[followup]
+FAILED tests/week7/test_runner_integrity.py::test_nonroot_artifact_change_during_visual_review_publication_cannot_be_sealed[floor]
+2 failed, 31 passed in 47.06s

@@ -1,0 +1,7 @@
+cell_id,n,theta_mean_gap,cv,estimator,point_status,interval_status,count,n_planned,fraction,wilson_lower,wilson_upper
+02b2a4527d24e8efc14cc8c7ad94e870a01e112e1fbe498357b6d00478400ad3,250,2,0,euler,valid_interior,valid,2,2,1,0.34238022750665303,1
+02b2a4527d24e8efc14cc8c7ad94e870a01e112e1fbe498357b6d00478400ad3,250,2,0,exact,valid_interior,valid,2,2,1,0.34238022750665303,1
+02b2a4527d24e8efc14cc8c7ad94e870a01e112e1fbe498357b6d00478400ad3,250,2,0,pfml,valid_interior,valid,2,2,1,0.34238022750665303,1
+22f160a706b9d06e7dcfbe9f15c8dce3831728735ecdccb2262ec2a8399ab505,250,2,0.5,euler,valid_interior,valid,2,2,1,0.34238022750665303,1
+22f160a706b9d06e7dcfbe9f15c8dce3831728735ecdccb2262ec2a8399ab505,250,2,0.5,exact,valid_interior,valid,2,2,1,0.34238022750665303,1
+22f160a706b9d06e7dcfbe9f15c8dce3831728735ecdccb2262ec2a8399ab505,250,2,0.5,pfml,valid_interior,valid,2,2,1,0.34238022750665303,1
