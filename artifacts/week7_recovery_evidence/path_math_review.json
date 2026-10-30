@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "reviewer": "independent mathematical review /root/recovery_path_math",
+  "outcome": "approved_for_math_scope",
+  "blocking_findings": [],
+  "scope": "Reconstructed Week 7 selected-path diagnostic mathematics, observed-coordinate representation and numerical derivative failure handling only.",
+  "reviewed_source_files_sha256": {
+    "ou_irregular/week7/path_diagnostics.py": "d42e37c96f192dbb01aa389106293f0a1cc8a1f36d4e18e7eda35b5895339302",
+    "docs/week7_mathematics.md": "dc49341dbf76f66e1b45114675f95b1e1936754caadceacee4588438500cd1af",
+    "docs/week7_exploratory_protocol.md": "5313a9e90d034b401d2245834263f4c36e01ff2ab404246dd158268af9ee796c",
+    "tests/week7/test_path_reference.py": "c69569765b3551be116cc7f7866d9dea1a520e00142c39d3e8288a3c44f2b7f2",
+    "ou_irregular/inference/coordinates.py": "948678cd390305948b14269247b5fa92933591500e5d4872a544c57e00a66142",
+    "ou_irregular/inference/adapters.py": "15f5d388f61db9a2b83ed9741a690d5f3267c6d6f3671e04593492d4ef751c3d",
+    "ou_irregular/inference/hessian.py": "a225717d9999b8be100e860d39e6a97dc99b091bd53e153b2340c746d2b5def1",
+    "ou_irregular/inference/wald.py": "2664a02831e860045186b833fdcaf11ef0fafa76a7cfeac25c3c54aca05db744",
+    "ou_irregular/estimators.py": "75848a02d9479991bdd7d2dcf384aa4075f6c96a6638adeb661113134a2558e9"
+  },
+  "working_tree_bytes_unchanged_during_final_tests": true,
+  "checkout_commit_at_review": "e15bbc3154278976f83f35f1fb95a24b5af8c013",
+  "validation": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MPLCONFIGDIR=/tmp/ou_recovery_mpl .venv/bin/python -m pytest -q tests/week7/test_path_reference.py",
+    "started_utc": "2026-10-30T08:04:46.732437+00:00",
+    "finished_utc": "2026-10-30T08:04:48.659230+00:00",
+    "exit_code": 0,
+    "passed": 19,
+    "skipped": 0,
+    "output_file": "artifacts/week7_recovery_evidence/path_math_tests.txt",
+    "output_sha256": "f0fcf5b8702385f08001322e642ab4e2e3c51581bab55997e0a00ae0237f78fe",
+    "stdout": "...................                                                      [100%]\n19 passed in 1.51s\n",
+    "fixture_scope": "Fixed literal synthetic observations and analytic polynomial objectives; no random-number generator or selected scientific source replay."
+  },
+  "independent_references": [
+    "Fixed-theta nuisance optimum from independent SVD weighted least squares; variance divisor K and separate full Gaussian evaluation.",
+    "Literal five-observation/four-gap Brownian-with-free-drift limit: alpha=1/5 and sigma2=179/120; iid following-state mean=1 and variance=1/2.",
+    "Regular-gap negative-AR example: profiled residual sum of squares 2+2*phi+11*phi**2/4 and unrestricted phi=-4/11; proof restricted to constant-gap/PFML model.",
+    "Analytic full three-coordinate Gaussian gradient and Hessian, including all mixed derivatives, independently derived from transition mean and log variance.",
+    "Profile curvature agrees with analytic full-Hessian Schur complement at nuisance optimum and differs from H00.",
+    "Algebraic Schur complement at a deliberately nonstationary stored nuisance point differs materially from actual profile curvature; singular nuisance blocks remain unavailable.",
+    "Observed-coordinate full-NLL relation ell_x=ell_u+K*log(state_scale).",
+    "Whitened discrepancy agrees with independent generalized eigenvalues eigvalsh(Hcoarse-Hfine,Hfine) on rotated quadratic-plus-quartic objectives with known stencil Hessians.",
+    "Nonpositive Hessians and failed derivative steps retain all four attempts and leave inverse-based score/whitening unavailable where undefined.",
+    "Longdouble stencil preserves objective differences below float64 resolution until completed derivative arrays.",
+    "Fixed tail caps report targets not reached; no claim that capped searches attain limiting likelihood regimes.",
+    "Composition passes exact float64 normalized states/diff-times lifted to longdouble into the extra ladder, while the separate profile uses original observations/times normalized in longdouble."
+  ],
+  "source_review_findings": [
+    "Five genuine Nelder-Mead x0 starts and fixed settings; every finite interior sampled local-minimum bracket, including ties, is polished.",
+    "Optimizer exceptions remain explicit; any retained initial/bracket-center candidate is labeled as such and is not described as a returned optimizer solution.",
+    "Fixed objective resolution is 1e-7+1e-9*abs(best normalized NLL); cap-limited and competitive limiting likelihoods remain unresolved.",
+    "The lower likelihood closure retains alpha=theta*mu as a free drift; the upper closure retains sigma2/(2*theta) as a finite variance.",
+    "Theta curvature field names explicitly refer to log(theta_u), with nuisance-stationarity and identical-data-representation requirements for a profile-curvature interpretation.",
+    "Finite Hessian-only diagnostics survive unavailable gradients, while standardized score remains unavailable.",
+    "The temporary coordinates.state_offset integration typo was identified during review; the author independently corrected it to the actual coordinates.offset interface before final validation.",
+    "No replacement estimate, covariance, interval, original numerical gate, source address or headline record is introduced."
+  ],
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "longdouble_fraction_bits": 63,
+    "longdouble_significand_bits": 64,
+    "longdouble_storage_bytes": 16,
+    "longdouble_decimal_precision": 18,
+    "arbitrary_precision": false
+  },
+  "limits": [
+    "This approval covers the specified mathematical scope and exact reviewed bytes; it is not a full lifecycle/provenance audit.",
+    "No selected headline source path, 10000-replication follow-up or floor-sensitivity experiment was generated or replayed by this reviewer.",
+    "Finite numerical searches are not proofs of a universal global optimum; the diagnostics do not certify an empirical software defect.",
+    "No Week 7 completion or Week 8 implementation is claimed."
+  ]
+}

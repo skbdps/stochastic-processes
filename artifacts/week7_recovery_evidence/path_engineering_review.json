@@ -1,0 +1,66 @@
+{
+  "checked": [
+    "Completed and diagnostic-review-required states reject mutating resume without changing any retained bytes.",
+    "An interrupted prefix resumes only uncommitted sources; committed diagnostic failures are retained and never retried.",
+    "An orphan is adopted only after exact-byte-equal deterministic replay; a semantically identical but byte-different orphan is preserved and rejected.",
+    "Literal selection bytes, descriptor bytes, dependency membership, source digests, source prefix, layout, missing evidence and status corruption reject before mutation or replay.",
+    "A legitimate resumable run is excluded by an already held nonblocking execution lock.",
+    "Full replay requires the fixed repository selection path; recorded Git commit bytes are checked against explicit dependency hashes.",
+    "Three estimator dispositions, original invalid points, complete four-step and three-comparison Hessian ladders, exact extended ladder, 3x3 derivative arrays, five profile starts, full grid, closure limits and boundary evidence are structurally retained.",
+    "Nested candidate diagnostics, missing values, statuses, booleans and integer source identifiers retain their exact discrete identities; only numerical replay fields use the fixed tolerance.",
+    "Injected root drift before an evidence write and during a root write is detected; observed bytes are preserved instead of overwritten by cached metadata.",
+    "A bound incident blocks automatic resume even if another actor restores superficially valid root bytes.",
+    "A new output nested in a different saved experiment archive is rejected without changing that archive.",
+    "Readback explicitly does not claim independent recalculation of every saved diagnostic quantity, and no replacement headline fits or intervals are claimed."
+  ],
+  "combined_test_log": {
+    "observed_summary": "........................................................................ [ 88%]\n.........                                                                [100%]\n81 passed in 2.76s",
+    "path": "artifacts/week7_recovery_evidence/path_module_tests.txt",
+    "sha256": "0efb0e378dd8fc0dfea03fa2cebfa76ae9164546cf922eccd92e0e9b6f116652"
+  },
+  "headline_artifacts_modified": false,
+  "independent_test_execution": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MPLCONFIGDIR=/tmp/ou_recovery_mpl .venv/bin/python -m pytest -q tests/week7/test_path_lifecycle.py",
+    "exit_code": 0,
+    "inputs": "literal eight-observation arrays; mocked archive discovery and selected-source replay; no scientific random observations generated",
+    "result": "44 passed in 2.53s"
+  },
+  "initial_independent_check_observed": {
+    "failed": 10,
+    "passed": 18,
+    "scope": "first 28-case draft suite before schema and root-guard repairs; this historical check is not current certification",
+    "seconds": 1.93
+  },
+  "limitations": [
+    "These are synthetic lifecycle and structural checks, not E1/E2 selected-source replay or full Week 7 experimental validation.",
+    "Mathematical formulas require the separately recorded independent mathematical review.",
+    "Advisory locks constrain cooperating writers; before/after byte checks do not provide atomic exclusion against noncooperating external writes.",
+    "Injected drift detection does not identify or repair the cause of the historical unattributed runtime incidents.",
+    "Lost pre-restart validation files and the old 971-test observation are not replaced or certified by this review."
+  ],
+  "production_source_edits_by_reviewer": false,
+  "recorded_utc": "2026-10-30T08:04:37.282001+00:00",
+  "review_findings_resolved": [
+    {
+      "issue": "Initial payload validation accepted missing diagnostic fields, boolean schema/rep substitutions and errors without retained failure detail.",
+      "resolution": "Status-dependent structural validation and exact discrete identity checks now reject the tested malformed payloads."
+    },
+    {
+      "issue": "Initial unconditional cached-root writes could overwrite an unexpected external manifest change.",
+      "resolution": "Expected-byte guard, adjacent incident preservation, no stale exception-handler overwrite and incident-blocking preflight now pass explicit fault injections."
+    },
+    {
+      "issue": "Initial output overlap checks covered supplied headline roots but not other preserved experiment ancestors.",
+      "resolution": "Standard saved-experiment ancestor markers now prevent nested output creation."
+    }
+  ],
+  "reviewer": "independent_recovery_path_engineering_agent",
+  "schema_version": 1,
+  "scientific_sources_generated": 0,
+  "scope": "selected_path_diagnostics_failure_handling_provenance_and_durable_lifecycle",
+  "source_file": "ou_irregular/week7/path_diagnostics.py",
+  "source_sha256": "d42e37c96f192dbb01aa389106293f0a1cc8a1f36d4e18e7eda35b5895339302",
+  "status": "approved_for_module_freeze_and_subsequent_validation",
+  "test_file": "tests/week7/test_path_lifecycle.py",
+  "test_sha256": "facada6015a343c90c28f603e4ed34b08cab0920a65d7293878745a692825bc5"
+}
