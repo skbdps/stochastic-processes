@@ -1,0 +1,13 @@
+Independent engineering gate; exact pytest module cache reused; new raw execution forbidden.
+Cached module: week7.test_floor_audit_reference
+Shared archive: /tmp/ou_week7_floor_audit_reference__hucgnab/floor_audit_native_reference0/archive
+Preserved duplicate from first wrapper: /tmp/pytest-of-root/pytest-15/floor_audit_native_reference0/archive
+The first wrapper imported tests.week7 while pytest imported week7; only root metadata differs between the two captures.
+Source/test/note SHA256 before: {"docs/week7_floor_audit.md": "251cc58933d4add455d4caa200dc6d4517e25883f2863b9b42146f155b8d1346", "ou_irregular/week7/floor_audit.py": "77f75b86d3ca1d998dd6badcba9d049b9f0f76147433e9ccc7f432fe19c14b28", "tests/week7/test_floor_audit_integrity.py": "1b42504d8441e19d23fc0f44e78617c7912386a8960d6af0ae7d4926291012ef"}
+........................................................................ [ 82%]
+...............                                                          [100%]
+87 passed in 14.78s
+Exit code: 0
+Attempted new raw executions: 0
+Shared native archive unchanged: True
+Source/test/note bytes unchanged: True

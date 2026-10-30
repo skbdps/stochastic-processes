@@ -233,3 +233,57 @@ root-manifest incidents. Earlier native R=2 execution archives remain unchanged.
 This checkpoint certifies reporting from saved records. The separate floor
 source/arithmetic audit, plots, final runner, full exploratory computations
 and weekly completion remain pending. No full Week 7 seed has been used.
+
+### Independent paired-floor audit checkpoint
+
+Reporting was published as `517f5664d14ad06650b0a05e6a77c5de2699032f`
+before the separate floor auditor was implemented. The auditor has its own
+strict raw loader, anchor derivation, input binding, 71-field epsilon arithmetic
+and failure-export verification. It composes only the original OU primitive,
+original inference/record serializer and reviewed pure standard-audit arithmetic.
+All physical source arrays and available observed-coordinate triples are
+recomputed; full fit replay remains fixed at replications 0 and R-1 in every
+variant. A source-only readback cannot certify full numerical completion.
+See [week7_floor_audit.md](week7_floor_audit.md) for the exact scope and limits.
+
+Review corrected two validation gaps in the new auditor before any full study:
+the invalid-point status domain is now explicit, and a saved audit must identify
+the custom paired-floor contract, source policy, override and exact replay
+accounting. Every invariant field is compared with fresh verification, including
+endpoint-source descriptors on a source-only readback of a prior full audit.
+These are audit-validation repairs; no headline estimator or inference gate
+changed, and no scientific failure was reclassified.
+
+The first native reference check used the fixed complete R=2 validation design
+under seed 21261009. A test-wrapper import-alias mistake then produced a second
+capture of those same inputs. All 48 non-root-metadata files matched exactly;
+only execution lifecycle metadata differed. The wrapper was corrected to forbid
+raw execution during cache reuse. Both captures, their exact then-current source,
+technical note and three test files are preserved in
+`artifacts/week7_recovery_evidence/floor_audit_pre_contract/`, with a complete
+hash map. The earlier 119-pass combined test log remains explicitly pre-repair
+evidence, not certification of the final source.
+
+Strengthening the audit contract changed its dependency hashes. A third,
+explicitly labeled same-input validation capture therefore has fresh provenance;
+neither earlier capture was rebound. Its 24 raw partitions and all eight numeric
+table artifacts match the earlier capture byte-for-byte. The current archive
+and its input/source hash map are preserved in
+`artifacts/week7_recovery_evidence/floor_audit_current_capture/`.
+These are three development captures of the same 24 physical validation source
+addresses, not additional independent replications or exploratory results.
+
+The final combined gate observed **207 passing tests in 16.38 seconds**, without
+warnings or skips: 19 author cases, 93 independent mathematical/reference cases
+and 95 independent integrity cases. The gate reused the repaired native archive
+and recorded zero raw-execution attempts. Source, note, tests and all 49 archive
+files retained identical hashes through the gate. The fixed native design has
+24 source realizations, eight independent coupling groups and 72 fits, all point
+and interval valid, with zero pipeline errors. Literal tests additionally cover
+failures, numerical candidates, singular/undefined metrics, malformed schemas,
+rehashed table/report tampering, provenance and read-only closed-archive checks.
+
+Final source SHA-256:
+`b46e6b6fd5ffee053f511d5e8b2b1c20448752e34d33dad0df51577a2582a805`.
+No full exploratory seed has been used. Plotting, the final runner, complete
+pipeline validation, full studies, findings and Week 7 publication remain pending.

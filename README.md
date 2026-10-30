@@ -7,7 +7,7 @@ $$
 dX_t = \theta(\mu-X_t)\,dt + \sigma\,dW_t.
 $$
 
-**Current stage on `weeks5-8-sequential`: Weeks 5–6 headline experiments complete and audited.**
+**Current stage on `weeks5-8-sequential`: Weeks 5–6 headline experiments complete and audited; Week 7 implementation and recovery validation are in progress.**
 E1 retains 14,000 paths and 42,000 fits. E2 retains the complete 60-cell grid:
 120,000 paths and 360,000 fit records, including 86 unavailable intervals.
 Exact theta meets the practical criteria in 55/60 E2 cells; the five breaches
@@ -15,8 +15,11 @@ are driven by positive bias at n=250,q=0.1, while its coverage remains near 95%
 there. Exact sigma meets the criteria throughout E2. PFML/Euler have extensive
 parameter-specific breaches, and five E2 parameter cells remain unresolved.
 See the [Week 6 results](docs/week6_progress.md) and
-[full-grid mathematics](docs/week6_mathematics.md). Week 7 diagnostics and the
-Week 8 gate have not begun at this completed Week 6 checkpoint.
+[full-grid mathematics](docs/week6_mathematics.md). Week 7 follows the dated
+[exploratory protocol](docs/week7_exploratory_protocol.md). Its full selected-path,
+10,000-replication follow-up and paired-floor studies have not yet run; Week 8
+has not begun. The [recovery record](docs/week7_recovery_20261030.md) distinguishes
+published module checkpoints, fresh validation and lost unpublished evidence.
 See the [Week 5 results](docs/week5_progress.md),
 [mathematics](docs/week5_mathematics.md) and [architecture](docs/week5_architecture.md).
 The Week 3/4 APIs and archives remain preserved. The project proceeds independently.
@@ -340,8 +343,10 @@ on spacing. All table values regenerate from `results/cell4_teaser_naive_vs_exac
 
 ## Next stage
 
-Weeks 5–6 are complete. Week 7 will specify dated exploratory diagnostic
-selection and methods before affected reruns. Week 8 will record the core gate,
+Weeks 5–6 are complete. Week 7 is implementing and validating the already dated
+exploratory selection and diagnostic protocol before its full studies. It will
+publish audited results and a one-page findings memo before Week 8 begins.
+Week 8 will record the core gate,
 using buffer time for unresolved implementation issues or a separately specified
 optional extension if the core is secure. Neither stage changes headline E1/E2.
 

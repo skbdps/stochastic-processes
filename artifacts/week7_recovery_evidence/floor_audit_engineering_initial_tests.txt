@@ -1,0 +1,41 @@
+Independent engineering gate; reuses the single shared fixed R=2 validation archive.
+Archive: /tmp/ou_week7_floor_audit_reference__hucgnab/floor_audit_native_reference0/archive
+Source/test/note SHA256 before: {"docs/week7_floor_audit.md": "251cc58933d4add455d4caa200dc6d4517e25883f2863b9b42146f155b8d1346", "ou_irregular/week7/floor_audit.py": "77f75b86d3ca1d998dd6badcba9d049b9f0f76147433e9ccc7f432fe19c14b28", "tests/week7/test_floor_audit_integrity.py": "2d89aa517cdbc859ac230d559b7898851e025c33abbb6193e9d17c4882039bba"}
+........................................................................ [ 82%]
+..............F                                                          [100%]
+=================================== FAILURES ===================================
+_ test_unknown_invalid_point_status_cannot_hide_in_a_well_formed_rejected_row __
+
+native = {'output': PosixPath('/tmp/pytest-of-root/pytest-15/floor_audit_native_reference0/archive'), 'design': RunDesign(name=... 'a6878345903c80840ea4ad607a3cf5d769eb86a36d6cc42309928242989247f2', 'clip_count': 0, 'clip_fraction': 0.0, ...}, ...]}
+
+    def test_unknown_invalid_point_status_cannot_hide_in_a_well_formed_rejected_row(native):
+        cell = first_cell(native['design'])
+        row = deepcopy(next(row for row in native['rows'] if row['cell_id'] == cell.identity))
+        row.update(point_valid=False, interval_valid=False, point_status='unregistered_failure_status',
+                   interval_status='invalid_point_fit')
+        point = json.loads(row['point_diagnostics_json'])
+        point.update(fit_status=row['point_status'], valid_for_point_summary=False)
+        row['point_diagnostics_json'] = json.dumps(point, sort_keys=True, separators=(',', ':'))
+        for name in row:
+            if (name.startswith(('cov_', 'working_cov_', 'working_hessian_', 'gradient_'))
+                    or name in {p+suffix for p in ('theta', 'mu', 'sigma') for suffix in ('_lower', '_upper', '_se')}):
+                row[name] = None
+>       with pytest.raises(ValueError, match='point status'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'point status'
+E         Actual message: 'unknown registered point-fit status'
+
+tests/week7/test_floor_audit_integrity.py:619: AssertionError
+=============================== warnings summary ===============================
+tests/week7/test_floor_audit_integrity.py::test_rehashed_epsilon_arithmetic_corruption_is_independently_rejected[operational_coverage_difference_mcse]
+  /tmp/ou_stochastic_recovery_20261030/tests/week7/test_floor_audit_integrity.py:390: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value '0.125' has dtype incompatible with int64, please explicitly cast to a compatible dtype first.
+    table.loc[index, field] += .125 if field != 'n_common_point_valid' else 1
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/week7/test_floor_audit_integrity.py::test_unknown_invalid_point_status_cannot_hide_in_a_well_formed_rejected_row
+1 failed, 86 passed, 1 warning in 19.62s
+Exit code: 1
+Shared native archive unchanged: True
+Source/test/note bytes unchanged: True

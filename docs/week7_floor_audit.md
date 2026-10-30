@@ -1,0 +1,200 @@
+# Independent paired-floor artifact audit
+
+`ou_irregular.week7.floor_audit.audit_run(output, design, *, extra_files=(),
+replay=True)` checks the saved exploratory floor experiment without writing
+files, acquiring or creating a lock, updating lifecycle metadata, replacing
+failures, regenerating tables, or changing source evidence. It accepts the
+exact twelve-cell frozen floor design or its exact separate-namespace
+validation design. The numerical audit is distinct from figure generation,
+actual visual review, interpretation and final sealing.
+
+## Independence and explicit shared components
+
+The auditor has its own strict JSON/JSONL and gzip reader, source-address
+construction, raw-input descriptor, paired-floor arithmetic, CSV validation,
+layout checks and provenance/completion-state checks. It does not call
+`PairedFloorSource`, its `anchor_cell`, `epsilon_comparisons`, the reporting
+loader or writer, `CellStore`, the historical source/cell audit loaders, or
+the raw execution preflight. In particular, a closed archive does not need to
+re-enter a writing or execution interface to be audited.
+
+The original `OuSampleSource` is a deliberately shared simulation primitive.
+For a physical cell `c`, the auditor independently constructs
+`replace(c, floor_fraction=1e-6)` to obtain the seed anchor ID. It passes that
+ID to the original primitive while preserving the physical cell's actual
+floor, CV, n, nominal gap and truth. This reproduces shared Gamma draws,
+stationary initial normal draw and standardized transition innovations.
+It does not use the producer's anchor mapping as the source of expected data.
+
+For predetermined endpoint fit replay, the original `registered_wald`
+services and original `experiments.execution.source_records` serializer are
+composed with an already reconstructed, cached sample and diagnostic mapping.
+This checks the complete saved record, including nested numerical diagnostics,
+against the original services. It is not an independently written optimizer,
+simulator, likelihood or finite-difference implementation. That limitation is
+included in the returned report.
+
+The historical auditor's pure inference and arithmetic helpers are reused
+only for saved Hessian/covariance/gate identities and the six standard tables.
+Their scientific procedures remain unchanged. All additional paired-floor
+arithmetic and its ordered 71-column schema are independently implemented.
+
+## Complete source and record verification
+
+Every one of the twelve variants and every planned replication is loaded in
+canonical partition order. The loader checks exact manifest fields, literal
+integer types, complete contiguous ranges, actual gzip hashes, full Cartesian
+replication/estimator keys, canonical actual Cell values and identities,
+strict row fields, and known point/interval status semantics. Statistical
+point and interval failures remain ordinary retained observations of the
+procedure. Source or pipeline exceptions block a completion audit.
+
+Duplicate JSON object keys, nonstandard NaN/Infinity values, overflowing JSON
+numeric literals, and noncanonical persisted JSON are rejected. Embedded
+diagnostic JSON and spawn-key strings are parsed with the strict loader before
+the historical inference helper sees them. Declared flags require Boolean
+values; counts, scientific scalars and inferred numerical values reject them. The raw Cell
+comparison also preserves signed-zero representation.
+
+Every source is reconstructed, even when `replay=False`. Both time and state
+arrays must match their recorded SHA-256 digests. Every source diagnostic,
+including actual/anchor IDs, floor, clipping moments, population clipping
+formula results, seed and spawn keys, is compared exactly in type and value
+against the reconstructed primitive result. All three estimator rows are
+therefore required to share the same exact source evidence. Positive-CV floor
+variants may have equal arrays when no raw gap is affected; equality across
+different physical floors is not required. The three CV=0 variants must retain
+identical complete numerical records, apart from `cell_id`, `actual_cell_id`
+and the physical `floor_fraction` field.
+
+Observed numerical coordinates are independently calculated from each actual
+reconstructed path. The offset is the extended-precision observed mean; the
+state scale is the amplitude-scaled observed RMS deviation around its recorded
+float64 offset; the time scale is the extended-precision mean of the actual
+float64 timestamp differences. No truth parameter enters these calculations.
+Every recorded point or interval coordinate triple is checked. Invalid point
+fits may legitimately omit coordinate diagnostics, or retain point coordinates
+while interval diagnostics omit them. The report separately counts checked
+point triples, interval triples and scalar values, so absent evidence is not
+described as verified evidence.
+
+With the full R=2,000 design, these checks cover 24,000 physical source
+realizations and 48,000 array hashes, coupled in 8,000 independent CV/replication
+groups. They do not constitute 24,000 independent paired sensitivity groups.
+
+## Endpoint replay and its completion meaning
+
+When `replay=True`, replications 0 and R−1 in every physical variant are fitted
+by all three unchanged services. Every outer field and every recursively
+parsed nested field must agree, with missing values, field membership, statuses,
+strings, integer counts and Boolean values checked exactly. Floating fit and
+diagnostic values use relative tolerance 2e−10 and absolute tolerance 2e−12.
+The full design therefore has 24 endpoint source realizations and 72 replayed
+fits. A validation design with R=1 checks its sole endpoint once.
+
+`replay=False` skips only these endpoint model fits. It still performs complete
+source reconstruction, saved inference checks, all table arithmetic and all
+artifact/provenance checks. Its report has `full_completion_audit=False` and
+cannot be used to establish full numerical completion. Coarse finite-difference
+Hessians and a fresh full fit are not reconstructed for all non-endpoint rows;
+every saved fine Hessian and available covariance is still checked by the
+historical inference-identity helper. Its existing covariance tolerances are
+preserved and explicitly recorded.
+
+## Independently reconstructed paired-floor statistics
+
+For each nonreference epsilon A and registered-floor B, each estimator and
+parameter uses the intersection of point-valid replications. Let that count
+be S, errors be eA/eB, squared errors u/v, mean squared errors MA/MB and RMSEs
+RA/RB. The auditor separately recomputes own-valid counts and these common-valid
+metrics, including the sample covariance of squared errors.
+
+Bias and MSE differences use the sample standard error of eA−eB and u−v. The
+RMSE difference uses the centered paired influence
+
+\[
+\frac{u-M_A}{2R_A}-\frac{v-M_B}{2R_B},
+\]
+
+and the log RMSE ratio uses
+
+\[
+\frac12\left(\frac{u-M_A}{M_A}-\frac{v-M_B}{M_B}\right).
+\]
+
+Taking the sample standard deviation of these paired influences and dividing
+by sqrt(S) retains the cross-variant covariance. The ratio MCSE is the ratio
+times its log MCSE, with an approximate 95% log-scale MC interval. This
+centered derivation independently checks the producer's uncentered-influence
+implementation. S<2 has undefined MCSE; a needed zero RMSE makes the delta
+uncertainty undefined. A zero numerator with positive denominator has ratio
+zero, with undefined ratio uncertainty. Relative metrics for mu remain missing
+because its truth is zero.
+
+Operational coverage uses all R planned pairs and encodes unavailable intervals
+as not covering. The four coverage contingency counts, both coverage levels,
+paired mean difference and sample standard error are reconstructed. R<2 has
+undefined paired-coverage MCSE. Approximate normal MC intervals are unbounded
+and are not clipped to the range of a coverage difference. Zero observed paired
+variance is an empirical result, not a population equality theorem. No
+reference-to-itself epsilon row is introduced.
+
+All 72 rows and all 71 fields are verified, alongside the six independently
+recomputed standard tables. The failed-fit gzip CSV is checked as a stream in
+canonical cell/replication/estimator order, with unique complete headers, every
+raw field and candidate value, exact missingness, and an exact final count.
+Extra, duplicate, reordered or omitted failed records are rejected.
+
+## Provenance, manifests and read-only lifecycle handling
+
+`FILES` includes the reporting/execution dependencies, historical arithmetic
+auditor, this auditor and this note. The required source-file membership is
+exactly CORE_FILES union FILES union explicitly supplied `extra_files`; missing
+or unexpected entries fail. The provenance design representation, identity
+digest, current dependency bytes and numerical environment are checked. A full
+exploratory run additionally requires an empty recorded dirty-dependency list
+and every recorded dependency's actual bytes in its recorded Git commit.
+Later unrelated commits are allowed when those recorded bytes still match.
+
+The standard manifest must contain exactly its seven artifacts. The epsilon
+manifest is independently reconstructed from the run/design identity, exact
+source policy, resolved-design hash, every cell-manifest byte hash and each
+ordered partition map checked against actual partition files. Its table
+descriptor fixes the 72 rows, 71 ordered columns and actual CSV hash. Root
+lifecycle bytes are excluded from this scientific raw-input binding.
+
+Raw-complete and complete zero-pipeline-error postprocessing-review states may
+be audited without clearing any retained error history. Audited/completed
+archives are permitted only with correct saved audit bindings. A completed
+archive additionally requires its complete byte seal and a visual-review
+record bound to the declared figure manifest. The numerical auditor validates
+that binding; it does not perform a new visual inspection or judge figure
+content. Extra artifacts, unreferenced raw partitions, malformed layouts and
+symbolic links are rejected.
+
+A saved audit must explicitly identify the paired-floor audit contract,
+schema, recorded code commit, source policy and `paired_floor_source` override.
+Its all-source and endpoint-replay flags and fixed counts must agree with the
+actual design. A generic registered-source audit cannot stand in for this
+exploratory source override. After fresh arithmetic/source verification, every
+invariant saved-report field, including failure/coordinate/table accounting,
+scope and tolerances, must equal the recomputed report. A `replay=False`
+readback may retain a correctly bound previous full audit, while its own
+returned report remains incomplete. Only its five endpoint-mode fields may
+differ; the saved endpoint descriptors are still checked against all-source
+reconstruction. A newly requested full replay requires complete report equality.
+
+A nonempty figure directory must already have its complete matching manifest.
+A partial PNG/PDF set left by interrupted plotting does not pass this full
+audit interface. A later resumable runner must verify and reuse an already
+saved, correctly bound full numerical audit while its plotter checks/adopts
+canonical partial figure bytes; it must not require this full auditor to
+approve an unfinished figure directory before completing that recovery.
+
+The complete file-byte and directory snapshot, including root metadata and
+later review/figure artifacts, must remain unchanged before and after every
+audit attempt. A concurrent change raises an error; the auditor does not
+overwrite, restore or delete the observed evidence. The report's
+`audited_artifact_sha256` and `audited_run_metadata_sha256` retain the historical
+sealer-compatible numerical-artifact and semantic-metadata contracts. Actual
+publication and completion sealing remain later, separately reviewed steps.

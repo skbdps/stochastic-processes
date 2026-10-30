@@ -1,0 +1,442 @@
+"""Independent floor-audit references, using literal arithmetic and fixed R=2.
+
+The only native fixture is the complete frozen twelve-cell validation design
+with seed 21261009, replications 0/1, n=1000.  It is cached and shared with the
+other audit test streams.  Literal records below are fabricated unit inputs,
+never presented as simulated evidence.  Expected statistics do not call the
+producer comparison, reporting, source adapter or raw-record loader.
+"""
+from dataclasses import replace
+import gzip
+import hashlib
+import json
+import math
+from statistics import NormalDist
+
+import numpy as np
+import pandas as pd
+import pytest
+
+from ou_irregular.experiments import analysis as producer_analysis
+from ou_irregular.experiments import execution as producer_execution
+from ou_irregular.inference.contracts import Sample
+from ou_irregular.week4.simulation import OuSampleSource
+from ou_irregular.week7 import execution, floor_audit, floor_comparisons, floor_source, reporting
+from ou_irregular.week7.selection import floor_design
+
+from .test_floor_comparisons_reference import fabricated_records
+from .test_floor_source_reference import manual_cell, manual_reference
+
+
+METHODS = ('exact', 'pfml', 'euler')
+PARAMETERS = ('theta', 'mu', 'sigma')
+FLOORS = (1e-8, 1e-6, 1e-4)
+CVS = (0., 1.5, 2., 3.)
+COUPLING = 'week7_paired_floor_v1_shared_gamma_stationary_x0_and_standard_normal_innovations'
+Z = NormalDist().inv_cdf(.975)
+# Literal schema, independently fixed here rather than importing the producer's
+# tuple and thereby allowing a changed producer/auditor field to escape review.
+EXPECTED_COLUMNS = (
+    'cell_id', 'reference_cell_id', 'seed_anchor_cell_id', 'floor_fraction', 'reference_floor_fraction',
+    'estimator', 'parameter', 'truth', 'n', 'theta_mean_gap', 'mean_gap', 'cv', 'source_seed',
+    'source_coupling_policy', 'comparison_type', 'difference_direction', 'ratio_direction', 'point_subset',
+    'coverage_subset', 'n_planned', 'n_point_valid_a', 'n_point_valid_b', 'n_interval_valid_a', 'n_interval_valid_b',
+    'n_common_point_valid', 'n_common_interval_valid', 'bias_a_common', 'bias_b_common', 'mse_a_common',
+    'mse_b_common', 'rmse_a_common', 'rmse_b_common', 'relative_bias_a_common', 'relative_bias_b_common',
+    'relative_rmse_a_common', 'relative_rmse_b_common', 'squared_error_covariance_common',
+    'bias_difference', 'bias_difference_mcse', 'bias_difference_mc_lower', 'bias_difference_mc_upper',
+    'mse_difference', 'mse_difference_mcse', 'mse_difference_mc_lower', 'mse_difference_mc_upper',
+    'relative_bias_difference', 'relative_bias_difference_mcse', 'relative_bias_difference_mc_lower',
+    'relative_bias_difference_mc_upper', 'rmse_difference', 'rmse_difference_mcse', 'rmse_difference_mc_lower',
+    'rmse_difference_mc_upper', 'rmse_ratio', 'rmse_ratio_mcse', 'rmse_ratio_log_mcse', 'rmse_ratio_mc_lower',
+    'rmse_ratio_mc_upper', 'rmse_ratio_uncertainty', 'n_covered_a', 'n_covered_b', 'n_both_cover',
+    'n_a_only_cover', 'n_b_only_cover', 'n_neither_cover', 'operational_coverage_a', 'operational_coverage_b',
+    'operational_coverage_difference', 'operational_coverage_difference_mcse',
+    'operational_coverage_difference_mc_lower', 'operational_coverage_difference_mc_upper',
+)
+_NATIVE_ARCHIVE = None
+
+
+def _sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def snapshot(output):
+    """Read-only complete file-byte fingerprint; does not invoke any producer."""
+    return {str(path.relative_to(output)): _sha(path)
+            for path in sorted(output.rglob('*')) if path.is_file()}
+
+
+def read_raw(output, design):
+    result = []
+    for cell in design.cells:
+        directory = output/'cells'/cell.identity
+        manifest = json.loads((directory/'cell_manifest.json').read_text())
+        for part in manifest['partitions']:
+            with gzip.open(directory/part['filename'], 'rt', encoding='utf-8') as stream:
+                result.extend(json.loads(line) for line in stream if line.strip())
+    return result
+
+
+def native_archive(tmp_path_factory):
+    """Exactly one native archive per process, shared across reviewer streams."""
+    global _NATIVE_ARCHIVE
+    if _NATIVE_ARCHIVE is None:
+        design = floor_design().validation(2)
+        assert design.seed == 21261009 and len(design.cells) == 12
+        assert all(cell.n == 1000 for cell in design.cells)
+        output = tmp_path_factory.mktemp('floor_audit_native_reference')/'archive'
+        execution.run_raw('floor', design, output, extra_files=floor_audit.FILES,
+                          workers=1, partition_size=1, progress=False)
+        reporting.write_tables('floor', design, output, extra_files=floor_audit.FILES)
+        _NATIVE_ARCHIVE = {'output': output, 'design': design, 'rows': read_raw(output, design)}
+    return _NATIVE_ARCHIVE
+
+
+def _forbidden(*args, **kwargs):
+    raise AssertionError('independent floor audit must not use a Week7 producer expected-data helper')
+
+
+def _by_cell(records):
+    result = {}
+    for row in records.to_dict('records') if isinstance(records, pd.DataFrame) else records:
+        result.setdefault(row['cell_id'], []).append(row)
+    return result
+
+
+def _fixed_literal_design(design):
+    """Use the frozen design name/namespace even for a literal CV subdesign."""
+    return replace(floor_design().validation(design.replications), cells=design.cells)
+
+
+def _expected_literal(cell, method, parameter):
+    """All 71 fields from exact hand-derived rational moments, not row formulas."""
+    truth = {'theta': 1., 'mu': 0., 'sigma': .5}[parameter]
+    anchor_id = manual_cell(cell.cv, 1e-6)['cell_id']
+    distinct = cell.cv > 0 and cell.floor_fraction == 1e-8
+    row = {
+        'cell_id': manual_cell(cell.cv, cell.floor_fraction)['cell_id'],
+        'reference_cell_id': anchor_id, 'seed_anchor_cell_id': anchor_id,
+        'floor_fraction': cell.floor_fraction, 'reference_floor_fraction': 1e-6,
+        'estimator': method, 'parameter': parameter, 'truth': truth, 'n': 1000,
+        'theta_mean_gap': .5, 'mean_gap': .5, 'cv': cell.cv, 'source_seed': 21261009,
+        'source_coupling_policy': COUPLING,
+        'comparison_type': 'paired_floor_shared_standardized_innovations',
+        'difference_direction': 'epsilon_minus_registered_floor',
+        'ratio_direction': 'epsilon_over_registered_floor',
+        'point_subset': 'intersection_of_valid_point_fits',
+        'coverage_subset': 'all_planned_paths_unavailable_counts_as_not_covering',
+        'n_planned': 5, 'n_point_valid_a': 4, 'n_point_valid_b': 4,
+        'n_interval_valid_a': 3, 'n_interval_valid_b': 3,
+        'n_common_point_valid': 3 if distinct else 4,
+        'n_common_interval_valid': 2 if distinct else 3,
+        'bias_a_common': 7/3 if distinct else 13/2,
+        'bias_b_common': 2. if distinct else 13/2,
+        'mse_a_common': 7. if distinct else 207/2,
+        'mse_b_common': 14/3 if distinct else 207/2,
+        'rmse_a_common': math.sqrt(7) if distinct else math.sqrt(207/2),
+        'rmse_b_common': math.sqrt(14/3) if distinct else math.sqrt(207/2),
+        'squared_error_covariance_common': 27. if distinct else 39083.,
+        'rmse_ratio': math.sqrt(3/2) if distinct else 1.,
+        'rmse_ratio_log_mcse': 5/28 if distinct else 0.,
+        'rmse_ratio_uncertainty': 'delta_method_log_ratio_95pct',
+        'n_covered_a': 2 if distinct else 3, 'n_covered_b': 3,
+        'n_both_cover': 1 if distinct else 3, 'n_a_only_cover': 1 if distinct else 0,
+        'n_b_only_cover': 2 if distinct else 0, 'n_neither_cover': 1 if distinct else 2,
+        'operational_coverage_a': 2/5 if distinct else 3/5,
+        'operational_coverage_b': 3/5,
+    }
+    # For A²=[1,4,16], B²=[4,1,9], sample variances are 63 and49/3,
+    # with covariance27. This expansion is independent of centered influences.
+    rmse_variance = (63/28 + (49/3)/(4*(14/3))
+                     - 27/(2*math.sqrt(7)*math.sqrt(14/3)))/3
+    moments = {
+        'bias_difference': (1/3, 2/3),
+        'mse_difference': (7/3, math.sqrt(76)/3),
+        'rmse_difference': (math.sqrt(7)-math.sqrt(14/3), math.sqrt(rmse_variance)),
+        'operational_coverage_difference': (-1/5, math.sqrt(7/50)),
+    }
+    for name, (value, standard_error) in moments.items():
+        value, standard_error = (value, standard_error) if distinct else (0., 0.)
+        row.update({name: value, name+'_mcse': standard_error,
+                    name+'_mc_lower': value-Z*standard_error,
+                    name+'_mc_upper': value+Z*standard_error})
+    for name in ('bias_a_common', 'bias_b_common', 'rmse_a_common', 'rmse_b_common',
+                 'bias_difference', 'bias_difference_mcse', 'bias_difference_mc_lower',
+                 'bias_difference_mc_upper'):
+        row['relative_'+name] = row[name]/abs(truth) if truth else np.nan
+    ratio, log_se = row['rmse_ratio'], row['rmse_ratio_log_mcse']
+    row.update(rmse_ratio_mcse=ratio*log_se,
+               rmse_ratio_mc_lower=ratio*math.exp(-Z*log_se),
+               rmse_ratio_mc_upper=ratio*math.exp(Z*log_se))
+    assert set(row) == set(EXPECTED_COLUMNS) and len(row) == 71
+    return row
+
+
+def _assert_fields(actual, expected):
+    assert set(actual) == set(expected)
+    for name, value in expected.items():
+        if isinstance(value, str):
+            assert actual[name] == value, name
+        elif isinstance(value, (int, np.integer)):
+            assert actual[name] == value, name
+        elif np.isnan(value):
+            assert pd.isna(actual[name]), name
+        else:
+            assert actual[name] == pytest.approx(value, rel=1e-12, abs=2e-14), name
+
+
+def test_all_72_literal_rows_and_71_fields_match_independent_rational_references(monkeypatch):
+    design, records = fabricated_records(
+        [1., 2., 4., 100., 999.], [2., 1., 3., 999., 20.],
+        point_a=[True, True, True, True, False], point_b=[True, True, True, False, True],
+        interval_a=[True, True, True, False, False], interval_b=[True, False, True, False, True],
+        cover_a=[True, True, False, False, False], cover_b=[True, False, True, False, True],
+        cvs=CVS)
+    design = _fixed_literal_design(design)
+    monkeypatch.setattr(floor_comparisons, 'epsilon_comparisons', _forbidden)
+    monkeypatch.setattr(reporting, 'epsilon_comparisons', _forbidden)
+    monkeypatch.setattr(floor_source, 'anchor_cell', _forbidden)
+    rows = floor_audit.epsilon_rows(_by_cell(records.iloc[::-1]), design)
+    assert tuple(floor_audit.EPSILON_COLUMNS) == EXPECTED_COLUMNS
+    assert len(rows) == 72
+    indexed = {(row['cell_id'], row['estimator'], row['parameter']): row for row in rows}
+    assert len(indexed) == 72
+    for cell in design.cells:
+        if cell.floor_fraction == 1e-6:
+            continue
+        for method in METHODS:
+            for parameter in PARAMETERS:
+                _assert_fields(indexed[cell.identity, method, parameter],
+                               _expected_literal(cell, method, parameter))
+
+
+@pytest.mark.parametrize('pattern', ('all_invalid', 'disjoint', 'one_common', 'one_planned',
+                                    'zero_numerator', 'zero_denominator', 'both_zero'))
+def test_literal_singular_and_missing_domains(pattern):
+    kwargs = {}
+    errors_a, errors_b = [1., 2.], [2., 1.]
+    if pattern == 'all_invalid':
+        kwargs = {'point_a': [False, False], 'point_b': [False, False]}
+    elif pattern == 'disjoint':
+        kwargs = {'point_a': [True, False], 'point_b': [False, True]}
+    elif pattern == 'one_common':
+        errors_a, errors_b = [2., 99.], [1., 99.]
+        kwargs = {'point_a': [True, False], 'point_b': [True, False]}
+    elif pattern == 'one_planned':
+        errors_a, errors_b = [2.], [1.]
+    elif pattern == 'zero_numerator':
+        errors_a, errors_b = [0., 0.], [1., 2.]
+    elif pattern == 'zero_denominator':
+        errors_a, errors_b = [1., 2.], [0., 0.]
+    elif pattern == 'both_zero':
+        errors_a = errors_b = [0., 0.]
+    design, records = fabricated_records(errors_a, errors_b, **kwargs)
+    design = _fixed_literal_design(design)
+    rows = floor_audit.epsilon_rows(_by_cell(records), design)
+    assert len(rows) == 18
+    row = next(row for row in rows if row['floor_fraction'] == 1e-8
+               and row['estimator'] == 'exact' and row['parameter'] == 'theta')
+    for name in ('rmse_ratio_log_mcse', 'rmse_ratio_mcse', 'rmse_ratio_mc_lower', 'rmse_ratio_mc_upper'):
+        assert pd.isna(row[name]), name
+    if pattern in ('all_invalid', 'disjoint'):
+        assert row['n_common_point_valid'] == 0
+        for name in ('bias_a_common', 'bias_b_common', 'mse_a_common', 'mse_b_common',
+                     'bias_difference', 'mse_difference', 'rmse_difference', 'rmse_ratio'):
+            assert pd.isna(row[name]), name
+    if pattern in ('one_common', 'one_planned'):
+        assert row['n_common_point_valid'] == 1 and row['rmse_ratio'] == 2.
+        for name in ('bias_difference_mcse', 'mse_difference_mcse', 'rmse_difference_mcse',
+                     'squared_error_covariance_common'):
+            assert pd.isna(row[name]), name
+    if pattern == 'one_planned':
+        assert pd.isna(row['operational_coverage_difference_mcse'])
+    elif pattern == 'one_common':
+        assert row['operational_coverage_difference_mcse'] == 0.
+    elif pattern == 'zero_numerator':
+        assert row['rmse_ratio'] == 0.
+        assert row['rmse_difference'] == pytest.approx(-math.sqrt(2.5), rel=1e-12)
+        assert pd.isna(row['rmse_difference_mcse'])
+    elif pattern in ('zero_denominator', 'both_zero'):
+        assert pd.isna(row['rmse_ratio']) and pd.isna(row['rmse_difference_mcse'])
+    if pattern == 'both_zero':
+        assert row['bias_difference'] == row['mse_difference'] == row['rmse_difference'] == 0.
+        assert row['bias_difference_mcse'] == row['mse_difference_mcse'] == 0.
+    if pattern == 'all_invalid':
+        assert row['operational_coverage_difference'] == row['operational_coverage_difference_mcse'] == 0.
+    if pattern == 'disjoint':
+        assert row['operational_coverage_difference'] == 0.
+        assert row['operational_coverage_difference_mcse'] == 1.
+        assert row['operational_coverage_difference_mc_lower'] == pytest.approx(-Z, rel=1e-12)
+        assert row['operational_coverage_difference_mc_upper'] == pytest.approx(Z, rel=1e-12)
+    for row in rows:
+        if row['parameter'] == 'mu':
+            assert all(pd.isna(row[name]) for name in EXPECTED_COLUMNS if name.startswith('relative_'))
+
+
+def test_literal_proportional_errors_and_regular_singleton_keep_sample_conventions():
+    design, records = fabricated_records([2., 4., 6.], [1., 2., 3.])
+    design = _fixed_literal_design(design)
+    result = floor_audit.epsilon_rows(_by_cell(records), design)
+    row = next(row for row in result if row['floor_fraction'] == 1e-8
+               and row['estimator'] == 'exact' and row['parameter'] == 'theta')
+    assert row['rmse_ratio'] == 2.
+    assert row['rmse_ratio_log_mcse'] == row['rmse_ratio_mcse'] == 0.
+    assert row['rmse_ratio_mc_lower'] == row['rmse_ratio_mc_upper'] == 2.
+    design, records = fabricated_records([1.], [1.], cvs=(0.,))
+    design = _fixed_literal_design(design)
+    result = floor_audit.epsilon_rows(_by_cell(records), design)
+    assert len(result) == 18
+    for row in result:
+        assert row['rmse_ratio'] == 1.
+        for name in ('bias_difference_mcse', 'mse_difference_mcse', 'rmse_difference_mcse',
+                     'rmse_ratio_log_mcse', 'rmse_ratio_mcse', 'operational_coverage_difference_mcse'):
+            assert pd.isna(row[name]), name
+
+
+def test_literal_observed_coordinates_count_retained_invalid_point_fields_and_absence():
+    # A deterministic n=1000 sample has observed center7 and RMS sqrt(5/2),
+    # deliberately different from the simulation truth mu=0,sigma=.5.
+    sample = Sample(np.tile([5., 6., 8., 9.], 250), np.arange(1000, dtype=float)*.5)
+    point = {'state_center': 7., 'state_scale': math.sqrt(5/2), 'time_scale': .5}
+    interval = {'state_offset': 7., 'state_scale': math.sqrt(5/2), 'time_scale': .5}
+    row = {'point_valid': False, 'interval_valid': False,
+           'point_diagnostics_json': json.dumps(point), 'interval_diagnostics_json': '{}'}
+    original = dict(row)
+    assert floor_audit.check_observed_coordinates(row, sample) == {
+        'point_coordinate_rows': 1, 'interval_coordinate_rows': 0, 'coordinate_scalars_checked': 3}
+    assert row == original
+    row.update(point_valid=True, interval_valid=True,
+               interval_diagnostics_json=json.dumps(interval))
+    assert floor_audit.check_observed_coordinates(row, sample) == {
+        'point_coordinate_rows': 1, 'interval_coordinate_rows': 1, 'coordinate_scalars_checked': 6}
+    row.update(point_valid=False, interval_valid=False,
+               point_diagnostics_json='{}', interval_diagnostics_json='{}')
+    assert floor_audit.check_observed_coordinates(row, sample) == {
+        'point_coordinate_rows': 0, 'interval_coordinate_rows': 0, 'coordinate_scalars_checked': 0}
+
+
+@pytest.fixture(scope='module')
+def native_reference(tmp_path_factory):
+    return native_archive(tmp_path_factory)
+
+
+def test_native_sources_match_manual_gamma_ou_and_observed_normalization(native_reference):
+    rows = native_reference['rows']
+    assert len(rows) == 72
+    by_source = {}
+    for row in rows:
+        by_source.setdefault((row['cv'], row['floor_fraction'], row['rep']), []).append(row)
+    assert set(by_source) == {(cv, floor, rep) for cv in CVS for floor in FLOORS for rep in (0, 1)}
+    coordinate_sections = 0
+    for (cv, floor, rep), triplet in by_source.items():
+        manual = manual_reference(cv, floor, rep)
+        assert {row['estimator'] for row in triplet} == set(METHODS)
+        x = manual['values']
+        offset = math.fsum(float(value) for value in x)/len(x)
+        scale = math.sqrt(math.fsum((float(value)-offset)**2 for value in x)/len(x))
+        time_scale = math.fsum(float(value) for value in np.diff(manual['times']))/(len(x)-1)
+        for row in triplet:
+            for name, expected in manual['diagnostics'].items():
+                actual = row[name]
+                if isinstance(expected, float):
+                    assert actual == pytest.approx(expected, rel=5e-13, abs=5e-15), name
+                else:
+                    assert type(actual) is type(expected) and actual == expected, name
+            for field, center_name in (('point_diagnostics_json', 'state_center'),
+                                       ('interval_diagnostics_json', 'state_offset')):
+                diagnostic = json.loads(row[field])
+                if center_name in diagnostic:
+                    assert diagnostic[center_name] == pytest.approx(offset, rel=2e-12, abs=2e-14)
+                    assert diagnostic['state_scale'] == pytest.approx(scale, rel=2e-12, abs=2e-14)
+                    assert diagnostic['time_scale'] == pytest.approx(time_scale, rel=2e-12, abs=2e-14)
+                    coordinate_sections += 1
+    # The preserved fixed R2 paths have all 72 valid points and both coordinate
+    # sections. This is validation identity evidence, not a coverage claim.
+    assert all(row['point_valid'] for row in rows)
+    assert coordinate_sections == 144
+
+
+def test_native_audit_is_independent_and_read_only_for_all_sources(native_reference, monkeypatch):
+    output, design = native_reference['output'], native_reference['design']
+    before = snapshot(output)
+    forbidden_helpers = (floor_source.anchor_cell, floor_comparisons.epsilon_comparisons,
+                         reporting.iter_epsilon_tables, reporting.write_tables,
+                         producer_analysis.read_cell, producer_execution.load_records)
+    # A direct imported alias would otherwise survive patching its producer
+    # module attribute. Reject those aliases as well as runtime calls below.
+    assert not any(value is helper for value in vars(floor_audit).values() for helper in forbidden_helpers)
+    original_sample = OuSampleSource.sample
+    calls = []
+    def traced_sample(source, physical, rep):
+        assert source.seed == 21261009
+        expected_actual = manual_cell(physical['cv'], physical['floor_fraction'])
+        expected_anchor = manual_cell(physical['cv'], 1e-6)
+        assert physical['cell_id'] == expected_anchor['cell_id']
+        assert {key: value for key, value in physical.items() if key != 'cell_id'} == {
+            key: value for key, value in expected_actual.items() if key != 'cell_id'}
+        calls.append((expected_actual['cell_id'], rep))
+        return original_sample(source, physical, rep)
+    monkeypatch.setattr(OuSampleSource, 'sample', traced_sample)
+    monkeypatch.setattr(floor_source.PairedFloorSource, 'sample', _forbidden)
+    monkeypatch.setattr(floor_source, 'anchor_cell', _forbidden)
+    monkeypatch.setattr(floor_comparisons, 'epsilon_comparisons', _forbidden)
+    monkeypatch.setattr(reporting, 'epsilon_comparisons', _forbidden)
+    monkeypatch.setattr(reporting, 'iter_epsilon_tables', _forbidden)
+    monkeypatch.setattr(reporting, 'write_tables', _forbidden)
+    monkeypatch.setattr(producer_analysis, 'read_cell', _forbidden)
+    monkeypatch.setattr(producer_execution, 'load_records', _forbidden)
+    report = floor_audit.audit_run(output, design)
+    assert sorted(calls) == sorted((cell.identity, rep) for cell in design.cells for rep in (0, 1))
+    assert snapshot(output) == before
+    assert report['status'] == 'passed' and report['full_completion_audit'] is True
+    assert report['audit_contract'] == 'week7_independent_paired_floor_audit_v1'
+    assert report['scientific_overrides'] == ['paired_floor_source']
+    assert report['cells_verified'] == 12 and report['partitions_verified'] == 24
+    assert report['planned_source_realizations'] == report['source_paths_verified'] == 24
+    assert report['source_array_hashes_verified'] == 48
+    assert report['planned_independent_coupling_groups'] == 8
+    assert report['planned_fit_records'] == 72
+    assert report['point_valid_records'] == sum(row['point_valid'] for row in native_reference['rows'])
+    assert report['interval_valid_records'] == sum(row['interval_valid'] for row in native_reference['rows'])
+    assert report['retained_failure_records'] == sum(
+        not row['point_valid'] or not row['interval_valid'] for row in native_reference['rows'])
+    assert report['source_replay_performed'] is True and report['replay_performed'] is True
+    assert report['replayed_source_paths'] == 24 and report['replayed_fits'] == 72
+    assert report['point_coordinate_rows'] == report['interval_coordinate_rows'] == 72
+    assert report['coordinate_scalars_checked'] == 432
+    assert report['tables_verified'] == {
+        'parameter_summary.csv': 108, 'regular_comparisons.csv': 108, 'paired_comparisons.csv': 108,
+        'spacing_summary.csv': 12, 'outcome_counts.csv': 36, 'numerical_diagnostics.csv': 36,
+        'epsilon_comparisons.csv': 72}
+    assert report['source_policy']['actual_to_seed_anchor'] == {
+        manual_cell(cell.cv, cell.floor_fraction)['cell_id']: manual_cell(cell.cv, 1e-6)['cell_id']
+        for cell in design.cells}
+    by_source = {(row['cell_id'], row['rep']): row for row in native_reference['rows']}
+    assert len(report['replay_records']) == 24
+    assert {(row['cell_id'], row['replication']) for row in report['replay_records']} == set(by_source)
+    for row in report['replay_records']:
+        saved = by_source[row['cell_id'], row['replication']]
+        assert row['estimators_checked'] == list(METHODS)
+        assert row['times_sha256'] == saved['times_sha256']
+        assert row['observations_sha256'] == saved['observations_sha256']
+    json.dumps(report, allow_nan=False)
+
+
+def test_native_replay_false_still_verifies_every_source_but_cannot_certify_completion(
+        native_reference, monkeypatch):
+    output, design = native_reference['output'], native_reference['design']
+    before = snapshot(output)
+    monkeypatch.setattr(floor_audit, 'registered_wald', _forbidden)
+    monkeypatch.setattr(floor_audit, 'source_records', _forbidden)
+    report = floor_audit.audit_run(output, design, replay=False)
+    assert report['status'] == 'passed' and report['full_completion_audit'] is False
+    assert report['source_replay_performed'] is True and report['replay_performed'] is False
+    assert report['source_paths_verified'] == 24 and report['source_array_hashes_verified'] == 48
+    assert report['replayed_source_paths'] == report['replayed_fits'] == 0
+    assert report['replay_records'] == []
+    assert report['point_coordinate_rows'] == report['interval_coordinate_rows'] == 72
+    assert report['coordinate_scalars_checked'] == 432
+    assert report['planned_independent_coupling_groups'] == 8
+    assert report['tables_verified']['epsilon_comparisons.csv'] == 72
+    assert snapshot(output) == before

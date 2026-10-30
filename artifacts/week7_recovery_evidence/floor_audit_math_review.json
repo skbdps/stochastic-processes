@@ -1,0 +1,401 @@
+{
+  "schema_version": 1,
+  "reviewer": "independent source, inference-composition and mathematical audit review /root/recovery_path_math",
+  "reviewed_utc": "2026-10-30T09:38:36Z",
+  "outcome": "approved_for_independent_paired_floor_audit_scope",
+  "blocking_findings": [],
+  "scope": "Only Week7 floor_audit: independent anchor/source reconstruction, all recorded observed coordinates, unchanged inference composition, complete endpoint replay, all 71 paired-statistic fields and legacy pure-math checks, saved-report scientific identity, and read-only audit behavior. No production edit by this reviewer, full exploratory seed, selected headline replay, later module or weekly-completion claim.",
+  "reviewed_source_files_sha256": {
+    "configs/week5_e1.yaml": "54accfb910a09f14112dbe494830d206ecba0ad4ce5e5112ad2726513091fe3e",
+    "configs/week6_e2.yaml": "e47783af312e169d4611bae8a8287b30bdd3a79b343ff5b0345394fb30e40855",
+    "docs/plan_amendment_week3_validation.md": "6eff66aa749c53cd2a0dbe1c4ac60a2ad4f72c341a34e68c0bc80d8f45a1df4f",
+    "docs/week7_execution.md": "0b96f12235e414e9bb2ad08aacd9e0b742daeeac897a7663f3148bd4d973a117",
+    "docs/week7_exploratory_protocol.md": "5313a9e90d034b401d2245834263f4c36e01ff2ab404246dd158268af9ee796c",
+    "docs/week7_floor_audit.md": "459fdd862b5b53c5d15ef4234f06dd1ce45e3c0e86a7aa338a17839accc7afb5",
+    "docs/week7_mathematics.md": "a312a110d7c5f0ad6d903f6b8d045a242b8ee9ecb30e63edc5403e715b41ec92",
+    "docs/week7_reporting.md": "79311caa8cb4816adbacc479c5603ba36eaddfe454bfbccfe0b90e50e4f03edf",
+    "ou_irregular/__init__.py": "a67e08449d1a86c5c4bca1ef42dc7036504f8408b608a8739f6626eaf6f88aa5",
+    "ou_irregular/config.py": "933fcbec310b1485a62c2be381f298a340cce86b8ff23932eac3eaaafb8b3d95",
+    "ou_irregular/estimators.py": "75848a02d9479991bdd7d2dcf384aa4075f6c96a6638adeb661113134a2558e9",
+    "ou_irregular/experiments/__init__.py": "51225c4afd4ac2d6aa6357406717fd33a347556ac3985e1a83482ce4d27dc60e",
+    "ou_irregular/experiments/analysis.py": "0275b2839f021668482d202a5b3a6fb3186eb8f53a9e9a09cd1115d0376021b5",
+    "ou_irregular/experiments/audit.py": "3ed95084221eed9749da34d8409495f480ffccf20e81b962a6e458b973ddcfea",
+    "ou_irregular/experiments/comparisons.py": "75e794d0bc2f16dc016fc1c52c3311f001911b82eef8915fe1ca7ae16133cc71",
+    "ou_irregular/experiments/design.py": "e01f63ed458b0ce9324aad7ce59b4932e4c487c626485dc240efa272b3468ab2",
+    "ou_irregular/experiments/execution.py": "9df6bb716969c850f2959c1ec59c0285bd221c2312748889526c8fc8e8422f83",
+    "ou_irregular/experiments/provenance.py": "340f6c6a5934866473f3c6887ba1a5dafc7de13692eafa3ecdfb471a3dda7731",
+    "ou_irregular/experiments/storage.py": "38693fd06435879b986df1712b595be5f253545295200ca172a78f5aa0cba523",
+    "ou_irregular/experiments/summaries.py": "ac6c8a63e23df3c72626f571295c9f78e12fc1a34105744b4ca7ab2950f9c4e5",
+    "ou_irregular/experiments/workflow.py": "3990b6469cd3dfdc4c2474d996b4ab3eb71b48668d2749ca217330e0dc889f52",
+    "ou_irregular/inference/__init__.py": "0a23553dd8101d901416ce5d30fd2360046411ab449e252abb5d21553b39d0ff",
+    "ou_irregular/inference/adapters.py": "15f5d388f61db9a2b83ed9741a690d5f3267c6d6f3671e04593492d4ef751c3d",
+    "ou_irregular/inference/contracts.py": "2ca5727baef6471addc2826223f0013a9fbdf240ea597f7852c6f0f0618bb16c",
+    "ou_irregular/inference/coordinates.py": "948678cd390305948b14269247b5fa92933591500e5d4872a544c57e00a66142",
+    "ou_irregular/inference/hessian.py": "a225717d9999b8be100e860d39e6a97dc99b091bd53e153b2340c746d2b5def1",
+    "ou_irregular/inference/wald.py": "2664a02831e860045186b833fdcaf11ef0fafa76a7cfeac25c3c54aca05db744",
+    "ou_irregular/ou.py": "3fd7db4001d1973599662d4507aa89e506ba3d36f483f689561e5f4ca57236fa",
+    "ou_irregular/spacing.py": "e442fcd4f856b4d3b8126574a9078e42f7aabdf4fd026b30ba35aff665554887",
+    "ou_irregular/week4/__init__.py": "80abef9aca4f4ce97b7b13df555814c6d30c94c523765e18061f5cef55e32e81",
+    "ou_irregular/week4/config.py": "fee87355cdc725b24e28a90a57435b2c6325fb85b50b4b9294a2949fd7d17990",
+    "ou_irregular/week4/simulation.py": "ad52bdb4095ae4ed5cdf666d3ef840956af950d9901b057ff7bb70dda173a7f8",
+    "ou_irregular/week4/summaries.py": "a2076ebf69a915d5b98ddbcec93505d14637a88f49c1d8de231899edef7b0f29",
+    "ou_irregular/week5/config.py": "4af622c35dd38cf628bc77f1fa5c4f682e580534ec499ba7da6e9d761ced8e88",
+    "ou_irregular/week6/config.py": "387a600d53794d9bb5b78ee189e07fcacf2abab659fec6b1162b68481cea98a5",
+    "ou_irregular/week7/__init__.py": "03fe4570a05eb5fc3e87b0418a671c60d86b5e40b63eebbbe2b256e98f30f0fd",
+    "ou_irregular/week7/execution.py": "101d29198135b4cf8423ac60f6c9afb613ddd8e2d5e379586365d613d0db4865",
+    "ou_irregular/week7/floor_audit.py": "b46e6b6fd5ffee053f511d5e8b2b1c20448752e34d33dad0df51577a2582a805",
+    "ou_irregular/week7/floor_comparisons.py": "6cc387ee2e158cd37ac7c57b30f7c8f9a2557a3b730d02144382306c5a13931d",
+    "ou_irregular/week7/floor_source.py": "56d5f4150e8c254d53f8a3a13a0196e315287ddb83a7f7533e0af1dc0576c84e",
+    "ou_irregular/week7/path_diagnostics.py": "d42e37c96f192dbb01aa389106293f0a1cc8a1f36d4e18e7eda35b5895339302",
+    "ou_irregular/week7/reporting.py": "14d6bd477dd72d257e03f45ff8272d1ea8845d3d68ca346e04f7a903ba74eabe",
+    "ou_irregular/week7/selection.py": "7f4b6c8cce0f202f742ce2588b3030085f61ac7f69a3b295ee9478ba17a7c3ea",
+    "preregistration.md": "d7b1a7b6a6afa6351d3115ade91100402f846eb931952b394ecec4b68dd2813a",
+    "requirements-lock.txt": "b4b0c1e53322a2f56928e8566e531cf86e88a19cb84f51cdf4c372c98ff5d406",
+    "requirements.txt": "919704d71ed85034108ee67f9bf08a38f24ffd7ceacbbf90fa7c197fd297e176",
+    "tests/week7/test_floor_audit.py": "81402447da57b4da3ea569d3f286f32a53a72519bbda3fcfeca8a086858a15df",
+    "tests/week7/test_floor_audit_reference.py": "84e215c5515bbca76903ea72c5864c27002b7afe64180342da6beca5c06ebc04",
+    "tests/week7/test_floor_audit_integrity.py": "e41de877267deda05a56f994af08935ee4907fb978f67abf72d8ae222f7e7886",
+    "tests/week7/test_floor_source_reference.py": "fe0c378cd04d7475250cf02ad8906055d58eca26333161e80d5bde520e185322",
+    "tests/week7/test_floor_comparisons_reference.py": "7f682d0220ca3f6cdea1c3728e943ac9e9fb48a4fd24095d5b791312b4ca60a6"
+  },
+  "final_validation": {
+    "gate": "Final author-captured three-file gate, independently read back and bound by this reviewer.",
+    "test_files": [
+      "tests/week7/test_floor_audit.py",
+      "tests/week7/test_floor_audit_reference.py",
+      "tests/week7/test_floor_audit_integrity.py"
+    ],
+    "passed_total": 207,
+    "author_cases": 19,
+    "reference_cases": 93,
+    "engineering_cases": 95,
+    "skipped": 0,
+    "warnings": 0,
+    "elapsed_seconds_reported_by_pytest": 16.38,
+    "path": "artifacts/week7_recovery_evidence/floor_audit_module_tests.txt",
+    "sha256": "82d338e12fccc38ce99d11c122400aa96c072f45515c113881fb46ca56d24e25",
+    "stdout": "........................................................................ [ 34%]\n........................................................................ [ 69%]\n...............................................................          [100%]\n207 passed in 16.38s\n",
+    "basetemp": "/tmp/ou_week7_floor_audit_final_repaired_vhkno3u3",
+    "raw_archive_reused": "/tmp/ou_week7_floor_audit_repaired_reference_2plbbh_2/floor_audit_native_reference0/archive",
+    "cache_module": "week7.test_floor_audit_reference after placing repo/tests on sys.path",
+    "author_wrapper_forbade_execution_run_raw_and_reported_attempt_count": 0,
+    "author_verified_source_doc_all_three_test_hashes_unchanged": true,
+    "independent_post_gate_all_49_native_archive_files_unchanged": true,
+    "additional_test_or_native_generation_cycle_after_final_gate": false
+  },
+  "current_focused_reference_validation": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MPLCONFIGDIR=/tmp/ou_recovery_mpl .venv/bin/python -m pytest -q tests/week7/test_floor_audit_reference.py --basetemp /tmp/ou_week7_floor_audit_repaired_reference_2plbbh_2",
+    "passed": 93,
+    "warnings": 0,
+    "skipped": 0,
+    "elapsed_seconds_reported_by_pytest": 8.71,
+    "path": "artifacts/week7_recovery_evidence/floor_audit_math_final_tests.txt",
+    "sha256": "3fa49404a4144554129100a34680a6b17feb907322ffe3761152b3d1fd7bfc89",
+    "source_doc_reference_test_hashes_identical_before_and_after": true,
+    "pure_reference_cases": 90,
+    "native_reference_cases": 3
+  },
+  "current_pure_validation_before_native_capture": {
+    "passed": 90,
+    "native_cases_deselected": 3,
+    "elapsed_seconds_reported_by_pytest": 2.01,
+    "path": "artifacts/week7_recovery_evidence/floor_audit_literal_repaired_tests.txt",
+    "sha256": "1bfa26d110c84b9c7fd0f6f001998317d3173c5a8e2a1dc1dc211fdc8eb583a5",
+    "native_observations_generated": false
+  },
+  "independence_findings": [
+    "The auditor derives each registered-floor anchor by replacing only epsilon with1e-6 in the canonical actual cell. The unchanged primitive receives the anchor ID and the actual physical floor, nominal gap, CV, n and truth.",
+    "The native audit test forbids calls and imported aliases to Week7 producer anchoring/comparison/reporting functions and producer raw loaders. It verifies exactly one primitive source call for every actual cell/replication, with independently computed canonical anchor IDs and unchanged physical arguments.",
+    "Independent manual NumPy SeedSequence/Gamma/stationary-initial/exact-OU references match both time and observation hashes for all24 R2 variants. The reference consumes stationary X0 first, then K=999 standard normals, and transitions use differences of the final cumulative float64 timestamps.",
+    "All source diagnostics are checked exactly by the auditor against one reconstructed primitive result for every estimator row. Independent mathematical references check raw/floored moments, clipping, min gaps and spans without renormalization.",
+    "Observed offset, RMS state scale and mean timestamp gap are checked on each actual sample. The n1000 literal coordinate fixture has center7 and RMSsqrt(5/2), so truth-based normalization cannot satisfy it. Point-only coordinates on an invalid fit and legitimate coordinate absence have distinct verified counters.",
+    "Only the original registered source_records serializer, registered_wald services and unchanged OU primitive are deliberately shared for endpoint replay; the numerical optimizer, likelihood, Hessian and serializer are not independently reimplemented. Every raw/nested field is compared at the fixed tolerances.",
+    "Historical pure inference/arithmetic helpers check saved full-Hessian, covariance, score, gate and unclipped natural-interval identities and the six standard tables. The ordinary registered-source audit entry point and loaders are not used for the floor override."
+  ],
+  "mathematical_findings": {
+    "complete_literal_epsilon_reference": "All72 rows and all71 fields match a separately declared schema and hand-derived rational expectations. Common-valid point metrics and all-R coverage are independently distinguished.",
+    "rational_reference": {
+      "planned": 5,
+      "common_point_valid": 3,
+      "errors_a_common": [
+        1,
+        2,
+        4
+      ],
+      "errors_b_common": [
+        2,
+        1,
+        3
+      ],
+      "bias_difference": "1/3",
+      "bias_difference_mcse": "2/3",
+      "mse_difference": "7/3",
+      "mse_difference_mcse": "sqrt(76)/3",
+      "squared_error_covariance": "27",
+      "squared_error_sample_variances": [
+        "63",
+        "49/3"
+      ],
+      "rmse_difference_variance": "[63/(4*7)+(49/3)/(4*(14/3))-27/(2*sqrt(7)*sqrt(14/3))]/3",
+      "rmse_ratio": "sqrt(3/2)",
+      "rmse_ratio_log_mcse": "5/28",
+      "coverage_both_a_only_b_only_neither": [
+        1,
+        1,
+        2,
+        1
+      ],
+      "operational_coverage_difference": "-1/5",
+      "operational_coverage_difference_mcse": "sqrt(7/50)",
+      "identical_reference_subset_errors": [
+        2,
+        1,
+        3,
+        20
+      ],
+      "identical_subset_squared_error_covariance": "39083"
+    },
+    "domains": "S0 point metrics missing; S1 and R1 sample uncertainty missing; zero required RMSE leaves delta/log uncertainty undefined; zero numerator ratio remains0 only with positive denominator; zero-truth mu relative fields are missing. Proportional errors retain covariance cancellation. Identical CV0 controls do not receive independent-sample uncertainty.",
+    "operational_coverage": "All planned pairs enter the four contingencies, with unavailable intervals as noncoverage. The paired normal Monte Carlo interval is unbounded and not clipped.",
+    "interpretation": "Zero empirical high-CV paired variance is not a population-equality theorem. Shared epsilon references and shared CV0 controls do not make multiple contrast rows mutually independent."
+  },
+  "saved_report_repair": {
+    "identified_by": "independent source review after the prototype119-case gate",
+    "prototype_gap": "Existing audit.json bindings checked hashes/identity/full-completion flag but did not sufficiently require the custom floor-audit label, source policy and freshly recomputed report invariants. Fresh numerical/source checks themselves remained independent.",
+    "resolution": "_closed_bindings now requires custom contract, override, source policy, recorded code commit, source/coupling/fit counts and fixed endpoint accounting. _verify_saved_report checks exact schema and every freshly recomputed invariant, and verifies saved endpoint descriptors against independently source-verified hashes even when the present call uses replay=False.",
+    "pure_repair_cases": 80,
+    "invariant_fields_checked_in_both_replay_modes": 32,
+    "literal_R1_counts": {
+      "source_realizations": 12,
+      "independent_coupling_groups": 4,
+      "fit_records": 36,
+      "unique_endpoint_sources": 12,
+      "endpoint_fit_replays": 36
+    },
+    "literal_R3_counts": {
+      "source_realizations": 36,
+      "independent_coupling_groups": 12,
+      "fit_records": 108,
+      "unique_endpoint_sources": 24,
+      "endpoint_fit_replays": 72
+    },
+    "literal_R1_R3_observations_generated": false,
+    "repair_changes_scientific_protocol_or_simulation_inference": false
+  },
+  "current_native_validation": {
+    "preserved_archive": "artifacts/week7_recovery_evidence/floor_audit_current_capture/archive",
+    "preservation_manifest": "artifacts/week7_recovery_evidence/floor_audit_current_capture/preservation.json",
+    "preservation_manifest_sha256": "9e2020e02a398870c2ec882839c633ec715ca332364461a01d62f545cae64c26",
+    "temporary_original": "/tmp/ou_week7_floor_audit_repaired_reference_2plbbh_2/floor_audit_native_reference0/archive",
+    "validation_seed": 21261009,
+    "replications": 2,
+    "n": 1000,
+    "q": 0.5,
+    "truth": [
+      1.0,
+      0.0,
+      0.5
+    ],
+    "physical_cells": 12,
+    "planned_variant_replication_keys": 24,
+    "independent_coupling_groups": 8,
+    "fit_records": 72,
+    "point_valid_records": 72,
+    "interval_valid_records": 72,
+    "pipeline_errors": 0,
+    "source_array_hash_checks": 48,
+    "point_coordinate_rows": 72,
+    "interval_coordinate_rows": 72,
+    "coordinate_scalar_checks": 432,
+    "fixed_endpoint_source_count": 24,
+    "fixed_endpoint_fit_replay_count": 72,
+    "raw_status_unchanged": "raw_complete_pending_audit",
+    "source_policy": {
+      "actual_to_seed_anchor": {
+        "0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945": "0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945",
+        "235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3": "235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3",
+        "23889a74340ad5b5c5019887daa7f9933c2774dab7139d7740fcb9d413ad9cce": "a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda",
+        "2ba0afbf32c8fcee7dc26bf0881c5905cb7db8afd550357167788e73e3d5beb2": "0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945",
+        "5b6a1ac0563863b754130440d6118d4ba10b04443d09788ddcca84334b8c05a7": "b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e",
+        "73410fdb847dcc57098654b9b5d9eaa9a63fcaa2b33ec1e7e14e173dd8a44bdd": "235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3",
+        "7d8f236383608719ede6086a0df72b0133caae0a37e9140b4e2e59e56257c53b": "b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e",
+        "977e8c489b9f01d2395e659d5f00af1670003d03a44f0f41e2d3974215d1740c": "0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945",
+        "a6878345903c80840ea4ad607a3cf5d769eb86a36d6cc42309928242989247f2": "a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda",
+        "a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda": "a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda",
+        "b38f1c3a2fdde9b0660b523dc49c293ae21e55d4db20366309975d5d8b1eff0a": "235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3",
+        "b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e": "b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e"
+      },
+      "name": "week7_paired_floor_v1_shared_gamma_stationary_x0_and_standard_normal_innovations",
+      "planned_fit_records": 72,
+      "planned_independent_coupling_groups": 8,
+      "planned_source_realizations": 24,
+      "renormalize_floored_gaps": false,
+      "root_seed": 21261009,
+      "seed_anchor_floor_fraction": 1e-06,
+      "stationary_initialization": true
+    },
+    "design_sha256": "df9b88a93f0297ed20b541460f5a09629ea300be9ef4674534396421dec548c6",
+    "run_identity_sha256": "9c7667d599b1d1d104bd8d7cfb28f3c9781d6b58fb910385e247215e0f8af517",
+    "source_manifest_matches_current_bytes": true,
+    "all_file_sha256": {
+      ".execution.lock": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "cells/0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945/cell_manifest.json": "bed082a84b1a05fc372239ca30ee37d071b224b58eff3d50474ea47e3cf90aea",
+      "cells/0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945/part-000000-000001.jsonl.gz": "364efccba75cf7c8672ce3888caa34f681ab5e3f557562380ee607daf808d3d2",
+      "cells/0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945/part-000001-000002.jsonl.gz": "c420d922d90e5a8781cb192d5378e41aca8cbc5c91762c6ed41b43f0faf7b3ed",
+      "cells/235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3/cell_manifest.json": "731c26b88f265ecf3b3f091adfe9ea15dce87a849e64d24aab458216698a4ac3",
+      "cells/235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3/part-000000-000001.jsonl.gz": "a0fd43f969cfe67cc25743904d76d5959cafe7fa06745b0446cda357bcc58cad",
+      "cells/235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3/part-000001-000002.jsonl.gz": "677ebad8cbb0182755ea6a513875c7cef1f64641efd21363bd847fdaa6073725",
+      "cells/23889a74340ad5b5c5019887daa7f9933c2774dab7139d7740fcb9d413ad9cce/cell_manifest.json": "e92a0d07736e0ce258a01e764c35bd3e337d3521b0e131a08435cc2bd2266db0",
+      "cells/23889a74340ad5b5c5019887daa7f9933c2774dab7139d7740fcb9d413ad9cce/part-000000-000001.jsonl.gz": "f02d97f9960d3da68ca11428083725d100dc261823620bca89bc62f1a3863ca6",
+      "cells/23889a74340ad5b5c5019887daa7f9933c2774dab7139d7740fcb9d413ad9cce/part-000001-000002.jsonl.gz": "a383eaa05d96f66a89c1bbe7f5afcf730e0660f45c46b06503728b03655b1ebc",
+      "cells/2ba0afbf32c8fcee7dc26bf0881c5905cb7db8afd550357167788e73e3d5beb2/cell_manifest.json": "dbed02e1fc5748557cae570ef4ae200539f58afa3fed318edc929f2d44686434",
+      "cells/2ba0afbf32c8fcee7dc26bf0881c5905cb7db8afd550357167788e73e3d5beb2/part-000000-000001.jsonl.gz": "714255e08bc13d383bc41c1533afd0073a06ad586514ffef3e3f689b6cc04e0c",
+      "cells/2ba0afbf32c8fcee7dc26bf0881c5905cb7db8afd550357167788e73e3d5beb2/part-000001-000002.jsonl.gz": "a3eca0ddf74f4e8a7fc79d1b59219a0c253091d20fb5c83870b5d5ffb2973df8",
+      "cells/5b6a1ac0563863b754130440d6118d4ba10b04443d09788ddcca84334b8c05a7/cell_manifest.json": "736e1fb6e520e386e2b4b26c8e14023b36d14215b6a5e77f298d758664bf2c50",
+      "cells/5b6a1ac0563863b754130440d6118d4ba10b04443d09788ddcca84334b8c05a7/part-000000-000001.jsonl.gz": "fa33966e08144384cfac584e568d25edf0c2194e8df69aff76eb53fdbcabdba6",
+      "cells/5b6a1ac0563863b754130440d6118d4ba10b04443d09788ddcca84334b8c05a7/part-000001-000002.jsonl.gz": "b5d3c917dd1586cc0ee1dd7e16b925b0850b12365afced496ed9f9265812411a",
+      "cells/73410fdb847dcc57098654b9b5d9eaa9a63fcaa2b33ec1e7e14e173dd8a44bdd/cell_manifest.json": "6375e6c3d4574abe5f9bcdfea7b3523051d4f41a9ffd50ce0e0d74e41ff7b597",
+      "cells/73410fdb847dcc57098654b9b5d9eaa9a63fcaa2b33ec1e7e14e173dd8a44bdd/part-000000-000001.jsonl.gz": "3089703df0f25ad23fc6cccf207ef6b32d492103d3abba09590af41b0ea62b95",
+      "cells/73410fdb847dcc57098654b9b5d9eaa9a63fcaa2b33ec1e7e14e173dd8a44bdd/part-000001-000002.jsonl.gz": "fb9fc10afd4f199c03517464fde5dc329fb6f266bb59c969d5ae31fcb0c03b5d",
+      "cells/7d8f236383608719ede6086a0df72b0133caae0a37e9140b4e2e59e56257c53b/cell_manifest.json": "3c7b3824cd8aca35b9db1389ba96ed3eaf4d35ed199576c98e01c20e3614bc76",
+      "cells/7d8f236383608719ede6086a0df72b0133caae0a37e9140b4e2e59e56257c53b/part-000000-000001.jsonl.gz": "0eed499dbb4605aee7bbe514970ff3b6dc62ff7e48febfd879cffe1fa4dee213",
+      "cells/7d8f236383608719ede6086a0df72b0133caae0a37e9140b4e2e59e56257c53b/part-000001-000002.jsonl.gz": "4e735afc4f1c5a291ac3e39534a10f9a8d93d1a5e2a73aba30b1deb1e1174935",
+      "cells/977e8c489b9f01d2395e659d5f00af1670003d03a44f0f41e2d3974215d1740c/cell_manifest.json": "d16240a261636c688c48a283f009c735520cb078938abdc32b7cdb8964a03371",
+      "cells/977e8c489b9f01d2395e659d5f00af1670003d03a44f0f41e2d3974215d1740c/part-000000-000001.jsonl.gz": "2fff915b5416c10440997ae5c7a7f7d196ab5233e21b1b11f76bfb375dc96568",
+      "cells/977e8c489b9f01d2395e659d5f00af1670003d03a44f0f41e2d3974215d1740c/part-000001-000002.jsonl.gz": "fe826b908b50e3d9ea4cf6e9bc61ba347d1e607f0b3cb977301fbe79f6f5bb2f",
+      "cells/a6878345903c80840ea4ad607a3cf5d769eb86a36d6cc42309928242989247f2/cell_manifest.json": "b23c23d006012ebe7d9708ba04873eabc783320a7456a15b2ce4ec0744b1d724",
+      "cells/a6878345903c80840ea4ad607a3cf5d769eb86a36d6cc42309928242989247f2/part-000000-000001.jsonl.gz": "5c489d4bd8aa06188a0841d82f43349498de6a9bf2516e1333af2290a77b7436",
+      "cells/a6878345903c80840ea4ad607a3cf5d769eb86a36d6cc42309928242989247f2/part-000001-000002.jsonl.gz": "8bee29a87ccc69d088f1a8bd5c1cf5d34d023a11e0df4c84ce97c88a953fa8f4",
+      "cells/a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda/cell_manifest.json": "b855de8d0a8ecf1a9357b9086e29dcd5a01f699d9ab40f565b49f83cc7fcb479",
+      "cells/a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda/part-000000-000001.jsonl.gz": "3b9b70485e8b1b499e065587092b6f5a6e84043edcdf9b8d4e1325555d857b7f",
+      "cells/a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda/part-000001-000002.jsonl.gz": "8bc6d2541b4284e79cffb4176f5a7232dd4824b1714f8ac579594afef7d3526f",
+      "cells/b38f1c3a2fdde9b0660b523dc49c293ae21e55d4db20366309975d5d8b1eff0a/cell_manifest.json": "cca8d9de49e50a7ef6fb981ba7a0d15323f40bdd66f296ccee9c451d1bb933f4",
+      "cells/b38f1c3a2fdde9b0660b523dc49c293ae21e55d4db20366309975d5d8b1eff0a/part-000000-000001.jsonl.gz": "4ae78e40782380f9348a63f13bf78be8284c4e7263d3f86e8843d125fe0200d5",
+      "cells/b38f1c3a2fdde9b0660b523dc49c293ae21e55d4db20366309975d5d8b1eff0a/part-000001-000002.jsonl.gz": "c374dee3dd245c1b9eedd21b793f5658667ceb8377eb5b9b8c2e24c20ed33d05",
+      "cells/b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e/cell_manifest.json": "dbad91f49e7f22ac604cf48a429843bd9b10e75b72cf7dcc781a6514db9a728d",
+      "cells/b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e/part-000000-000001.jsonl.gz": "b6728a3ee9c49fd678e1c3deb0c5ec1349b2adb21592bbe8ec7d3cc0e32c8c21",
+      "cells/b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e/part-000001-000002.jsonl.gz": "0eafafa04b8504aefd4636852ae0665ae691ca9c3e7693906c739b8e0ad65526",
+      "epsilon_comparisons.csv": "8b81ec1e2702735527a71aabc9f27735fba405b88f8f45d948d9b868a7b8f2f8",
+      "epsilon_table_manifest.json": "4b6110f86078492dd98ff86718adc53ab807c0a82c30ace382e967efdbeb3975",
+      "failed_fits.csv.gz": "c4aa30f638eca11a6af10a53344c20acdcb1ec375cf716b2a40062c988372ae2",
+      "numerical_diagnostics.csv": "45c4298baf24ce9040f408a2aa10e9f7864cff03d2664a300def1a4d4c87d7cd",
+      "outcome_counts.csv": "54861e90f64c14b01c09b0d72ddee47573b6c852bf6591c027e0dcf42c156e60",
+      "paired_comparisons.csv": "4b43254f07c5b57b8d6a9da31a52f44d95a081e9f876594bd015492dc3092fdd",
+      "parameter_summary.csv": "6f4b9364407185af4847132d3ad0805f016b7d2a857c4a792832b79667c1c326",
+      "regular_comparisons.csv": "159445fe417a5ec11bf9ca987f65ead3ca6921fa3eb123eafd62e50838af9711",
+      "resolved_design.json": "40f70b3f52e900d70be431abbf5b15caab556586622bc2b2c4e23dc0f0dd43e5",
+      "run_metadata.json": "06461492e1553e49547cbf78f3384ddb69271de326e85028f215d89a48f87e7b",
+      "spacing_summary.csv": "babeec63655a8026bd1ab29376461720e25d5f739439d7928bfcad224e53a469",
+      "table_manifest.json": "b27c6a00aed9506593df728f60383c3af7f089397d3cbf414b88105949d691cb"
+    },
+    "point_status_counts": {
+      "valid_interior": 72
+    },
+    "interval_status_counts": {
+      "valid": 72
+    },
+    "standard_table_manifest": {
+      "failed_fits.csv.gz": {
+        "rows": 0,
+        "sha256": "c4aa30f638eca11a6af10a53344c20acdcb1ec375cf716b2a40062c988372ae2"
+      },
+      "numerical_diagnostics.csv": {
+        "rows": 36,
+        "sha256": "45c4298baf24ce9040f408a2aa10e9f7864cff03d2664a300def1a4d4c87d7cd"
+      },
+      "outcome_counts.csv": {
+        "rows": 36,
+        "sha256": "54861e90f64c14b01c09b0d72ddee47573b6c852bf6591c027e0dcf42c156e60"
+      },
+      "paired_comparisons.csv": {
+        "rows": 108,
+        "sha256": "4b43254f07c5b57b8d6a9da31a52f44d95a081e9f876594bd015492dc3092fdd"
+      },
+      "parameter_summary.csv": {
+        "rows": 108,
+        "sha256": "6f4b9364407185af4847132d3ad0805f016b7d2a857c4a792832b79667c1c326"
+      },
+      "regular_comparisons.csv": {
+        "rows": 108,
+        "sha256": "159445fe417a5ec11bf9ca987f65ead3ca6921fa3eb123eafd62e50838af9711"
+      },
+      "spacing_summary.csv": {
+        "rows": 12,
+        "sha256": "babeec63655a8026bd1ab29376461720e25d5f739439d7928bfcad224e53a469"
+      }
+    },
+    "epsilon_rows": 72,
+    "epsilon_columns": 71,
+    "replay_false_result": "Every source and all recorded coordinates/tables still verified; full_completion_audit=False, replayed_source_paths=0, replayed_fits=0 and empty endpoint replay records. No estimator/serializer call allowed in that test."
+  },
+  "three_capture_histories": [
+    {
+      "capture": 1,
+      "purpose": "Initial focused development capture before saved-report strengthening.",
+      "preserved_archive": "artifacts/week7_recovery_evidence/floor_audit_pre_contract/original_validation",
+      "source_sha256": "77f75b86d3ca1d998dd6badcba9d049b9f0f76147433e9ccc7f432fe19c14b28",
+      "doc_sha256": "251cc58933d4add455d4caa200dc6d4517e25883f2863b9b42146f155b8d1346",
+      "reference_passed": 13,
+      "reference_seconds": 8.66,
+      "path": "artifacts/week7_recovery_evidence/floor_audit_reference_pre_saved_contract_tests.txt",
+      "sha256": "9077d07d1f596739cefe2121c63d841b4b2fc205cf4d5d3cecbb9414239507f3"
+    },
+    {
+      "capture": 2,
+      "purpose": "Accidental duplicate of the same fixed R2 inputs during engineering development.",
+      "cause": "The wrapper seeded tests.week7.test_floor_audit_reference while pytest imported week7.test_floor_audit_reference. The two module caches were distinct.",
+      "preserved_archive": "artifacts/week7_recovery_evidence/floor_audit_pre_contract/duplicate_validation",
+      "source_and_documentation_identical_to_capture1": true,
+      "different_files_from_capture1": [
+        "run_metadata.json"
+      ],
+      "all48_nonroot_files_and_all24_raw_partitions_identical_to_capture1": true,
+      "correction": "Subsequent reuse imports week7 after adding repo/tests to sys.path, explicitly seeds its cache and forbids raw execution."
+    },
+    {
+      "capture": 3,
+      "purpose": "Fresh same-input technical development capture after the changed auditor dependencies were validated; existing provenance was not rebound.",
+      "preserved_archive": "artifacts/week7_recovery_evidence/floor_audit_current_capture/archive",
+      "source_sha256": "b46e6b6fd5ffee053f511d5e8b2b1c20448752e34d33dad0df51577a2582a805",
+      "doc_sha256": "459fdd862b5b53c5d15ef4234f06dd1ce45e3c0e86a7aa338a17839accc7afb5",
+      "all24_raw_partitions_identical_to_capture1": true,
+      "all8_numeric_table_files_identical_to_capture1": true,
+      "standard_table_manifest_identical_to_capture1": true,
+      "source_dependency_and_run_identity_bindings_correctly_new": true
+    }
+  ],
+  "capture_interpretation": "Three stored captures repeat the same24 planned variant/replication keys at the same validation seed; they are not three independent experiments, additional Monte Carlo replications, or resampled failures. Deterministic source/fit audits replay those same inputs and are distinct from raw archive generation. Full scientific seed20261009 and selected headline observations were never generated by this work.",
+  "prototype_preservation": {
+    "manifest": "artifacts/week7_recovery_evidence/floor_audit_pre_contract/preservation.json",
+    "manifest_sha256": "2d85d0c5b770eea0387c2bde43d4c816476a983df98b2b80211a3c71775e0ba9",
+    "both49_file_archives_read_back_exactly": true,
+    "all5_source_doc_test_snapshots_read_back_exactly": true,
+    "prototype_combined_gate": {
+      "passed": 119,
+      "seconds": 16.14,
+      "path": "artifacts/week7_recovery_evidence/floor_audit_pre_saved_contract_tests.txt",
+      "sha256": "f84fe356470b07ea1e644aff6cdef910d53403226626a0fe8f4f3d6c9b11d8c8"
+    },
+    "initial_pure_arithmetic_gate": {
+      "passed": 9,
+      "native_cases_deselected": 2,
+      "seconds": 1.78,
+      "partial_draft_source_sha256": "0fa2718412540a3103646c8d811ebd9e0545b98f067d55bd3d100236fafd7682",
+      "path": "artifacts/week7_recovery_evidence/floor_audit_literal_initial_tests.txt",
+      "sha256": "324ce7aed7c7a3c7707054b9890d9aaa2131c78d1cf007c201231ab738169662"
+    },
+    "earlier_evidence_not_overwritten_or_rebound": true
+  },
+  "historical_package_preservation": {
+    "baseline_commit": "517f5664d14ad06650b0a05e6a77c5de2699032f",
+    "files_checked": 47,
+    "changed_files": []
+  },
+  "limitations": [
+    "The native fixed R2 paths have no statistical point/interval failures. Missingness, candidate retention, common-valid subsets, singleton uncertainty and failure accounting are additionally exercised with clearly labeled literal fixtures and engineering fault tests; the native sample alone is not evidence for every rare finite-sample failure mode.",
+    "All natively generated observations in this module use the fixed separate validation namespace. The literal R1/R3 audit-report fixtures generate no observations and do not alter the registered full replication count.",
+    "The auditor deliberately shares the original OU simulator and inference/serializer services. Its independent source addressing, raw loading, paired arithmetic and coordinate checks do not establish an independently implemented optimizer or universal numerical theorem.",
+    "For full R2000 runs, every source is replayed, but complete fit/coarse-Hessian reproduction remains limited to predetermined endpoints. The R2 validation happens to put every source at an endpoint.",
+    "A passing numerical audit is not figure-content review, scientific interpretation, weekly completion or full exploratory computation. No new estimator, interval, covariance gate, threshold, seed choice or scientific amendment was introduced."
+  ]
+}

@@ -1,0 +1,623 @@
+"""Independent integrity checks for the read-only paired-floor auditor.
+
+The native archive is the one cached fixed R=2 validation archive shared with
+the mathematical review. Every archive fault below changes a private copy.
+Literal failure-stream and coordinate fixtures exercise only those pure
+validators; they are never represented as simulated or full replay evidence.
+"""
+from copy import deepcopy
+from dataclasses import replace
+import csv
+import gzip
+import hashlib
+import io
+import json
+from pathlib import Path
+import shutil
+
+import numpy as np
+import pandas as pd
+import pytest
+
+from ou_irregular.experiments import provenance
+from ou_irregular.inference.contracts import Sample
+from ou_irregular.week4.simulation import OuSampleSource
+from ou_irregular.week7 import execution, floor_audit
+from ou_irregular.week7.selection import floor_design
+
+from .test_floor_audit_reference import native_archive
+
+
+def encoded(value):
+    return (json.dumps(value, sort_keys=True, separators=(',', ':'), allow_nan=False)+'\n').encode()
+
+
+def digest(value):
+    return hashlib.sha256(value).hexdigest()
+
+
+def snapshot(output):
+    result = {}
+    for path in sorted(output.rglob('*')):
+        key = str(path.relative_to(output))
+        if path.is_symlink():
+            result[key] = ('symlink', str(path.readlink()))
+        elif path.is_file():
+            result[key] = ('file', digest(path.read_bytes()))
+        elif path.is_dir():
+            result[key] = ('directory',)
+    return result
+
+
+def read_json(path):
+    return json.loads(path.read_bytes())
+
+
+def write_json(path, value):
+    path.write_bytes(encoded(value))
+
+
+def forbidden(*args, **kwargs):
+    raise AssertionError('read-only audit must not invoke raw execution or mutate artifacts')
+
+
+@pytest.fixture(scope='module')
+def native(tmp_path_factory):
+    return native_archive(tmp_path_factory)
+
+
+@pytest.fixture
+def copied(native, tmp_path):
+    output = tmp_path/'copied_archive'
+    shutil.copytree(native['output'], output)
+    return output, native['design']
+
+
+@pytest.fixture(scope='module')
+def complete_native_report(native):
+    """One additional deterministic full-fit replay for lifecycle seal tests."""
+    before = snapshot(native['output'])
+    report = floor_audit.audit_run(native['output'], native['design'], replay=True)
+    assert report['full_completion_audit'] is True
+    assert snapshot(native['output']) == before
+    return report
+
+
+def reject_unchanged(output, design, match=None):
+    before = snapshot(output)
+    with pytest.raises(ValueError, match=match):
+        floor_audit.audit_run(output, design, replay=False)
+    assert snapshot(output) == before
+
+
+def first_cell(design):
+    return next(c for c in design.cells if c.cv == 1.5 and c.floor_fraction == 1e-8)
+
+
+def rebind_raw_inputs(output):
+    """Rehash a fault copy so its rejection cannot rely on a stale EPS binding."""
+    manifest_path = output/'epsilon_table_manifest.json'
+    manifest = read_json(manifest_path)
+    metadata = read_json(output/'run_metadata.json')
+    binding = manifest['raw_inputs']
+    binding['run_identity'] = metadata['provenance']['identity_sha256']
+    binding['source_policy'] = metadata['source_policy']
+    binding['resolved_design_sha256'] = digest((output/'resolved_design.json').read_bytes())
+    for cid in binding['cells']:
+        path = output/'cells'/cid/'cell_manifest.json'
+        state = read_json(path)
+        binding['cells'][cid] = {'manifest_sha256': digest(path.read_bytes()),
+                                 'partitions': deepcopy(state['partitions'])}
+    manifest['run_identity'] = binding['run_identity']
+    manifest['raw_input_sha256'] = digest(encoded(binding).rstrip(b'\n'))
+    write_json(manifest_path, manifest)
+
+
+def mutate_raw(output, design, change, *, text_change=None):
+    cell = first_cell(design)
+    directory = output/'cells'/cell.identity
+    state_path = directory/'cell_manifest.json'
+    state = read_json(state_path)
+    part = state['partitions'][0]
+    path = directory/part['filename']
+    payload = gzip.decompress(path.read_bytes())
+    rows = [json.loads(line) for line in payload.splitlines()]
+    change(rows)
+    payload = b''.join(encoded(row) for row in rows)
+    if text_change is not None:
+        payload = text_change(payload)
+    path.write_bytes(gzip.compress(payload, mtime=0))
+    part['sha256'] = digest(path.read_bytes())
+    write_json(state_path, state)
+    rebind_raw_inputs(output)
+    return rows
+
+
+def mutate_table(output, name, change):
+    path = output/name
+    table = pd.read_csv(path, float_precision='round_trip')
+    change(table)
+    table.to_csv(path, index=False, float_format='%.17g', lineterminator='\n')
+    if name == 'epsilon_comparisons.csv':
+        manifest_path = output/'epsilon_table_manifest.json'
+        manifest = read_json(manifest_path)
+        manifest['table']['sha256'] = digest(path.read_bytes())
+    else:
+        manifest_path = output/'table_manifest.json'
+        manifest = read_json(manifest_path)
+        manifest[name]['sha256'] = digest(path.read_bytes())
+    write_json(manifest_path, manifest)
+
+
+def mutate_metadata(output, change):
+    path = output/'run_metadata.json'
+    metadata = read_json(path)
+    change(metadata)
+    write_json(path, metadata)
+
+
+@pytest.mark.parametrize('payload', (
+    '{"a":1,"a":1}', '{"outer":{"x":0,"x":1}}',
+    '{"unused":NaN}', '{"unused":Infinity}', '{"unused":-Infinity}',
+    '{"unused":1e9999}', '{"nested":[{"number":-1e9999}]}',
+))
+def test_strict_parser_rejects_duplicate_keys_and_nonfinite_unused_values(payload):
+    with pytest.raises(ValueError):
+        floor_audit.strict_json(payload)
+
+
+def test_coordinate_absence_is_counted_honestly_and_partial_triples_reject():
+    sample = Sample(values=np.array([-1., 1., -1., 1.]), times=np.array([0., 1., 2., 3.]))
+    row = {'point_diagnostics_json': '{}', 'interval_diagnostics_json': '{}'}
+    assert floor_audit.check_observed_coordinates(row, sample) == {
+        'point_coordinate_rows': 0, 'interval_coordinate_rows': 0, 'coordinate_scalars_checked': 0}
+    row['point_diagnostics_json'] = json.dumps({'state_center': 0., 'state_scale': 1., 'time_scale': 1.})
+    assert floor_audit.check_observed_coordinates(row, sample) == {
+        'point_coordinate_rows': 1, 'interval_coordinate_rows': 0, 'coordinate_scalars_checked': 3}
+    row['interval_diagnostics_json'] = json.dumps({'state_offset': 0.})
+    with pytest.raises(ValueError, match='coordinate triple'):
+        floor_audit.check_observed_coordinates(row, sample)
+
+
+@pytest.mark.parametrize('status', ('audited_pending_visual_review', 'completed'))
+def test_closed_archive_is_verified_without_raw_preflight_or_any_write(
+        copied, complete_native_report, monkeypatch, status):
+    output, design = copied
+    write_json(output/'audit.json', complete_native_report)
+    metadata = read_json(output/'run_metadata.json')
+    metadata.update(status=status, audit_sha256=digest((output/'audit.json').read_bytes()))
+    if status == 'completed':
+        # Literal, private lifecycle fixtures test seal validation only. They
+        # are not scientific figures or a claim of actual visual inspection.
+        figures = output/'figures'
+        figures.mkdir()
+        panel = figures/'literal_test_panel.png'
+        panel.write_bytes(b'literal non-scientific figure-byte fixture\n')
+        figure = figures/'figure_manifest.json'
+        write_json(figure, {'figures': {panel.name: digest(panel.read_bytes())}})
+        review = output/'visual_review.json'
+        write_json(review, {'all_panels_legible': True, 'reviewed_pngs': [panel.name],
+                            'reviewer': 'literal lifecycle unit fixture; no scientific visual review',
+                            'figure_manifest_sha256': digest(figure.read_bytes())})
+        metadata['visual_review_sha256'] = digest(review.read_bytes())
+        metadata['artifact_sha256'] = {
+            str(path.relative_to(output)): digest(path.read_bytes())
+            for path in output.rglob('*') if path.is_file()
+            and path.name not in {'run_metadata.json', '.execution.lock'}}
+    write_json(output/'run_metadata.json', metadata)
+    before = snapshot(output)
+    monkeypatch.setattr(execution, 'preflight', forbidden)
+    monkeypatch.setattr(execution, '_output_path', forbidden)
+    monkeypatch.setattr(execution, 'run_raw', forbidden)
+    report = floor_audit.audit_run(output, design, replay=False)
+    assert report['status'] == 'passed' and report['full_completion_audit'] is False
+    assert snapshot(output) == before
+
+
+def test_closed_state_without_its_existing_full_audit_seal_is_rejected(copied):
+    output, design = copied
+    mutate_metadata(output, lambda m: m.update(status='audited_pending_visual_review'))
+    reject_unchanged(output, design, 'closed|audit')
+
+
+@pytest.mark.parametrize('fault', ('missing_cell', 'extra_cell', 'extra_root_file',
+                                  'extra_partition', 'partition_symlink', 'cell_symlink'))
+def test_strict_complete_layout_and_symlinks(copied, tmp_path, fault):
+    output, design = copied
+    cell = first_cell(design)
+    directory = output/'cells'/cell.identity
+    part = next(directory.glob('*.jsonl.gz'))
+    if fault == 'missing_cell':
+        shutil.rmtree(directory)
+    elif fault == 'extra_cell':
+        (output/'cells'/'unexpected').mkdir()
+    elif fault == 'extra_root_file':
+        (output/'unregistered.txt').write_text('unexpected evidence\n')
+    elif fault == 'extra_partition':
+        (directory/'part-000100-000101.jsonl.gz').write_bytes(part.read_bytes())
+    elif fault == 'partition_symlink':
+        target = tmp_path/'outside_partition.gz'
+        target.write_bytes(part.read_bytes())
+        part.unlink()
+        part.symlink_to(target)
+    elif fault == 'cell_symlink':
+        target = tmp_path/'outside_cell'
+        directory.rename(target)
+        directory.symlink_to(target, target_is_directory=True)
+    reject_unchanged(output, design)
+
+
+@pytest.mark.parametrize('fault', ('duplicate_method', 'wrong_replication', 'missing_row',
+                                  'extra_row', 'wrong_order', 'extra_field', 'missing_field',
+                                  'signed_zero', 'boolean_rep', 'boolean_flag', 'integer_estimate'))
+def test_raw_complete_keys_canonical_science_and_types(copied, fault):
+    output, design = copied
+    def change(rows):
+        if fault == 'duplicate_method':
+            rows[1]['estimator'] = rows[0]['estimator']
+        elif fault == 'wrong_replication':
+            rows[0]['rep'] = 1
+        elif fault == 'missing_row':
+            rows.pop()
+        elif fault == 'extra_row':
+            rows.append(deepcopy(rows[0]))
+        elif fault == 'wrong_order':
+            rows.reverse()
+        elif fault == 'extra_field':
+            rows[0]['unregistered_field'] = 'unexpected'
+        elif fault == 'missing_field':
+            del rows[0]['point_reason']
+        elif fault == 'signed_zero':
+            rows[0]['true_mu'] = -0.0
+        elif fault == 'boolean_rep':
+            rows[0]['rep'] = False
+        elif fault == 'boolean_flag':
+            rows[0]['point_valid'] = 1
+        elif fault == 'integer_estimate':
+            rows[0]['theta'] = 1
+    mutate_raw(output, design, change)
+    reject_unchanged(output, design)
+
+
+@pytest.mark.parametrize('field,content', (
+    ('point_diagnostics_json', '{"unused":0,"unused":1}'),
+    ('interval_diagnostics_json', '{"unused":NaN}'),
+    ('point_diagnostics_json', '{"unused":1e9999}'),
+))
+def test_nested_json_is_strict_before_historical_inference_parsing(copied, field, content):
+    output, design = copied
+    # Keep all existing meaningful fields, so rejection is attributable to the
+    # otherwise unused nested invalid data rather than missing diagnostics.
+    def change(rows):
+        original = rows[0][field]
+        rows[0][field] = content[:-1]+','+original[1:]
+    mutate_raw(output, design, change)
+    reject_unchanged(output, design, 'duplicate JSON|nonfinite')
+
+
+def test_duplicate_raw_json_key_rejects_after_partition_and_binding_rehash(copied):
+    output, design = copied
+    mutate_raw(output, design, lambda rows: None,
+               text_change=lambda payload: payload.replace(b'"rep":0', b'"rep":0,"rep":0', 1))
+    reject_unchanged(output, design, 'duplicate JSON')
+
+
+@pytest.mark.parametrize('fault', ('actual_cell', 'anchor_cell', 'anchor_floor', 'coupling',
+                                  'seed_float', 'spawn_key_boolean', 'source_hash',
+                                  'source_spacing', 'pipeline_failure'))
+def test_independent_source_identity_and_replay_fail_closed(copied, fault):
+    output, design = copied
+    def change(rows):
+        for row in rows:
+            if fault == 'actual_cell':
+                row['actual_cell_id'] = row['seed_anchor_cell_id']
+            elif fault == 'anchor_cell':
+                row['seed_anchor_cell_id'] = row['cell_id']
+            elif fault == 'anchor_floor':
+                row['seed_anchor_floor_fraction'] = 1e-8
+            elif fault == 'coupling':
+                row['source_coupling_policy'] = 'replication-index-only'
+            elif fault == 'seed_float':
+                row['source_seed'] = float(row['source_seed'])
+            elif fault == 'spawn_key_boolean':
+                key = json.loads(row['gap_spawn_key'])
+                key[-1] = False
+                row['gap_spawn_key'] = json.dumps(key, separators=(',', ':'))
+            elif fault == 'source_hash':
+                row['observations_sha256'] = '0'*64
+            elif fault == 'source_spacing':
+                row['raw_cv'] += .001
+            elif fault == 'pipeline_failure':
+                row['pipeline_error'] = 'retained implementation exception'
+    mutate_raw(output, design, change)
+    reject_unchanged(output, design)
+
+
+def test_consistent_forged_observed_offset_is_detected_from_actual_arrays(copied):
+    output, design = copied
+    def change(rows):
+        row = rows[0]
+        point = json.loads(row['point_diagnostics_json'])
+        interval = json.loads(row['interval_diagnostics_json'])
+        # Preserve point/interval agreement and normalized eta algebra. The
+        # independent observed-data calculation must still reject the forgery.
+        delta = .01
+        point['state_center'] += delta
+        interval['state_offset'] += delta
+        interval['working_parameters'][1] -= delta/interval['state_scale']
+        steps = interval['hessian_diagnostics']['steps']
+        steps[1] = .001*max(1., abs(interval['working_parameters'][1]))
+        row['point_diagnostics_json'] = json.dumps(point, sort_keys=True, separators=(',', ':'))
+        row['interval_diagnostics_json'] = json.dumps(interval, sort_keys=True, separators=(',', ':'))
+    mutate_raw(output, design, change)
+    reject_unchanged(output, design, 'observed|coordinate|replay')
+
+
+@pytest.mark.parametrize('fault', ('wrong_project', 'wrong_kind', 'missing_override',
+                                  'changed_gate', 'false_source_policy', 'pipeline_bool',
+                                  'completed_count_bool', 'require_frozen_bool'))
+def test_root_procedure_override_policy_and_count_types_are_binding(copied, fault):
+    output, design = copied
+    def change(metadata):
+        if fault == 'wrong_project':
+            metadata['project'] = 'ou-irregular-experiments'
+        elif fault == 'wrong_kind':
+            metadata['execution_kind'] = 'followup'
+        elif fault == 'missing_override':
+            metadata['scientific_overrides'] = []
+        elif fault == 'changed_gate':
+            metadata['procedure']['max_whitened_difference'] = .02
+        elif fault == 'false_source_policy':
+            metadata['source_policy']['renormalize_floored_gaps'] = True
+        elif fault == 'pipeline_bool':
+            metadata['pipeline_errors'] = False
+        elif fault == 'completed_count_bool':
+            metadata['completed_cells'][design.cells[0].identity]['pipeline_errors'] = False
+        elif fault == 'require_frozen_bool':
+            metadata['require_frozen'] = 0
+    mutate_metadata(output, change)
+    reject_unchanged(output, design)
+
+
+@pytest.mark.parametrize('field', ('bias_difference', 'rmse_ratio_log_mcse',
+                                  'operational_coverage_difference_mcse',
+                                  'n_common_point_valid', 'squared_error_covariance_common',
+                                  'relative_bias_difference'))
+def test_rehashed_epsilon_arithmetic_corruption_is_independently_rejected(copied, field):
+    output, design = copied
+    def change(table):
+        index = table.index[(table.cv == 1.5) & table.parameter.eq('theta')][0]
+        if field != 'n_common_point_valid':
+            table[field] = table[field].astype(float)
+        table.loc[index, field] += .125 if field != 'n_common_point_valid' else 1
+    mutate_table(output, 'epsilon_comparisons.csv', change)
+    reject_unchanged(output, design, 'epsilon|arithmetic|count')
+
+
+def test_zero_truth_mu_relative_blank_cannot_be_replaced_by_zero(copied):
+    output, design = copied
+    mutate_table(output, 'epsilon_comparisons.csv',
+                 lambda table: table.loc.__setitem__((table.parameter.eq('mu'), 'relative_bias_difference'), 0.))
+    reject_unchanged(output, design, 'missing|epsilon')
+
+
+@pytest.mark.parametrize('name,column', (
+    ('parameter_summary.csv', 'bias'),
+    ('regular_comparisons.csv', 'excess_bias'),
+    ('paired_comparisons.csv', 'rmse_ratio'),
+    ('spacing_summary.csv', 'realized_span_mean'),
+    ('outcome_counts.csv', 'count'),
+    ('numerical_diagnostics.csv', 'hessian_condition_number_max'),
+))
+def test_rehashed_standard_tables_are_checked_by_independent_arithmetic(copied, name, column):
+    output, design = copied
+    def change(table):
+        index = table.index[table[column].notna()][0]
+        table.loc[index, column] += 1
+    mutate_table(output, name, change)
+    reject_unchanged(output, design, 'arithmetic|count')
+
+
+@pytest.mark.parametrize('fault', ('raw_binding', 'columns', 'rows', 'direction', 'duplicate_key'))
+def test_epsilon_manifest_and_complete_key_contract(copied, fault):
+    output, design = copied
+    path = output/'epsilon_table_manifest.json'
+    manifest = read_json(path)
+    if fault == 'raw_binding':
+        cid = first_cell(design).identity
+        manifest['raw_inputs']['cells'][cid]['manifest_sha256'] = '0'*64
+        manifest['raw_input_sha256'] = digest(encoded(manifest['raw_inputs']).rstrip(b'\n'))
+    elif fault == 'columns':
+        manifest['table']['columns'] = manifest['table']['columns'][:-1]
+    elif fault == 'rows':
+        manifest['table']['rows'] = 71
+    elif fault == 'direction':
+        manifest['difference_direction'] = 'registered_floor_minus_epsilon'
+    else:
+        mutate_table(output, 'epsilon_comparisons.csv',
+                     lambda table: table.iloc.__setitem__(1, table.iloc[0]))
+        manifest = read_json(path)
+    write_json(path, manifest)
+    reject_unchanged(output, design)
+
+
+def test_root_drift_is_observed_without_repair_or_incident_writes(copied, monkeypatch):
+    output, design = copied
+    path = output/'run_metadata.json'
+    original = OuSampleSource.sample
+    changed = None
+    def drift(source, cell, rep):
+        nonlocal changed
+        result = original(source, cell, rep)
+        if changed is None:
+            metadata = read_json(path)
+            metadata['status'] = 'unexpected_external_state'
+            changed = encoded(metadata)
+            path.write_bytes(changed)
+        return result
+    monkeypatch.setattr(OuSampleSource, 'sample', drift)
+    with pytest.raises(ValueError, match='changed|drift'):
+        floor_audit.audit_run(output, design, replay=False)
+    assert path.read_bytes() == changed
+    assert not list(output.parent.glob(output.name+'-manifest-incident-*'))
+
+
+def test_non_numerical_existing_artifact_drift_is_in_complete_readback_scope(
+        copied, complete_native_report, monkeypatch):
+    output, design = copied
+    # audit.json is a permitted later lifecycle artifact. Its bytes still
+    # belong to this invocation's complete before/after read-only snapshot.
+    path = output/'audit.json'
+    write_json(path, complete_native_report)
+    original = OuSampleSource.sample
+    changed = encoded({'prior_audit': 'externally replaced'})
+    touched = False
+    def drift(source, cell, rep):
+        nonlocal touched
+        result = original(source, cell, rep)
+        if not touched:
+            path.write_bytes(changed)
+            touched = True
+        return result
+    monkeypatch.setattr(OuSampleSource, 'sample', drift)
+    with pytest.raises(ValueError, match='changed|drift'):
+        floor_audit.audit_run(output, design, replay=False)
+    assert path.read_bytes() == changed
+
+
+def rehash_provenance(provenance_record):
+    identity = {key: provenance_record[key] for key in (
+        'design', 'design_sha256', 'preregistration_commit', 'source_files', 'environment')}
+    provenance_record['identity_sha256'] = digest(encoded(identity).rstrip(b'\n'))
+
+
+@pytest.mark.parametrize('fault', ('missing', 'extra'))
+def test_exact_dependency_membership_survives_repaired_identity(native, fault):
+    metadata = read_json(native['output']/'run_metadata.json')
+    saved = metadata['provenance']
+    if fault == 'missing':
+        del saved['source_files']['ou_irregular/week7/floor_audit.py']
+    else:
+        extra = 'README.md'
+        assert extra not in saved['source_files']
+        saved['source_files'][extra] = digest((provenance.ROOT/extra).read_bytes())
+    rehash_provenance(saved)
+    with pytest.raises(ValueError, match='dependency membership'):
+        floor_audit.verify_provenance(metadata, native['design'])
+
+
+@pytest.mark.parametrize('commit', ('0'*40, '517f5664d14ad06650b0a05e6a77c5de2699032f'))
+def test_claimed_full_freeze_checks_actual_recorded_git_bytes_without_science(native, commit):
+    # Only a metadata object is changed to the full scope. No full-seed sample,
+    # raw partition or claimed full scientific archive is ever constructed.
+    design = floor_design()
+    metadata = read_json(native['output']/'run_metadata.json')
+    saved = metadata['provenance']
+    saved.update(design=design.to_dict(), design_sha256=design.digest,
+                 code_commit=commit, uncommitted_dependency_files=[])
+    metadata['require_frozen'] = True
+    rehash_provenance(saved)
+    with pytest.raises(ValueError, match='recorded Git freeze'):
+        floor_audit.verify_provenance(metadata, design)
+
+
+def write_failure_rows(path, rows, *, header=None):
+    header = sorted(rows[0]) if header is None else header
+    text = io.StringIO(newline='')
+    writer = csv.writer(text, lineterminator='\n')
+    writer.writerow(header)
+    for row in rows:
+        writer.writerow([row.get(name, '') for name in header])
+    path.write_bytes(gzip.compress(text.getvalue().encode(), mtime=0))
+
+
+@pytest.fixture
+def literal_failures(native):
+    # These two marked-unavailable records are literal serializer fixtures.
+    # Their altered flags are not submitted to the full numerical auditor.
+    rows = deepcopy(native['rows'][:3])
+    rows[0].update(point_valid=False, interval_valid=False)
+    rows[1].update(interval_valid=False)
+    assert rows[2]['point_valid'] and rows[2]['interval_valid']
+    return rows
+
+
+def test_failure_stream_retains_every_field_and_finite_candidate(literal_failures, tmp_path):
+    path = tmp_path/'literal_failures.csv.gz'
+    write_failure_rows(path, literal_failures[:2])
+    before = path.read_bytes()
+    with floor_audit.FailureExport(path) as stream:
+        stream.check_rows(literal_failures)
+        assert stream.finish(2) == 2
+    assert path.read_bytes() == before
+
+
+@pytest.mark.parametrize('fault', ('candidate', 'missing_row', 'extra_row', 'wrong_order',
+                                  'missing_column', 'extra_column', 'duplicate_header',
+                                  'integer_spelling', 'boolean_spelling', 'nested_evidence'))
+def test_failure_stream_rejects_loss_reordering_duplicate_headers_and_changed_candidates(
+        literal_failures, tmp_path, fault):
+    path = tmp_path/'literal_fault.csv.gz'
+    export = deepcopy(literal_failures[:2])
+    header = sorted(export[0])
+    if fault == 'candidate':
+        export[0]['theta'] += 1.
+    elif fault == 'missing_row':
+        export.pop()
+    elif fault == 'extra_row':
+        export.append(deepcopy(export[0]))
+    elif fault == 'wrong_order':
+        export.reverse()
+    elif fault == 'missing_column':
+        header.remove('nll')
+    elif fault == 'extra_column':
+        header.append('unregistered')
+    elif fault == 'duplicate_header':
+        header.append('nll')
+    elif fault == 'integer_spelling':
+        export[0]['rep'] = str(export[0]['rep'])+'.0'
+    elif fault == 'boolean_spelling':
+        export[0]['point_valid'] = '0'
+    elif fault == 'nested_evidence':
+        export[0]['point_diagnostics_json'] += ' '
+    write_failure_rows(path, export, header=header)
+    before = path.read_bytes()
+    with pytest.raises(ValueError):
+        with floor_audit.FailureExport(path) as stream:
+            stream.check_rows(literal_failures)
+            stream.finish(2)
+    assert path.read_bytes() == before
+
+
+def test_empty_native_failure_export_duplicate_header_rejects_with_rehashed_manifest(copied):
+    output, design = copied
+    path = output/'failed_fits.csv.gz'
+    with gzip.open(path, 'rt', encoding='utf-8', newline='') as handle:
+        rows = list(csv.reader(handle))
+    assert len(rows) == 1
+    rows[0].append(rows[0][0])
+    text = io.StringIO(newline='')
+    csv.writer(text, lineterminator='\n').writerows(rows)
+    path.write_bytes(gzip.compress(text.getvalue().encode(), mtime=0))
+    manifest_path = output/'table_manifest.json'
+    manifest = read_json(manifest_path)
+    manifest['failed_fits.csv.gz']['sha256'] = digest(path.read_bytes())
+    write_json(manifest_path, manifest)
+    reject_unchanged(output, design, 'header')
+
+
+def test_unknown_invalid_point_status_cannot_hide_in_a_well_formed_rejected_row(native):
+    cell = first_cell(native['design'])
+    row = deepcopy(next(row for row in native['rows'] if row['cell_id'] == cell.identity))
+    row.update(point_valid=False, interval_valid=False, point_status='unregistered_failure_status',
+               interval_status='invalid_point_fit')
+    point = json.loads(row['point_diagnostics_json'])
+    point.update(fit_status=row['point_status'], valid_for_point_summary=False)
+    row['point_diagnostics_json'] = json.dumps(point, sort_keys=True, separators=(',', ':'))
+    for name in row:
+        if (name.startswith(('cov_', 'working_cov_', 'working_hessian_', 'gradient_'))
+                or name in {p+suffix for p in ('theta', 'mu', 'sigma') for suffix in ('_lower', '_upper', '_se')}):
+            row[name] = None
+    with pytest.raises(ValueError, match='point-fit status'):
+        floor_audit._validate_row(row, cell, row['rep'], row['estimator'])
+

@@ -1,0 +1,894 @@
+"""Independent, read-only audit of the exploratory paired-floor experiment.
+
+All physical sources are reconstructed at independently derived registered-
+floor addresses.  Only the original OU primitive and original inference/record
+serializer are shared with execution; the paired source adapter, comparison
+calculator, reporting loader and raw-execution preflight are not used here.
+"""
+import csv
+from dataclasses import replace
+import gzip
+import hashlib
+import io
+import json
+import math
+from pathlib import Path
+import re
+import subprocess
+
+import numpy as np
+import pandas as pd
+
+from ..experiments.audit import (_inference, _parameter_summaries,
+                                 _paired_comparisons, _other_summaries,
+                                 _regular_comparisons, _check_table)
+from ..experiments.design import Cell, RunDesign
+from ..experiments.execution import registered_wald, source_records
+from ..experiments.provenance import CORE_FILES, ROOT, canonical, file_digest, verify
+from ..week4.simulation import OuSampleSource
+from .reporting import FILES as REPORTING_FILES
+from .selection import floor_design
+
+
+FILES = tuple(sorted(set(REPORTING_FILES) | {
+    "ou_irregular/experiments/audit.py", "ou_irregular/week7/floor_audit.py",
+    "docs/week7_floor_audit.md"}))
+METHODS = ("exact", "pfml", "euler")
+PARAMETERS = ("theta", "mu", "sigma")
+EPSILONS = (1e-8, 1e-6, 1e-4)
+ANCHOR_EPSILON = 1e-6
+COUPLING = "week7_paired_floor_v1_shared_gamma_stationary_x0_and_standard_normal_innovations"
+Z = 1.959963984540054
+RTOL, ATOL = 2e-10, 2e-12
+PROCEDURE = {
+    "level": .95, "relative_step": .001, "max_relative_difference": .005,
+    "max_whitened_difference": .01, "max_condition_number": 1e10,
+    "max_standardized_score": .01, "interval_scale": "natural_symmetric_unclipped",
+    "covariance": "full_conditional_nll_inverse_hessian_model_based",
+    "source_address": "SeedSequence(root,spawn_key=(4,*8_registered_floor_anchor_cell_words,rep)).spawn(2)",
+}
+TABLE_KEYS = {
+    "parameter_summary.csv": ("cell_id", "estimator", "parameter"),
+    "regular_comparisons.csv": ("cell_id", "estimator", "parameter"),
+    "paired_comparisons.csv": ("cell_id", "estimator_a", "estimator_b", "parameter"),
+    "spacing_summary.csv": ("cell_id",),
+    "outcome_counts.csv": ("cell_id", "n", "theta_mean_gap", "cv", "estimator", "point_status", "interval_status"),
+    "numerical_diagnostics.csv": ("cell_id", "estimator"),
+}
+# This schema is independently declared rather than imported from the producer.
+EPSILON_COLUMNS = (
+    "cell_id", "reference_cell_id", "seed_anchor_cell_id", "floor_fraction", "reference_floor_fraction",
+    "estimator", "parameter", "truth", "n", "theta_mean_gap", "mean_gap", "cv", "source_seed",
+    "source_coupling_policy", "comparison_type", "difference_direction", "ratio_direction", "point_subset",
+    "coverage_subset", "n_planned", "n_point_valid_a", "n_point_valid_b", "n_interval_valid_a", "n_interval_valid_b",
+    "n_common_point_valid", "n_common_interval_valid", "bias_a_common", "bias_b_common", "mse_a_common",
+    "mse_b_common", "rmse_a_common", "rmse_b_common", "relative_bias_a_common", "relative_bias_b_common",
+    "relative_rmse_a_common", "relative_rmse_b_common", "squared_error_covariance_common",
+    "bias_difference", "bias_difference_mcse", "bias_difference_mc_lower", "bias_difference_mc_upper",
+    "mse_difference", "mse_difference_mcse", "mse_difference_mc_lower", "mse_difference_mc_upper",
+    "relative_bias_difference", "relative_bias_difference_mcse", "relative_bias_difference_mc_lower",
+    "relative_bias_difference_mc_upper", "rmse_difference", "rmse_difference_mcse", "rmse_difference_mc_lower",
+    "rmse_difference_mc_upper", "rmse_ratio", "rmse_ratio_mcse", "rmse_ratio_log_mcse", "rmse_ratio_mc_lower",
+    "rmse_ratio_mc_upper", "rmse_ratio_uncertainty", "n_covered_a", "n_covered_b", "n_both_cover",
+    "n_a_only_cover", "n_b_only_cover", "n_neither_cover", "operational_coverage_a", "operational_coverage_b",
+    "operational_coverage_difference", "operational_coverage_difference_mcse",
+    "operational_coverage_difference_mc_lower", "operational_coverage_difference_mc_upper",
+)
+SOURCE_FIELDS = {
+    "family", "target_mean_gap", "requested_cv", "floor_applied", "floor_value", "clip_count",
+    "clip_fraction", "raw_mean_gap", "realized_mean_gap", "raw_cv", "realized_cv", "realized_span",
+    "min_gap", "expected_mean_gap_after_floor", "expected_clip_fraction", "source_seed",
+    "source_spawn_key", "gap_spawn_key", "path_spawn_key", "times_sha256", "observations_sha256",
+    "actual_cell_id", "seed_anchor_cell_id", "seed_anchor_floor_fraction", "source_coupling_policy",
+}
+INFERENCE_FIELDS = {
+    "estimator", "point_valid", "optimizer_success", "point_status", "point_reason", "nll",
+    "point_diagnostics_json", "interval_valid", "interval_status", "interval_reason",
+    "interval_diagnostics_json", "covariance_type", "hessian_condition_number",
+    "hessian_relative_difference", "hessian_whitened_difference", "standardized_score",
+    *(field for p in PARAMETERS for field in (p, f"{p}_lower", f"{p}_upper", f"{p}_se")),
+    *(f"gradient_{i}" for i in range(3)),
+    *(f"cov_{p}_{PARAMETERS[j]}" for i, p in enumerate(PARAMETERS) for j in range(i, 3)),
+    *(f"{kind}_{i}_{j}" for kind in ("working_cov", "working_hessian") for i in range(3) for j in range(i, 3)),
+}
+_TEXT_INFERENCE = {"estimator", "point_status", "point_reason", "point_diagnostics_json", "interval_status",
+                   "interval_reason", "interval_diagnostics_json", "covariance_type"}
+_FLAGS = {"point_valid", "interval_valid", "optimizer_success"}
+_CELL_FIELDS = set(Cell(n=1000, q=.5, cv=0.).to_dict())
+RAW_FIELDS = _CELL_FIELDS | SOURCE_FIELDS | INFERENCE_FIELDS | {"rep", "source_valid", "source_error", "pipeline_error"}
+_LIFECYCLE = {"status", "audit_sha256", "analysis_finished_utc", "completed_utc", "visual_review_sha256",
+              "artifact_sha256", "execution_attempts", "resume_events", "raw_finished_utc",
+              "postprocessing_error_type", "postprocessing_error", "termination_type", "termination_reason"}
+
+
+def _require(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def _digest(value):
+    return hashlib.sha256(canonical(value).encode()).hexdigest()
+
+
+def _int(value, label, minimum=0):
+    _require(type(value) is int and value >= minimum, "invalid integer: " + label)
+    return value
+
+
+def _unique(pairs):
+    result = {}
+    for key, value in pairs:
+        _require(key not in result, "duplicate JSON key: " + key)
+        result[key] = value
+    return result
+
+
+def _finite_tree(value):
+    if isinstance(value, dict):
+        for child in value.values():
+            _finite_tree(child)
+    elif isinstance(value, list):
+        for child in value:
+            _finite_tree(child)
+    elif isinstance(value, float):
+        _require(math.isfinite(value), "nonfinite JSON number")
+
+
+def strict_json(raw, label="JSON"):
+    """Reject duplicate keys, NaN/Infinity, and overflowing JSON exponents."""
+    def invalid(value):
+        raise ValueError(f"nonstandard nonfinite JSON value {value}: {label}")
+    try:
+        value = json.loads(raw, object_pairs_hook=_unique, parse_constant=invalid)
+    except (UnicodeError, json.JSONDecodeError) as exc:
+        raise ValueError("malformed " + label) from exc
+    _finite_tree(value)
+    return value
+
+
+def _json_file(path):
+    raw = path.read_bytes()
+    value = strict_json(raw, str(path))
+    _require(type(value) is dict and raw == (canonical(value) + "\n").encode(),
+             "manifest is not a canonical JSON object: " + str(path))
+    return value, raw
+
+
+def _nested_json(value):
+    """Validate embedded diagnostic strings before historical helper parsing."""
+    if isinstance(value, dict):
+        for key, child in value.items():
+            if key.endswith("_json") or key.endswith("spawn_key"):
+                _require(type(child) is str, "nested JSON must retain its string representation")
+                _nested_json(strict_json(child, key))
+            else:
+                _nested_json(child)
+    elif isinstance(value, list):
+        for child in value:
+            _nested_json(child)
+
+
+def _compare(actual, expected, label, *, exact=False):
+    """Compare complete replay structures, including type and missingness."""
+    if isinstance(expected, dict):
+        _require(type(actual) is dict and actual.keys() == expected.keys(), "replay object keys differ: " + label)
+        for key in expected:
+            a, b = actual[key], expected[key]
+            if key.endswith("_json"):
+                a, b = strict_json(a, key), strict_json(b, key)
+            _compare(a, b, label + "/" + key, exact=exact)
+    elif isinstance(expected, list):
+        _require(type(actual) is list and len(actual) == len(expected), "replay list differs: " + label)
+        for i, (a, b) in enumerate(zip(actual, expected)):
+            _compare(a, b, label + f"/{i}", exact=exact)
+    else:
+        _require(type(actual) is type(expected), "replay scalar type differs: " + label)
+        if type(expected) is float and not exact:
+            _require(math.isfinite(actual) and math.isclose(actual, expected, rel_tol=RTOL, abs_tol=ATOL),
+                     "replay arithmetic differs: " + label)
+        else:
+            _require(actual == expected, "replay value differs: " + label)
+
+
+def _require_design(design, *, subset=False):
+    _require(isinstance(design, RunDesign), "canonical floor RunDesign required")
+    registered = floor_design()
+    expected = registered.validation(design.replications) if design.scope == "validation" else registered
+    if subset:
+        ids = {c.identity for c in design.cells}
+        expected = replace(expected, cells=tuple(c for c in expected.cells if c.identity in ids))
+        _require(bool(ids) and all(sum(c.cv == cv for c in expected.cells) == 3 for cv in {c.cv for c in expected.cells}),
+                 "each epsilon audit group requires all three floor variants")
+    _require(canonical(design.to_dict()) == canonical(expected.to_dict()), "fixed floor design changed")
+    return design
+
+
+def _source_policy(design):
+    anchors = {c.identity: replace(c, floor_fraction=1e-6).identity for c in design.cells}
+    return {"name": COUPLING, "root_seed": design.seed, "actual_to_seed_anchor": anchors,
+            "seed_anchor_floor_fraction": 1e-6,
+            "planned_source_realizations": len(design.cells)*design.replications,
+            "planned_independent_coupling_groups": len(set(anchors.values()))*design.replications,
+            "planned_fit_records": 3*len(design.cells)*design.replications,
+            "stationary_initialization": True, "renormalize_floored_gaps": False}
+
+
+def independent_source(cell, rep, seed):
+    """Derive the anchor here; retain the actual physical floor in the source."""
+    anchor = replace(cell, floor_fraction=1e-6)
+    addressed = cell.to_dict()
+    addressed["cell_id"] = anchor.identity
+    sample, diagnostics = OuSampleSource(seed).sample(addressed, rep)
+    result = {**diagnostics, "actual_cell_id": cell.identity, "seed_anchor_cell_id": anchor.identity,
+              "seed_anchor_floor_fraction": 1e-6, "source_coupling_policy": COUPLING}
+    _require(set(result) == SOURCE_FIELDS, "primitive source diagnostic schema changed")
+    for name, array in (("times_sha256", sample.times), ("observations_sha256", sample.values)):
+        expected = hashlib.sha256(np.asarray(array, dtype="<f8").tobytes()).hexdigest()
+        _require(result[name] == expected, "primitive array digest disagrees with reconstructed array")
+    return sample, result
+
+
+def check_observed_coordinates(row, sample):
+    """Check recorded coordinates from each actual path, including invalid fits.
+
+    Coordinate absence is reported, not filled in or mistaken for a verified
+    field. The independent calculation uses only observed values and gaps.
+    """
+    values = np.asarray(sample.values, dtype=np.longdouble)
+    offset = float(np.sum(values, dtype=np.longdouble)/len(values))
+    centered = values - np.longdouble(offset)
+    amplitude = np.max(np.abs(centered))
+    _require(np.isfinite(amplitude) and amplitude > 0, "replayed path has no finite observed scale")
+    scale = float(amplitude*np.sqrt(np.sum((centered/amplitude)**2, dtype=np.longdouble)/len(values)))
+    gaps = np.diff(sample.times).astype(np.longdouble)
+    time_scale = float(np.sum(gaps, dtype=np.longdouble)/len(gaps))
+    _require(np.isfinite([offset, scale, time_scale]).all() and scale > 0 and time_scale > 0,
+             "replayed observed coordinates are not representable")
+    counts = {"point_coordinate_rows": 0, "interval_coordinate_rows": 0, "coordinate_scalars_checked": 0}
+    for kind, key, names in (("point", "point_diagnostics_json", ("state_center", "state_scale", "time_scale")),
+                             ("interval", "interval_diagnostics_json", ("state_offset", "state_scale", "time_scale"))):
+        diagnostic = strict_json(row[key], key)
+        _require(type(diagnostic) is dict, "diagnostic JSON must be an object")
+        present = [name in diagnostic for name in names]
+        if any(present):
+            _require(all(present), "incomplete recorded coordinate triple")
+            for name, value in zip(names, (offset, scale, time_scale)):
+                _compare(diagnostic[name], value, "observed " + name)
+            counts[kind + "_coordinate_rows"] += 1
+            counts["coordinate_scalars_checked"] += 3
+    return counts
+
+
+def _validate_row(row, cell, rep, method):
+    _require(type(row) is dict and set(row) == RAW_FIELDS, "raw record fields differ from the complete schema")
+    _require(type(row["rep"]) is int and row["rep"] == rep and type(row["estimator"]) is str
+             and row["estimator"] == method, "raw Cartesian key or ordering changed")
+    scientific = {key: row[key] for key in _CELL_FIELDS}
+    _compare(scientific, cell.to_dict(), "canonical actual cell", exact=True)
+    _require(canonical(scientific) == canonical(cell.to_dict()), "canonical Cell representation changed")
+    for key in _FLAGS | {"source_valid", "floor_applied"}:
+        _require(type(row[key]) is bool, "raw flag must be Boolean: " + key)
+    _require(row["source_valid"] and row["source_error"] == "" and row["pipeline_error"] == ""
+             and type(row["source_error"]) is str and type(row["pipeline_error"]) is str,
+             "saved source or pipeline failure requires implementation review")
+    for key in _TEXT_INFERENCE:
+        _require(type(row[key]) is str and bool(row[key]), "missing raw text diagnostic: " + key)
+    _require(row["point_status"] in {"valid_interior", "boundary", "boundary_suspected", "degenerate", "numerical_failure"},
+             "unknown registered point-fit status")
+    for key in INFERENCE_FIELDS - _TEXT_INFERENCE - _FLAGS:
+        _require(row[key] is None or type(row[key]) is float and math.isfinite(row[key]),
+                 "inference numbers must be finite floating values or JSON null: " + key)
+    _nested_json(row)
+    for field in ("point_diagnostics_json", "interval_diagnostics_json"):
+        _require(type(strict_json(row[field], field)) is dict, "diagnostic object required")
+    point = strict_json(row["point_diagnostics_json"])
+    for key in ("optimizer_success", "valid_for_point_summary"):
+        _require(type(point.get(key)) is bool, "point diagnostic validity flag type changed")
+    interval = strict_json(row["interval_diagnostics_json"])
+    _require(type(interval.get("conditions_on_initial_value")) is bool, "conditional-likelihood flag type changed")
+    _inference(row)
+
+
+def load_cell(output, cell, design, identity):
+    """Own strict loader; no producer CellStore, reporting or audit loader."""
+    directory = Path(output)/"cells"/cell.identity
+    state, payload = _json_file(directory/"cell_manifest.json")
+    expected = {"schema_version", "run_identity", "cell", "replications", "status",
+                "completed_replications", "partitions", "recovered_orphans"}
+    _require(set(state) == expected and _int(state["schema_version"], "cell schema", 1) == 1,
+             "cell manifest schema changed")
+    _require(state["run_identity"] == identity and canonical(state["cell"]) == canonical(cell.to_dict()),
+             "cell manifest identity changed")
+    _require(_int(state["replications"], "cell plan", 1) == design.replications
+             and _int(state["completed_replications"], "completed sources", 1) == design.replications
+             and state["status"] == "complete", "incomplete raw cell")
+    _require(type(state["partitions"]) is list and type(state["recovered_orphans"]) is list,
+             "cell partition/recovery history must be a list")
+    rows, parts, start = [], [], 0
+    for part in state["partitions"]:
+        _require(type(part) is dict and set(part) == {"filename", "start", "stop", "rows", "sha256"},
+                 "partition descriptor schema changed")
+        begin, stop = _int(part["start"], "start"), _int(part["stop"], "stop", 1)
+        _require(begin == start and begin < stop <= design.replications, "partition range or contiguous plan changed")
+        name = f"part-{begin:06d}-{stop:06d}.jsonl.gz"
+        _require(part["filename"] == name and file_digest(directory/name) == part["sha256"], "partition name/hash changed")
+        with gzip.open(directory/name, "rt", encoding="utf-8", newline="") as stream:
+            current = []
+            for line in stream:
+                row = strict_json(line, name)
+                _require(line == canonical(row) + "\n", "noncanonical or empty raw JSONL row")
+                current.append(row)
+        expected_keys = [(rep, method) for rep in range(begin, stop) for method in METHODS]
+        _require(len(current) == _int(part["rows"], "partition rows", 1) == len(expected_keys), "partition rows changed")
+        for row, (rep, method) in zip(current, expected_keys):
+            _validate_row(row, cell, rep, method)
+        rows.extend(current)
+        parts.append(dict(part))
+        start = stop
+    _require(start == design.replications, "missing planned sources")
+    _require({p.name for p in directory.iterdir()} == {"cell_manifest.json", *(p["filename"] for p in parts)},
+             "unexpected cell evidence")
+    names = {p["filename"] for p in parts}
+    recovered = set()
+    for entry in state["recovered_orphans"]:
+        _require(type(entry) is dict and set(entry) == {"filename", "verified_utc", "method"}
+                 and entry["filename"] in names and entry["filename"] not in recovered
+                 and type(entry["verified_utc"]) is str and bool(entry["verified_utc"])
+                 and entry["method"] == "exact_byte_equal_deterministic_replay", "invalid orphan-adoption history")
+        recovered.add(entry["filename"])
+    return rows, {"manifest_sha256": hashlib.sha256(payload).hexdigest(), "partitions": parts}
+
+
+def _mean_se(values):
+    values = np.asarray(values, dtype=float)
+    if len(values) < 2:
+        return np.nan
+    deviations = values - float(np.sum(values)/len(values))
+    return float(np.sqrt(np.dot(deviations, deviations)/(len(values)*(len(values)-1))))
+
+
+def _difference(row, name, value, se):
+    row.update({name: value, name + "_mcse": se,
+                name + "_mc_lower": value - Z*se, name + "_mc_upper": value + Z*se})
+
+
+def epsilon_rows(rows_by_cell, design):
+    """Independently derive every paired-floor field, for full or CV-triple data."""
+    _require_design(design, subset=True)
+    _require(set(rows_by_cell) == {c.identity for c in design.cells}, "epsilon raw cell set changed")
+    grouped = {}
+    for cell in design.cells:
+        rows = rows_by_cell[cell.identity]
+        expected = {(rep, method) for rep in range(design.replications) for method in METHODS}
+        keys = [(r["rep"], r["estimator"]) for r in rows]
+        _require(len(keys) == len(expected) and len(set(keys)) == len(keys) and set(keys) == expected,
+                 "epsilon inputs lack complete paired Cartesian keys")
+        grouped[cell.identity] = {method: sorted((r for r in rows if r["estimator"] == method), key=lambda r: r["rep"])
+                                  for method in METHODS}
+    result = []
+    try:
+        with np.errstate(over="raise", invalid="raise", divide="raise"):
+            for cell in design.cells:
+                if cell.floor_fraction == ANCHOR_EPSILON:
+                    continue
+                reference = replace(cell, floor_fraction=1e-6)
+                for method in METHODS:
+                    a, b = grouped[cell.identity][method], grouped[reference.identity][method]
+                    common = [(x, y) for x, y in zip(a, b) if x["point_valid"] and y["point_valid"]]
+                    s = len(common)
+                    for parameter in PARAMETERS:
+                        truth = cell.to_dict()["true_" + parameter]
+                        ea = np.array([x[parameter]-truth for x, _ in common], dtype=float)
+                        eb = np.array([y[parameter]-truth for _, y in common], dtype=float)
+                        _require(np.isfinite(ea).all() and np.isfinite(eb).all(), "nonfinite common-valid error")
+                        u, v = ea*ea, eb*eb
+                        ma, mb = (float(np.sum(u)/s), float(np.sum(v)/s)) if s else (np.nan, np.nan)
+                        ra, rb = math.sqrt(ma), math.sqrt(mb)
+                        ba, bb = (float(np.sum(ea)/s), float(np.sum(eb)/s)) if s else (np.nan, np.nan)
+                        row = {"cell_id": cell.identity, "reference_cell_id": reference.identity,
+                               "seed_anchor_cell_id": reference.identity, "floor_fraction": cell.floor_fraction,
+                               "reference_floor_fraction": 1e-6, "estimator": method, "parameter": parameter,
+                               "truth": truth, "n": cell.n, "theta_mean_gap": cell.q, "mean_gap": cell.q/cell.theta,
+                               "cv": cell.cv, "source_seed": design.seed, "source_coupling_policy": COUPLING,
+                               "comparison_type": "paired_floor_shared_standardized_innovations",
+                               "difference_direction": "epsilon_minus_registered_floor", "ratio_direction": "epsilon_over_registered_floor",
+                               "point_subset": "intersection_of_valid_point_fits",
+                               "coverage_subset": "all_planned_paths_unavailable_counts_as_not_covering",
+                               "n_planned": design.replications, "n_point_valid_a": sum(r["point_valid"] for r in a),
+                               "n_point_valid_b": sum(r["point_valid"] for r in b),
+                               "n_interval_valid_a": sum(r["interval_valid"] for r in a),
+                               "n_interval_valid_b": sum(r["interval_valid"] for r in b),
+                               "n_common_point_valid": s,
+                               "n_common_interval_valid": sum(x["interval_valid"] and y["interval_valid"] for x, y in zip(a, b)),
+                               "bias_a_common": ba, "bias_b_common": bb, "mse_a_common": ma, "mse_b_common": mb,
+                               "rmse_a_common": ra, "rmse_b_common": rb,
+                               "relative_bias_a_common": ba/abs(truth) if truth else np.nan,
+                               "relative_bias_b_common": bb/abs(truth) if truth else np.nan,
+                               "relative_rmse_a_common": ra/abs(truth) if truth else np.nan,
+                               "relative_rmse_b_common": rb/abs(truth) if truth else np.nan,
+                               "squared_error_covariance_common": float(np.dot(u-ma, v-mb)/(s-1)) if s > 1 else np.nan}
+                        for name, vector in (("bias_difference", ea-eb), ("mse_difference", u-v)):
+                            _difference(row, name, float(np.sum(vector)/s) if s else np.nan, _mean_se(vector))
+                        for suffix in ("", "_mcse", "_mc_lower", "_mc_upper"):
+                            row["relative_bias_difference" + suffix] = row["bias_difference" + suffix]/abs(truth) if truth else np.nan
+                        # Centering each square-error influence before taking
+                        # its paired difference independently retains covariance.
+                        rmse_se = _mean_se((u-ma)/(2*ra)-(v-mb)/(2*rb)) if ra > 0 and rb > 0 else np.nan
+                        log_se = _mean_se(.5*((u-ma)/ma-(v-mb)/mb)) if ma > 0 and mb > 0 else np.nan
+                        _difference(row, "rmse_difference", ra-rb, rmse_se)
+                        ratio = ra/rb if rb > 0 else np.nan
+                        row.update(rmse_ratio=ratio, rmse_ratio_mcse=ratio*log_se, rmse_ratio_log_mcse=log_se,
+                                   rmse_ratio_mc_lower=ratio*math.exp(-Z*log_se), rmse_ratio_mc_upper=ratio*math.exp(Z*log_se),
+                                   rmse_ratio_uncertainty="delta_method_log_ratio_95pct")
+                        hits = lambda rows: np.array([r["interval_valid"] and r[parameter + "_lower"] <= truth
+                                                      <= r[parameter + "_upper"] for r in rows], dtype=bool)
+                        ha, hb = hits(a), hits(b)
+                        differences = ha.astype(int)-hb.astype(int)
+                        row.update(n_covered_a=int(ha.sum()), n_covered_b=int(hb.sum()),
+                                   n_both_cover=int((ha & hb).sum()), n_a_only_cover=int((ha & ~hb).sum()),
+                                   n_b_only_cover=int((~ha & hb).sum()), n_neither_cover=int((~ha & ~hb).sum()),
+                                   operational_coverage_a=float(ha.sum()/len(a)), operational_coverage_b=float(hb.sum()/len(b)))
+                        _difference(row, "operational_coverage_difference", float(differences.sum()/len(a)), _mean_se(differences))
+                        _require(set(row) == set(EPSILON_COLUMNS) and not any(type(x) is float and math.isinf(x) for x in row.values()),
+                                 "nonfinite or incomplete independent epsilon arithmetic")
+                        result.append(row)
+    except (FloatingPointError, OverflowError) as exc:
+        raise ValueError("independent epsilon arithmetic overflow") from exc
+    return result
+
+
+def _csv_scalar(actual, expected, label):
+    """A failure export must preserve every raw scalar, including candidates."""
+    if expected is None:
+        _require(actual == "", "missing failure value replaced: " + label)
+    elif type(expected) is str:
+        _require(actual == expected, "failure text or nested evidence changed: " + label)
+    elif type(expected) is bool:
+        _require(actual == str(expected), "failure Boolean changed: " + label)
+    elif type(expected) is int:
+        _require(actual == str(expected), "failure integer changed: " + label)
+    else:
+        _require(type(expected) is float and actual != "", "failure scalar type changed: " + label)
+        value = float(actual)
+        _require(math.isfinite(value) and math.isclose(value, expected, rel_tol=RTOL, abs_tol=ATOL),
+                 "failure numeric value changed: " + label)
+
+
+class FailureExport:
+    """Streaming exact-schema failure verification in canonical raw row order."""
+
+    def __init__(self, path):
+        self.path = Path(path)
+        self.stream = None
+        self.reader = None
+        self.count = 0
+
+    def __enter__(self):
+        self.stream = gzip.open(self.path, "rt", encoding="utf-8", newline="")
+        self.reader = csv.reader(self.stream)
+        try:
+            header = next(self.reader, None)
+            _require(header == sorted(RAW_FIELDS) and len(set(header)) == len(header),
+                     "failure export must retain unique complete canonical headers")
+            self.header = header
+        except BaseException:
+            self.stream.close()
+            raise
+        return self
+
+    def check_rows(self, rows):
+        for row in rows:
+            if row["point_valid"] and row["interval_valid"] and not row["pipeline_error"]:
+                continue
+            exported = next(self.reader, None)
+            _require(exported is not None and len(exported) == len(self.header), "failure export omitted or malformed a row")
+            for column, value in zip(self.header, exported):
+                _csv_scalar(value, row[column], f"{row['cell_id']}/{row['rep']}/{row['estimator']}/{column}")
+            self.count += 1
+
+    def finish(self, expected_count):
+        _require(self.count == _int(expected_count, "failure manifest rows") and next(self.reader, None) is None,
+                 "failure export count, order or complete membership changed")
+        return self.count
+
+    def __exit__(self, *_):
+        self.stream.close()
+
+
+def verify_provenance(metadata, design, extra_files=()):
+    """Read-only exact dependency/runtime/freeze checks, valid for sealed runs."""
+    _require_design(design)
+    expected_files = set(CORE_FILES) | set(FILES) | set(extra_files)
+    _require(all(type(name) is str and not Path(name).is_absolute() and ".." not in Path(name).parts
+                 for name in expected_files), "unsafe dependency path")
+    provenance = metadata["provenance"]
+    _require(type(provenance) is dict and type(provenance.get("source_files")) is dict
+             and set(provenance["source_files"]) == expected_files, "explicit audit dependency membership changed")
+    _require(canonical(provenance.get("design")) == canonical(design.to_dict()), "provenance design representation changed")
+    verify(provenance, expected_design=design)
+    frozen = design.scope == "exploratory"
+    _require(metadata.get("require_frozen") is frozen, "recorded freeze requirement changed")
+    dirty = provenance.get("uncommitted_dependency_files")
+    _require(type(dirty) is list and all(type(name) is str and name in expected_files for name in dirty)
+             and len(set(dirty)) == len(dirty), "invalid recorded dependency-dirty list")
+    commit = provenance.get("code_commit")
+    _require(type(commit) is str and re.fullmatch(r"[0-9a-f]{40}", commit) is not None, "invalid recorded Git commit")
+    if frozen:
+        _require(dirty == [], "full exploratory code was not frozen before execution")
+        for name, expected in provenance["source_files"].items():
+            completed = subprocess.run(["git", "show", f"{commit}:{name}"], cwd=ROOT, capture_output=True)
+            _require(completed.returncode == 0 and hashlib.sha256(completed.stdout).hexdigest() == expected,
+                     "recorded Git freeze does not contain dependency: " + name)
+    return provenance
+
+
+def _layout(output, design):
+    _require(output.is_dir() and not any(p.is_symlink() for p in (output, *output.parents)),
+             "audit path must be an existing directory without symbolic links")
+    required = {"run_metadata.json", "resolved_design.json", "cells", "table_manifest.json",
+                "failed_fits.csv.gz", "epsilon_comparisons.csv", "epsilon_table_manifest.json", *TABLE_KEYS}
+    allowed = required | {".execution.lock", "audit.json", "visual_review.json", "figures"}
+    actual = {p.name for p in output.iterdir()}
+    _require(required <= actual <= allowed, "missing or unexpected root evidence")
+    for path in output.rglob("*"):
+        _require(not path.is_symlink(), "symbolic-link artifact is forbidden")
+        _require(path.is_file() or path.is_dir(), "artifact is not a regular file/directory")
+    for path in output.iterdir():
+        _require(path.is_dir() if path.name in {"cells", "figures"} else path.is_file(), "root artifact type changed")
+    cells = output/"cells"
+    _require({p.name for p in cells.iterdir()} == {c.identity for c in design.cells}, "raw cell set differs from the complete design")
+    for path in cells.iterdir():
+        _require(path.is_dir(), "cell path is not a directory")
+        for child in path.iterdir():
+            _require(child.is_file() and (child.name == "cell_manifest.json"
+                     or re.fullmatch(r"part-[0-9]{6}-[0-9]{6}\.jsonl\.gz", child.name)),
+                     "unknown cell evidence")
+    figures = output/"figures"
+    if figures.exists():
+        _require(all(p.is_file() for p in figures.iterdir()), "figure layout contains a non-file")
+        if any(figures.iterdir()):
+            manifest, _ = _json_file(figures/"figure_manifest.json")
+            files = manifest.get("figures")
+            _require(type(files) is dict and set(files) | {"figure_manifest.json"} == {p.name for p in figures.iterdir()},
+                     "figure file set does not equal its declared manifest")
+            for name, digest in files.items():
+                _require(type(name) is str and Path(name).name == name and Path(name).suffix in {".png", ".pdf"}
+                         and file_digest(figures/name) == digest, "figure artifact/hash changed")
+
+
+def _snapshot(output, design):
+    _layout(output, design)
+    return {"directories": sorted(str(p.relative_to(output)) for p in output.rglob("*") if p.is_dir()),
+            "files": {str(p.relative_to(output)): file_digest(p) for p in sorted(output.rglob("*")) if p.is_file()}}
+
+
+def _artifact_map(snapshot):
+    excluded = {"run_metadata.json", ".execution.lock", "audit.json", "visual_review.json"}
+    return {name: digest for name, digest in snapshot["files"].items()
+            if name not in excluded and not name.startswith("figures/")}
+
+
+def _semantic_metadata(metadata):
+    # Same public seal contract as the historical auditor, independently
+    # retaining every scientific/unknown field and excluding only lifecycle.
+    return _digest({key: value for key, value in metadata.items() if key not in _LIFECYCLE})
+
+
+def _metadata(output, design, extra_files):
+    metadata, _ = _json_file(output/"run_metadata.json")
+    _require(_int(metadata["schema_version"], "root schema", 1) == 1
+             and metadata.get("project") == "ou-week7-paired-floor"
+             and metadata.get("execution_kind") == "floor"
+             and metadata.get("execution_contract") == "week7_guarded_cell_execution_v1", "unknown paired-floor root contract")
+    _require(metadata.get("status") in {"raw_complete_pending_audit", "implementation_review_required",
+                                       "audited_pending_visual_review", "completed"}, "raw run is incomplete")
+    _require(canonical(metadata.get("procedure")) == canonical(PROCEDURE)
+             and metadata.get("scientific_overrides") == ["paired_floor_source"]
+             and canonical(metadata.get("source_policy")) == canonical(_source_policy(design)),
+             "paired-floor procedure, source policy or declared override changed")
+    _require(_int(metadata["pipeline_errors"], "root pipeline errors") == 0, "saved pipeline errors require implementation review")
+    for name in ("execution_attempts", "resume_events"):
+        _require(type(metadata.get(name)) is list, "missing execution lifecycle history")
+    expected = {c.identity: {"cell_id": c.identity, "paths": design.replications,
+                            "rows": 3*design.replications, "pipeline_errors": 0} for c in design.cells}
+    _require(canonical(metadata.get("completed_cells")) == canonical(expected), "root completed-cell accounting changed")
+    provenance = verify_provenance(metadata, design, extra_files)
+    resolved, raw = _json_file(output/"resolved_design.json")
+    _require(canonical(resolved) == canonical(design.to_dict()), "resolved floor design changed")
+    binding = {"run_identity": provenance["identity_sha256"], "design_sha256": design.digest,
+               "resolved_design_sha256": hashlib.sha256(raw).hexdigest(), "source_policy": _source_policy(design), "cells": {}}
+    return metadata, binding
+
+
+def _table(path):
+    text = path.read_text(encoding="utf-8")
+    reader = csv.reader(io.StringIO(text, newline=""))
+    header = next(reader, None)
+    _require(header and len(set(header)) == len(header) and all(header), "duplicate or missing table headers")
+    count = 0
+    for row in reader:
+        _require(len(row) == len(header), "table row width changed")
+        count += 1
+    table = pd.read_csv(io.StringIO(text), float_precision="round_trip")
+    _require(list(table.columns) == header and len(table) == count, "table parser did not preserve row/schema accounting")
+    return table
+
+
+def _tables(output):
+    manifest, _ = _json_file(output/"table_manifest.json")
+    _require(set(manifest) == set(TABLE_KEYS) | {"failed_fits.csv.gz"}, "standard manifest must declare all seven files exactly")
+    tables = {}
+    for name, entry in manifest.items():
+        _require(type(entry) is dict and set(entry) == {"rows", "sha256"}, "standard table descriptor changed")
+        _int(entry["rows"], "table row count")
+        _require(file_digest(output/name) == entry["sha256"], "standard table digest changed")
+        if name in TABLE_KEYS:
+            tables[name] = _table(output/name)
+            _require(len(tables[name]) == entry["rows"], "standard table manifest count changed")
+    epsilon = _table(output/"epsilon_comparisons.csv")
+    _require(tuple(epsilon.columns) == EPSILON_COLUMNS and len(epsilon) == 72, "epsilon table schema or complete count changed")
+    return manifest, tables, epsilon
+
+
+def _scalar(actual, expected, label):
+    if type(expected) is str:
+        _require(actual == expected, "table text mismatch: " + label)
+    elif expected is None or np.isnan(expected):
+        _require(pd.isna(actual), "table missingness mismatch: " + label)
+    elif isinstance(expected, (int, np.integer)):
+        _require(not isinstance(actual, (bool, np.bool_)) and float(actual) == expected, "table count mismatch: " + label)
+    else:
+        _require(not isinstance(actual, (bool, np.bool_)) and math.isfinite(actual)
+                 and math.isclose(float(actual), float(expected), rel_tol=RTOL, abs_tol=ATOL), "table arithmetic mismatch: " + label)
+
+
+def _epsilon_table(table, expected):
+    keys = ("cell_id", "estimator", "parameter")
+    _require(len(table) == len(expected) == 72 and not table.duplicated(list(keys)).any(), "epsilon complete keys changed")
+    actual = {tuple(row[k] for k in keys): row for row in table.to_dict("records")}
+    desired = {tuple(row[k] for k in keys): row for row in expected}
+    _require(actual.keys() == desired.keys(), "epsilon planned key set changed")
+    for key, row in desired.items():
+        for column, value in row.items():
+            _scalar(actual[key][column], value, f"epsilon/{key}/{column}")
+
+
+def _epsilon_binding(output, design, binding):
+    saved, _ = _json_file(output/"epsilon_table_manifest.json")
+    expected = {"schema_version": 1, "project": "ou-week7-paired-floor-reporting",
+                "reporting_contract": "week7_saved_raw_tables_v1", "run_identity": binding["run_identity"],
+                "design_sha256": design.digest, "raw_inputs": binding, "raw_input_sha256": _digest(binding),
+                "table": {"filename": "epsilon_comparisons.csv", "rows": 72, "columns": list(EPSILON_COLUMNS),
+                          "sha256": file_digest(output/"epsilon_comparisons.csv")},
+                "difference_direction": "epsilon_minus_registered_floor", "ratio_direction": "epsilon_over_registered_floor"}
+    _require(canonical(saved) == canonical(expected), "epsilon manifest/raw input binding changed")
+
+
+class _CachedSource:
+    def __init__(self, cell, rep, sample, diagnostics):
+        self.cell, self.rep, self.value, self.diagnostics = cell, rep, sample, diagnostics
+
+    def sample(self, cell, rep):
+        _require(canonical(cell) == canonical(self.cell.to_dict()) and type(rep) is int and rep == self.rep,
+                 "endpoint serializer requested a different source")
+        return self.value, dict(self.diagnostics)
+
+
+def _verify_sources(rows, cell, design, replay):
+    coordinates = {"point_coordinate_rows": 0, "interval_coordinate_rows": 0, "coordinate_scalars_checked": 0}
+    endpoints = {0, design.replications-1} if replay else set()
+    replay_records = []
+    services = {name: registered_wald(name) for name in METHODS} if replay else None
+    for rep in range(design.replications):
+        sample, diagnostic = independent_source(cell, rep, design.seed)
+        triplet = rows[3*rep:3*rep+3]
+        for row in triplet:
+            _compare({key: row[key] for key in SOURCE_FIELDS}, diagnostic, "all-source diagnostics", exact=True)
+            counts = check_observed_coordinates(row, sample)
+            for key, value in counts.items():
+                coordinates[key] += value
+        if rep in endpoints:
+            fitted = source_records(cell, rep, _CachedSource(cell, rep, sample, diagnostic), services)
+            expected = strict_json(canonical(fitted), "sanitized endpoint records")
+            for actual, wanted in zip(triplet, expected):
+                _require(wanted["pipeline_error"] == "", "endpoint replay encountered an implementation exception")
+                _compare(actual, wanted, f"endpoint/{cell.identity}/{rep}/{actual['estimator']}")
+            replay_records.append({"cell_id": cell.identity, "replication": rep,
+                                   "times_sha256": diagnostic["times_sha256"],
+                                   "observations_sha256": diagnostic["observations_sha256"],
+                                   "estimators_checked": list(METHODS)})
+    return coordinates, replay_records
+
+
+def _closed_bindings(output, metadata, snapshot, design):
+    closed = metadata["status"] in {"audited_pending_visual_review", "completed"}
+    path = output/"audit.json"
+    _require(not closed or path.is_file(), "closed state lacks its bound audit")
+    saved = None
+    if path.exists():
+        saved, _ = _json_file(path)
+        paths = len(design.cells)*design.replications
+        identity = {
+            "schema_version": 1, "audit_contract": "week7_independent_paired_floor_audit_v1",
+            "code_commit": metadata["provenance"]["code_commit"],
+            "source_dependency_files_verified": len(metadata["provenance"]["source_files"]),
+            "scientific_overrides": ["paired_floor_source"], "source_policy": _source_policy(design),
+            "cells_verified": len(design.cells), "planned_paths": paths, "planned_source_realizations": paths,
+            "planned_independent_coupling_groups": 4*design.replications, "planned_fit_records": 3*paths,
+            "source_replay_performed": True, "source_paths_verified": paths,
+            "source_array_hashes_verified": 2*paths, "pipeline_errors": 0,
+        }
+        _require(all(key in saved and canonical(saved[key]) == canonical(value) for key, value in identity.items()),
+                 "saved audit floor contract, source policy, override or source accounting changed")
+        _require(saved.get("status") == "passed" and saved.get("design_sha256") == design.digest
+                 and saved.get("run_identity_sha256") == metadata["provenance"]["identity_sha256"]
+                 and saved.get("audited_artifact_sha256") == _artifact_map(snapshot)
+                 and saved.get("audited_run_metadata_sha256") == _semantic_metadata(metadata), "saved audit binding changed")
+        _require(type(saved.get("full_completion_audit")) is bool
+                 and type(saved.get("replay_performed")) is bool
+                 and saved["full_completion_audit"] == saved["replay_performed"], "saved endpoint replay/completion flags disagree")
+        endpoints = len(design.cells)*len({0, design.replications-1}) if saved["replay_performed"] else 0
+        _require(type(saved.get("replayed_source_paths")) is int and saved["replayed_source_paths"] == endpoints
+                 and type(saved.get("replayed_fits")) is int and saved["replayed_fits"] == 3*endpoints
+                 and type(saved.get("replay_records")) is list and len(saved["replay_records"]) == endpoints,
+                 "saved endpoint replay counts or complete descriptors changed")
+        _require(not closed or saved.get("full_completion_audit") is True, "closed state lacks full endpoint replay audit")
+        if closed or "audit_sha256" in metadata:
+            _require(metadata.get("audit_sha256") == file_digest(path), "root audit seal changed")
+    if metadata["status"] == "completed":
+        complete = {name: digest for name, digest in snapshot["files"].items() if name not in {"run_metadata.json", ".execution.lock"}}
+        _require(metadata.get("artifact_sha256") == complete, "completed artifact seal changed")
+        review, _ = _json_file(output/"visual_review.json")
+        figure, _ = _json_file(output/"figures"/"figure_manifest.json")
+        pngs = {name for name in figure["figures"] if name.endswith(".png")}
+        _require(metadata.get("visual_review_sha256") == file_digest(output/"visual_review.json")
+                 and bool(pngs) and review.get("all_panels_legible") is True
+                 and type(review.get("reviewed_pngs")) is list
+                 and len(review["reviewed_pngs"]) == len(set(review["reviewed_pngs"]))
+                 and set(review["reviewed_pngs"]) == pngs
+                 and review.get("figure_manifest_sha256") == file_digest(output/"figures"/"figure_manifest.json")
+                 and type(review.get("reviewer")) is str and bool(review["reviewer"].strip()), "completed visual-review binding changed")
+    return saved
+
+
+def _verify_saved_report(saved, current, expected_endpoints, *, replay):
+    """Bind a previous audit's scope and every invariant to fresh verification.
+
+    A readback with replay=False may retain a previously bound *full* audit,
+    but its own report must remain incomplete. Only the five endpoint-mode
+    fields can then differ. Even in that mode, previous endpoint descriptors
+    are checked against the now independently verified source arrays.
+    """
+    if saved is None:
+        return
+    _require(type(saved) is dict and set(saved) == set(current), "saved audit report schema differs from the recomputed report")
+    _require(type(saved.get("full_completion_audit")) is bool and type(saved.get("replay_performed")) is bool
+             and saved["full_completion_audit"] == saved["replay_performed"], "saved endpoint-mode flags disagree")
+    count = len(expected_endpoints) if saved["replay_performed"] else 0
+    _require(type(saved.get("replayed_source_paths")) is int and saved["replayed_source_paths"] == count
+             and type(saved.get("replayed_fits")) is int and saved["replayed_fits"] == 3*count
+             and type(saved.get("replay_records")) is list and len(saved["replay_records"]) == count,
+             "saved endpoint-mode accounting differs from the predetermined sources")
+    mode = {"full_completion_audit", "replay_performed", "replayed_source_paths", "replayed_fits", "replay_records"}
+    invariant = set(current) - (mode if not replay else set())
+    _require(all(canonical(saved[key]) == canonical(current[key]) for key in invariant),
+             "saved audit invariant fields differ from fresh numerical verification")
+    if saved["replay_performed"]:
+        _require(canonical(saved["replay_records"]) == canonical(expected_endpoints),
+                 "saved endpoint descriptors differ from independently verified sources")
+    else:
+        _require(saved["replay_records"] == [], "skipped endpoint replay retains unexpected descriptors")
+
+
+def _audit(output, design, extra_files, replay, snapshot):
+    metadata, binding = _metadata(output, design, extra_files)
+    saved_audit = _closed_bindings(output, metadata, snapshot, design)
+    manifest, actual_tables, epsilon = _tables(output)
+    desired = {name: [] for name in TABLE_KEYS}
+    expected_epsilon, replay_records, expected_endpoints = [], [], []
+    counts = {"point_coordinate_rows": 0, "interval_coordinate_rows": 0, "coordinate_scalars_checked": 0}
+    partitions = point_count = interval_count = 0
+    with FailureExport(output/"failed_fits.csv.gz") as failures:
+        for cv in sorted({c.cv for c in design.cells}):
+            cells = tuple(c for c in design.cells if c.cv == cv)
+            group = {}
+            for cell in cells:
+                rows, cell_binding = load_cell(output, cell, design, binding["run_identity"])
+                binding["cells"][cell.identity] = cell_binding
+                partitions += len(cell_binding["partitions"])
+                source_counts, endpoints = _verify_sources(rows, cell, design, replay)
+                for name, value in source_counts.items():
+                    counts[name] += value
+                replay_records.extend(endpoints)
+                # Full-source reconstruction has just independently verified
+                # these hashes, whether or not model fitting was requested.
+                for rep in sorted({0, design.replications-1}):
+                    row = rows[3*rep]
+                    expected_endpoints.append({"cell_id": cell.identity, "replication": rep,
+                                               "times_sha256": row["times_sha256"],
+                                               "observations_sha256": row["observations_sha256"],
+                                               "estimators_checked": list(METHODS)})
+                failures.check_rows(rows)
+                point_count += sum(row["point_valid"] for row in rows)
+                interval_count += sum(row["interval_valid"] for row in rows)
+                desired["parameter_summary.csv"].extend(_parameter_summaries(rows, cell, design))
+                desired["paired_comparisons.csv"].extend(_paired_comparisons(rows, cell, design))
+                spacing, outcomes, numerical = _other_summaries(rows, cell, design)
+                desired["spacing_summary.csv"].extend(spacing)
+                desired["outcome_counts.csv"].extend(outcomes)
+                desired["numerical_diagnostics.csv"].extend(numerical)
+                group[cell.identity] = rows
+            if cv == 0:
+                anchor = next(c for c in cells if c.floor_fraction == 1e-6)
+                exclude = {"cell_id", "actual_cell_id", "floor_fraction"}
+                reference = [{k: v for k, v in row.items() if k not in exclude} for row in group[anchor.identity]]
+                for cell in cells:
+                    current = [{k: v for k, v in row.items() if k not in exclude} for row in group[cell.identity]]
+                    _require(canonical(current) == canonical(reference), "CV=0 full numerical shared-control evidence differs")
+                del current, reference
+            expected_epsilon.extend(epsilon_rows(group, replace(design, cells=cells)))
+            del group, rows
+        failure_count = failures.finish(manifest["failed_fits.csv.gz"]["rows"])
+    desired["regular_comparisons.csv"] = _regular_comparisons(desired["parameter_summary.csv"], design)
+    for name, expected in desired.items():
+        _check_table(actual_tables[name], expected, name)
+    _epsilon_table(epsilon, expected_epsilon)
+    _epsilon_binding(output, design, binding)
+    verify_provenance(metadata, design, extra_files)
+    paths = len(design.cells)*design.replications
+    report = {
+        "schema_version": 1, "status": "passed", "full_completion_audit": replay,
+        "audit_contract": "week7_independent_paired_floor_audit_v1",
+        "design_sha256": design.digest, "run_identity_sha256": binding["run_identity"],
+        "code_commit": metadata["provenance"]["code_commit"],
+        "source_dependency_files_verified": len(metadata["provenance"]["source_files"]),
+        "audited_artifact_sha256": _artifact_map(snapshot),
+        "audited_run_metadata_sha256": _semantic_metadata(metadata),
+        "raw_input_sha256": _digest(binding), "scientific_overrides": ["paired_floor_source"],
+        "source_policy": _source_policy(design), "cells_verified": len(design.cells),
+        "partitions_verified": partitions, "planned_paths": paths, "planned_source_realizations": paths,
+        "planned_independent_coupling_groups": 4*design.replications, "planned_fit_records": 3*paths,
+        "source_replay_performed": True, "source_paths_verified": paths, "source_array_hashes_verified": 2*paths,
+        "point_valid_records": point_count, "interval_valid_records": interval_count,
+        "retained_failure_records": failure_count, "pipeline_errors": 0, **counts,
+        "tables_verified": {**{name: len(rows) for name, rows in desired.items()}, "epsilon_comparisons.csv": len(expected_epsilon)},
+        "replay_performed": replay, "replay_selection": "replications 0 and R-1 in every physical floor variant, all estimators",
+        "replayed_source_paths": len(replay_records), "replayed_fits": 3*len(replay_records), "replay_records": replay_records,
+        "tolerances": {"arithmetic_rtol": RTOL, "arithmetic_atol": ATOL, "replay_rtol": RTOL, "replay_atol": ATOL,
+                       "source_arrays_and_diagnostics": "exact types, values and SHA-256 array bytes",
+                       "covariance_rtol": 2e-9, "covariance_atol": "2e-12 * max(1, expected matrix Frobenius norm)"},
+        "scope": {
+            "independent_addressing": "replace actual Cell floor_fraction with 1e-6 only to derive its seed anchor; physical source retains actual floor",
+            "all_sources": "both array hashes, all source diagnostics and observed-data normalization recomputed for every physical variant and replication",
+            "all_records": "strict full keys/types/nested JSON, point/interval semantics, saved fine-Hessian/covariance identities, gates and unclipped endpoints",
+            "all_tables": "independent standard arithmetic and all 71 paired-floor fields; complete ordered failure export",
+            "endpoint_fits": "original conditional likelihood and inference services; every raw and nested field compared on predetermined endpoints",
+            "coordinate_availability": "counts cover only actually retained point/interval coordinate triples; absence on an invalid point is not a verified saved value",
+            "limitations": "source reconstruction shares the unchanged primitive OU simulator; endpoint replay shares original fit/inference services and serializer; coarse Hessians and complete fit reproduction are checked only at endpoints; figure content and visual judgment are outside this numerical audit",
+        },
+    }
+    _verify_saved_report(saved_audit, report, expected_endpoints, replay=replay)
+    json.dumps(report, allow_nan=False)
+    return report
+
+
+def audit_run(output, design, *, extra_files=(), replay=True):
+    """Read-only full-source audit; replay=False skips only endpoint model fits.
+
+    No output, lock, incident, regenerated table or lifecycle record is written.
+    The result can certify full numerical completion only with endpoint replay.
+    """
+    _require(type(replay) is bool, "replay must be Boolean")
+    _require_design(design)
+    output = Path(output).absolute()
+    extra_files = tuple(extra_files)
+    before = _snapshot(output, design)
+    try:
+        result = _audit(output, design, extra_files, replay, before)
+    except ValueError:
+        raise
+    except (KeyError, TypeError, AttributeError, OSError, OverflowError, IndexError, np.linalg.LinAlgError) as exc:
+        raise ValueError(f"paired-floor artifact audit failed: {type(exc).__name__}: {exc}") from exc
+    finally:
+        _require(_snapshot(output, design) == before, "artifact or root bytes changed during read-only paired-floor audit")
+    return result

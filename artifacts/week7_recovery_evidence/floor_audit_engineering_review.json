@@ -1,0 +1,129 @@
+{
+  "checked": [
+    "Strict raw and embedded JSON rejects duplicate keys, NaN/Infinity and exponent overflow before legacy inference helpers parse it.",
+    "Raw rows retain the complete planned cell/replication/estimator Cartesian keys and canonical order. Missing whole cells, rows or fields, duplicated methods, extra records and surplus evidence reject.",
+    "Canonical physical Cell metadata is checked with exact types and representation, including signed zero; Boolean counts/flags and integer substitutions for native floating inference values reject.",
+    "Cell manifests bind the complete contiguous partition plan, actual gzip hashes, complete schemas and recovery history. Layout checks reject unreferenced partitions, extra root artifacts and symbolic links.",
+    "Every saved source is replayed at an independently derived registered-floor anchor while retaining the actual physical floor. Wrong actual/anchor identity, seed type, coupling policy, spawn representation, source hash or spacing diagnostic rejects even after private-copy raw/epsilon bindings are rehashed.",
+    "Observed coordinates are checked against actual arrays. A mutually consistent forged point/interval offset still fails; legitimately absent triples count as absent and partial triples reject.",
+    "Known native point statuses are enforced before composing the unchanged historical inference checks. Retained source/pipeline exceptions block completion rather than being resampled or silently excluded.",
+    "All six standard tables and the 72-row, 71-column epsilon table are independently recalculated. Rehashed arithmetic corruption, false paired counts/MCSE, zero-filled mu relative metrics, duplicate comparison keys and changed epsilon directions/manifest schemas reject.",
+    "The failed-fit stream requires unique complete canonical headers, every raw field, candidate values, exact missingness, ordering and final membership. Missing/extra/reordered rows and changed numeric, Boolean, integer or nested evidence reject.",
+    "The exact dependency membership is checked after independently repairing deliberately changed provenance identity digests. Full-scope counterfeit commit/clean-list claims are rejected using actual Git bytes; these tests construct metadata only and generate no full-seed observations.",
+    "Valid audited/completed copies can be read without raw preflight or any mutation; missing audit seals reject. Whole-directory snapshots remain unchanged on ordinary success and rejection.",
+    "A saved audit must explicitly identify the floor override/contract/schema, code commit, source policy and all-source/endpoint counts. Public tests recompute the root audit hash after forging each claim, so rejection does not depend on a stale seal.",
+    "Fresh replay=False readback remains an incomplete audit, still reconstructs all sources and checks saved full-audit endpoint descriptors against verified source hashes. Fresh recomputed invariant fields cannot be replaced by an old generic audit report.",
+    "Persistent external root or existing audit-artifact drift during verification raises without overwriting, restoring or creating incident artifacts. Complete before/after scope includes lifecycle files as well as numerical artifacts."
+  ],
+  "combined_test_log": {
+    "author_cases": 19,
+    "basetemp": "/tmp/ou_week7_floor_audit_final_repaired_vhkno3u3",
+    "exit_code": 0,
+    "independent_engineering_cases": 95,
+    "independent_mathematical_cases": 93,
+    "path": "artifacts/week7_recovery_evidence/floor_audit_module_tests.txt",
+    "raw_execution_attempts_during_final_reuse": 0,
+    "result": "207 passed in 16.38s",
+    "sha256": "82d338e12fccc38ce99d11c122400aa96c072f45515c113881fb46ca56d24e25",
+    "skips": 0,
+    "source_documentation_all_tests_and_native_archive_unchanged": true,
+    "warnings": 0
+  },
+  "documentation_file": "docs/week7_floor_audit.md",
+  "documentation_sha256": "459fdd862b5b53c5d15ef4234f06dd1ce45e3c0e86a7aa338a17839accc7afb5",
+  "final_native_validation": {
+    "before_after_file_map_verified_independently": true,
+    "failure_records": 0,
+    "files": 49,
+    "fit_records": 72,
+    "independent_coupling_groups": 8,
+    "interval_valid_records": 72,
+    "physical_cells": 12,
+    "physical_source_realizations": 24,
+    "pipeline_errors": 0,
+    "point_valid_records": 72,
+    "replications": 2,
+    "run_identity": "9c7667d599b1d1d104bd8d7cfb28f3c9781d6b58fb910385e247215e0f8af517",
+    "run_metadata_sha256": "06461492e1553e49547cbf78f3384ddb69271de326e85028f215d89a48f87e7b",
+    "runtime_archive": "/tmp/ou_week7_floor_audit_repaired_reference_2plbbh_2/floor_audit_native_reference0/archive",
+    "scientific_interpretation": "Fixed implementation validation only; no floor-effect, coverage or full exploratory completion result.",
+    "seed": 21261009
+  },
+  "final_test_execution": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MPLCONFIGDIR=/tmp/ou_recovery_mpl .venv/bin/python: pytest.main([-q, tests/week7/test_floor_audit.py, tests/week7/test_floor_audit_reference.py, tests/week7/test_floor_audit_integrity.py]) after adding repo/tests to sys.path, seeding week7.test_floor_audit_reference._NATIVE_ARCHIVE from the repaired archive and replacing execution.run_raw with a fail-if-called stub.",
+    "engineering_result": "All 95 independently authored engineering cases passed inside the final 207-case combined gate; no separate final 95-case run is claimed.",
+    "fixture_boundary": "Native archive copies support integrity faults and closed-state readback. Pure literal failure-export and coordinate-absence fixtures are not submitted as simulated scientific evidence. Private completed-state tests use actual numerical replay reports but explicitly literal visual-seal fixtures, not scientific figures or an actual visual review."
+  },
+  "full_scientific_sources_generated": 0,
+  "headline_artifacts_modified": false,
+  "limitations": [
+    "This approves one reconstructed module and its validation, not completed Week7 science, Week8, theoretical mastery or a causal explanation of earlier runtime incidents.",
+    "All native captures use the same fixed validation seed 21261009 and R=2. No full exploratory seed was used and no scientific sample was added or changed to improve a result.",
+    "The primitive OU source and original fit/inference/serialization services are deliberately shared; independent Gamma/OU and arithmetic reference evidence is documented in the mathematical review.",
+    "All 72 native R=2 fits were valid. Unavailable-candidate export retention is exercised with explicitly literal serializer fixtures; no naturally failing path was searched for or substituted.",
+    "R=2 endpoints cover every stored validation source, whereas the full design will replay full fits only at its fixed endpoints. All full-design source arrays are still checked; non-endpoint coarse Hessians are not freshly reconstructed.",
+    "Completed-state fixture visual seals are literal integrity fixtures. The auditor checks bindings but does not judge scientific figure content or perform human visual review.",
+    "Read-only before/after snapshots detect persistent observed drift. They do not provide atomic exclusion against every noncooperating writer or prove a historical incident cause."
+  ],
+  "production_source_edits_by_reviewer": false,
+  "prototype_history": {
+    "combined_gate": {
+      "path": "artifacts/week7_recovery_evidence/floor_audit_pre_saved_contract_tests.txt",
+      "result": "119 passed in 16.14s; prototype evidence only",
+      "sha256": "f84fe356470b07ea1e644aff6cdef910d53403226626a0fe8f4f3d6c9b11d8c8"
+    },
+    "corrected_engineering_gate": {
+      "path": "artifacts/week7_recovery_evidence/floor_audit_engineering_pre_saved_contract_tests.txt",
+      "result": "87 passed in 14.78s; zero attempted raw executions and unchanged original archive",
+      "sha256": "ebac93bc8c94843dca85924c911a57780ba91e5dea90b194b7ff2f5e42a8db30"
+    },
+    "duplicate_capture": {
+      "all_49_files_preserved": true,
+      "cause": "The first focused wrapper imported tests.week7 while pytest imported week7, so the intended module-global cache was not shared and one repeated fixed R=2 capture occurred.",
+      "only_difference_from_original_capture": "run_metadata.json; all 24 raw partitions, cell manifests and numerical/derived artifacts match byte for byte",
+      "original_pytest_path": "/tmp/pytest-of-root/pytest-15/floor_audit_native_reference0/archive",
+      "preserved_repository_path": "artifacts/week7_recovery_evidence/floor_audit_pre_contract/duplicate_validation",
+      "preserved_runtime_path": "/tmp/ou_week7_floor_audit_duplicate_capture_tam45na0/archive",
+      "repair": "Correct module import and an execution.run_raw fail-if-called stub prevent silent additional captures during reuse."
+    },
+    "immutable_preservation_manifest": "artifacts/week7_recovery_evidence/floor_audit_pre_contract/preservation.json",
+    "initial_engineering_gate": {
+      "path": "artifacts/week7_recovery_evidence/floor_audit_engineering_initial_tests.txt",
+      "resolution": "Corrected the expected point-fit wording and cast the deliberately corrupted numeric column before assignment; no production change was needed for these test issues.",
+      "result": "86 passed, 1 test-only error-message regex mismatch, 1 corruption-fixture pandas warning in 19.62s",
+      "sha256": "4ec2598c5394b11e87039a94b748f1c9ad69e651a450dcdec4dc3556503dc49f"
+    },
+    "new_capture_reason": "The saved-audit contract/source and technical-note repair changed dependency hashes. A new labelled capture of the same fixed R=2 inputs was created; neither prototype provenance nor its outputs was rewritten.",
+    "sha256": "2d85d0c5b770eea0387c2bde43d4c816476a983df98b2b80211a3c71775e0ba9",
+    "source_sha256": "77f75b86d3ca1d998dd6badcba9d049b9f0f76147433e9ccc7f432fe19c14b28"
+  },
+  "recorded_utc": "2026-10-30T09:38:00+00:00",
+  "review_findings": [
+    {
+      "discovered_by": "engineering code review",
+      "finding": "Unknown nonempty point statuses could pass the unchanged legacy invalid-point helper.",
+      "resolution": "Author added the exact native status domain in the new auditor; a focused rejected-row regression verifies it. Historical source remains unchanged."
+    },
+    {
+      "discovered_by": "independent mathematical review, confirmed by root",
+      "finding": "Prototype closed-state checks accepted a generic saved audit if its raw/semantic bindings and full-completion flag matched.",
+      "resolution": "Author bound the explicit floor contract/schema/commit/policy/override and replay counts, then compares all saved invariants and endpoint descriptors against fresh verification. Eight public engineering regressions and separate pure mathematical cases cover the repair."
+    }
+  ],
+  "reviewer": "independent_recovery_path_engineering_agent",
+  "schema_version": 1,
+  "scope": "paired_floor_independent_artifact_integrity_provenance_failure_export_read_only_closed_state_and_saved_audit_contract",
+  "source_file": "ou_irregular/week7/floor_audit.py",
+  "source_sha256": "b46e6b6fd5ffee053f511d5e8b2b1c20448752e34d33dad0df51577a2582a805",
+  "status": "approved_for_module_freeze_and_subsequent_validation",
+  "test_file": "tests/week7/test_floor_audit_integrity.py",
+  "test_fixture_dependency": {
+    "cache_module": "week7.test_floor_audit_reference",
+    "description": "One cached fixed twelve-cell R=2 validation archive shared by all final test streams.",
+    "path": "tests/week7/test_floor_audit_reference.py",
+    "sha256": "84e215c5515bbca76903ea72c5864c27002b7afe64180342da6beca5c06ebc04"
+  },
+  "test_sha256": "e41de877267deda05a56f994af08935ee4907fb978f67abf72d8ae222f7e7886",
+  "unresolved_module_blockers": [],
+  "validation_raw_captures_created_by_this_reviewer": 1
+}
