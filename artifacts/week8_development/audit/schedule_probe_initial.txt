@@ -1,0 +1,7 @@
+sequences-2ee29faf8a0bb925db7493314bdeb016b71ca72db0ba7b060ecdc20a05ad1742.jsonl.gz 256 MATCH
+sequences-4784576c164d535929d04d3d8ef3aed8d0acc8c7ee0b2ea5ea2c62dc12320239.jsonl.gz 256 MATCH
+sequences-c3e9152ad2d72f995317595a56764a2c97d40f01c74139eebe700744812e6a65.jsonl.gz 256 MATCH
+sequences-d786ca6878181e96e66e6765458967d1dfbd8fb72c376b669c883afce916ab96.jsonl.gz 256 MATCH
+sequences-deea7da12604fa4c8ea24dd01d1c7425985b5e205ac4ba65580cb2ea9d8d61fc.jsonl.gz 256 MATCH
+sequences-f97fcf0230c760df35a9ed15b232c92b9febf1724445a072674cf323bcc8c60d.jsonl.gz 256 MATCH
+1536 source-only sequences reconstructed; no OU observations or fits

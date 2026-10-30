@@ -1,0 +1,60 @@
+{
+  "base_commit": "f82bbade0e94df2df3a6a4caa5937f403865cdd7",
+  "compression_recipes": {
+    "73fcdc4e1007937943807d78cd486c163e6968ce7f96e0a7aabccfa845bf6aa5": {
+      "header_hex": "1f8b08000000000002ff",
+      "level": 9
+    },
+    "bfbd87f3da83a4ef1a1d335567fa54ff50505b5b177841830d26f601dcc3d428": {
+      "header_hex": "1f8b08000000000002ff",
+      "level": 9
+    },
+    "c62a245b09f46ffc1b4882dfce80b44dde193b2181e90031ce877ac10ce2d69d": {
+      "header_hex": "1f8b08000000000002ff",
+      "level": 6
+    },
+    "caeee010c7c721f335a405e524f29acc7917ec639441d2eec277b0c2f6042145": {
+      "header_hex": "1f8b08000000000002ff",
+      "level": 8
+    },
+    "ec3c2a775fce0635907f52962fd35b9c765e8ae86438b70ec853b64590e234ba": {
+      "header_hex": "1f8b08000000000002ff",
+      "level": 9
+    }
+  },
+  "files": {
+    "README.md": "cf98d7bdd8455e56a75bd5022234d47ed711c87e723aba9bcc97dcf2b513cb64",
+    "artifacts/week8_development/audit/attempt1/audit.py.gz": "bfbd87f3da83a4ef1a1d335567fa54ff50505b5b177841830d26f601dcc3d428",
+    "artifacts/week8_development/audit/attempt1/invocation.json": "ff0ae9b7f20dc7a0afde2dce8e4b7834ff72ec9d53b670a489f5dcba2aa44265",
+    "artifacts/week8_development/audit/attempt1/native_audit.json": "46d2c1f288ed3ba84b502d02af522a2e97fb71b5786e44b1dadc1411974aca5a",
+    "artifacts/week8_development/audit/attempt1/pytest.txt": "5b6a0291f8cf5f7192882625103ce5a22aef2da77ac871ea6b39f2a5bd0b2730",
+    "artifacts/week8_development/audit/attempt1/result.json": "99996b0aab9b79a660f6fe004116ea9da619b0e7a3fea9051abdb2b930f33886",
+    "artifacts/week8_development/audit/attempt1/test_audit.py.gz": "caeee010c7c721f335a405e524f29acc7917ec639441d2eec277b0c2f6042145",
+    "artifacts/week8_development/audit/attempt1/week8_audit.md.gz": "c62a245b09f46ffc1b4882dfce80b44dde193b2181e90031ce877ac10ce2d69d",
+    "artifacts/week8_development/audit/attempt2/audit.py.gz": "bfbd87f3da83a4ef1a1d335567fa54ff50505b5b177841830d26f601dcc3d428",
+    "artifacts/week8_development/audit/attempt2/invocation.json": "e51b474b882d2bcdbe562e4491dcb7e8777e890e6e2ad15132420ed4ad629a7c",
+    "artifacts/week8_development/audit/attempt2/native_audit.json": "0562477c3a6d7310d6f77f217a4b6b783313f3afc27b49562d94b38a324c6011",
+    "artifacts/week8_development/audit/attempt2/pytest.txt": "6afe6ac6ec94e993941d0d5f226623c8c57f7a284255590ba8dbae42f7439678",
+    "artifacts/week8_development/audit/attempt2/result.json": "d7f68e5520cdf9c8b729a9e6ef37fe5161ede1bfb0973ecfaeebe14f006e36c8",
+    "artifacts/week8_development/audit/attempt2/test_audit.py.gz": "ec3c2a775fce0635907f52962fd35b9c765e8ae86438b70ec853b64590e234ba",
+    "artifacts/week8_development/audit/attempt2/week8_audit.md.gz": "c62a245b09f46ffc1b4882dfce80b44dde193b2181e90031ce877ac10ce2d69d",
+    "artifacts/week8_development/audit/attempt3/audit.py.gz": "bfbd87f3da83a4ef1a1d335567fa54ff50505b5b177841830d26f601dcc3d428",
+    "artifacts/week8_development/audit/attempt3/invocation.json": "98e72ab60fc7b72b2b68ac6b451fd89c214e4489392ba9d7842a8732413d6387",
+    "artifacts/week8_development/audit/attempt3/native_audit.json": "fba68a7ab1331e8037a08bdcdaba2d94e7a99de0814c2d71eda8259cecda3bfc",
+    "artifacts/week8_development/audit/attempt3/pytest.txt": "7a89f003529f8a4f1ed69404ed92e621e0ebddbe97e9c746b8af7ca4a6790607",
+    "artifacts/week8_development/audit/attempt3/result.json": "75a1338e8212ed6dc73d68166df22a6d86405f2a97d4edbdde0a1dbfb975fd7e",
+    "artifacts/week8_development/audit/attempt3/test_audit.py.gz": "73fcdc4e1007937943807d78cd486c163e6968ce7f96e0a7aabccfa845bf6aa5",
+    "artifacts/week8_development/audit/attempt3/week8_audit.md.gz": "c62a245b09f46ffc1b4882dfce80b44dde193b2181e90031ce877ac10ce2d69d",
+    "artifacts/week8_development/audit/initial_audit.py.gz": "bfbd87f3da83a4ef1a1d335567fa54ff50505b5b177841830d26f601dcc3d428",
+    "artifacts/week8_development/audit/local_archive_inventory.json": "cbae1dfe683482a77db7184019164ce68e226da866cec85355f64346a70bf0bc",
+    "artifacts/week8_development/audit/pure_tests_initial.txt": "cc0eb199a4e02b0ddb5073d879683b8fc00494f9ee9cb59bab36434809abb0b1",
+    "artifacts/week8_development/audit/schedule_probe_initial.txt": "f1d6bc5eadc776c4b1d3a08ecd75ab65ab76ce68f387ef48c3eb999fa22978ca",
+    "artifacts/week8_development/audit/validation_plan.md": "92c724664f24e6404b8c3e8c6dbdc66a30e6444904ff7baf60617664871b8d94",
+    "docs/week8_audit.md": "2462ee142dee9929eec22e74db07fe1f3ff96adc1cb470414743269a5a7bc955",
+    "docs/week8_audit_progress.md": "08c889ac2374237429001ecc218e947904be0688968bfabbf222fdbe68c2189c",
+    "docs/week8_implementation.md": "795606bfc35ddaffb3b2f3953a29525c1eba072ab7dd445f5633c463925de5ab",
+    "ou_irregular/week8/audit.py": "7bae7037ca312443549ac4920a7f42262a64dc5465b8ebaab24f89fb8494dc06",
+    "tests/week8/test_audit.py": "3646f866ee61b8cfbfee4c8d70679d498e5da9b5340ceb475310c2d47d04da87"
+  },
+  "schema_version": 1
+}

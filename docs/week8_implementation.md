@@ -192,3 +192,18 @@ Reviewed reporting SHA-256:
 Independent numerical audit is the next module. Fitted R=4 validation and the
 full E4 experiment remain pending; table schema/binding verification does not
 substitute for independent arithmetic or numerical replay.
+
+## 5. Independent E4 numerical audit
+
+The source-specific auditor and its70-test suite are implemented. The full
+checkpoint, exact source hashes, shared-dependency limits and retained failed
+unit fixture are documented in [the auditor progress record](week8_audit_progress.md).
+It independently reconstructs every saved source, recomputes allnine summary
+tables, preserves complete failed-fit records and replays the fixed endpoints.
+
+All1,536 archived source-only schedules matched the second race implementation.
+The fixed R=4 module fixture retained28 paths/84 fits and passed all-source
+verification plus42 endpoint fit replays. The final focused suite passed70 tests
+in66.85seconds. These are development checks, not full E4 findings. The unchanged
+full experiment still requires plotting, guarded integration, complete-runner
+validation, a published implementation freeze and actual visual review.

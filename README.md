@@ -29,7 +29,10 @@ and source modules are reviewed and published; the fixed source-only validation
 passed all 108 checks across 1,536 sequences. See the
 [implementation checkpoints](docs/week8_implementation.md). Guarded fitted
 execution and saved-record reporting have passed their module tests and review.
-Independent audit, native fitted validation and full E4 results remain pending. The
+The independent auditor is implemented and tested against all1,536 archived source-only
+schedules and the fixed R=4 module fixture (28 paths/84 fits, plus42 endpoint fit
+replays). Its final70 tests passed; see the [auditor checkpoint](docs/week8_audit_progress.md).
+Plotting, guarded integration, complete-runner validation and full E4 results remain pending. The
 [prospective population-target derivation](docs/week8_population_targets.md)
 explains the matched-marginal comparison without changing truth-based summaries.
 The [recovery record](docs/week7_recovery_20261030.md) distinguishes

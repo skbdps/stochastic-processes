@@ -1,0 +1,47 @@
+...................................................................F..   [100%]
+=================================== FAILURES ===================================
+_ test_invalid_point_candidates_and_nonempty_failure_exports_are_not_discarded _
+
+native = {'output': PosixPath('/mnt/data/stochastic-processes/artifacts/week8_development/audit/attempt2/native_archive'), 'des...: 2.0, 'burst_event_probability': 0.16666666666666666, 'burst_sojourn_mean': 1.0, 'burst_switch_rate': 1.0, ...}, ...]}
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-3/test_invalid_point_candidates_0')
+
+    def test_invalid_point_candidates_and_nonempty_failure_exports_are_not_discarded(native,tmp_path):
+        """Construct an explicit invalid-point unit case from a retained real fit.
+    
+        This does not alter the retained archive or an estimator's decision. Only
+        the unit input's eligibility is changed; all candidate numbers remain.
+        """
+        from ou_irregular.inference.contracts import PointFit
+        cell=native['design'].cells[-1]
+        sample,diagnostic=audit.independent_source(cell,0,native['design'].seed)
+        failures=[]
+        for method in audit.METHODS:
+            saved=next(r for r in native['rows'] if r['cell_id']==cell.identity and r['rep']==0 and r['estimator']==method)
+            pointdiag=json.loads(saved['point_diagnostics_json'])
+            pointdiag.update(valid_for_point_summary=False,fit_status='boundary_suspected')
+            point=PointFit(method,saved['theta'],saved['mu'],saved['sigma'],saved['nll'],
+                           saved['optimizer_success'],False,'boundary_suspected','constructed invalid-point unit input',pointdiag)
+            result=engine.registered_wald(method).infer(sample,point_fit=point)
+            row=json.loads(canonical({**cell.to_dict(),**diagnostic,'rep':0,'source_valid':True,
+                                      'source_error':'','pipeline_error':'',**engine.inference_record(result)}))
+>           audit._validate_row(row,cell,0,method)
+
+tests/week8/test_audit.py:439: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ou_irregular/week8/audit.py:203: in _validate_row
+    _inference(row)
+ou_irregular/experiments/audit.py:253: in _inference
+    _require(pv == (row["point_status"] == "valid_interior"), "point validity/status mismatch")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+condition = False, message = 'point validity/status mismatch'
+
+    def _require(condition, message):
+        if not condition:
+>           raise ValueError(message)
+E           ValueError: point validity/status mismatch
+
+ou_irregular/experiments/audit.py:84: ValueError
+=========================== short test summary info ============================
+FAILED tests/week8/test_audit.py::test_invalid_point_candidates_and_nonempty_failure_exports_are_not_discarded - ValueError: point validity/status mismatch
+1 failed, 69 passed in 69.21s (0:01:09)

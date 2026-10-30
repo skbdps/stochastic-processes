@@ -1,0 +1,20 @@
+{
+  "files": {
+    "ou_irregular/week8/audit.py": "7bae7037ca312443549ac4920a7f42262a64dc5465b8ebaab24f89fb8494dc06",
+    "docs/week8_audit.md": "2462ee142dee9929eec22e74db07fe1f3ff96adc1cb470414743269a5a7bc955",
+    "tests/week8/test_audit.py": "8a7590e6fda09b844153139aa2bf7a424efe8fd80afec275e2f1ae2f7ecabd97"
+  },
+  "purpose": "fixed R=4 auditor module-integration fixture; not full E4 or complete-runner acceptance",
+  "seed": 21261011,
+  "replications": 4,
+  "command": [
+    "/opt/hostedtoolcache/Python/3.12.14/x64/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/week8/test_audit.py",
+    "--maxfail=2"
+  ],
+  "exit_code": 1,
+  "elapsed_seconds": 69.70796516099972
+}

@@ -1,0 +1,10 @@
+{
+  "files": {
+    "ou_irregular/week8/audit.py": "7bae7037ca312443549ac4920a7f42262a64dc5465b8ebaab24f89fb8494dc06",
+    "docs/week8_audit.md": "2462ee142dee9929eec22e74db07fe1f3ff96adc1cb470414743269a5a7bc955",
+    "tests/week8/test_audit.py": "3646f866ee61b8cfbfee4c8d70679d498e5da9b5340ceb475310c2d47d04da87"
+  },
+  "purpose": "fixed R=4 auditor module-integration fixture; not full E4 or complete-runner acceptance",
+  "seed": 21261011,
+  "replications": 4
+}
