@@ -1,0 +1,34 @@
+{
+  "scope": "Byte-preserved validation audit evidence for saved-data renderer tests; no new source generation, fit or audit replay.",
+  "original_path": "/tmp/ou_week7_floor_audit_final_repaired_vhkno3u3/test_closed_archive_is_verifie0/copied_archive/audit.json",
+  "preserved_path": "artifacts/week7_recovery_evidence/plots_reference_inputs/floor_audit.json",
+  "sha256": "6acdc696a073886d73c6650831c588f20916b7f950f0c1262c0935a57d926e2c",
+  "bound_archive": "artifacts/week7_recovery_evidence/floor_audit_current_capture/archive",
+  "run_identity": "9c7667d599b1d1d104bd8d7cfb28f3c9781d6b58fb910385e247215e0f8af517",
+  "design_sha256": "df9b88a93f0297ed20b541460f5a09629ea300be9ef4674534396421dec548c6",
+  "source_policy": {
+    "actual_to_seed_anchor": {
+      "0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945": "0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945",
+      "235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3": "235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3",
+      "23889a74340ad5b5c5019887daa7f9933c2774dab7139d7740fcb9d413ad9cce": "a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda",
+      "2ba0afbf32c8fcee7dc26bf0881c5905cb7db8afd550357167788e73e3d5beb2": "0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945",
+      "5b6a1ac0563863b754130440d6118d4ba10b04443d09788ddcca84334b8c05a7": "b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e",
+      "73410fdb847dcc57098654b9b5d9eaa9a63fcaa2b33ec1e7e14e173dd8a44bdd": "235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3",
+      "7d8f236383608719ede6086a0df72b0133caae0a37e9140b4e2e59e56257c53b": "b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e",
+      "977e8c489b9f01d2395e659d5f00af1670003d03a44f0f41e2d3974215d1740c": "0a0a25a55c4924c7f397379b634256302a94355ebd5e78c0b8088213183bd945",
+      "a6878345903c80840ea4ad607a3cf5d769eb86a36d6cc42309928242989247f2": "a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda",
+      "a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda": "a8c29c745e5c0fb0d15dd14a2c1af8ed56e566cf1de893b23e15141c38624bda",
+      "b38f1c3a2fdde9b0660b523dc49c293ae21e55d4db20366309975d5d8b1eff0a": "235b51b19c6a2d534dea1bc706c672f8abe2fe748b37e9baf95e1148423355a3",
+      "b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e": "b75093677ab1ae4fcca15bdf6b3992b2249ec307bba67b83042a01710a530e9e"
+    },
+    "name": "week7_paired_floor_v1_shared_gamma_stationary_x0_and_standard_normal_innovations",
+    "planned_fit_records": 72,
+    "planned_independent_coupling_groups": 8,
+    "planned_source_realizations": 24,
+    "renormalize_floored_gaps": false,
+    "root_seed": 21261009,
+    "seed_anchor_floor_fraction": 1e-06,
+    "stationary_initialization": true
+  },
+  "binding_checks": "custom full audit contract, numerical artifact map, semantic metadata, source policy and run identity matched the published archive"
+}

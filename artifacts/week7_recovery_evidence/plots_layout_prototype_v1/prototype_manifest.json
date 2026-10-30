@@ -1,0 +1,23 @@
+{
+  "files": {
+    "W7_floor_paired_bias.pdf": "2b714fef7bdbff3499c75a55d4cfd387f2f45ee1834aab1abda2e30038a20358",
+    "W7_floor_paired_bias.png": "017411a023cbc4f32256e230977f7b297b0e5527222fef38b69aa17be4f19f4d",
+    "W7_floor_paired_coverage.pdf": "2542b2cc3398e14c2c4e18c50ade31edb32b28bd2df7c990420838a14445580f",
+    "W7_floor_paired_coverage.png": "8c4404bd5dcb7458fb6a6f530b254b28003f13e372e2c5890d44838139d13dfd",
+    "W7_floor_rmse_ratio.pdf": "9f3e38dec999d693b3ed5fa9b07de2ce1223bd24d8649c9ccf73c745de120453",
+    "W7_floor_rmse_ratio.png": "6acb1337bc030ddb166f1e00e4e164ddfa12a973af3277941daa0ab7953ac57b",
+    "W7_floor_spacing.pdf": "eddbde752abe3fd583c7673aa0bd746e081c332514d988046e82fa3c7fb2c0d8",
+    "W7_floor_spacing.png": "8cf9d3341b1b91f770c0b7b1cf1c8d902b4663ed17b33c5d2b52429ee9982bbc",
+    "W7_followup_availability.pdf": "e6772d0a1d3c572dbc2c93c54223cd96eb9c8334dccbd87b29aa7b27428fc4a9",
+    "W7_followup_availability.png": "95f266d7742ed2bd23b4090f4ca21485e6ba00074064e52624e55e5f6977f717",
+    "W7_followup_coverage.pdf": "f7c319c1f3343d61b0ac0a3b55ebd398c7e32044fe169e0d0b661044300d4478",
+    "W7_followup_coverage.png": "40d6297e60e5138440e4f746557c94e5481ddb10e628bb89771b1c3ae699bd94",
+    "W7_selected_E2_cv0_rep001424.pdf": "dcbbd1a3dc821a5bead18700a02f52c3a2f0c0905f712b3c74312415404d38d1",
+    "W7_selected_E2_cv0_rep001424.png": "f46ae731c73e3f6a1f171b449a80f07e0d38ce6c81714ec6824d481dcf6c0267",
+    "W7_selected_E2_cv0p5_rep000465.pdf": "bb67f7b4ff0489951ff150ad5633e461d0cc1c98ebf75c7dbeaed40be35a63d1",
+    "W7_selected_E2_cv0p5_rep000465.png": "a3972c7b9cd5c703c3495e865d1a5ebba62c03b7b175830371c4afeb39155b34"
+  },
+  "plots_source_sha256_after_render": "2bb9b9a7c21a8d0b9af8cd19e0508facce1775a597c566d17a09c999bdca19c0",
+  "plots_source_sha256_before_import": "2bb9b9a7c21a8d0b9af8cd19e0508facce1775a597c566d17a09c999bdca19c0",
+  "scope": "prototype visual layout only; literal followup and selected cases; saved R2 floor input; no science or audit replay"
+}

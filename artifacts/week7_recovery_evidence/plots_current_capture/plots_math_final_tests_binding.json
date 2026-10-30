@@ -1,0 +1,29 @@
+{
+  "command": [
+    "/tmp/ou_stochastic_recovery_20261030/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/week7/test_plots_reference.py",
+    "--basetemp",
+    "/tmp/ou_week7_plots_repaired_reference_2hx89qgi"
+  ],
+  "basetemp": "/tmp/ou_week7_plots_repaired_reference_2hx89qgi",
+  "returncode": 0,
+  "source_doc_test_before": {
+    "ou_irregular/week7/plots.py": "28ec529ce67d562178a23608de71ee34fe5a58744da1a84967b111da4ea22345",
+    "docs/week7_plots.md": "e68cf6c4459602952288124913ee3597b88f6a7bbc4b8dfe42df6e8217527d7d",
+    "tests/week7/test_plots_reference.py": "1a432dfcb56efaca840b4f910020a12209ae7a348a733f7ce930b42e97a7291c"
+  },
+  "source_doc_test_after": {
+    "ou_irregular/week7/plots.py": "28ec529ce67d562178a23608de71ee34fe5a58744da1a84967b111da4ea22345",
+    "docs/week7_plots.md": "e68cf6c4459602952288124913ee3597b88f6a7bbc4b8dfe42df6e8217527d7d",
+    "tests/week7/test_plots_reference.py": "1a432dfcb56efaca840b4f910020a12209ae7a348a733f7ce930b42e97a7291c"
+  },
+  "reviewed_bytes_unchanged": true,
+  "published_raw_archive_unchanged": true,
+  "raw_file_count": 49,
+  "stdout_path": "artifacts/week7_recovery_evidence/plots_math_final_tests.txt",
+  "stdout_sha256": "35ec82f9bf117b080f86f195d54ae8b7c5a7023bd3d837971c627fb49d65866f",
+  "scope": "Current renderer: literal figure and R2000 scalar-summary references plus rendering a byte-copy of the existing fixed R2 floor archive. No source generation, refit or numerical audit replay."
+}

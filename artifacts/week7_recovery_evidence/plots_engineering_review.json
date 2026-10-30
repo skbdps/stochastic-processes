@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "reviewer": "independent_recovery_path_engineering_agent",
+  "scope": "saved_evidence_plotting_input_integrity_renderer_provenance_immutable_outputs_closed_archive_lifecycle_and_drift_handling",
+  "status": "approved_for_module_freeze_and_subsequent_validation",
+  "source_file": "ou_irregular/week7/plots.py",
+  "source_sha256": "28ec529ce67d562178a23608de71ee34fe5a58744da1a84967b111da4ea22345",
+  "documentation_file": "docs/week7_plots.md",
+  "documentation_sha256": "e68cf6c4459602952288124913ee3597b88f6a7bbc4b8dfe42df6e8217527d7d",
+  "test_file": "tests/week7/test_plots_integrity.py",
+  "test_sha256": "b050dfe21a8be2cbeaca5feea049c1febfefdfd8d76a7495065c1ba8d673cb63",
+  "focused_test_log": {
+    "path": "artifacts/week7_recovery_evidence/plots_engineering_first_tests.txt",
+    "sha256": "bb0da06eb345e1eaa0a8bd36518aa70ca1b06ee33dec91036cc23e70a1c4d87a",
+    "result": "87 passed in 21.18s",
+    "exit_code": 0,
+    "warnings": 0,
+    "skips": 0,
+    "basetemp": "/tmp/ou_week7_plots_engineering_first_0cgircoa",
+    "source_documentation_test_and_shared_saved_rendered_state_hashes_unchanged": true
+  },
+  "checked": [
+    "All tests instrument source sampling, estimator fitting, raw execution, selected analysis and numerical audit entry points to fail if called. The real saved floor input, its existing full audit, and every original raw/table/root byte remain unchanged.",
+    "Saved full audits require the exact custom floor contract, source policy, override, design, run identity, recorded code commit, complete raw/table artifact map and semantic metadata. False full-completion/source/fit/table counts reject before writes.",
+    "Fixed endpoint descriptors are compared with the complete saved first/last-replication triplets in every cell, including all three estimators and exact source hashes. Duplicate endpoints, Boolean replication IDs, missing fields, changed hashes, scope and tolerance declarations reject without replay.",
+    "Complete Cartesian keys are validated across all six standard tables and the 72-row/71-column paired-floor table. Private-copy tests recompute outer manifest/audit hashes after corrupting keys, coordinates, denominators or consumed headers, proving that structural checks occur before renderer state creation.",
+    "The figure input binding separately retains the epsilon CSV and epsilon manifest hashes. Its historical standard-table map contains exactly the seven standard artifacts, preserving compatibility without dropping epsilon evidence.",
+    "Renderer dependencies and environment use a separate explicit identity. Original raw provenance is never rewritten. Exact renderer membership, current dependency hashes, runtime settings, fonts and compression versions are verified, and counterfeit clean-list/recorded-commit claims fail actual Git-byte checks.",
+    "A genuine older recorded Git commit containing unchanged core files is accepted independently of current HEAD. Full freeze is tested through metadata-only gates; no full-scope observations are generated.",
+    "Actual PNG/PDF serialization is byte-identical under conflicting ambient Matplotlib settings, with normalized defaults and static metadata. PDF CreationDate and ModDate are absent.",
+    "Complete figure manifests require exactly the canonical PNG/PDF set, actual hashes and full input/renderer scope. Missing, changed, extra, nested or symlinked products reject without recreation.",
+    "Complete readback is self-contained, ignores an optional external sidecar as documented, and calls no lock, capture, renderer or writer. Exact bytes and file modification times remain unchanged.",
+    "Partial images require their original immutable sibling renderer descriptor and exact input binding. Existing files are adopted only on byte equality, with unchanged retained file times and original renderer-state bytes; mismatched or missing state fails closed.",
+    "The writer owns the output/run advisory lock before publication and refuses renderer state nested inside another archive. Partial state directories reject extra files, symlinks, missing descriptors and changed identities.",
+    "Root metadata is never written by plotting. Both ordinary and exception-path foreign root changes preserve expected and observed bytes in an adjacent incident, leave the observed root untouched and block automatic resume even after expected bytes are manually restored.",
+    "Raw table, saved audit and renderer-state drift during serialization stop before committing the corresponding image pair or a completion manifest. Partial evidence remains in place; no stale root exception write exists.",
+    "Legitimate later lifecycle seals preserve semantic figure bindings. Completed-state fixtures permit verification only and never recreate missing images or manifests.",
+    "The selected adapter validates all 53 fixed selection identities and payload hashes, not only the two plotted cases. Missing, extra, changed, symlinked or nested-nonfinite unplotted payloads fail before output, and false passed lifecycle labels reject.",
+    "Selected images and their state are disjoint external outputs. The literal selected fixture honestly retains 53 replay failures, zero verified fits and diagnostic_review_required scope; unavailable panels carry the literal-validation banner and never masquerade as original E2 replay evidence."
+  ],
+  "review_findings": [
+    {
+      "discovered_by": "engineering review",
+      "finding": "Paired count values could be coerced or truncated in plot captions without full integral and intersection/coverage accounting checks.",
+      "resolution": "The author added non-Boolean integral domains and own/common/contingency relationships. Six focused corruption cases and independent reference cases verify rejection."
+    },
+    {
+      "discovered_by": "engineering review",
+      "finding": "A style-only rc_context inherited ambient TeX, transparency, font and DPI changes.",
+      "resolution": "Rendering now resets complete installed defaults before applying the fixed style and records the effective settings and font/compression environment. A real byte-determinism test changes conflicting ambient settings."
+    },
+    {
+      "discovered_by": "root and engineering review",
+      "finding": "A saved full-audit claim initially checked endpoint descriptor length rather than exact predetermined endpoint identities and tolerance scope.",
+      "resolution": "The adapter reads only saved endpoint triplets, compares complete descriptors and fixed declarations, and never regenerates sources. Targeted public regressions alter those claims without relying on stale root seals."
+    },
+    {
+      "discovered_by": "engineering review",
+      "finding": "Some standard table keys and consumed spacing/summary columns were checked only while building figures after sidecar creation.",
+      "resolution": "Complete table key, coordinate, count and consumed-header checks now run during read-only input preparation. Rehashed bad-table regressions assert zero output and sidecar writes."
+    },
+    {
+      "discovered_by": "root; independently checked by mathematical reviewer",
+      "finding": "Floating-point summation of 2000 equal small spacings can place the saved mean a few ulps outside equal saved extrema.",
+      "resolution": "The author added a documented summation-roundoff consistency allowance without changing saved values or scientific thresholds; the reference suite checks literal full-R constant arrays. Earlier renderer output and provenance were preserved separately."
+    }
+  ],
+  "validation_scope": {
+    "native_input": "artifacts/week7_recovery_evidence/floor_audit_current_capture/archive",
+    "saved_full_audit": "artifacts/week7_recovery_evidence/plots_reference_inputs/floor_audit.json",
+    "saved_full_audit_sha256": "6acdc696a073886d73c6650831c588f20916b7f950f0c1262c0935a57d926e2c",
+    "saved_runtime_input": "/tmp/ou_week7_plots_repaired_reference_2hx89qgi/plots_saved_floor_reference0/archive",
+    "rendered_runtime_output": "/tmp/ou_week7_plots_repaired_reference_2hx89qgi/plots_rendered_floor_reference0/archive",
+    "cache_namespace": "week7.test_plots_reference",
+    "replications": 2,
+    "seed": 21261009,
+    "physical_cells": 12,
+    "physical_source_realizations": 24,
+    "independent_coupling_groups": 8,
+    "stored_fit_records": 72,
+    "new_source_realizations": 0,
+    "new_fits": 0,
+    "new_numerical_audits": 0,
+    "native_original_raw_provenance_unchanged": true,
+    "selected_fixture": "Literal 53-source unavailable-replay archive with require_frozen=False, diagnostic_review_required, zero verified original fits, preserved candidate fields and explicit literal-validation labels. It tests placement/lifecycle/binding, not original selected-source science.",
+    "fault_serialization": "Some lifecycle tests replace figure_bytes with previously verified exact PNG/PDF byte pairs to isolate interruption/adoption behavior. Separate real serialization and independent artist tests verify deterministic image content.",
+    "completed_fixture": "Private lifecycle-only completion and visual seals explicitly identify their literal scope; these are not actual visual-review deliverables.",
+    "renderer_state_sha256": "974f94068097aa141b282991e0c803cb36779df763e5afdd39102effde50a5c3"
+  },
+  "prototype_history": {
+    "pre_roundoff_preservation": "artifacts/week7_recovery_evidence/plots_pre_roundoff_capture/preservation.json",
+    "pre_roundoff_source_sha256": "f87cf9f545504de7495bbe70f7687d3c2a05379f0c79445ed5af12f246c5e689",
+    "pre_roundoff_scope": "18 reference checks passed before the display-preflight roundoff repair. The original saved input, PNG/PDF output, renderer sidecar, manifest, code/doc/test bytes and log are preserved; they are not rebound to current renderer code.",
+    "layout_prototype": "artifacts/week7_recovery_evidence/plots_layout_prototype_v1",
+    "no_scientific_regeneration": "Both old and repaired renderer captures read the same existing R2 raw evidence and genuine saved audit; no source arrays, estimators or numerical audit were rerun.",
+    "pre_roundoff_preservation_sha256": "5c03cb5378c2cccc29f1ae3520a2de5d772168255e2a07d339aa4bdea93718e8"
+  },
+  "production_source_edits_by_reviewer": false,
+  "headline_artifacts_modified": false,
+  "full_scientific_sources_generated": 0,
+  "validation_sources_generated_by_this_reviewer": 0,
+  "unresolved_module_blockers": [],
+  "limitations": [
+    "This approves one reconstructed plotting module and its validation, not completed Week7 science, Week8, personal theory mastery or any explanation of the earlier runtime interruption.",
+    "The saved-input adapter verifies the prior full audit's exact bindings and predetermined scope without rerunning scientific arithmetic or sources. Independent numerical correctness remains supported by the separately published auditor and mathematical plotting review.",
+    "The real integrated figure archive uses the fixed R2 validation sample, not the full exploratory floor experiment. Follow-up and evaluated selected artist cases are literal reference inputs, not newly generated native studies.",
+    "The selected archive integrity fixture retains literal unavailable replay evidence for all 53 keys. It does not certify any original selected-path replay, profile search, Hessian calculation or failure resolution.",
+    "Complete and partial lifecycle tests include literal completion/visual seals and injected serializer bytes. Root's actual figure inspection is a separate review and is not claimed by this engineering artifact.",
+    "Advisory locks and bounded before/after byte checks detect observed persistent drift but do not atomically exclude every noncooperating writer. Incident preservation does not establish the cause of a historical runtime incident."
+  ],
+  "separate_visual_review": {
+    "path": "artifacts/week7_recovery_evidence/plots_current_visuals/visual_review.json",
+    "sha256": "270e4979c356764d2bf2835927a3e9cecba364b7d4459b12fb5f22b1f07fc486",
+    "reference_manifest": "artifacts/week7_recovery_evidence/plots_current_visuals/reference_manifest.json",
+    "reference_manifest_sha256": "2afb5a04005154b7d23c454b36d1820b69e1637bb42fef3e13e3e5be7b677a24",
+    "reviewer": "root assistant",
+    "eight_pngs_passed": true,
+    "performed_by_this_engineering_reviewer": false,
+    "scope": "Four native saved R2 floor PNGs and four explicitly literal follow-up/selected PNGs. Actual PNG inspection only; no independent PDF raster inspection or full exploratory completion is claimed."
+  },
+  "recorded_utc": "2026-10-30T12:22:09+00:00",
+  "combined_test_log": {
+    "path": "artifacts/week7_recovery_evidence/plots_module_tests.txt",
+    "sha256": "9aaf961c413a3ad7c2ae8b047795f25bdbd4953d24b4f51178758e89e1bc000c",
+    "binding_path": "artifacts/week7_recovery_evidence/plots_module_test_binding.json",
+    "binding_sha256": "31c0a2badd60317e502db5755ab334289f7e9c7cfe906e7482af1913fcb427ac",
+    "result": "127 passed in 26.96s",
+    "exit_code": 0,
+    "author_cases": 18,
+    "independent_mathematical_cases": 22,
+    "independent_engineering_cases": 87,
+    "warnings": 0,
+    "skips": 0,
+    "basetemp": "/tmp/ou_week7_plots_final_3t13853_/pytest",
+    "scientific_generation_attempts": [],
+    "all_snapshot_maps_independently_rechecked": true,
+    "unchanged_historical_package_files": 48,
+    "source_documentation_all_tests_raw_saved_rendered_archive_and_state_unchanged": true
+  },
+  "final_test_execution": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MPLCONFIGDIR=/tmp/ou_recovery_mpl .venv/bin/python: pytest.main([-q, tests/week7/test_plots.py, tests/week7/test_plots_reference.py, tests/week7/test_plots_integrity.py]) with repo/tests added to sys.path, the actual week7.test_plots_reference caches set to the current immutable saved/rendered paths, and scientific generation/replay entry points instrumented to fail if called.",
+    "engineering_result": "All 87 independently authored engineering cases passed in the focused gate and again inside the final 127-case combined gate.",
+    "test_fixture_dependency": {
+      "path": "tests/week7/test_plots_reference.py",
+      "sha256": "1a432dfcb56efaca840b4f910020a12209ae7a348a733f7ce930b42e97a7291c",
+      "cache_namespace": "week7.test_plots_reference"
+    }
+  }
+}

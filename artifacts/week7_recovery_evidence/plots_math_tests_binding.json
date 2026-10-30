@@ -1,0 +1,29 @@
+{
+  "command": [
+    "/tmp/ou_stochastic_recovery_20261030/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/week7/test_plots_reference.py",
+    "--basetemp",
+    "/tmp/ou_week7_plots_reference_2komjcro"
+  ],
+  "basetemp": "/tmp/ou_week7_plots_reference_2komjcro",
+  "returncode": 0,
+  "source_doc_test_before": {
+    "ou_irregular/week7/plots.py": "f87cf9f545504de7495bbe70f7687d3c2a05379f0c79445ed5af12f246c5e689",
+    "docs/week7_plots.md": "8091b101797c7197ecb93df826c26d6a568d14ed2ab112b4302e0387b5f60d50",
+    "tests/week7/test_plots_reference.py": "3428c7766a4778924e0f532891667642e94ab25ef881a608a6818f0141b3c40f"
+  },
+  "source_doc_test_after": {
+    "ou_irregular/week7/plots.py": "f87cf9f545504de7495bbe70f7687d3c2a05379f0c79445ed5af12f246c5e689",
+    "docs/week7_plots.md": "8091b101797c7197ecb93df826c26d6a568d14ed2ab112b4302e0387b5f60d50",
+    "tests/week7/test_plots_reference.py": "3428c7766a4778924e0f532891667642e94ab25ef881a608a6818f0141b3c40f"
+  },
+  "reviewed_bytes_unchanged": true,
+  "published_raw_archive_unchanged": true,
+  "raw_file_count": 49,
+  "stdout_path": "artifacts/week7_recovery_evidence/plots_math_tests.txt",
+  "stdout_sha256": "6a8f43d2fef19b361b1e51eec21e1fe0eaa4943254e6816a49967e0a3db30f78",
+  "scope": "Literal figure-reference tests plus byte-preserved existing R2 floor rendering; no new observations, fits or numerical audits."
+}

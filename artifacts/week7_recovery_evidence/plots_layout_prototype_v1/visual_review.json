@@ -1,0 +1,36 @@
+{
+  "exact_prototype_source_preserved": false,
+  "findings": [
+    {
+      "disposition": "needs_correction",
+      "figure": "W7_floor_rmse_ratio.png",
+      "finding": "Long default logarithmic tick labels near one clip the top-left y-axis label. Compact labels with adequate precision or wider margins are required; values and logarithmic scale must remain unchanged."
+    },
+    {
+      "disposition": "minor_refinement",
+      "figure": "W7_followup_availability.png",
+      "finding": "Use integer major ticks for count panels; saved counts and bar labels are correct."
+    },
+    {
+      "disposition": "minor_refinement",
+      "figure": "W7_floor_paired_coverage.png",
+      "finding": "Explain that collapsed normal Monte Carlo intervals show zero observed variation and do not prove population equality."
+    }
+  ],
+  "fixture_scope": "Literal followup and selected inputs; previously preserved R=2 floor numerical tables. Sampler, estimator, diagnostic and audit entry points were forbidden during rendering.",
+  "other_panels": "All eight PNGs were opened at original resolution. Other panels, keys, uncertainty labels, denominators, precision/representation notes and literal-validation banners were legible without clipping.",
+  "reviewed_pngs": [
+    "W7_floor_paired_bias.png",
+    "W7_floor_paired_coverage.png",
+    "W7_floor_rmse_ratio.png",
+    "W7_floor_spacing.png",
+    "W7_followup_availability.png",
+    "W7_followup_coverage.png",
+    "W7_selected_E2_cv0_rep001424.png",
+    "W7_selected_E2_cv0p5_rep000465.png"
+  ],
+  "reviewed_source_sha256": "2bb9b9a7c21a8d0b9af8cd19e0508facce1775a597c566d17a09c999bdca19c0",
+  "reviewer": "root assistant",
+  "science_generated": false,
+  "scope": "early layout review, not the final module gate or scientific findings"
+}

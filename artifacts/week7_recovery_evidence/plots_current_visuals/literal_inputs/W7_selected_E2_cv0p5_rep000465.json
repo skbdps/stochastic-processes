@@ -1,0 +1,962 @@
+{
+  "diagnostic": {
+    "coordinates": {
+      "source": "observed_data_only",
+      "state_offset": 0.2,
+      "state_scale": 2.0,
+      "time_scale": 4.0
+    },
+    "exact_profile": {
+      "best_finite": {
+        "log_theta": 1.0,
+        "nll": 1000000.0,
+        "nll_extended": "1000000.000000000000"
+      },
+      "bounds": {
+        "lower": -1.0,
+        "lower_cap_limited": true,
+        "lower_tail_reached": false,
+        "upper": 2.0,
+        "upper_cap_limited": true,
+        "upper_tail_reached": false
+      },
+      "differences": {
+        "brownian_limit_minus_best": 6e-11,
+        "brownian_limit_minus_best_extended": "0.000000000060",
+        "iid_limit_minus_best": -2e-11,
+        "iid_limit_minus_best_extended": "-0.000000000020",
+        "stored_full_minus_best": 5e-11,
+        "stored_full_minus_best_extended": "0.000000000050",
+        "stored_full_minus_stored_profile": 4e-11,
+        "stored_full_minus_stored_profile_extended": "0.000000000040",
+        "stored_profile_minus_best": 1e-11,
+        "stored_profile_minus_best_extended": "0.000000000010"
+      },
+      "disposition": "cap_limited_tail_unresolved",
+      "global_optimum_proved": false,
+      "grid_log_theta": [
+        -1.0,
+        0.0,
+        0.25,
+        0.5,
+        1.0,
+        2.0
+      ],
+      "grid_nll": [
+        1000000.0,
+        1000000.0,
+        1000000.0,
+        1000000.0,
+        1000000.0,
+        1000000.0
+      ],
+      "grid_nll_extended": [
+        "1000000.000000000020",
+        "1000000.000000000040",
+        "1000000.000000000010",
+        "1000000.000000000000",
+        "999999.999999999990",
+        "1000000.000000000030"
+      ],
+      "limits": {
+        "brownian": {
+          "nll": 1000000.0000000001,
+          "nll_extended": "1000000.000000000060"
+        },
+        "iid": {
+          "nll": 1000000.0,
+          "nll_extended": "999999.999999999980"
+        }
+      },
+      "replacement_fit_or_interval": false,
+      "resolution": 0.0010001,
+      "resolution_extended": ".0010001",
+      "status": "evaluated",
+      "stored_full": {
+        "nll": 1000000.0,
+        "nll_extended": "1000000.000000000050"
+      },
+      "stored_profile": {
+        "log_theta": 0.25,
+        "nll": 1000000.0,
+        "nll_extended": "1000000.000000000010"
+      },
+      "verified_software_defect": false
+    },
+    "fits": {
+      "euler": {
+        "float64_ladder": {
+          "adjacent": [
+            {
+              "coarse_relative_step": 0.001,
+              "fine_relative_step": 0.0005,
+              "relative_frobenius": 0.0,
+              "status": "evaluated",
+              "whitened_spectral": 0.0
+            },
+            {
+              "coarse_relative_step": 0.0005,
+              "fine_relative_step": 0.00025,
+              "relative_frobenius": 0.0,
+              "status": "evaluated",
+              "whitened_spectral": 0.0
+            },
+            {
+              "coarse_relative_step": 0.00025,
+              "fine_relative_step": 0.000125,
+              "relative_frobenius": 0.0,
+              "status": "evaluated",
+              "whitened_spectral": 0.0
+            }
+          ],
+          "entries": [
+            {
+              "condition_number": 1000.0,
+              "eigenvalues": [
+                0.01,
+                2.0,
+                10.0
+              ],
+              "gradient": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "hessian": [
+                [
+                  0.01,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  2.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  10.0
+                ]
+              ],
+              "positive_definite": true,
+              "relative_step": 0.001,
+              "schur_profile_interpretation": "only at nuisance stationarity in the same representation",
+              "schur_status": "evaluated",
+              "standardized_score": 0.0,
+              "status": "evaluated",
+              "steps": [
+                0.001,
+                0.001,
+                0.001
+              ],
+              "theta_hessian_diagonal": 0.01,
+              "theta_schur_complement_at_stored_point": 0.01
+            },
+            {
+              "condition_number": 1000.0,
+              "eigenvalues": [
+                0.01,
+                2.0,
+                10.0
+              ],
+              "gradient": [
+                0.0002,
+                0.0,
+                0.0
+              ],
+              "hessian": [
+                [
+                  0.01,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  2.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  10.0
+                ]
+              ],
+              "positive_definite": true,
+              "relative_step": 0.0005,
+              "schur_profile_interpretation": "only at nuisance stationarity in the same representation",
+              "schur_status": "evaluated",
+              "standardized_score": 0.002,
+              "status": "evaluated",
+              "steps": [
+                0.0005,
+                0.0005,
+                0.0005
+              ],
+              "theta_hessian_diagonal": 0.01,
+              "theta_schur_complement_at_stored_point": 0.01
+            },
+            {
+              "condition_number": 1000.0,
+              "eigenvalues": [
+                0.01,
+                2.0,
+                10.0
+              ],
+              "gradient": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "hessian": [
+                [
+                  0.01,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  2.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  10.0
+                ]
+              ],
+              "positive_definite": true,
+              "relative_step": 0.00025,
+              "schur_profile_interpretation": "only at nuisance stationarity in the same representation",
+              "schur_status": "evaluated",
+              "standardized_score": 0.0,
+              "status": "evaluated",
+              "steps": [
+                0.00025,
+                0.00025,
+                0.00025
+              ],
+              "theta_hessian_diagonal": 0.01,
+              "theta_schur_complement_at_stored_point": 0.01
+            },
+            {
+              "condition_number": 1000.0,
+              "eigenvalues": [
+                0.01,
+                2.0,
+                10.0
+              ],
+              "gradient": [
+                0.0002,
+                0.0,
+                0.0
+              ],
+              "hessian": [
+                [
+                  0.01,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  2.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  10.0
+                ]
+              ],
+              "positive_definite": true,
+              "relative_step": 0.000125,
+              "schur_profile_interpretation": "only at nuisance stationarity in the same representation",
+              "schur_status": "evaluated",
+              "standardized_score": 0.002,
+              "status": "evaluated",
+              "steps": [
+                0.000125,
+                0.000125,
+                0.000125
+              ],
+              "theta_hessian_diagonal": 0.01,
+              "theta_schur_complement_at_stored_point": 0.01
+            }
+          ],
+          "precision": "registered_float64",
+          "replacement_interval_constructed": false,
+          "status": "evaluated"
+        },
+        "original_interval_status": "valid",
+        "original_interval_valid": true,
+        "original_point_status": "valid_interior",
+        "original_point_valid": true,
+        "status": "evaluated",
+        "working_point": [
+          0.25,
+          0.0,
+          0.0
+        ]
+      },
+      "exact": {
+        "float64_ladder": {
+          "adjacent": [
+            {
+              "coarse_relative_step": 0.001,
+              "fine_relative_step": 0.0005,
+              "relative_frobenius": 0.008824801822098202,
+              "status": "evaluated",
+              "whitened_spectral": 0.9
+            },
+            {
+              "coarse_relative_step": 0.0005,
+              "fine_relative_step": 0.00025,
+              "relative_frobenius": 0.009805806756909202,
+              "status": "fine_hessian_not_positive_definite",
+              "whitened_spectral": null
+            },
+            {
+              "coarse_relative_step": 0.00025,
+              "fine_relative_step": 0.000125,
+              "relative_frobenius": 0.0196078431372549,
+              "status": "fine_hessian_not_positive_definite",
+              "whitened_spectral": null
+            }
+          ],
+          "entries": [
+            {
+              "condition_number": 1000.0,
+              "eigenvalues": [
+                0.01,
+                2.0,
+                10.0
+              ],
+              "gradient": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "hessian": [
+                [
+                  0.01,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  2.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  10.0
+                ]
+              ],
+              "positive_definite": true,
+              "relative_step": 0.001,
+              "schur_profile_interpretation": "only at nuisance stationarity in the same representation",
+              "schur_status": "evaluated",
+              "standardized_score": 0.0,
+              "status": "evaluated",
+              "steps": [
+                0.001,
+                0.001,
+                0.001
+              ],
+              "theta_hessian_diagonal": 0.01,
+              "theta_schur_complement_at_stored_point": 0.01
+            },
+            {
+              "condition_number": 100.0,
+              "eigenvalues": [
+                0.1,
+                2.0,
+                10.0
+              ],
+              "gradient": [
+                0.0006324555320336759,
+                0.0,
+                0.0
+              ],
+              "hessian": [
+                [
+                  0.1,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  2.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  10.0
+                ]
+              ],
+              "positive_definite": true,
+              "relative_step": 0.0005,
+              "schur_profile_interpretation": "only at nuisance stationarity in the same representation",
+              "schur_status": "evaluated",
+              "standardized_score": 0.002,
+              "status": "evaluated",
+              "steps": [
+                0.0005,
+                0.0005,
+                0.0005
+              ],
+              "theta_hessian_diagonal": 0.1,
+              "theta_schur_complement_at_stored_point": 0.1
+            },
+            {
+              "condition_number": null,
+              "eigenvalues": [
+                0.0,
+                2.0,
+                10.0
+              ],
+              "gradient": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "hessian": [
+                [
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  2.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  10.0
+                ]
+              ],
+              "positive_definite": false,
+              "relative_step": 0.00025,
+              "schur_profile_interpretation": "only at nuisance stationarity in the same representation",
+              "schur_status": "evaluated",
+              "standardized_score": null,
+              "status": "evaluated",
+              "steps": [
+                0.00025,
+                0.00025,
+                0.00025
+              ],
+              "theta_hessian_diagonal": 0.0,
+              "theta_schur_complement_at_stored_point": 0.0
+            },
+            {
+              "condition_number": null,
+              "eigenvalues": [
+                -0.2,
+                2.0,
+                10.0
+              ],
+              "gradient": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "hessian": [
+                [
+                  -0.2,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  2.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  10.0
+                ]
+              ],
+              "positive_definite": false,
+              "relative_step": 0.000125,
+              "schur_profile_interpretation": "only at nuisance stationarity in the same representation",
+              "schur_status": "evaluated",
+              "standardized_score": null,
+              "status": "evaluated",
+              "steps": [
+                0.000125,
+                0.000125,
+                0.000125
+              ],
+              "theta_hessian_diagonal": -0.2,
+              "theta_schur_complement_at_stored_point": -0.2
+            }
+          ],
+          "precision": "registered_float64",
+          "replacement_interval_constructed": false,
+          "status": "evaluated"
+        },
+        "independent_longdouble_ladder": {
+          "adjacent": [
+            {
+              "coarse_relative_step": 0.001,
+              "fine_relative_step": 0.0005,
+              "relative_frobenius": 0.0,
+              "status": "evaluated",
+              "whitened_spectral": 0.0
+            },
+            {
+              "coarse_relative_step": 0.0005,
+              "fine_relative_step": 0.00025,
+              "relative_frobenius": 0.0,
+              "status": "evaluated",
+              "whitened_spectral": 0.0
+            },
+            {
+              "coarse_relative_step": 0.00025,
+              "fine_relative_step": 0.000125,
+              "relative_frobenius": 0.0,
+              "status": "evaluated",
+              "whitened_spectral": 0.0
+            }
+          ],
+          "entries": [
+            {
+              "condition_number": 1000.0,
+              "eigenvalues": [
+                0.01,
+                2.0,
+                10.0
+              ],
+              "gradient": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "hessian": [
+                [
+                  0.01,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  2.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  10.0
+                ]
+              ],
+              "positive_definite": true,
+              "relative_step": 0.001,
+              "schur_profile_interpretation": "only at nuisance stationarity in the same representation",
+              "schur_status": "evaluated",
+              "standardized_score": 0.0,
+              "status": "evaluated",
+              "steps": [
+                0.001,
+                0.001,
+                0.001
+              ],
+              "theta_hessian_diagonal": 0.01,
+              "theta_schur_complement_at_stored_point": 0.01
+            },
+            {
+              "condition_number": 1000.0,
+              "eigenvalues": [
+                0.01,
+                2.0,
+                10.0
+              ],
+              "gradient": [
+                0.0002,
+                0.0,
+                0.0
+              ],
+              "hessian": [
+                [
+                  0.01,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  2.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  10.0
+                ]
+              ],
+              "positive_definite": true,
+              "relative_step": 0.0005,
+              "schur_profile_interpretation": "only at nuisance stationarity in the same representation",
+              "schur_status": "evaluated",
+              "standardized_score": 0.002,
+              "status": "evaluated",
+              "steps": [
+                0.0005,
+                0.0005,
+                0.0005
+              ],
+              "theta_hessian_diagonal": 0.01,
+              "theta_schur_complement_at_stored_point": 0.01
+            },
+            {
+              "condition_number": 1000.0,
+              "eigenvalues": [
+                0.01,
+                2.0,
+                10.0
+              ],
+              "gradient": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "hessian": [
+                [
+                  0.01,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  2.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  10.0
+                ]
+              ],
+              "positive_definite": true,
+              "relative_step": 0.00025,
+              "schur_profile_interpretation": "only at nuisance stationarity in the same representation",
+              "schur_status": "evaluated",
+              "standardized_score": 0.0,
+              "status": "evaluated",
+              "steps": [
+                0.00025,
+                0.00025,
+                0.00025
+              ],
+              "theta_hessian_diagonal": 0.01,
+              "theta_schur_complement_at_stored_point": 0.01
+            },
+            {
+              "condition_number": 1000.0,
+              "eigenvalues": [
+                0.01,
+                2.0,
+                10.0
+              ],
+              "gradient": [
+                0.0002,
+                0.0,
+                0.0
+              ],
+              "hessian": [
+                [
+                  0.01,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  2.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  10.0
+                ]
+              ],
+              "positive_definite": true,
+              "relative_step": 0.000125,
+              "schur_profile_interpretation": "only at nuisance stationarity in the same representation",
+              "schur_status": "evaluated",
+              "standardized_score": 0.002,
+              "status": "evaluated",
+              "steps": [
+                0.000125,
+                0.000125,
+                0.000125
+              ],
+              "theta_hessian_diagonal": 0.01,
+              "theta_schur_complement_at_stored_point": 0.01
+            }
+          ],
+          "precision": "longdouble",
+          "replacement_interval_constructed": false,
+          "status": "evaluated"
+        },
+        "original_interval_status": "step_disagreement",
+        "original_interval_valid": false,
+        "original_point_status": "valid_interior",
+        "original_point_valid": true,
+        "status": "evaluated",
+        "working_point": [
+          0.25,
+          0.0,
+          0.0
+        ]
+      },
+      "pfml": {
+        "float64_ladder": {
+          "adjacent": [
+            {
+              "coarse_relative_step": 0.001,
+              "fine_relative_step": 0.0005,
+              "relative_frobenius": 0.0,
+              "status": "evaluated",
+              "whitened_spectral": 0.0
+            },
+            {
+              "coarse_relative_step": 0.0005,
+              "fine_relative_step": 0.00025,
+              "relative_frobenius": 0.0,
+              "status": "evaluated",
+              "whitened_spectral": 0.0
+            },
+            {
+              "coarse_relative_step": 0.00025,
+              "fine_relative_step": 0.000125,
+              "relative_frobenius": 0.0,
+              "status": "evaluated",
+              "whitened_spectral": 0.0
+            }
+          ],
+          "entries": [
+            {
+              "condition_number": 1000.0,
+              "eigenvalues": [
+                0.01,
+                2.0,
+                10.0
+              ],
+              "gradient": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "hessian": [
+                [
+                  0.01,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  2.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  10.0
+                ]
+              ],
+              "positive_definite": true,
+              "relative_step": 0.001,
+              "schur_profile_interpretation": "only at nuisance stationarity in the same representation",
+              "schur_status": "evaluated",
+              "standardized_score": 0.0,
+              "status": "evaluated",
+              "steps": [
+                0.001,
+                0.001,
+                0.001
+              ],
+              "theta_hessian_diagonal": 0.01,
+              "theta_schur_complement_at_stored_point": 0.01
+            },
+            {
+              "condition_number": 1000.0,
+              "eigenvalues": [
+                0.01,
+                2.0,
+                10.0
+              ],
+              "gradient": [
+                0.0002,
+                0.0,
+                0.0
+              ],
+              "hessian": [
+                [
+                  0.01,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  2.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  10.0
+                ]
+              ],
+              "positive_definite": true,
+              "relative_step": 0.0005,
+              "schur_profile_interpretation": "only at nuisance stationarity in the same representation",
+              "schur_status": "evaluated",
+              "standardized_score": 0.002,
+              "status": "evaluated",
+              "steps": [
+                0.0005,
+                0.0005,
+                0.0005
+              ],
+              "theta_hessian_diagonal": 0.01,
+              "theta_schur_complement_at_stored_point": 0.01
+            },
+            {
+              "condition_number": 1000.0,
+              "eigenvalues": [
+                0.01,
+                2.0,
+                10.0
+              ],
+              "gradient": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "hessian": [
+                [
+                  0.01,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  2.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  10.0
+                ]
+              ],
+              "positive_definite": true,
+              "relative_step": 0.00025,
+              "schur_profile_interpretation": "only at nuisance stationarity in the same representation",
+              "schur_status": "evaluated",
+              "standardized_score": 0.0,
+              "status": "evaluated",
+              "steps": [
+                0.00025,
+                0.00025,
+                0.00025
+              ],
+              "theta_hessian_diagonal": 0.01,
+              "theta_schur_complement_at_stored_point": 0.01
+            },
+            {
+              "condition_number": 1000.0,
+              "eigenvalues": [
+                0.01,
+                2.0,
+                10.0
+              ],
+              "gradient": [
+                0.0002,
+                0.0,
+                0.0
+              ],
+              "hessian": [
+                [
+                  0.01,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  2.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  10.0
+                ]
+              ],
+              "positive_definite": true,
+              "relative_step": 0.000125,
+              "schur_profile_interpretation": "only at nuisance stationarity in the same representation",
+              "schur_status": "evaluated",
+              "standardized_score": 0.002,
+              "status": "evaluated",
+              "steps": [
+                0.000125,
+                0.000125,
+                0.000125
+              ],
+              "theta_hessian_diagonal": 0.01,
+              "theta_schur_complement_at_stored_point": 0.01
+            }
+          ],
+          "precision": "registered_float64",
+          "replacement_interval_constructed": false,
+          "status": "evaluated"
+        },
+        "original_interval_status": "valid",
+        "original_interval_valid": true,
+        "original_point_status": "valid_interior",
+        "original_point_valid": true,
+        "status": "evaluated",
+        "working_point": [
+          0.25,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "headline_results_replaced": false,
+    "precision": {
+      "arbitrary_precision": false,
+      "decimal_precision": 18,
+      "dtype": "float128",
+      "epsilon": "1.084202172485504434e-19",
+      "extended_beyond_float64": true,
+      "fraction_bits": 63,
+      "significand_bits": 64,
+      "storage_bytes": 16
+    },
+    "representation_differences": {
+      "maximum_absolute_gap_difference": 3e-17,
+      "maximum_absolute_value_difference": 2e-17,
+      "profile": "normalize_original_float64_values_and_times_in_longdouble",
+      "registered_ladder": "lift_exact_float64_normalized_values_and_diff_times"
+    },
+    "status": "evaluated"
+  },
+  "headline_results_replaced": false,
+  "literal_validation_fixture": true,
+  "selection": {
+    "cell_id": "22f160a706b9d06e7dcfbe9f15c8dce3831728735ecdccb2262ec2a8399ab505",
+    "experiment": "E2",
+    "reasons": [
+      "literal validation fixture, not selected observations"
+    ],
+    "rep": 465
+  },
+  "status": "evaluated"
+}

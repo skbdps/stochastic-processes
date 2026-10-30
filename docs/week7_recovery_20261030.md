@@ -287,3 +287,51 @@ Final source SHA-256:
 `b46e6b6fd5ffee053f511d5e8b2b1c20448752e34d33dad0df51577a2582a805`.
 No full exploratory seed has been used. Plotting, the final runner, complete
 pipeline validation, full studies, findings and Week 7 publication remain pending.
+
+### Saved-evidence plotting checkpoint
+
+The floor auditor was published as
+`c404747008fe20e47aebb36a0b725bde1d5e7523` before plotting was implemented.
+The new plotting module reads saved tables and selected-path diagnostic payloads;
+it does not generate observations, fit models or replace the saved numerical
+audit. It verifies complete planned keys, denominators, input hashes and the
+full saved audit before writing. Renderer dependencies and immutable partial
+output state have their own manifest; the original raw provenance is retained
+unchanged. Completed figure verification is read-only. The precise display,
+resume and validation contracts are in [week7_plots.md](week7_plots.md).
+
+Review found a display-validation issue that the small native validation could
+not expose: the floating-point mean of 2,000 identical small values can be
+slightly outside their identical minimum and maximum. The consistency check now
+uses a documented conservative floating-point summation bound. It changes no
+saved value, statistical uncertainty, inference threshold or scientific method.
+Literal 2,000-value examples and violations outside the bound are tested. All
+eight floor PNG/PDF bytes are identical before and after this repair. Earlier
+source, test logs, layout prototypes and rendered captures remain separately
+preserved, with their actual scope and hashes; they are not additional samples.
+
+The final combined gate observed **127 passing tests in 26.96 seconds**, with no
+warnings or skips: 18 implementation cases, 22 independent mathematical/display
+cases and 87 independent integrity cases. Scientific generation and fit replay
+were disabled, and zero attempts were observed. The source, technical note,
+three test files, 48 previously published package files, saved validation input,
+rendered archive and renderer state retained identical hashes through the gate.
+The final source SHA-256 is
+`28ec529ce67d562178a23608de71ee34fe5a58744da1a84967b111da4ea22345`.
+
+All eight representative PNGs were actually inspected and passed. Four are
+renders of the existing R=2 floor validation; two follow-up figures and two
+selected-path figures use prominently labelled literal validation fixtures.
+The latter are display checks, not follow-up results or original E2 replays.
+The review verifies readable labels and uncertainty, explicit missing values,
+absolute mu metrics, paired denominators, unclipped signed diagnostics, actual
+long-double precision and the distinction between operational and conditional
+coverage. The source and figure hashes are bound in
+`artifacts/week7_recovery_evidence/plots_current_visuals/visual_review.json`.
+The current native render and its original input provenance are preserved in
+`artifacts/week7_recovery_evidence/plots_current_capture/`.
+
+This is a completed plotting module, not completed Week 7. The standalone
+runner, complete pipeline validation, published code freeze, full selected-path
+diagnostics, independent follow-up, floor sensitivity studies and findings are
+still pending. No full Week 7 exploratory seed has been used.

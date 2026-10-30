@@ -1,0 +1,35 @@
+{
+  "all_eight_figures_pass": true,
+  "checks": [
+    "All titles, axis labels, panel legends and footnotes readable without clipping or overlap.",
+    "Operational and conditional coverage denominators, Wilson intervals and retained failure counts clearly distinguished.",
+    "Paired epsilon contrasts retain common-valid counts, absolute mu metrics and all-planned-path operational coverage.",
+    "RMSE ratio uses log scale with readable precise ticks; unavailable values remain labelled NA; no numerical limits or values are clipped for appearance.",
+    "Spacing panels identify floor variants, source counts, K=n-1 and categorical equally spaced CV positions.",
+    "Selected-path figures retain signed, zero and unavailable diagnostic values, actual longdouble precision, fixed step ladders and distinct normalized-data representations.",
+    "Literal follow-up and selected fixtures display prominent validation-only labels and cannot be read as completed exploratory evidence."
+  ],
+  "inspected_png_sha256": {
+    "W7_floor_paired_bias.png": "bcf3ae913018f1c6eae5fc2f094ddfbc95f4aad3174906a923b143c5c742d01c",
+    "W7_floor_paired_coverage.png": "9110587ab757d32f69dd55271fbaa914b49c79d9b868681443f01c7f0644618b",
+    "W7_floor_rmse_ratio.png": "324d2802eab22ce1ee961fde6170577593ab8dc5bb21c5807820d379e7a5a919",
+    "W7_floor_spacing.png": "6d92c49f174114fe22d9d3907a4ae6fec2904d9467ad2b93bcf3b971dec04683",
+    "W7_followup_availability.png": "70444366c5da16845d9b5cac3b92293bae52484b50ef0d8c5b9bad851f153169",
+    "W7_followup_coverage.png": "9ab70465f0c65cfed023110d320071ea1dc253004652aaa0236f3f5253acaf51",
+    "W7_selected_E2_cv0_rep001424.png": "530490ca2c68c2943a1995c6bd82ad49df8fa43a906d81fc2c0ba4ae1c6b9683",
+    "W7_selected_E2_cv0p5_rep000465.png": "c955c7d03e1441cfa51e834f813e0912fdf65ba4230f0dcde8d20c1a3814a08c"
+  },
+  "inspection_detail": "Four current floor PNGs were inspected at their native rendered archive paths before copying. All current copied PNG hashes agree with those inspected bytes. Four current literal follow-up/selected PNGs were then individually inspected from this directory. PNG review does not assert an independent PDF raster inspection.",
+  "reference_manifest_sha256": "2afb5a04005154b7d23c454b36d1820b69e1637bb42fef3e13e3e5be7b677a24",
+  "remaining_visual_blockers": [],
+  "reviewed_utc": "2026-10-30T12:20:25.819296+00:00",
+  "reviewer": "root assistant; actual rendered PNG inspection using view_image",
+  "schema_version": 1,
+  "scope": "Scientific-display module validation only. Four saved native R2 floor validation figures and four explicitly labelled literal follow-up/selected fixtures. No full exploratory computation or original selected-source replay is certified.",
+  "source_doc_reference_sha256": {
+    "docs/week7_plots.md": "e68cf6c4459602952288124913ee3597b88f6a7bbc4b8dfe42df6e8217527d7d",
+    "ou_irregular/week7/plots.py": "28ec529ce67d562178a23608de71ee34fe5a58744da1a84967b111da4ea22345",
+    "tests/week7/test_plots_reference.py": "1a432dfcb56efaca840b4f910020a12209ae7a348a733f7ce930b42e97a7291c"
+  },
+  "visual_review_performed": true
+}
