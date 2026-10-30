@@ -385,3 +385,160 @@ The future paired comparison and source audit must recognize this explicit
 anchor policy; these records must not be labelled as independent registered
 source-address experiments. This source module supplies no new estimator,
 interval, contrast, or claim of a completed sensitivity experiment.
+
+## Paired epsilon comparisons and their Monte Carlo uncertainty
+
+The comparison module accepts a complete fixed floor design, or a complete
+three-floor subset for each included CV when reporting in bounded batches.
+It verifies the entire Cartesian set of actual cell, replication and estimator
+keys before computing anything. Every included CV must contain epsilon
+\(10^{-8},10^{-6},10^{-4}\). A missing cell, missing method, missing
+replication or duplicate record blocks the paired table; no group is silently
+dropped because only the groups present were inspected.
+
+Every row must retain its canonical actual cell, registered-floor anchor,
+coupling policy, root seed, expected source/gap/path spawn keys, and well-formed
+source hashes. The expected address uses the same-CV registered-floor hash,
+the given design's seed and that row's replication. Three estimators within
+one actual cell/replication must share the same source diagnostics. Different
+epsilon variants at positive CV are **not** required to have identical times
+or observations: their common randomness is the shared Gamma draws and normal
+innovations, and their actual floor transformations can differ.
+
+For CV=0, all variants must instead retain identical source arrays and complete
+numerical records after excluding the actual cell ID, actual-ID diagnostic and
+actual floor fraction. This includes invalid numerical candidates, NLLs,
+statuses and interval evidence, not only successful estimates. Inconsistent
+control evidence blocks the table rather than being reported as an apparent
+nonzero control effect. Raw source failures lacking verified coupling evidence
+likewise block a certified paired table; their underlying raw evidence is not
+deleted. Point/interval statistical failures with valid source metadata remain
+ordinary retained outcomes. An inference pipeline error may retain a valid
+point fit, but its interval must be unavailable; a nonempty pipeline error
+combined with an interval marked valid is inconsistent and blocks the table.
+
+For one positive or zero CV, one estimator and one parameter with truth
+\(\psi\), let A be a nonreference epsilon and B be epsilon \(10^{-6}\).
+Direction is always **A minus B** for differences and **A over B** for ratios,
+serialized as `epsilon_minus_registered_floor` and
+`epsilon_over_registered_floor`. There are no reference-to-itself rows.
+The full design supplies
+\(4\times2\times3\times3=72\) comparison rows; a single-CV three-floor
+subset supplies 18.
+
+### Point metrics on one common-valid subset
+
+Let \(\mathcal S\) be the intersection of the two variants' valid point-fit
+replications, with size S. Recompute **both** variants' errors and metrics on
+this same subset:
+
+\[
+ e_{A,r}=\widehat\psi_{A,r}-\psi,\qquad
+ e_{B,r}=\widehat\psi_{B,r}-\psi,\qquad r\in\mathcal S,
+\]
+
+\[
+ B_j=\overline e_j,\qquad M_j=\overline{e_j^2},\qquad
+ R_j=\sqrt{M_j},\qquad j\in\{A,B\}.
+\]
+
+The output retains each variant's own point-valid and interval-valid counts,
+the common point-valid and interval-valid counts, and the two common-subset
+biases, MSEs and RMSEs. Metrics from the two different own-valid subsets are
+not subtracted and described as paired metrics.
+
+For a paired vector \(v_r\), define
+\(s(v)^2=\sum_{r\in\mathcal S}(v_r-\bar v)^2/(S-1)\). The sample
+Monte Carlo uncertainties are
+
+\[
+ \operatorname{MCSE}(B_A-B_B)=\frac{s(e_A-e_B)}{\sqrt S},\qquad
+ \operatorname{MCSE}(M_A-M_B)=\frac{s(e_A^2-e_B^2)}{\sqrt S}.
+\]
+
+For positive RMSEs, the delta-method influence vector for their difference is
+
+\[
+ v_r=\frac{e_{A,r}^2}{2R_A}-\frac{e_{B,r}^2}{2R_B},\qquad
+ \operatorname{MCSE}(R_A-R_B)\simeq\frac{s(v)}{\sqrt S}.
+\]
+
+For the log RMSE ratio, the corresponding vector is
+
+\[
+ w_r=\frac12\left(\frac{e_{A,r}^2}{M_A}-\frac{e_{B,r}^2}{M_B}\right),
+ \qquad s_{\log}=\frac{s(w)}{\sqrt S}.
+\]
+
+Subtracting each population functional's constant influence term would not
+change these sample variances. Computing each paired influence vector before
+its sample variance retains the cross-variant covariance. For example, the
+RMSE-difference variance contains
+\(-\operatorname{Cov}(e_A^2,e_B^2)/(2R_A R_B S)\). Adding independent
+variance estimates would omit that term and be incorrect for this coupling.
+The common-subset squared-error sample covariance is also saved.
+
+For \(\rho=R_A/R_B\), report
+
+\[
+ \operatorname{MCSE}(\rho)\simeq\rho s_{\log},\qquad
+ [\rho e^{-z s_{\log}},\rho e^{z s_{\log}}],
+ \quad z=1.959963984540054.
+\]
+
+Difference intervals use the corresponding approximate Monte Carlo interval
+estimate \(\pm z\operatorname{MCSE}\). These are simulation-summary
+uncertainties, not replacements for the original fitted parameter intervals.
+Zero observed paired variance in a finite positive-CV sample does not prove
+zero population variance or population equality between floor variants.
+For S=0, point metrics are unavailable. For S<2, sample Monte Carlo uncertainty
+is unavailable. A zero required RMSE makes the square-root/log delta derivatives
+singular: a zero numerator with a positive denominator still has ratio zero,
+but its delta uncertainty is undefined; a zero denominator has no defined ratio.
+No fictitious zero standard error is supplied in these cases. Relative biases
+and RMSEs divide by \(|\psi|\), and remain undefined for zero-truth mu.
+The absolute mu metrics and the ratio of its two absolute RMSEs remain usable
+when their own denominators permit.
+
+### Operational coverage on all planned pairs
+
+For each of the R planned replications, set \(I_{j,r}=1\) only when variant
+j has a valid interval that covers truth; an unavailable interval contributes
+zero. The paired difference is
+
+\[
+ D_r=I_{A,r}-I_{B,r},\qquad
+ \widehat\Delta_C=R^{-1}\sum_r D_r,\qquad
+ \operatorname{MCSE}(\widehat\Delta_C)=s(D)/\sqrt R.
+\]
+
+The output retains all four counts: both cover \(n_{11}\), only A covers
+\(n_{10}\), only B covers \(n_{01}\), and neither covers \(n_{00}\).
+They sum to R. For R>1, the equivalent paired variance is
+
+\[
+ \operatorname{MCSE}^2=
+ \frac{n_{10}+n_{01}-(n_{10}-n_{01})^2/R}{R(R-1)}.
+\]
+
+It is a sample-variance calculation using the discordant pairs, not the sum of
+two independent binomial variances. Each variant's total covered and
+interval-valid counts are reported separately. Conditioning coverage on a
+common-valid point subset would change the operational estimand and is not
+done. The coverage difference's Monte Carlo interval is an unbounded normal
+approximation and can extend outside [-1,1]; its endpoints are not clipped.
+Coverage MCSE is unavailable for R<2, including a CV=0 singleton. For the
+identical CV=0 control, bias, MSE and coverage differences are zero, and their
+paired uncertainties are zero when the respective sample size is at least
+two. Its RMSE ratio is one when its common RMSE is positive; the RMSE-difference
+and ratio delta uncertainties additionally require positive common RMSE and
+S>=2. It is never treated as two independent measurements.
+
+The implementation composes the existing global record validator, semantic
+summarizer, coverage indicator and pure Monte Carlo helpers. Overflow and
+nonfinite arithmetic on otherwise valid quantities block table production;
+such paths are not filtered away. The exact 71-column output contract is the
+module's literal `COLUMNS` tuple, including directions, eligibility counts,
+common metrics, paired uncertainties and coverage contingencies. This table
+does not replace the separately retained per-variant summaries or failed-fit
+records, and does not itself establish completion of the sensitivity study.

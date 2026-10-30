@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "reviewer": "independent mathematical review /root/recovery_path_math",
+  "outcome": "approved_for_paired_floor_comparison_math_scope",
+  "blocking_findings": [],
+  "scope": "Only paired-floor summary arithmetic: common-valid point estimands, paired covariance and delta uncertainty, all-planned operational coverage, metric domains and fixed row accounting.",
+  "reviewed_source_files_sha256": {
+    "ou_irregular/week7/floor_comparisons.py": "6cc387ee2e158cd37ac7c57b30f7c8f9a2557a3b730d02144382306c5a13931d",
+    "ou_irregular/week7/floor_source.py": "56d5f4150e8c254d53f8a3a13a0196e315287ddb83a7f7533e0af1dc0576c84e",
+    "tests/week7/test_floor_comparisons_reference.py": "7f682d0220ca3f6cdea1c3728e943ac9e9fb48a4fd24095d5b791312b4ca60a6",
+    "docs/week7_mathematics.md": "a312a110d7c5f0ad6d903f6b8d045a242b8ee9ecb30e63edc5403e715b41ec92",
+    "docs/week7_exploratory_protocol.md": "5313a9e90d034b401d2245834263f4c36e01ff2ab404246dd158268af9ee796c",
+    "ou_irregular/experiments/comparisons.py": "75e794d0bc2f16dc016fc1c52c3311f001911b82eef8915fe1ca7ae16133cc71",
+    "ou_irregular/experiments/summaries.py": "ac6c8a63e23df3c72626f571295c9f78e12fc1a34105744b4ca7ab2950f9c4e5",
+    "ou_irregular/experiments/design.py": "e01f63ed458b0ce9324aad7ce59b4932e4c487c626485dc240efa272b3468ab2",
+    "ou_irregular/experiments/provenance.py": "340f6c6a5934866473f3c6887ba1a5dafc7de13692eafa3ecdfb471a3dda7731",
+    "ou_irregular/week4/summaries.py": "a2076ebf69a915d5b98ddbcec93505d14637a88f49c1d8de231899edef7b0f29",
+    "ou_irregular/week4/config.py": "fee87355cdc725b24e28a90a57435b2c6325fb85b50b4b9294a2949fd7d17990"
+  },
+  "working_tree_bytes_unchanged_during_final_tests": true,
+  "checkout_commit_at_review": "919cb4ff62c3902f04848144c47de034287ee227",
+  "validation": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MPLCONFIGDIR=/tmp/ou_recovery_mpl .venv/bin/python -m pytest -q tests/week7/test_floor_comparisons_reference.py",
+    "started_utc": "2026-10-30T08:26:43.910122+00:00",
+    "finished_utc": "2026-10-30T08:26:46.996311+00:00",
+    "exit_code": 0,
+    "passed": 24,
+    "skipped": 0,
+    "warnings": 0,
+    "output_file": "artifacts/week7_recovery_evidence/floor_comparisons_math_tests.txt",
+    "output_sha256": "34dfbc878938ad84260e85a921f6c063900459898ecb30c37cf96bdec57a8892",
+    "stdout": "........................                                                 [100%]\n24 passed in 2.66s\n",
+    "reference_tolerances": {
+      "relative": 1e-12,
+      "absolute": 2e-14
+    },
+    "fixture_scope": "Literal fabricated records with canonical metadata and descriptive synthetic hashes; no observation arrays or random draws were generated.",
+    "rng_constructed": false,
+    "scientific_observations_generated": 0,
+    "source_seed_field_in_fixtures": 21261009,
+    "source_seed_field_is_metadata_only": true,
+    "full_exploratory_seed_20261009_used": false
+  },
+  "rational_reference": {
+    "planned_pairs": 5,
+    "common_valid_pairs": 3,
+    "common_errors_a": [
+      1,
+      2,
+      4
+    ],
+    "common_errors_b": [
+      2,
+      1,
+      3
+    ],
+    "own_valid_only_error_a": 100,
+    "own_valid_only_error_b": 20,
+    "own_valid_count_a": 4,
+    "own_valid_count_b": 4,
+    "bias_a_common": "7/3",
+    "bias_b_common": "2",
+    "bias_a_own": "107/4",
+    "bias_b_own": "26/4",
+    "bias_difference": "1/3",
+    "bias_difference_mcse": "2/3",
+    "mse_a_common": "7",
+    "mse_b_common": "14/3",
+    "mse_difference": "7/3",
+    "mse_difference_mcse": "sqrt(76)/3",
+    "squared_error_sample_variance_a": "63",
+    "squared_error_sample_variance_b": "49/3",
+    "squared_error_sample_covariance": "27",
+    "rmse_difference": "sqrt(7)-sqrt(14/3)",
+    "rmse_difference_mc_variance": "(63/(4*7)+(49/3)/(4*(14/3))-27/(2*sqrt(7)*sqrt(14/3)))/3",
+    "rmse_ratio": "sqrt(3/2)",
+    "rmse_ratio_log_mcse": "5/28",
+    "operational_coverage_indicators_a": [
+      1,
+      1,
+      0,
+      0,
+      0
+    ],
+    "operational_coverage_indicators_b": [
+      1,
+      0,
+      1,
+      0,
+      1
+    ],
+    "coverage_counts": {
+      "both": 1,
+      "a_only": 1,
+      "b_only": 2,
+      "neither": 1
+    },
+    "operational_coverage_difference": "-1/5",
+    "operational_coverage_difference_mcse": "sqrt(0.14)"
+  },
+  "independent_checks": [
+    "Every common-subset bias, MSE and RMSE is recomputed on the identical paired valid-point intersection; own-only errors deliberately make own-valid metrics materially different.",
+    "Paired bias and MSE MCSEs agree with exact rational sample moments using denominator S-1.",
+    "RMSE-difference uncertainty agrees with an independent gradient/covariance expansion including the negative covariance term.",
+    "Log-RMSE-ratio uncertainty agrees with 5/28 and yields the specified multiplicative normal-approximation interval; the ratio MCSE includes its scale factor.",
+    "Proportional errors A=2B give ratio2 with zero observed log-ratio influence variance through covariance cancellation.",
+    "All R planned pairs enter operational coverage, including unavailable intervals with finite misleading endpoints; all 4 contingency counts and paired sample-variance uncertainty agree.",
+    "Zero-truth mu relative fields remain undefined while absolute mu metrics and absolute RMSE ratios retain their correct domains; sigma relative fields use abs(truth).",
+    "CV0 identical controls have unit ratio and zero difference uncertainty only when the relevant sample size and positive-RMSE domains permit.",
+    "S0, disjoint valid subsets, S1, R1, zero numerator, zero denominator and both-zero RMSE cases preserve unavailable uncertainty rather than fabricate zero standard errors.",
+    "A disjoint S0/R2 example retains operational coverage MCSE1 and unbounded approximate interval [-1.959963984540054,+1.959963984540054], confirming no clipping.",
+    "The complete frozen physical grid produces exactly72 directional rows, and one complete three-floor CV subset produces18; no reference-to-self row is introduced.",
+    "Input order is deterministically reversed in reference cases; sorting/pairing follows canonical CV, source anchor, estimator and replication identities, while irregular array hashes may differ."
+  ],
+  "mathematical_note_extension": {
+    "prior_published_checkpoint": "919cb4ff62c3902f04848144c47de034287ee227",
+    "prior_note_sha256": "8d0137e5f24562f489429c5781163e81476f073da74d29b65e553435ce6ceccc",
+    "prior_note_preserved_as_exact_byte_prefix": true,
+    "appended_bytes": 7553,
+    "current_note_sha256": "a312a110d7c5f0ad6d903f6b8d045a242b8ee9ecb30e63edc5403e715b41ec92",
+    "interpretation_caveats_confirmed": [
+      "Coverage difference intervals are unbounded normal Monte Carlo approximations and are not clipped.",
+      "Coverage MCSE is undefined for R<2, including singleton CV0 control.",
+      "Zero observed paired variance at positive CV does not prove zero population variance or population equality.",
+      "These are simulation-summary uncertainty estimates, not replacements for registered fitted-parameter intervals."
+    ]
+  },
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "pandas": "2.2.3",
+    "scipy": "1.17.0"
+  },
+  "limits": [
+    "Approval concerns exact reviewed paired-arithmetic code and documentation, not full source provenance, storage lifecycle or complete scientific artifact auditing.",
+    "Literal formula tests establish arithmetic and domain handling, not calibrated finite-sample confidence coverage or simultaneous guarantees across the grid.",
+    "No full floor-sensitivity experiment, follow-up experiment, selected headline replay, future module or Week8 work was performed by this reviewer."
+  ]
+}

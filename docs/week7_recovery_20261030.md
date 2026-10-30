@@ -119,3 +119,33 @@ module checkpoint the paired comparisons and remaining execution/reporting/
 audit/figure/runner components are still pending. No full exploratory study has
 begun. These validation results are implementation evidence, not scientific
 floor-effect estimates.
+
+### Paired epsilon comparison checkpoint
+
+The source adapter was published as
+`919cb4ff62c3902f04848144c47de034287ee227` before comparison implementation.
+The new comparison module validates complete planned keys and the actual/anchor
+identities, seeds and spawn keys, then recomputes paired point metrics on the
+common-valid subset. Operational coverage retains every planned pair. The
+complete table contract contains 72 rows and 71 explicitly ordered columns;
+bounded reporting may process one complete three-floor CV group at a time.
+
+Fresh combined verification observed **135 passing tests in 7.14 seconds**:
+17 implementation cases, 24 independent arithmetic references and 94 independent
+accounting/failure-handling cases. The final source SHA-256 is
+`6cc387ee2e158cd37ac7c57b30f7c8f9a2557a3b730d02144382306c5a13931d`.
+The tests use literal synthetic records and generate no observations. They
+cover paired covariance, different valid subsets, complete and absent groups,
+CV=0 equality, unavailable intervals, retained failed candidates, zero RMSE,
+singletons and undefined relative mu metrics. Normal Monte Carlo difference
+intervals remain unclipped; zero observed variance is not a general population
+equality claim.
+
+A late review found that an interval marked valid could coexist with a nonempty
+pipeline-error string in malformed input. The module now rejects that impossible
+native-record combination while retaining valid points with unavailable intervals
+after inference errors. The earlier 133-test stdout is preserved separately as
+`floor_comparisons_pre_pipeline_check_tests.txt`; only the final 135-test run
+certifies the repaired module. The mathematical extension preserves the prior
+note as an exact byte prefix. Execution, tables, full audit, figures and the
+final runner remain pending at this checkpoint; no full Week 7 study has run.
