@@ -7,7 +7,7 @@ $$
 dX_t = \theta(\mu-X_t)\,dt + \sigma\,dW_t.
 $$
 
-**Current stage on `weeks5-8-sequential`: Weeks 5–7 complete and audited; Week 8 awaits its separate completion gate.**
+**Current stage on `weeks5-8-sequential`: Weeks 5–7 complete and audited; the Week 8 gate permits the separately specified optional E4 extension.**
 E1 retains 14,000 paths and 42,000 fits. E2 retains the complete 60-cell grid:
 120,000 paths and 360,000 fit records, including 86 unavailable intervals.
 Exact theta meets the practical criteria in 55/60 E2 cells; the five breaches
@@ -22,7 +22,10 @@ The follow-up retains 444 unavailable-interval records; all 72,000 floor-study
 fits and intervals are valid. Neither study has a pipeline error, and E1/E2
 remain unchanged. See the [Week 7 completion report](docs/week7_progress.md),
 [one-page findings memo](docs/week7_findings_memo.pdf), and
-[numerical disposition](docs/week7_numerical_disposition.md). Week 8 has not begun.
+[numerical disposition](docs/week7_numerical_disposition.md). The
+[Week 8 gate](docs/week8_gate.md), [dated E4 protocol](docs/week8_exploratory_protocol.md)
+and [mathematical basis](docs/week8_mathematics.md) are now recorded; E4
+implementation, validation and full execution remain pending.
 The [recovery record](docs/week7_recovery_20261030.md) distinguishes
 published module checkpoints, fresh validation and lost unpublished evidence.
 See the [Week 5 results](docs/week5_progress.md),
@@ -350,8 +353,9 @@ on spacing. All table values regenerate from `results/cell4_teaser_naive_vs_exac
 
 Weeks 5–7 are complete. The Week 7 publication includes all fixed exploratory
 studies, audited results, numerical dispositions and a one-page findings memo.
-Week 8 will now record the separate core gate,
-using buffer time for unresolved implementation issues or a separately specified
-optional extension if the core is secure. These stages preserve headline E1/E2.
+The separate Week 8 gate permits the optional MMPP extension under its dated
+protocol and guarded execution conditions. Implement and validate one module
+at a time, publish the complete scientific freeze, then execute the fixed E4
+study. These stages preserve headline E1/E2 and all completed Week 7 evidence.
 
 Author: Suryansh Kumar.
