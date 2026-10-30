@@ -1,0 +1,63 @@
+........................................................................ [ 24%]
+........................................................................ [ 48%]
+........................................................................ [ 72%]
+..........F............................................................. [ 97%]
+........                                                                 [100%]
+=================================== FAILURES ===================================
+_ test_independent_rational_raw_moment_and_resolvent_identities[2-second2-adjacent2] _
+
+index = 2, second = Fraction(290, 219), adjacent = Fraction(11105, 21316)
+
+    @pytest.mark.parametrize("index,second,adjacent", [
+        (0, Fraction(1, 2), Fraction(1, 4)),
+        (1, Fraction(2, 3), Fraction(5, 16)),
+        (2, Fraction(290, 219), Fraction(1, 4) + Fraction(1444, 5329)),
+    ])
+    def test_independent_rational_raw_moment_and_resolvent_identities(index, second, adjacent):
+        cell = full_design().cells[index]
+        ph = e4.phase_type(cell)
+        np.testing.assert_allclose(ph.pi @ ph.Q, np.zeros(2), atol=1e-15, rtol=0)
+        # These identities follow a 2x2 solve. A fixed 1e-15 absolute tolerance
+        # ignores amplification by its condition number (about 17.88 at r=20).
+        # Check the inverse and transition entries against exact rational algebra,
+        # and allow a condition-scaled floating-point budget, not a scientific gate.
+        r = int(cell.ratio)
+        lc, lb = Fraction(12, r + 5), Fraction(12*r, r + 5)
+        a, b, c, d = lc + Fraction(1, 5), -Fraction(1, 5), Fraction(-1), lb + 1
+        determinant = a*d - b*c
+        inverse = np.array([[float(d/determinant), float(-b/determinant)],
+                            [float(-c/determinant), float(a/determinant)]])
+        denom = r*r + 70*r + 25
+        transition = np.array([[float(Fraction(5*(13*r+5), denom)), float(Fraction(r*(r+5), denom))],
+                               [float(Fraction(5*(r+5), denom)), float(Fraction(r*(r+65), denom))]])
+        condition = np.linalg.cond(ph.A, np.inf)
+        assert condition < 20  # A corrupt or ill-conditioned matrix cannot inflate the budget.
+        tolerance = 8*np.finfo(float).eps*max(1., condition)
+        np.testing.assert_allclose(ph.inverse_A, inverse, rtol=0,
+                                   atol=tolerance*max(1., np.linalg.norm(inverse, np.inf)))
+        np.testing.assert_allclose(ph.P, transition, rtol=0, atol=tolerance)
+        np.testing.assert_allclose(ph.P @ np.ones(2), np.ones(2), atol=2*tolerance, rtol=0)
+        np.testing.assert_allclose(ph.alpha @ ph.P, ph.alpha, atol=tolerance, rtol=0)
+        np.testing.assert_allclose(ph.alpha @ ph.inverse_A, .5 * ph.pi,
+                                   atol=tolerance*max(1., np.linalg.norm(inverse, np.inf)), rtol=0)
+        # An entrywise backward-residual check guards the actual matrix equation
+        # A P = Lambda independently of the forward rational comparison.
+        residual = np.abs(ph.A @ ph.P - ph.Lambda)
+        scale = np.abs(ph.A) @ np.abs(ph.P) + np.abs(ph.Lambda)
+>       assert np.all(residual <= 8*np.finfo(float).eps*scale)
+E       AssertionError: assert np.False_
+E        +  where np.False_ = <function all at 0x7f80a15becb0>(array([[5.55111512e-17, 9.61103343e-16],\n       [6.91988324e-17, 1.77635684e-15]]) <= ((8 * np.float64(2.220446049250313e-16)) * array([[ 0.98739726,  0.37260274],\n       [ 1.45205479, 19.74794521]])))
+E        +    where <function all at 0x7f80a15becb0> = np.all
+E        +    and   np.float64(2.220446049250313e-16) = finfo(resolution=1e-15, min=-1.7976931348623157e+308, max=1.7976931348623157e+308, dtype=float64).eps
+E        +      where finfo(resolution=1e-15, min=-1.7976931348623157e+308, max=1.7976931348623157e+308, dtype=float64) = <class 'numpy.finfo'>(float)
+E        +        where <class 'numpy.finfo'> = np.finfo
+
+tests/week8/test_source.py:127: AssertionError
+=========================== short test summary info ============================
+FAILED tests/week8/test_source.py::test_independent_rational_raw_moment_and_resolvent_identities[2-second2-adjacent2] - AssertionError: assert np.False_
+ +  where np.False_ = <function all at 0x7f80a15becb0>(array([[5.55111512e-17, 9.61103343e-16],\n       [6.91988324e-17, 1.77635684e-15]]) <= ((8 * np.float64(2.220446049250313e-16)) * array([[ 0.98739726,  0.37260274],\n       [ 1.45205479, 19.74794521]])))
+ +    where <function all at 0x7f80a15becb0> = np.all
+ +    and   np.float64(2.220446049250313e-16) = finfo(resolution=1e-15, min=-1.7976931348623157e+308, max=1.7976931348623157e+308, dtype=float64).eps
+ +      where finfo(resolution=1e-15, min=-1.7976931348623157e+308, max=1.7976931348623157e+308, dtype=float64) = <class 'numpy.finfo'>(float)
+ +        where <class 'numpy.finfo'> = np.finfo
+1 failed, 295 passed in 269.55s (0:04:29)

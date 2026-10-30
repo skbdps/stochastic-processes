@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/opt/hostedtoolcache/Python/3.12.14/x64/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/week8"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 360.6703050136566,
+  "python": "3.12.14",
+  "source_test_sha256": "2482cc80d9df69b98096908f6d24aae44a06f6e4f388cb49fca91b935f32c950",
+  "scientific_files_changed": false,
+  "full_E4_run_executed": false,
+  "scope": "Week 8 module tests, repaired roundoff fixture, recovered Python runtime on current container; not a scientific fitted-validation run"
+}
