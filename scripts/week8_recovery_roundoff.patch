@@ -1,8 +1,8 @@
 diff --git a/tests/week8/test_source.py b/tests/week8/test_source.py
-index e48c825..60dec01 100644
+index e48c825..1e92625 100644
 --- a/tests/week8/test_source.py
 +++ b/tests/week8/test_source.py
-@@ -97,9 +97,34 @@ def test_independent_rational_raw_moment_and_resolvent_identities(index, second,
+@@ -97,9 +97,36 @@ def test_independent_rational_raw_moment_and_resolvent_identities(index, second,
      cell = full_design().cells[index]
      ph = e4.phase_type(cell)
      np.testing.assert_allclose(ph.pi @ ph.Q, np.zeros(2), atol=1e-15, rtol=0)
@@ -32,11 +32,13 @@ index e48c825..60dec01 100644
 +    np.testing.assert_allclose(ph.alpha @ ph.P, ph.alpha, atol=tolerance, rtol=0)
 +    np.testing.assert_allclose(ph.alpha @ ph.inverse_A, .5 * ph.pi,
 +                               atol=tolerance*max(1., np.linalg.norm(inverse, np.inf)), rtol=0)
-+    # An entrywise backward-residual check guards the actual matrix equation
-+    # A P = Lambda independently of the forward rational comparison.
-+    residual = np.abs(ph.A @ ph.P - ph.Lambda)
-+    scale = np.abs(ph.A) @ np.abs(ph.P) + np.abs(ph.Lambda)
-+    assert np.all(residual <= 8*np.finfo(float).eps*scale)
++    # A normwise backward-residual check guards A P = Lambda. Forming P via
++    # inv(A) @ Lambda does not promise a componentwise backward-error bound:
++    # cancellation in a small entry can exceed one even for an accurate solve.
++    residual = np.linalg.norm(ph.A @ ph.P - ph.Lambda, np.inf)
++    scale = (np.linalg.norm(ph.A, np.inf)*np.linalg.norm(ph.P, np.inf)
++             + np.linalg.norm(ph.Lambda, np.inf))
++    assert residual <= 8*np.finfo(float).eps*scale
      expected = e4.moments(cell)
      assert expected["mean"] == pytest.approx(.5, abs=2e-15)
      assert expected["second_moment"] == pytest.approx(float(second), rel=2e-14)
