@@ -1,0 +1,60 @@
+{
+  "checked": [
+    "All twelve fixed physical cells validate with exact canonical scalar types and immutable input mappings.",
+    "Missing or extra fields, malformed identity, inconsistent derived mean gap, nonfinite values, booleans, numeric strings, signed-zero substitutions and canonical cells outside the fixed protocol are rejected.",
+    "The delegated mapping is a new object and differs from the actual physical cell only in cell_id, which becomes the same-CV epsilon=1e-6 address anchor.",
+    "Actual n, q, nominal mean gap, CV, truth, floor threshold and physical floor fraction remain unchanged in source construction.",
+    "Every original source diagnostic is retained without mutating the delegate mapping; explicit actual and anchor identities and the exact coupling-policy literal are added.",
+    "Canonical cell fields, replication and coupling identity fields cannot be overwritten by an unexpected upstream diagnostic collision.",
+    "source_records retains the actual scientific cell_id, actual_cell_id, actual floor and source hashes for all three planned estimator rows.",
+    "Invalid seeds and replications are rejected through the unchanged historical source contract; a delegate failure propagates without retry or replacement.",
+    "The source instance and returned Sample arrays are immutable, and a validation sample leaves the global NumPy RNG state unchanged."
+  ],
+  "combined_test_log": {
+    "observed_summary": "........................................................................ [ 48%]\n........................................................................ [ 97%]\n...                                                                      [100%]\n147 passed in 2.39s",
+    "path": "artifacts/week7_recovery_evidence/floor_source_module_tests.txt",
+    "sha256": "c7cad96771108cb8848b05f9316346b16a8dab67c45403896e424dc544dd63ed"
+  },
+  "full_scientific_sources_generated": 0,
+  "headline_artifacts_modified": false,
+  "independent_test_execution": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MPLCONFIGDIR=/tmp/ou_recovery_mpl .venv/bin/python -m pytest -q tests/week7/test_floor_source_validation.py",
+    "exit_code": 0,
+    "identity_tests": "literal synthetic observations with a delegate spy; actual source_records composes the adapter and synthetic fitting services",
+    "invalid_replication_checks": "actual historical OuSampleSource rejection verified before SeedSequence construction",
+    "result": "90 passed in 1.63s",
+    "unmocked_validation_source": {
+      "cv": 3.0,
+      "floor_fraction": 1e-08,
+      "n": 1000,
+      "q": 0.5,
+      "rep": 0,
+      "root_seed": 21261009
+    }
+  },
+  "limitations": [
+    "This module review is not full paired-floor execution, artifact auditing, comparison validation or Week 7 completion.",
+    "The fixed full exploratory seed 20261009 was not used in this review.",
+    "Validation observations do not contribute to exploratory or headline results.",
+    "Run-level replication counts, durable storage and orchestration policy remain the responsibility of later sequentially reviewed modules."
+  ],
+  "production_source_edits_by_reviewer": false,
+  "recorded_utc": "2026-10-30T08:12:53.896521+00:00",
+  "review_notes": [
+    "Reserving all physical/address fields against diagnostic collisions is defensive contract enforcement; the unchanged source currently returns no colliding field.",
+    "The adapter adds no new simulation or fitting algorithm. Independent Gamma/OU arrays, moments and CV=0 numerical-result identity are covered by the separate mathematical source review."
+  ],
+  "reviewer": "independent_recovery_path_engineering_agent",
+  "schema_version": 1,
+  "scope": "paired_floor_source_canonical_identity_domain_validation_and_composition",
+  "source_file": "ou_irregular/week7/floor_source.py",
+  "source_sha256": "56d5f4150e8c254d53f8a3a13a0196e315287ddb83a7f7533e0af1dc0576c84e",
+  "status": "approved_for_module_freeze_and_subsequent_validation",
+  "test_file": "tests/week7/test_floor_source_validation.py",
+  "test_fixture_correction": {
+    "cause": "The initial five replication-domain tests replaced OuSampleSource with an identity-only spy and thereby bypassed the historical replication validation that the adapter intentionally composes.",
+    "correction": "The tests now exercise the real delegated validator while replacing only SeedSequence with a forbidden-call assertion. No production change was needed for these five cases.",
+    "initial_result": "75 passed, 5 failed in 1.77s"
+  },
+  "test_sha256": "af707cc735eb24335b46750945121c7b7d28d25c8a2a85f3e4993d87821fbc44"
+}

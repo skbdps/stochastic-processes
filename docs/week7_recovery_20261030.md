@@ -93,3 +93,29 @@ reporting, figures and final Week 7 runner still require reconstruction and
 fresh verification. No full selected-source replay, 10,000-replication follow-up
 or full floor-sensitivity run has begun. Week 7 is not complete, and Week 8 has
 not begun.
+
+### Paired-floor source checkpoint
+
+After publishing the selected-path module as
+`8028669756e2c8528667cc5200be82a75394f578`, the paired-floor source adapter
+was reconstructed through composition of the unchanged `OuSampleSource`.
+It retains the actual physical Cell and changes only its random-stream address
+to the same-CV epsilon=1e-6 anchor. Strict canonical input and diagnostic
+collision checks protect the stored actual identity.
+
+The combined source suite observed **147 passing tests in 2.39 seconds**
+(22 implementation tests, 35 independent direct-simulation references and
+90 independent input/composition checks). The reviewed source SHA-256 is
+`56d5f4150e8c254d53f8a3a13a0196e315287ddb83a7f7533e0af1dc0576c84e`.
+Independent calculations exactly reproduced timestamps, OU values and their
+hashes for all twelve physical variants at replications 0 and 1 under validation
+seed 21261009. Source diagnostics were checked independently. CV=0 complete
+numerical fit records agreed across all three floor variants at both replications.
+Equal variants when a changed floor affects no raw gap are explicitly permitted.
+
+The mathematical note's original selected-path section remains an unchanged
+byte prefix; the source-coupling derivation is appended separately. At this
+module checkpoint the paired comparisons and remaining execution/reporting/
+audit/figure/runner components are still pending. No full exploratory study has
+begun. These validation results are implementation evidence, not scientific
+floor-effect estimates.

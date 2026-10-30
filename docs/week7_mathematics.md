@@ -288,3 +288,100 @@ diagnostic mathematical quantity. Independent formula tests and review cover
 the implementation; later reporting must distinguish those validation layers.
 These selected diagnostics are exploratory evidence, not a new Monte Carlo
 coverage experiment or a correction to E1/E2.
+
+## Paired floor source: actual cells and shared random addresses
+
+The dated floor-sensitivity protocol fixes twelve actual cells with
+\(n=1000\), \(q=\theta\bar d=.5\), truth
+\((\theta,\mu,\sigma)=(1,0,.5)\), nominal CV in
+\(\{0,1.5,2,3\}\), and epsilon in \(\{10^{-8},10^{-6},10^{-4}\}\).
+The physical gap floor and the stored scientific cell ID always refer to the
+**actual** epsilon. For each nominal CV, a distinct canonical cell at
+epsilon \(10^{-6}\) supplies only the seed address, called the anchor.
+
+Let \(c\) denote the actual cell and \(a(c)\) its same-CV anchor. Convert
+the anchor's 64-character hexadecimal cell hash into the eight specified
+32-bit words \(w_1,\ldots,w_8\). At replication r, the source forms
+
+\[
+ S=\operatorname{SeedSequence}(s,
+           \operatorname{spawn\_key}=(4,w_1,\ldots,w_8,r)),
+ \qquad (S_D,S_X)=S.\operatorname{spawn}(2).
+\]
+
+The adapter composes the unchanged `OuSampleSource`. It passes every actual
+physical field unchanged, replacing only the internal mapping's `cell_id`
+with the anchor ID for this address construction. This internal mapping is a
+source-address override, not a newly declared canonical scientific cell. It
+is not exported as the stored actual cell. The physical mean gap remains
+\(\bar d=q/\theta=.5\); there is no realized-span matching.
+
+For positive nominal CV \(c_v\), each epsilon variant uses the same raw draws
+
+\[
+ D_i\sim\operatorname{Gamma}(c_v^{-2},\bar d\,c_v^2),
+ \qquad d_i^{(\epsilon)}=\max(D_i,\epsilon\bar d),
+ \qquad i=1,\ldots,K,
+\]
+
+with \(K=999\). All positive CVs in this particular study meet the registered
+floor threshold 1.5. No renormalization follows the floor. The same inherited
+implementation constructs cumulative timestamps and records clip counts,
+realized moments, spans and minimum timestamp gaps, including the effects of
+floating-point timestamp accumulation. For CV=0, the gaps are regular and no
+floor is applied, so all three variants have exactly the same times.
+
+The second child generator is restarted at the same address for every epsilon
+of a given (CV,r). It supplies a shared stationary initial draw and shared
+standard normal innovations. In mathematical form,
+
+\[
+ X_0=\mu+\frac{\sigma}{\sqrt{2\theta}}Z_0,
+\]
+
+\[
+ X_i^{(\epsilon)}=\mu+
+  (X_{i-1}^{(\epsilon)}-\mu)e^{-\theta d_i^{(\epsilon)}}+
+  \sqrt{\frac{\sigma^2}{2\theta}
+      (1-e^{-2\theta d_i^{(\epsilon)}})}Z_i.
+\]
+
+The actual recursion uses the unchanged simulator and the differences of its
+actual timestamps. The shared normals are independent of the shared raw Gamma
+draws because gaps and states use separate seed children. Different CVs use
+different anchor IDs and hence independent scientific addresses.
+
+This is a common-random-number coupling of exact OU transition simulations.
+It does **not** construct one continuous OU trajectory observed at three
+different sets of times. If the floor changes gaps, it can change the total
+span and subsequent states. Two epsilon variants can nevertheless coincide
+on a finite path when no raw gap is affected by their different floors. For
+CV=0 all three variants necessarily coincide, including their numerical fits:
+that negative control is one shared sample, not three independent samples.
+
+The adapter requires an exact canonical `Cell.to_dict()` mapping. Field names,
+Python scalar types, finiteness, the derived mean gap, the supplied actual ID
+and membership in the fixed twelve-cell set are checked before delegation.
+An invalid ID is rejected; it is not replaced with an invented valid one.
+Input mappings are copied, not mutated. The run design separately controls
+the root seed and replication count: the exploratory design uses seed
+20261009 and R=2000, while development uses seed+1,000,000 and a small fixed R.
+Changing R does not change any retained source address.
+
+Returned diagnostics preserve every inherited source diagnostic and add
+`actual_cell_id`, `seed_anchor_cell_id`, `seed_anchor_floor_fraction` and
+`source_coupling_policy`. The policy identifier is
+`week7_paired_floor_v1_shared_gamma_stationary_x0_and_standard_normal_innovations`.
+There is no diagnostic `cell_id` that could overwrite the actual row ID during
+composition with the unchanged fitting engine. Collisions with scientific
+row or coupling-identity fields are rejected. The actual row also retains its
+own `floor_fraction`; source hashes and spawn keys retain their original
+meanings.
+
+Each realized variant is fitted and normalized from its own observed states
+and times by the unchanged inference services. Scales are not borrowed from
+another epsilon and simulation truth is not used for numerical normalization.
+The future paired comparison and source audit must recognize this explicit
+anchor policy; these records must not be labelled as independent registered
+source-address experiments. This source module supplies no new estimator,
+interval, contrast, or claim of a completed sensitivity experiment.

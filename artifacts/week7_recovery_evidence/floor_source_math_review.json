@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "reviewer": "independent mathematical review /root/recovery_path_math",
+  "outcome": "approved_for_floor_source_math_scope",
+  "blocking_findings": [],
+  "scope": "Only the paired-floor source adapter: canonical anchor addressing, direct Gamma/OU simulation, complete source diagnostics, common-random-number coupling and CV0 numerical control identity.",
+  "reviewed_source_files_sha256": {
+    "ou_irregular/week7/floor_source.py": "56d5f4150e8c254d53f8a3a13a0196e315287ddb83a7f7533e0af1dc0576c84e",
+    "docs/week7_mathematics.md": "8d0137e5f24562f489429c5781163e81476f073da74d29b65e553435ce6ceccc",
+    "docs/week7_exploratory_protocol.md": "5313a9e90d034b401d2245834263f4c36e01ff2ab404246dd158268af9ee796c",
+    "tests/week7/test_floor_source_reference.py": "fe0c378cd04d7475250cf02ad8906055d58eca26333161e80d5bde520e185322",
+    "ou_irregular/experiments/design.py": "e01f63ed458b0ce9324aad7ce59b4932e4c487c626485dc240efa272b3468ab2",
+    "ou_irregular/experiments/execution.py": "9df6bb716969c850f2959c1ec59c0285bd221c2312748889526c8fc8e8422f83",
+    "ou_irregular/week4/config.py": "fee87355cdc725b24e28a90a57435b2c6325fb85b50b4b9294a2949fd7d17990",
+    "ou_irregular/week4/simulation.py": "ad52bdb4095ae4ed5cdf666d3ef840956af950d9901b057ff7bb70dda173a7f8",
+    "ou_irregular/ou.py": "3fd7db4001d1973599662d4507aa89e506ba3d36f483f689561e5f4ca57236fa",
+    "ou_irregular/spacing.py": "e442fcd4f856b4d3b8126574a9078e42f7aabdf4fd026b30ba35aff665554887",
+    "ou_irregular/inference/adapters.py": "15f5d388f61db9a2b83ed9741a690d5f3267c6d6f3671e04593492d4ef751c3d",
+    "ou_irregular/inference/coordinates.py": "948678cd390305948b14269247b5fa92933591500e5d4872a544c57e00a66142",
+    "ou_irregular/inference/hessian.py": "a225717d9999b8be100e860d39e6a97dc99b091bd53e153b2340c746d2b5def1",
+    "ou_irregular/inference/wald.py": "2664a02831e860045186b833fdcaf11ef0fafa76a7cfeac25c3c54aca05db744"
+  },
+  "working_tree_bytes_unchanged_during_final_tests": true,
+  "checkout_commit_at_review": "8028669756e2c8528667cc5200be82a75394f578",
+  "validation": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MPLCONFIGDIR=/tmp/ou_recovery_mpl .venv/bin/python -m pytest -q tests/week7/test_floor_source_reference.py",
+    "started_utc": "2026-10-30T08:13:19.145563+00:00",
+    "finished_utc": "2026-10-30T08:13:21.206070+00:00",
+    "exit_code": 0,
+    "passed": 35,
+    "skipped": 0,
+    "warnings": 0,
+    "output_file": "artifacts/week7_recovery_evidence/floor_source_math_tests.txt",
+    "output_sha256": "b2cf6000938ed9aff9c8b204ee3a99a976164817d4859d2ea6e6c4cfefc38282",
+    "stdout": "...................................                                      [100%]\n35 passed in 1.65s\n",
+    "root_seed": 21261009,
+    "replications": [
+      0,
+      1
+    ],
+    "n": 1000,
+    "q": 0.5,
+    "truth": {
+      "theta": 1.0,
+      "mu": 0.0,
+      "sigma": 0.5
+    },
+    "nominal_cvs": [
+      0.0,
+      1.5,
+      2.0,
+      3.0
+    ],
+    "floor_fractions": [
+      1e-08,
+      1e-06,
+      0.0001
+    ],
+    "actual_variant_cells": 12,
+    "unique_validation_variant_realizations": 24,
+    "coupling_groups": 8,
+    "regular_control_engine_fit_records": 18,
+    "full_exploratory_seed_20261009_used": false,
+    "fixture_scope": "Separate validation namespace only. Identical-address deterministic re-evaluations are validation, not resampling or new scientific replications."
+  },
+  "independent_checks": [
+    "Constructed scientific cell descriptors and SHA256 identities from canonical JSON independently; cross-checked the canonical Cell convention, 12 actual IDs and 4 epsilon=1e-6 anchor IDs.",
+    "Constructed SeedSequence(21261009,spawn_key=(4,*eight_32bit_anchor_words,rep)).spawn(2) directly, without using the production sampler or new anchor helper for reference addressing.",
+    "Generated raw Gamma gaps from the exact fixed shape/scale pairs (4/9,9/8), (1/4,2), (1/9,9/2); CV0 uses regular half-unit gaps.",
+    "Applied max(raw_gap,epsilon*nominal_mean_gap) only for nominal CV>=1.5, constructed cumulative float64 timestamps, and verified exact array/hash equality without mean/span rescaling.",
+    "Drew stationary X0 using the path-child normal draw before the K standard normal innovations; independently recursed exact OU transitions using differences of final float64 timestamps.",
+    "Every times/state array and little-endian float64 SHA256 matched exactly for all 24 validation realizations.",
+    "Every inherited/new source diagnostic was compared: exact identities/counts/booleans/spawn-key strings/hashes, and tight-tolerance independent longdouble mean/population-CV and Gamma-distribution moment references.",
+    "Within each CV/rep group, raw Gamma arrays, stationary X0, standard normal innovations and spawn keys are shared across all 3 variants; standardized innovations recovered from actual states agree up to transition-rounding error.",
+    "When two fixed validation variants have identical floored gap vectors, their times and states coincide exactly; when their floored vectors differ in these fixtures, their physical times and states differ.",
+    "CV0 negative control uses one shared sample per replication: every complete registered-engine inference field, Hessian/covariance/SE/interval value, validity/status and embedded diagnostic JSON agrees exactly across all 3 epsilon values.",
+    "The adapter preserves each actual scientific ID/floor separately from the seed anchor, delegates all physical parameters unchanged, and emits no diagnostic cell_id that could overwrite the result-row ID."
+  ],
+  "mathematical_interpretation": [
+    "These are paired common-random-number OU realizations, not independent observations across epsilon and not one continuous OU trajectory observed on three grids.",
+    "A floor change may leave a finite high-CV realization unchanged if it affects no raw gap. Null/equal outcomes are legitimate and are never forced to differ.",
+    "Different CVs have distinct canonical anchor addresses; validation checks the prescribed addressing, not an empirical independence theorem.",
+    "The source adapter changes no estimator, inference gate, observation normalization, interval construction or existing source implementation.",
+    "The source adapter does not implement the future paired contrasts, durable floor execution, full audit or full sensitivity experiment."
+  ],
+  "mathematical_note_extension": {
+    "prior_published_checkpoint": "8028669756e2c8528667cc5200be82a75394f578",
+    "prior_note_sha256": "dc49341dbf76f66e1b45114675f95b1e1936754caadceacee4588438500cd1af",
+    "prior_note_preserved_as_exact_byte_prefix": true,
+    "appended_bytes": 4930,
+    "current_note_sha256": "8d0137e5f24562f489429c5781163e81476f073da74d29b65e553435ce6ceccc",
+    "explanation": "The parent-authorized floor-only mathematical section was appended before any frozen selected-source scientific run. The historical path review retains its original note hash; this review binds the extended note."
+  },
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0"
+  },
+  "limits": [
+    "Only fixed validation seed21261009, reps0/1 were used. No full exploratory seed20261009 data or selected headline paths were generated or replayed.",
+    "This source-module approval is not a claim that the full Week7 floor experiment, paired comparisons or artifact audit is implemented or completed.",
+    "No future module or Week8 work was implemented by this reviewer."
+  ]
+}
