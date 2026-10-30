@@ -1,0 +1,123 @@
+name: Week 8 auditor checkpoint validation
+on:
+  push:
+    branches: [validation/week8-audit-20261031]
+    paths: [.github/workflows/week8-audit-validation.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MPLCONFIGDIR: /tmp/ou-week8-audit-ci-mpl
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12.14'
+      - name: Verify and restore exact locally tested checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/e4-audit-ci"
+          python - <<'PY'
+          import base64, gzip, hashlib, io, json, lzma, os, pathlib, tarfile
+          root = pathlib.Path.cwd()
+          paths = sorted(pathlib.Path('validation_payload/audit').glob('part*.b64'))
+          assert [p.name for p in paths] == [f'part{i:02d}.b64' for i in range(7)]
+          packed = base64.b64decode(''.join(p.read_text().strip() for p in paths), validate=True)
+          assert hashlib.sha256(packed).hexdigest() == '39c18f3e7c49ef6f75712f68605373fde0de907e65fdc95ce3fc8440cd5dc10f'
+          with tarfile.open(fileobj=io.BytesIO(lzma.decompress(packed)), mode='r:') as archive:
+              members = {m.name:m for m in archive.getmembers()}
+              assert len(members) == len(archive.getmembers()) and all(m.isfile() for m in members.values())
+              manifest = json.loads(archive.extractfile(members['manifest.json']).read())
+              assert manifest['base_commit'] == 'f82bbade0e94df2df3a6a4caa5937f403865cdd7'
+              verified = {}
+              for name, digest in manifest['files'].items():
+                  p = pathlib.PurePosixPath(name)
+                  assert not p.is_absolute() and '..' not in p.parts
+                  assert name == 'README.md' or name.startswith(('docs/week8_', 'ou_irregular/week8/', 'tests/week8/', 'artifacts/week8_development/audit/'))
+                  data = archive.extractfile(members['blobs/'+digest]).read()
+                  recipe = manifest['compression_recipes'].get(digest)
+                  if recipe:
+                      data = bytes.fromhex(recipe['header_hex']) + gzip.compress(data, compresslevel=recipe['level'], mtime=0)[10:]
+                  assert hashlib.sha256(data).hexdigest() == digest, name
+                  verified[name] = data
+          for name, data in verified.items():
+              target = root/name
+              assert not target.is_symlink()
+              target.parent.mkdir(parents=True, exist_ok=True)
+              target.write_bytes(data)
+          evidence = pathlib.Path(os.environ['RUNNER_TEMP'])/'e4-audit-ci'
+          (evidence/'candidate_manifest.json').write_text(json.dumps(manifest, indent=2)+'\n')
+          (evidence/'payload-verification.txt').write_text(f'PASS: {len(verified)} exact files restored; compressed payload SHA-256 verified.\n')
+          print(f'PASS: {len(verified)} exact files restored')
+          PY
+      - name: Install pinned requirements and record environment
+        run: |
+          set -euo pipefail
+          python -m pip install -r requirements.txt
+          python --version > "$RUNNER_TEMP/e4-audit-ci/python-version.txt"
+          python -m pip freeze > "$RUNNER_TEMP/e4-audit-ci/dependencies.txt"
+          git rev-parse HEAD > "$RUNNER_TEMP/e4-audit-ci/ci-head.txt"
+          git diff --check
+      - name: Run all Week 8 module tests with retained fixed R4 fixture
+        run: |
+          set -euo pipefail
+          export OU_E4_AUDIT_FIXTURE_ROOT="$RUNNER_TEMP/e4-audit-ci/native_fixture"
+          mkdir -p "$OU_E4_AUDIT_FIXTURE_ROOT"
+          python -m pytest -q tests/week8 | tee "$RUNNER_TEMP/e4-audit-ci/pytest-week8.txt"
+      - name: Prepare exact tested publication tree without updating any branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import base64, hashlib, json, os, pathlib, subprocess
+          evidence = pathlib.Path(os.environ['RUNNER_TEMP'])/'e4-audit-ci'
+          manifest = json.loads((evidence/'candidate_manifest.json').read_text())
+          repo = os.environ['GITHUB_REPOSITORY']
+          def api(path, value=None):
+              args = ['gh','api']
+              if value is not None:
+                  args += ['--method','POST',f'repos/{repo}/{path}','--input','-']
+              else:
+                  args += [f'repos/{repo}/{path}']
+              done = subprocess.run(args, input=json.dumps(value) if value is not None else None, text=True, capture_output=True, check=True)
+              return json.loads(done.stdout)
+          base = manifest['base_commit']
+          assert api('git/ref/heads/weeks5-8-sequential')['object']['sha'] == base, 'scientific branch moved; reconcile first'
+          expected_tree = api('git/commits/'+base)['tree']['sha']
+          paths = {name:pathlib.Path(name) for name in manifest['files']}
+          for name, expected in manifest['files'].items():
+              assert hashlib.sha256(paths[name].read_bytes()).hexdigest() == expected, name
+          for path in sorted(evidence.rglob('*')):
+              if path.is_file():
+                  paths['artifacts/week8_development/audit/ci/'+str(path.relative_to(evidence))] = path
+          blobs, entries, records = {}, [], {}
+          for name, path in sorted(paths.items()):
+              data = path.read_bytes()
+              digest = hashlib.sha256(data).hexdigest()
+              if digest not in blobs:
+                  blobs[digest] = api('git/blobs', {'content':base64.b64encode(data).decode(), 'encoding':'base64'})['sha']
+              entries.append({'path':name,'mode':'100644','type':'blob','sha':blobs[digest]})
+              records[name] = {'git_blob':blobs[digest],'sha256':digest,'bytes':len(data)}
+          tree = api('git/trees', {'base_tree':expected_tree,'tree':entries})['sha']
+          (evidence/'publication.json').write_text(json.dumps({'base_commit':base,'base_tree':expected_tree,'tree_sha':tree,'files':records,'scientific_refs_updated':False},indent=2)+'\n')
+          print('Publication tree prepared:', tree)
+          PY
+      - name: Retain complete validation evidence, including failed runs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: week8-audit-checkpoint
+          path: ${{ runner.temp }}/e4-audit-ci/
+          retention-days: 14
+          if-no-files-found: error
