@@ -1,0 +1,44 @@
+{
+  "reviewed_utc": "2026-10-30T07:45:09.278519+00:00",
+  "reviewer": "independent recovery_selection_review agent",
+  "scope": "Week7 selection module only; fresh review after runtime loss",
+  "status": "approved",
+  "production_edits_by_reviewer": false,
+  "source_file": "ou_irregular/week7/selection.py",
+  "source_sha256": "7f4b6c8cce0f202f742ce2588b3030085f61ac7f69a3b295ee9478ba17a7c3ea",
+  "source_git_blob": "dc7a396d46b3fe451d48ee62243da029c53a3e35",
+  "test_file": "tests/week7/test_selection.py",
+  "test_sha256": "80444b028c6df8d9d468b5a54c51bda8d34ab19a0057d80fa3ca41e5cc1d4901",
+  "tests": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MPLCONFIGDIR=/tmp/ou_recovery_mpl .venv/bin/python -m pytest -q tests/week7/test_selection.py --basetemp=/tmp/ou_recovery_selection_tests",
+    "passed": 28,
+    "failed": 0,
+    "elapsed_seconds": 3.15,
+    "log": "artifacts/week7_recovery_evidence/selection_tests.txt",
+    "log_sha256": "21c537bab289b2ce7d4b1ff762ff8117f3d6999692d53410e250756bbf103e80"
+  },
+  "review_findings": [
+    "All unavailable point/interval and pipeline-error records contribute to a source union; multiple method failures retain their separate failure records without duplicating source selection.",
+    "Accepted extrema are per estimator and per metric, restricted to interval-valid records with finite metrics. Cell-ID then replication tie breaking is independent of input record order.",
+    "Completed input verification composes provenance, audit fingerprint, scientific metadata digest, figure hashes, full archive byte map and a bound visual-review record.",
+    "Registered E1/E2 inputs are required before source reading. Experiment labels remain distinct for matching cell/rep indices; unresolved headline rows are retained without pooling.",
+    "The fixed exploratory designs preserve n/q/CV/truth, seeds20261007 and20261009, R10000 andR2000, twelve actual floor IDs and four potential anchor groups. Validation uses seed+1000000 only with its own scope/name and specified small R.",
+    "The selector consumes already audited sealed raw records; it does not replace upstream full-Cartesian-key/type validation or independently recalculate their numerical inference."
+  ],
+  "published_input_checks": [
+    "artifacts/week5_e1",
+    "artifacts/week6_e2"
+  ],
+  "published_input_check_scope": "read-only seal/dependency verification; source.sample patched to fail if regeneration attempted; root bytes unchanged",
+  "scientific_observations_generated": 0,
+  "fixture_scope": "small constructed metadata/row fixtures only; no exploratory results or scientific visual-review claims",
+  "recovery_statement": "This is newly executed evidence for current reconstructed bytes, not a recreated copy of the lost prior review or its 971-test result.",
+  "remaining_gates": "Other Week7 modules, full-suite validation, code/protocol publication, full science and result review remain separate.",
+  "recovered_selection_readback": {
+    "sha256": "d7932c87ed10b68936209851387198f28374afbafd6621b8092dbdd5a85b6c64",
+    "sources": 53,
+    "failed_fit_records": 86,
+    "unresolved_parameter_rows": 6,
+    "check": "independently read generated selection file and verified counts and recorded pre-loss byte hash; did not regenerate observations"
+  }
+}

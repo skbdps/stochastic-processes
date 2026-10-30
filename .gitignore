@@ -22,3 +22,11 @@ artifacts/*
 !artifacts/week6_evidence/
 !artifacts/week6_e2/
 artifacts/**/.execution.lock
+!artifacts/week7_evidence/
+!artifacts/week7_recovery_evidence/
+!artifacts/week7_validation_followup/
+!artifacts/week7_validation_floor/
+!artifacts/week7_selected/
+!artifacts/week7_selected_figures/
+!artifacts/week7_followup/
+!artifacts/week7_floor/

@@ -1,0 +1,15 @@
+{
+  "checked_utc": "2026-10-30T07:43:42.137242+00:00",
+  "baseline_commit": "7ed521b4567da5c973c409e47e1b1d9906fa3b47",
+  "baseline_tests": "657 passed in99.62seconds",
+  "selection_sources": 53,
+  "failed_fit_records": 86,
+  "unresolved_parameter_rows": 6,
+  "selection_sha256": "d7932c87ed10b68936209851387198f28374afbafd6621b8092dbdd5a85b6c64",
+  "selection_matches_historical_sha256": true,
+  "protocol_git_blob": "f5cdbab888090fa703ca76c99c5a8c674919f436",
+  "selection_module_git_blob": "dc7a396d46b3fe451d48ee62243da029c53a3e35",
+  "both_source_blobs_present_in_surviving_original_inventory": true,
+  "full_scientific_data_generated": false,
+  "method": "exact source text recovery plus deterministic read-only rederivation from sealed published records"
+}
