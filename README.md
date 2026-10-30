@@ -24,8 +24,11 @@ remain unchanged. See the [Week 7 completion report](docs/week7_progress.md),
 [one-page findings memo](docs/week7_findings_memo.pdf), and
 [numerical disposition](docs/week7_numerical_disposition.md). The
 [Week 8 gate](docs/week8_gate.md), [dated E4 protocol](docs/week8_exploratory_protocol.md)
-and [mathematical basis](docs/week8_mathematics.md) are now recorded; E4
-implementation, validation and full execution remain pending.
+and [mathematical basis](docs/week8_mathematics.md) are now recorded. E4 design
+and source modules are reviewed and published; the fixed source-only validation
+passed all 108 checks across 1,536 sequences. See the
+[implementation checkpoints](docs/week8_implementation.md). Fitted execution,
+reporting/audit and full E4 results remain pending.
 The [recovery record](docs/week7_recovery_20261030.md) distinguishes
 published module checkpoints, fresh validation and lost unpublished evidence.
 See the [Week 5 results](docs/week5_progress.md),

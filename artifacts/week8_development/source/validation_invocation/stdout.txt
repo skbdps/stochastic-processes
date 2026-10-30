@@ -1,0 +1,1 @@
+{"check_rows":108,"evaluated_sequences":1536,"new_fits":0,"new_ou_observations":0,"planned_sequences":1536,"status":"passed"}

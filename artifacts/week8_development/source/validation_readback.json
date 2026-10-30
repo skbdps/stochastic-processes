@@ -1,0 +1,13 @@
+{
+  "all_checks_passed": true,
+  "check_rows": 108,
+  "code_commit": "165c887bbbe5fb6a9ae2593a2e2f6766b7aea6bc",
+  "complete_sequence_keys": 1536,
+  "declared_artifact_hashes_verified": true,
+  "independent_recomputation_of_saved_check_arithmetic": false,
+  "new_fits": 0,
+  "new_sources_generated_by_readback": 0,
+  "sequence_rows": 1536,
+  "status": "passed_saved_output_readback",
+  "validation_json_sha256": "ab1e3125d5be467a205b5c8c8bf7cc21b5315a34e0e589c32ab8f2de4d828cc9"
+}

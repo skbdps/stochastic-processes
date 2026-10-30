@@ -85,3 +85,26 @@ env OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MPLCONFIGDIR=/tmp/ou_recovery_mpl \
 
 The later fitted R=4 validation and full E4 study remain pending. No full-seed
 E4 observations have been generated.
+
+### Observed source-only validation
+
+The reviewed source/harness checkpoint was published as
+`165c887bbbe5fb6a9ae2593a2e2f6766b7aea6bc` before execution. The exact command
+above completed with exit code 0 in 8.53 seconds, with empty stderr.
+`artifacts/week8_source_validation/validation.json` reports **passed**:
+all 1,536 sequences and 108 fixed checks are retained, with zero source failures,
+zero failed checks, zero OU observations and zero fits. Root checked complete
+sequence keys, all check outcomes, the recorded freeze, and every declared
+artifact digest. Native command/output records are preserved in
+`artifacts/week8_development/source/validation_invocation/`.
+
+The largest discrepancy was 2.280454 standard errors (MMPP r=1 raw adjacent
+product), within the prespecified six-SE rule. At r=20, one MMPP gap and two
+IID gaps were clipped among 255,744 gaps per cell. The other four cells have
+no floor. These rare-event counts are descriptive and were not subjected to
+an empirical normal acceptance interval. All source-only check results are
+development evidence, not E4 estimator results or a confidence claim.
+
+Source generation is now complete for its stated validation scope. Guarded
+execution is the next module. Fitted validation, full data, summary/audit and
+visual completion remain pending.

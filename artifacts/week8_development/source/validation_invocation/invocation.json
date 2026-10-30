@@ -1,0 +1,25 @@
+{
+  "command": [
+    "/tmp/ou_stochastic_recovery_20261030/.venv/bin/python",
+    "-m",
+    "scripts.week8_validate_source",
+    "--output",
+    "artifacts/week8_source_validation"
+  ],
+  "cwd": "/tmp/ou_stochastic_recovery_20261030",
+  "elapsed_seconds": 8.531994613000279,
+  "exit_code": 0,
+  "finished_utc": "2026-10-30T14:48:51.489624+00:00",
+  "output_sha256": {
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout.txt": "e094a4a8147b29afc2a9ea27c370661898943a393e72515971c0ca2cf17e39ed"
+  },
+  "started_utc": "2026-10-30T14:48:42.957465+00:00",
+  "status": "completed",
+  "thread_environment": {
+    "MKL_NUM_THREADS": null,
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": null
+  }
+}
