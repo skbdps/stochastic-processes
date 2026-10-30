@@ -108,3 +108,48 @@ development evidence, not E4 estimator results or a confidence claim.
 Source generation is now complete for its stated validation scope. Guarded
 execution is the next module. Fitted validation, full data, summary/audit and
 visual completion remain pending.
+
+## 3. Guarded fitted execution
+
+The source-validation evidence was published at
+`a5dd51edb86999f7bff77b98115d24c0d8b7afa4` before this module began.
+`ou_irregular/week8/execution.py` supplies pure preflight, guarded raw execution
+and non-mutating saved-run readback. It accepts the exact full/R=4 designs,
+uses the declared E4 source and unchanged inference services, and pins the
+complete local import closure. See [execution semantics](week8_execution.md).
+
+Independent review identified two imported package initializers absent from
+the inherited dependency set. The initial focused suite passed 72 cases and
+failed its dependency-closure case. E4's FILES set now explicitly includes
+`ou_irregular/week5/__init__.py` and `ou_irregular/week6/__init__.py`; both are
+currently docstring-only. This two-path change was the complete production
+repair. Old source files and test expectations were unchanged.
+
+The final focused suite passed **73 tests in 18.51 seconds**, using literal
+records, mocked simulation/inference boundaries, real durable stores and
+mocked process futures. Tests cover exact designs/provenance, freeze refusal,
+closed-state handling, no-op cached resume, pipeline and statistical failures,
+root drift and preserved incidents, corruption, orphan boundaries and exact
+byte adoption, locks, worker identity and execution controls. Independent
+read-only review verified all 38 imported repository modules are covered by
+the 52-file dependency union. A separate pure preflight probe verified the
+honest R=4 development allowance and refusal of an uncommitted full run,
+without allocating sources or creating output.
+
+Root reviewed production code and all test cases. `tests/week8/__init__.py`
+gives these tests a package namespace alongside historical duplicate filenames;
+a targeted collection check collected 227 tests without an import-name clash.
+That collection check did not execute those tests. The focused execution tests
+generated no schedules, OU paths or fits. Initial source and failure output,
+final output, review hashes and collection output are retained under
+`artifacts/week8_development/execution/`.
+
+Reviewed execution SHA-256:
+`5e7e0b80925b91f72d4940579c7e720c0dac6271ab4683a993593a6da88cc96a`.
+
+The [prospective population-target note](week8_population_targets.md) was also
+derived before fitted E4 observations. It binds to the actual existing PFML
+and actual-gap Euler definitions, derives their expected-objective minimizers,
+and explains matched-marginal interpretation. It changes no registered summary
+target or estimator. Reporting is the next implementation module; fitted
+validation and full E4 execution remain pending.

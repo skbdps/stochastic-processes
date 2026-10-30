@@ -1,0 +1,23 @@
+{
+  "collection_is_not_test_execution": true,
+  "declared_dependency_files": 52,
+  "files_sha256": {
+    "docs/week8_execution.md": "6eddf8144fc2ea59ab5c4a76b64262776261088d173ede52f78910fefc102cf8",
+    "docs/week8_population_targets.md": "f58c24dfe217333a2fe93842a16f2c57b0e46c2670c9e8f57e2e507361ff7e4b",
+    "ou_irregular/week8/execution.py": "5e7e0b80925b91f72d4940579c7e720c0dac6271ab4683a993593a6da88cc96a",
+    "tests/week8/__init__.py": "1fc61ef13a3ee4bce77d795c3536e9661e20c2ec927054ec2c6d3cd034bc4623",
+    "tests/week8/test_execution.py": "af860842b422cd6ada8b0e5d7bbb0535a654e708a456e323f606709aa5e8295c"
+  },
+  "fits_generated": 0,
+  "focused_tests_passed": 73,
+  "imported_repository_modules_checked": 38,
+  "initial_log_uncompressed_sha256": "e08e61680ff4cedcee03ae8ade8bf7f52505ccbdb07e4187cd0479e5bccee9c3",
+  "initial_tests_failed": 1,
+  "initial_tests_passed": 72,
+  "native_fitted_validation_executed": false,
+  "repair": "Only two package initializer paths added to E4 FILES",
+  "root_source_and_test_review": "passed",
+  "sources_generated": 0,
+  "status": "passed_execution_contract_only",
+  "test_namespace_collection_count": 227
+}

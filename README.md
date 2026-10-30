@@ -27,8 +27,11 @@ remain unchanged. See the [Week 7 completion report](docs/week7_progress.md),
 and [mathematical basis](docs/week8_mathematics.md) are now recorded. E4 design
 and source modules are reviewed and published; the fixed source-only validation
 passed all 108 checks across 1,536 sequences. See the
-[implementation checkpoints](docs/week8_implementation.md). Fitted execution,
-reporting/audit and full E4 results remain pending.
+[implementation checkpoints](docs/week8_implementation.md). Guarded fitted
+execution has passed its module tests and review. Reporting/audit, native fitted
+validation and full E4 results remain pending. The
+[prospective population-target derivation](docs/week8_population_targets.md)
+explains the matched-marginal comparison without changing truth-based summaries.
 The [recovery record](docs/week7_recovery_20261030.md) distinguishes
 published module checkpoints, fresh validation and lost unpublished evidence.
 See the [Week 5 results](docs/week5_progress.md),
