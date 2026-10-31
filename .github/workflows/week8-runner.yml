@@ -10,6 +10,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+  actions: read
 jobs:
   verify:
     runs-on: ubuntu-24.04
@@ -26,59 +27,97 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12.14'
-      - name: Preserve candidate source, invocation and unchanged-science check
+      - name: Preserve candidate source, failed original invocation and unchanged-science check
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/week8-runner-ci"
           python - <<'PY'
-          import hashlib,json,os,pathlib,subprocess
+          import hashlib,io,json,os,pathlib,subprocess,zipfile
           root=pathlib.Path.cwd(); out=pathlib.Path(os.environ['RUNNER_TEMP'])/'week8-runner-ci'
           base='7dfe7e191bc4e9516142e141b9208fd0fd4fd0dc'
           names=['ou_irregular/week8/runner.py','tests/week8/test_runner.py','docs/week8_runner.md']
           changed=subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines()
           assert set(changed)==set(names)|{'.github/workflows/week8-runner.yml'},changed
           hashes={n:hashlib.sha256((root/n).read_bytes()).hexdigest() for n in names}
-          record={'base_commit':base,'candidate_commit':os.environ['GITHUB_SHA'],'workflow_run_id':os.environ['GITHUB_RUN_ID'],'candidate_sha256':hashes,'unchanged_prior_tracked_files':True,'allowed_changes':changed,'full_E4_started':False}
+          record={'base_commit':base,'candidate_commit':os.environ['GITHUB_SHA'],'workflow_run_id':os.environ['GITHUB_RUN_ID'],'candidate_sha256':hashes,'unchanged_prior_tracked_files':True,'allowed_changes':changed,'full_E4_started':False,'original_failure_run':41155284522,'correction':'CI-only: unset inherited MKL/VECLIB thread settings; run legacy archive fixtures in original minimal environment. No test, production or scientific threshold changed.'}
           (out/'candidate.json').write_text(json.dumps(record,indent=2)+'\n')
           for name in names:
               target=out/'candidate_source'/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((root/name).read_bytes())
+          data=subprocess.check_output(['gh','api','repos/'+os.environ['GITHUB_REPOSITORY']+'/actions/artifacts/13024699761/zip'])
+          failed=out/'original_failed_invocation_41155284522'; failed.mkdir()
+          z=zipfile.ZipFile(io.BytesIO(data))
+          for name in z.namelist():
+              target=failed/name
+              if name.endswith('/'):continue
+              assert not pathlib.PurePosixPath(name).is_absolute() and '..' not in pathlib.PurePosixPath(name).parts
+              target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(z.read(name))
           PY
           git diff --check 7dfe7e191bc4e9516142e141b9208fd0fd4fd0dc HEAD
-      - name: Install and record pinned environment
+      - name: Install two exact recorded numerical environments
         run: |
           set -euo pipefail
           python -m pip install -r requirements-lock.txt
+          python -m venv "$RUNNER_TEMP/ou-legacy-env"
+          python - <<'PY'
+          import os,pathlib
+          omitted={'ipykernel','ipython','nbformat'}
+          lines=[l for l in pathlib.Path('requirements-lock.txt').read_text().splitlines() if l.split('==')[0].lower() not in omitted]
+          pathlib.Path(os.environ['RUNNER_TEMP'],'legacy-requirements.txt').write_text('\n'.join(lines)+'\n')
+          PY
+          "$RUNNER_TEMP/ou-legacy-env/bin/python" -m pip install -r "$RUNNER_TEMP/legacy-requirements.txt"
           python --version > "$RUNNER_TEMP/week8-runner-ci/python-version.txt"
           python -m pip freeze > "$RUNNER_TEMP/week8-runner-ci/dependencies.txt"
-      - name: Execute complete regression suite and native fixed-plan CLI
+          "$RUNNER_TEMP/ou-legacy-env/bin/python" -m pip freeze > "$RUNNER_TEMP/week8-runner-ci/legacy-dependencies.txt"
+      - name: Execute every test in its required unmodified recorded environment
         run: |
           set -uo pipefail
+          unset MKL_NUM_THREADS VECLIB_MAXIMUM_THREADS
           export OU_E4_AUDIT_FIXTURE_ROOT="$RUNNER_TEMP/week8-runner-ci/audit_fixture"
           export OU_E4_PLOTS_FIXTURE_ROOT="$RUNNER_TEMP/week8-runner-ci/plots_fixture"
           export OU_E4_RUNNER_FIXTURE_ROOT="$RUNNER_TEMP/week8-runner-ci/runner_fixture"
           mkdir -p "$OU_E4_AUDIT_FIXTURE_ROOT"
-          printf '%s\n' 'python -m pytest -q tests' > "$RUNNER_TEMP/week8-runner-ci/test-command.txt"
-          python -m pytest -q tests 2>&1 | tee "$RUNNER_TEMP/week8-runner-ci/pytest-all.txt"
-          code=${PIPESTATUS[0]}
-          printf '{"returncode":%s}\n' "$code" > "$RUNNER_TEMP/week8-runner-ci/test-exit.json"
-          exit "$code"
+          python - <<'PY'
+          import json,os,pathlib,subprocess
+          from ou_irregular.experiments.provenance import environment
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'week8-runner-ci'
+          (out/'runtime.json').write_text(json.dumps(environment(),indent=2)+'\n')
+          old=subprocess.check_output([os.environ['RUNNER_TEMP']+'/ou-legacy-env/bin/python','-c','import json;from ou_irregular.experiments.provenance import environment;print(json.dumps(environment()))'],text=True)
+          historical=json.loads(old)
+          for name in ['artifacts/week5_e1/run_metadata.json','artifacts/week6_e2/run_metadata.json','artifacts/week7_recovery_evidence/floor_audit_current_capture/archive/run_metadata.json']:
+              saved=json.loads(pathlib.Path(name).read_text())['provenance']['environment']
+              assert historical==saved,(name,historical,saved)
+          (out/'legacy-runtime.json').write_text(json.dumps(historical,indent=2)+'\n')
+          saved=json.loads(pathlib.Path('artifacts/week8_development/audit/ci/native_fixture/native_archive/run_metadata.json').read_text())['provenance']['environment']
+          assert environment()==saved,(environment(),saved)
+          PY
+          preflight=$?
+          if [ "$preflight" -ne 0 ]; then exit "$preflight"; fi
+          printf '%s\n' 'Unset MKL_NUM_THREADS and VECLIB_MAXIMUM_THREADS; OPENBLAS_NUM_THREADS=OMP_NUM_THREADS=1' 'python -m pytest -q -ra tests --ignore=tests/week7/test_plots_integrity.py --ignore=tests/week7/test_plots_reference.py --ignore=tests/week7/test_selection.py' 'legacy-python -m pytest -q -ra tests/week7/test_plots_integrity.py tests/week7/test_plots_reference.py tests/week7/test_selection.py' > "$RUNNER_TEMP/week8-runner-ci/test-command.txt"
+          python -m pytest -q -ra tests --ignore=tests/week7/test_plots_integrity.py --ignore=tests/week7/test_plots_reference.py --ignore=tests/week7/test_selection.py 2>&1 | tee "$RUNNER_TEMP/week8-runner-ci/pytest-current.txt"
+          current=${PIPESTATUS[0]}
+          "$RUNNER_TEMP/ou-legacy-env/bin/python" -m pytest -q -ra tests/week7/test_plots_integrity.py tests/week7/test_plots_reference.py tests/week7/test_selection.py 2>&1 | tee "$RUNNER_TEMP/week8-runner-ci/pytest-historical.txt"
+          historical=${PIPESTATUS[0]}
+          printf '{"current_returncode":%s,"historical_returncode":%s}\n' "$current" "$historical" > "$RUNNER_TEMP/week8-runner-ci/test-exit.json"
+          test "$current" -eq 0 && test "$historical" -eq 0
       - name: Verify native evidence and prepare publication tree without moving refs
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          unset MKL_NUM_THREADS VECLIB_MAXIMUM_THREADS
           python - <<'PY'
           import base64,hashlib,json,os,pathlib,subprocess
           from ou_irregular.week8 import runner
           out=pathlib.Path(os.environ['RUNNER_TEMP'])/'week8-runner-ci'; root=pathlib.Path.cwd(); repo=os.environ['GITHUB_REPOSITORY']
           candidate=json.loads((out/'candidate.json').read_text()); base=candidate['base_commit']
-          native=out/'runner_fixture/native_archive'
-          verified=runner.verify_run(native)
+          native=out/'runner_fixture/native_archive'; verified=runner.verify_run(native)
           a=verified['audit'];m=verified['metadata']
           assert a['planned_paths']==a['source_paths_verified']==28 and a['planned_fit_records']==84 and a['replayed_fits']==42
           assert a['pipeline_errors']==0 and a['full_completion_audit'] is True
           assert m['status']=='audited_pending_visual_review' and not (native/'visual_review.json').exists()
-          summary={'candidate_commit':candidate['candidate_commit'],'workflow_run_id':os.environ['GITHUB_RUN_ID'],'regression_test_exit':0,'native_validation':{'paths':a['planned_paths'],'fits':a['planned_fit_records'],'source_hashes':a['source_array_hashes_verified'],'trace_hashes':a['schedule_trace_hashes_verified'],'replayed_fits':a['replayed_fits'],'pipeline_errors':a['pipeline_errors'],'status':m['status'],'figure_pairs':len(verified['figures']['figures'])//2},'actual_visual_review_pending':True,'full_E4_started':False}
+          summary={'candidate_commit':candidate['candidate_commit'],'workflow_run_id':os.environ['GITHUB_RUN_ID'],'regression_test_exit':json.loads((out/'test-exit.json').read_text()),'regression_summaries':{name:(out/name).read_text().splitlines()[-12:] for name in ['pytest-current.txt','pytest-historical.txt']},'native_validation':{'paths':a['planned_paths'],'fits':a['planned_fit_records'],'source_hashes':a['source_array_hashes_verified'],'trace_hashes':a['schedule_trace_hashes_verified'],'replayed_fits':a['replayed_fits'],'pipeline_errors':a['pipeline_errors'],'status':m['status'],'figure_pairs':len(verified['figures']['figures'])//2},'actual_visual_review_pending':True,'full_E4_started':False}
           (out/'ci_summary.json').write_text(json.dumps(summary,indent=2)+'\n')
           def api(path,value=None):
               args=['gh','api',f'repos/{repo}/{path}']
@@ -97,9 +136,12 @@ jobs:
               entries.append({'path':name,'mode':'100644','type':'blob','sha':blobs[digest]})
               records[name]={'git_blob':blobs[digest],'sha256':digest,'bytes':len(data)}
           tree=api('git/trees',{'base_tree':api('git/commits/'+base)['tree']['sha'],'tree':entries})['sha']
-          (out/'publication.json').write_text(json.dumps({'base_commit':base,'tree_sha':tree,'files':records,'scientific_refs_updated':False},indent=2)+'\n')
+          publication={'base_commit':base,'tree_sha':tree,'files':records,'scientific_refs_updated':False}
+          (out/'publication.json').write_text(json.dumps(publication,indent=2)+'\n')
+          # Small readback file on the validation branch only; scientific ref remains unchanged.
+          readback={'summary':summary,'publication_tree':tree,'base_commit':base}
+          api('contents/runner-ci-result.json',{'message':'Record observed runner validation and prepared scientific tree','branch':'validation/week8-runner-20261031','content':base64.b64encode((json.dumps(readback,indent=2)+'\n').encode()).decode()})
           print('PUBLICATION_TREE='+tree)
-          print(json.dumps(summary,sort_keys=True))
           PY
       - name: Retain every original output, including failures and hidden lock files
         if: always()
