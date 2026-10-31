@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: '3.12.14'
       - run: python -m pip install -r requirements-lock.txt
-      - name: Verify original analytical evidence, complete validation and exact image-review binding
+      - name: Verify analytical evidence and bind the actual prior inspection to identical integrated figures
         run: |
           set -euo pipefail
           unset MKL_NUM_THREADS VECLIB_MAXIMUM_THREADS
@@ -56,14 +56,11 @@ jobs:
           pngs={n:digest(archive/'figures'/n) for n in verified['figures']['figures'] if n.endswith('.png')}
           assert old['all_panels_legible'] is True and len(pngs)==18
           assert pngs==old['figure_sha256'] and sorted(pngs)==sorted(old['reviewed_pngs'])
-          review={'reviewer':old['reviewer'],'reviewed_at_utc':old['reviewed_at_utc'],
-             'bound_to_integrated_archive_at_utc':utc_now(),'scope':'Fixed R=4 integrated validation; actual visual judgment reused only for byte-identical images',
-             'all_panels_legible':True,'reviewed_pngs':sorted(pngs),'figure_manifest_sha256':digest(archive/'figures/figure_manifest.json'),
-             'figure_sha256':pngs,'new_visual_inspection_performed':False,
-             'based_on':{'path':str(oldpath.relative_to(root)),'sha256':digest(oldpath)},
-             'notes':['All 18 original PNG byte hashes match the previously actually inspected images exactly.',
-                      'The new figure-manifest binding belongs to the complete R=4 runner; numerical validation is independently recorded in its full audit.',
-                      'No new inspection is claimed, no synthetic test review is used, and this record cannot certify full R=2000 figures.']}
+          review={'reviewer':old['reviewer'],'reviewed_at_utc':old['reviewed_at_utc'],'bound_to_integrated_archive_at_utc':utc_now(),
+              'scope':'Fixed R=4 integrated validation; actual visual judgment reused only for byte-identical images',
+              'all_panels_legible':True,'reviewed_pngs':sorted(pngs),'figure_manifest_sha256':digest(archive/'figures/figure_manifest.json'),
+              'figure_sha256':pngs,'new_visual_inspection_performed':False,'based_on':{'path':str(oldpath.relative_to(root)),'sha256':digest(oldpath)},
+              'notes':['All 18 original PNG byte hashes match the previously actually inspected images exactly.','The new manifest belongs to the integrated R=4 runner; its independent full audit supplies numerical validation.','No new inspection is claimed, no synthetic test review is used, and this record cannot certify full R=2000 figures.']}
           runner.seal_run(archive,review)
           checked=runner.verify_run(archive,require_completed=True)
           before={str(p.relative_to(archive)):digest(p) for p in archive.rglob('*') if p.is_file()}
@@ -71,74 +68,31 @@ jobs:
           assert before=={str(p.relative_to(archive)):digest(p) for p in archive.rglob('*') if p.is_file()}
           assert replot['figures']==checked['figures']['figures'],'native exact figure reproduction changed'
           gate={'schema_version':1,'status':'passed','checked_utc':utc_now(),'implementation_commit':'edf0867494f1a040b6cd71d03d5feb6236343b40',
-             'validation_origin_commit':checked['metadata']['provenance']['code_commit'],'workflow_run_id':os.environ['GITHUB_RUN_ID'],
-             'all_tests_accounted':2061,'tests_passed':2055,'design_inapplicable_skips':summary['skips'],'test_failures':0,
-             'source_only_sequences':1536,'source_only_checks':108,'source_only_artifact_hashes_verified':len(analytical['artifacts']),
-             'validation_status':checked['metadata']['status'],'validation_paths':28,'validation_fits':84,'replayed_fits':42,'pipeline_errors':0,
-             'validation_audit_sha256':digest(archive/'audit.json'),'validation_visual_review_sha256':digest(archive/'visual_review.json'),
-             'all_18_pngs_identical_to_prior_actual_inspection':True,'all_36_replot_files_byte_identical':True,'source_archive_unchanged_by_replot':True,
-             'full_E4_observations_generated':0,'full_E4_fits_generated':0,'scientific_parameters_or_thresholds_changed':False}
+              'validation_origin_commit':checked['metadata']['provenance']['code_commit'],'workflow_run_id':os.environ['GITHUB_RUN_ID'],
+              'all_tests_accounted':2061,'tests_passed':2055,'design_inapplicable_skips':summary['skips'],'test_failures':0,
+              'source_only_sequences':1536,'source_only_checks':108,'source_only_artifact_hashes_verified':len(analytical['artifacts']),
+              'validation_status':checked['metadata']['status'],'validation_paths':28,'validation_fits':84,'replayed_fits':42,'pipeline_errors':0,
+              'validation_audit_sha256':digest(archive/'audit.json'),'validation_visual_review_sha256':digest(archive/'visual_review.json'),
+              'all_18_pngs_identical_to_prior_actual_inspection':True,'all_36_replot_files_byte_identical':True,'source_archive_unchanged_by_replot':True,
+              'full_E4_observations_generated':0,'full_E4_fits_generated':0,'scientific_parameters_or_thresholds_changed':False}
           write(out/'validation_gate.json',gate)
           write(out/'seal_readback.json',{'metadata':checked['metadata'],'audit':checked['audit']})
-          (out/'week8_runner_validation.md').write_text('''# Week 8 integrated runner validation and release gate
-
-The complete runner is published at `edf0867494f1a040b6cd71d03d5feb6236343b40`.
-CI run 41198942670 accounted for all 2,061 collected test cases: 2,055 passed,
-six existing design-inapplicable skips, zero failures and zero errors. The six
-skips are floor-only checks instantiated for the non-paired follow-up fixture;
-none waives a scientific failure or the strict historical replay. Exact test
-names, reasons, commands, native outputs and runtime are retained in
-`artifacts/week8_development/runner/ci/41198942670/`.
-
-The fixed integrated R=4 CLI generated all seven cells, 28 independent paths and
-84 fitted records using seed 21261011. Its independent audit reconstructed every
-source and replayed 42 endpoint fits. The pipeline had zero exceptions. The
-original CLI evidence remains unchanged. A separate copy is sealed in
-`artifacts/week8_validation/`; its figure-renderer state is retained alongside it.
-
-Every one of its 18 PNG files is byte-for-byte identical to the images actually
-inspected earlier in the plotting-module review. The integrated visual record
-explicitly reuses that prior judgment with original reviewer/time and per-image
-hashes, and binds the new figure manifest. It does not pretend a new visual
-inspection occurred. No synthetic unit-test attestation is used. External
-replotting reproduced all 36 PNG/PDF files byte-for-byte without modifying the
-sealed source archive. The observed gate is in
-`artifacts/week8_evidence/validation_gate.json`.
-
-The source-only validation remains 1,536 sequences and 108 passed checks, with
-all declared files rehashed at this gate. It did not generate fitted OU data.
-
-## CI recovery and historical reproducibility
-
-Earlier workflows and their unsuccessful outputs remain on the validation
-branches and in the retained diagnostic evidence. Workflow ordering, spawn-safe
-pytest entry and historical/current dependency environments were corrected;
-scientific code, archived outputs, seeds, thresholds and assertions were not
-changed to obtain a green run. The strict Week3 replay is run in its own process
-with the same exact input-hash and fitted-value assertions. All four historical
-isolation tests pass, with no skip. All other collected cases run separately and
-the unique case counts are checked against complete collection.
-
-A separate diagnostic reconstructed all 180 archived Week3 sources exactly and
-reproduced the selected fitted values bit-for-bit under its default CPU dispatch.
-Disabling AVX-512 on that same diagnostic host changed some observation hashes.
-This demonstrates hardware-dependent floating-point reproducibility; it does not
-prove the exact cause of the earlier combined-process failure, whose CPU state
-was not captured. The successful run records CPU flags, dispatch and NumPy/BLAS
-runtime alongside pinned package versions. Exact replay on a different machine
-must verify the recorded hashes rather than assume version equality is enough.
-See NumPy's CPU-dispatch documentation and compatibility policy:
-https://numpy.org/doc/2.4/reference/simd/build-options.html
-https://numpy.org/doc/stable/reference/random/compatibility.html
-
-This gate certifies the stated implementation and development validation only.
-Full E4 data had not been generated at the gate. Full R=2000 execution, its own
-complete audit, actual new-figure inspection, results interpretation and final
-publication are still required before claiming the extension complete.
-''')
+          paragraphs=[
+              '# Week 8 integrated runner validation and release gate',
+              'The complete runner is published at `edf0867494f1a040b6cd71d03d5feb6236343b40`. CI run 41198942670 accounted for all 2,061 collected test cases: 2,055 passed, six existing design-inapplicable skips, zero failures/errors. The six skips are floor-only checks instantiated for the non-paired follow-up fixture; none waives a scientific failure or strict historical replay. Exact names, reasons, commands and outputs are retained in `artifacts/week8_development/runner/ci/41198942670/`.',
+              'The fixed integrated R=4 CLI generated all seven cells, 28 independent paths and 84 fitted records using seed 21261011. Its independent audit reconstructed every source and replayed 42 endpoint fits. The pipeline had zero exceptions. Original CLI evidence remains unchanged. A separate copy is sealed in `artifacts/week8_validation/`, with its figure-renderer state alongside it.',
+              'Every one of its 18 PNG files is byte-for-byte identical to the images actually inspected earlier in the plotting-module review. The integrated visual record explicitly reuses that prior judgment with original reviewer/time and per-image hashes, while binding the new figure manifest. It does not pretend a new visual inspection occurred. No synthetic unit-test attestation is used. External replotting reproduced all 36 PNG/PDF files byte-for-byte without changing the sealed archive. See `artifacts/week8_evidence/validation_gate.json`.',
+              'The source-only validation remains 1,536 sequences and 108 passed checks, with every declared artifact rehashed at this gate. It did not generate fitted OU data.',
+              '## CI recovery and historical reproducibility',
+              'Earlier workflows and unsuccessful outputs remain on validation branches and in retained diagnostics. Workflow ordering, spawn-safe pytest entry and historical/current dependency environments were corrected; scientific code, archived outputs, seeds, thresholds and assertions were not changed to obtain a green run. The strict Week3 replay runs in its own process with the same exact input-hash and fitted-value assertions. All four historical isolation tests passed without skips. All other cases ran separately; unique test counts were checked against complete collection.',
+              'A separate diagnostic reconstructed all 180 archived Week3 sources exactly and reproduced the selected fitted values bit-for-bit under its default CPU dispatch. Disabling AVX-512 on that same host changed some observation hashes. This demonstrates hardware-dependent floating-point reproducibility, but does not prove the exact cause of the earlier combined-process failure, whose CPU state was not captured. The successful run records CPU flags, dispatch and NumPy/BLAS runtime alongside pinned versions. Exact replay elsewhere must verify hashes, not assume matching package versions suffice.',
+              'Primary references: https://numpy.org/doc/2.4/reference/simd/build-options.html and https://numpy.org/doc/stable/reference/random/compatibility.html .',
+              'This gate certifies the stated implementation and development validation only. Full E4 data had not been generated at the gate. Full R=2000 execution, its complete audit, actual new-figure inspection, interpretation and final publication remain required before calling the extension complete.'
+          ]
+          (out/'week8_runner_validation.md').write_text('\n\n'.join(paragraphs)+'\n')
           print(json.dumps(gate,indent=2))
           PY
-      - name: Prepare sealed-validation publication without moving the scientific branch
+      - name: Prepare publication without moving scientific refs
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
