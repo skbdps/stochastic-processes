@@ -1,0 +1,3 @@
+# Saved-table figure validation plan — 31 October 2026
+
+The auditor checkpoint was published at941254cc88c3432aba1d8fe3605c3082636d803d before plotting implementation. Use only copies of its retained CI R=4 fixture and full audit report. No schedules, observations, fits, or new scientific experiments will be generated. Test complete 18-single-axis figure content, plotted saved values, explicit NA and zero-log-ratio handling, full-audit bindings, raw/table/endpoint/renderer corruption, immutable partial adoption, whole-candidate preflight, and root drift. Retain every failed invocation and original source/test versions; do not modify the scientific fixture to produce better results. Inspect actual rendered validation PNGs separately from unit-test success.

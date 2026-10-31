@@ -1,0 +1,1 @@
+PASS: 38 exact files restored; compressed payload SHA-256 verified.

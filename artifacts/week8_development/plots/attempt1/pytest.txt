@@ -1,0 +1,36 @@
+...........................F...............................              [100%]
+=================================== FAILURES ===================================
+______ test_zero_ratio_has_explicit_off_log_scale_label_not_false_missing ______
+
+    def test_zero_ratio_has_explicit_off_log_scale_label_not_false_missing():
+        fig, ax = plt.subplots()
+        try:
+>           plots._series(ax, [0,1], [0,1], [np.nan,.5], [np.nan,2], label='literal', marker='o', gid='test', ratio=True)
+
+tests/week8/test_plots.py:124: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ou_irregular/week8/plots.py:125: in _series
+    require(not ratio or np.all(y[finite] > 0) and np.all(lower[interval] > 0), "log-ratio points and bounds must be positive")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+condition = np.False_, message = 'log-ratio points and bounds must be positive'
+
+    def require(condition, message):
+        if not condition:
+>           raise ValueError(message)
+E           ValueError: log-ratio points and bounds must be positive
+
+ou_irregular/week8/plots.py:48: ValueError
+=============================== warnings summary ===============================
+tests/week8/test_plots.py::test_native_render_has_all_pairs_and_repeat_is_pure
+tests/week8/test_plots.py::test_identical_partial_adoption_recreates_only_missing_pair
+tests/week8/test_plots.py::test_conflicting_late_partial_blocks_every_missing_output
+tests/week8/test_plots.py::test_incomplete_pair_fails_before_state_or_figure_publication
+tests/week8/test_plots.py::test_root_drift_during_rendering_preserves_outside_write
+  /mnt/data/stochastic-processes/ou_irregular/week8/plots.py:96: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
+    fig, ax = plt.subplots(figsize=(10.6, 7.0))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/week8/test_plots.py::test_zero_ratio_has_explicit_off_log_scale_label_not_false_missing - ValueError: log-ratio points and bounds must be positive
+1 failed, 58 passed, 5 warnings in 74.22s (0:01:14)

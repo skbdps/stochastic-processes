@@ -1,0 +1,15 @@
+{
+  "command": [
+    "/opt/hostedtoolcache/Python/3.12.14/x64/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/week8/test_plots.py"
+  ],
+  "source_sha256": {
+    "ou_irregular/week8/plots.py": "d29b4dbca4f0bd7c22154bb3c81552fccee49f8cfbde87ad9d6f3277dae94ab7",
+    "tests/week8/test_plots.py": "27cecfc3d7819ad0be956917b37e79ff30a15570999f650f0bdf43339334448a",
+    "docs/week8_plots.md": "e646199d8b592a1787da14d3973a4a8ca0846a877a6cccaf2cd327fa05ad7687"
+  },
+  "new_scientific_sources_or_fits": false
+}

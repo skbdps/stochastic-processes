@@ -1,0 +1,12 @@
+{
+  "scope": "isolate module import-closure probes from unrelated pytest collection imports",
+  "production_source_changed": false,
+  "source_draws": 0,
+  "fits": 0,
+  "initial_failure": "ou_irregular/week8/plots.py from test collection incorrectly counted as auditor dependency",
+  "final_checks_passed": 2,
+  "sha256": {
+    "tests/week8/test_audit.py": "ae231ba75f4ecb318a287fb7a95ecd919a199dc2be2c2b4d282f3b9cd944530e",
+    "tests/week8/test_plots.py": "4b04c1d895ee5fe0614a1dbbc47103817855e0fcc7fbd8bff4a07c79d6392449"
+  }
+}

@@ -16,6 +16,7 @@ import math
 import os
 from pathlib import Path
 import shutil
+import subprocess
 import sys
 
 import numpy as np
@@ -219,14 +220,20 @@ def test_literal_independent_contrasts_and_source_uncertainty_do_not_call_produc
 
 
 def test_declared_source_closure_covers_imported_repository_modules():
-    required = set(CORE_FILES)|set(audit.FILES)
-    modules = []
-    for name,module in list(sys.modules.items()):
-        path = getattr(module,'__file__',None)
-        if name.startswith('ou_irregular.') and path and Path(path).resolve().is_relative_to(ROOT):
-            relative = str(Path(path).resolve().relative_to(ROOT))
-            modules.append(relative)
-    assert set(modules) <= required, set(modules)-required
+    # Inspect this module's own import closure in a fresh process. Pytest also
+    # imports later-stage tests; their unrelated modules are not audit dependencies.
+    probe = """import json, sys
+from pathlib import Path
+from ou_irregular.experiments.provenance import ROOT, CORE_FILES
+from ou_irregular.week8 import audit
+modules = {str(Path(m.__file__).resolve().relative_to(ROOT))
+           for n,m in list(sys.modules.items()) if n.startswith('ou_irregular.')
+           and getattr(m,'__file__',None) and Path(m.__file__).resolve().is_relative_to(ROOT)}
+print(json.dumps(sorted(modules - (set(CORE_FILES)|set(audit.FILES)))))
+"""
+    result = subprocess.run([sys.executable, '-c', probe], cwd=ROOT,
+                            text=True, capture_output=True, check=True)
+    assert json.loads(result.stdout) == []
 
 
 def test_native_complete_source_geometry_tables_and_fixed_endpoint_replay(native):

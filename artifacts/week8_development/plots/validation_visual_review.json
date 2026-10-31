@@ -1,0 +1,53 @@
+{
+  "reviewer": "ChatGPT actual rendered-image inspection",
+  "reviewed_at_utc": "2026-10-31T00:04:16.123676+00:00",
+  "scope": "plotting-module validation only; not full E4 pipeline completion",
+  "all_panels_legible": true,
+  "reviewed_pngs": [
+    "W8_availability.png",
+    "W8_coverage_mu.png",
+    "W8_coverage_sigma.png",
+    "W8_coverage_theta.png",
+    "W8_matched_bias_mu.png",
+    "W8_matched_bias_sigma.png",
+    "W8_matched_bias_theta.png",
+    "W8_matched_coverage_mu.png",
+    "W8_matched_coverage_sigma.png",
+    "W8_matched_coverage_theta.png",
+    "W8_matched_rmse_ratio_mu.png",
+    "W8_matched_rmse_ratio_sigma.png",
+    "W8_matched_rmse_ratio_theta.png",
+    "W8_source_adjacent_product.png",
+    "W8_source_clipping.png",
+    "W8_source_cv.png",
+    "W8_source_mean.png",
+    "W8_source_span_sd.png"
+  ],
+  "figure_manifest_sha256": "f834c5831a73309c071e812810afffcb0cf0e16627c8ecd47107a0268d03aac8",
+  "figure_sha256": {
+    "W8_availability.png": "de153cd527a1532d0235c4318f3f59e9ada3cd3ab76e0dcef205f4a4d982d691",
+    "W8_coverage_mu.png": "6a0a84cf26925d4b2feab852e339ab1a3667d736a02f49e401a817efe63a7f7f",
+    "W8_coverage_sigma.png": "68e1caaf74ed429c1ab27af7f8bc3dfec98b2f3d565c22594648a7065d7efb6c",
+    "W8_coverage_theta.png": "d1b9f0b935fa375c9d9f322bc251e7e94c858cac5a500983dce50521392688b2",
+    "W8_matched_bias_mu.png": "bfc94c62453e940c264b82f46836917f805726f0f86a677c5656bb5e352a4c29",
+    "W8_matched_bias_sigma.png": "cb9d4bb7ec8c48f443f6f9f01bc9fee08848c203ef3e4d5022b90933eb734191",
+    "W8_matched_bias_theta.png": "9cfcbf7f11b1013399482958b180900650c186ad5ff5ad8379f914cd5af8315b",
+    "W8_matched_coverage_mu.png": "9ee7e1406e937261d5095a9be25368c5cb440e8b4c27dac6c3abb249d6018315",
+    "W8_matched_coverage_sigma.png": "d817a60530235649e39335fb14d5572d4aea7bfa2e741b1cf55f5d0d740e6f97",
+    "W8_matched_coverage_theta.png": "eece9f66a26c759ca06d2ee2d240615d3953e9b486836a40e6f3d45942b4c8bd",
+    "W8_matched_rmse_ratio_mu.png": "1401a114bc14aedb79b8d99e855a1f66443afca692ac5ea9969dd9c259e20adb",
+    "W8_matched_rmse_ratio_sigma.png": "f19cab48dbe0f3be8e9b4e2646815aabf3deb09a4b8ded73bae3ded173fa651e",
+    "W8_matched_rmse_ratio_theta.png": "dabb84f34718bf400dfe9b71f4894e350cf5cac5a4e3503098309c8df1368fbe",
+    "W8_source_adjacent_product.png": "5b5134b34410c8fa25e4a0f10d6eefd945cdcc730992120900cdddb387b2f171",
+    "W8_source_clipping.png": "c576eeee170eeae898ae97f7540bc1f12cad197c35963dbe52617c44744f2bd9",
+    "W8_source_cv.png": "a828a30029bd7ecc9488688c3121adb77d415bec1fdef7459a8dcb16971015e1",
+    "W8_source_mean.png": "2f8f3cf36fbd0af6306e38b020e7e6ab4d06f48d60ae7c612f0cc210ef9815a1",
+    "W8_source_span_sd.png": "72f8ea8f70ce245f6f0ed0137e77bf76f9c561829fd7ea4f5e7fbed32e1e160b"
+  },
+  "notes": [
+    "All18 rendered contents were inspected; 17 final PNGs are byte-identical to the inspected attempt2 render, and the final clipping PNG is byte-identical to the inspected attempt3 render.",
+    "Some images were inspected through decoded JPEG review copies after the image tool failed to display a valid PNG. Original PNGs were retained and their decoded content verified.",
+    "Single-axis labels, legends, units, role labels and captions are legible. The zero-clipping axis is nonnegative. No statistical conclusion is drawn from R=4 validation.",
+    "This record does not assert visual inspection of the vector PDF files or certify any full R=2000 experiment."
+  ]
+}
