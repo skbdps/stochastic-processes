@@ -1,0 +1,118 @@
+name: Historical replay diagnosis
+on:
+  push:
+    branches: [validation/week8-replay-diagnostic-20261031]
+    paths: [.github/workflows/week8-replay-diagnostic.yml]
+permissions:
+  contents: write
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MPLCONFIGDIR: /tmp/ou-replay-diagnostic-mpl
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12.14'
+      - name: Install pinned runtime and preserve immutable inputs
+        run: |
+          set -euo pipefail
+          python -m pip install -r requirements-lock.txt
+          mkdir -p "$RUNNER_TEMP/replay-diagnostic"
+          git diff --exit-code 0dafc6ccf2a02133c503867df0211d1d164b9d9e HEAD -- ou_irregular tests artifacts
+          python -m pip freeze > "$RUNNER_TEMP/replay-diagnostic/dependencies.txt"
+          lscpu > "$RUNNER_TEMP/replay-diagnostic/cpu.txt"
+      - name: Run isolated historical test and compare same-input CPU-dispatch variants
+        run: |
+          set -euo pipefail
+          export PYTHONPATH="$GITHUB_WORKSPACE"
+          cat > "$RUNNER_TEMP/replay-diagnostic/probe.py" <<'PY'
+          import contextlib,hashlib,io,json,os,pathlib,platform,sys
+          import numpy as np
+          import pandas as pd
+          from numpy._core import _multiarray_umath
+          from ou_irregular import runner
+          from ou_irregular.config import load_config
+          from ou_irregular.ou import simulate_ou
+          from ou_irregular.spacing import generate_times
+          root=pathlib.Path.cwd();out=pathlib.Path(os.environ['RUNNER_TEMP'])/'replay-diagnostic';label=sys.argv[1]
+          archive=root/'artifacts/week3_validation_rerun'
+          metadata=json.loads((archive/'run_metadata.json').read_text());config=load_config(archive/'config.yaml')
+          saved=pd.read_csv(archive/'replications.csv',float_precision='round_trip')
+          result={'label':label,'platform':platform.platform(),'python':sys.version,'disabled_features':os.environ.get('NPY_DISABLE_CPU_FEATURES'),'cpu_features':_multiarray_umath.__cpu_features__,'cpu_dispatch':_multiarray_umath.__cpu_dispatch__,'source_matches':runner._provenance(config)['source_sha256']==metadata['source_sha256'],'historical_platform':metadata['platform'],'provenance_differences':runner.provenance_differences(metadata,runner._provenance(config)),'cells':[]}
+          for name,digest in metadata['output_sha256'].items():assert hashlib.sha256((archive/name).read_bytes()).hexdigest()==digest,name
+          selected=None
+          for cell in config.cells():
+              mismatches=[]
+              for rep in range(config.replications):
+                  gr,pr,_=runner.replication_streams(config.seed,cell['cell_id'],rep)
+                  spacing=generate_times(cell['n'],cell['mean_gap'],cell['cv'],gr,floor_fraction=cell['floor_fraction'],floor_cv_threshold=cell['floor_cv_threshold'])
+                  x=simulate_ou(cell['true_theta'],cell['true_mu'],cell['true_sigma'],spacing.times,pr)
+                  row=saved[(saved.cell_id==cell['cell_id'])&(saved.rep==rep)].iloc[0]
+                  hashes={'times_sha256':runner.array_digest(spacing.times),'observations_sha256':runner.array_digest(x)}
+                  if any(hashes[k]!=row[k] for k in hashes):mismatches.append({'rep':rep,'actual':hashes,'expected':{k:row[k] for k in hashes}})
+                  if cell['cv']==2 and cell['theta_mean_gap']==.5 and rep==0:
+                      selected=(cell,spacing.times,x)
+                      np.savez(out/(label+'-arrays.npz'),times=spacing.times,observations=x)
+              result['cells'].append({'cell_id':cell['cell_id'],'cv':cell['cv'],'q':cell['theta_mean_gap'],'sources':config.replications,'mismatches':mismatches})
+          cell,times,x=selected
+          actual=pd.DataFrame(runner.run_replication(config,cell,0)[0]).sort_values('estimator').reset_index(drop=True)
+          wanted=saved[(saved.cell_id==cell['cell_id'])&(saved.rep==0)].sort_values('estimator').reset_index(drop=True)
+          fields=['theta','mu','sigma','nll']
+          result['selected_fit']={'actual':actual[['estimator',*fields]].to_dict('records'),'expected':wanted[['estimator',*fields]].to_dict('records'),'max_abs_difference':float(np.max(np.abs(actual[fields].to_numpy()-wanted[fields].to_numpy()))),'bitwise_equal':bool(np.array_equal(actual[fields].to_numpy(),wanted[fields].to_numpy()))}
+          result['source_mismatch_count']=sum(len(c['mismatches']) for c in result['cells'])
+          result['times_mismatch_count']=sum(m['actual']['times_sha256']!=m['expected']['times_sha256'] for c in result['cells'] for m in c['mismatches'])
+          with contextlib.redirect_stdout(io.StringIO()) as details:np.show_runtime();np.show_config()
+          (out/(label+'-numpy-runtime.txt')).write_text(details.getvalue())
+          (out/(label+'.json')).write_text(json.dumps(result,indent=2)+'\n')
+          print(label,result['source_mismatch_count'],result['times_mismatch_count'],result['selected_fit']['max_abs_difference'])
+          PY
+          set +e
+          python -m pytest -q -ra tests/week4/test_week3_isolation.py > "$RUNNER_TEMP/replay-diagnostic/isolated-test.txt" 2>&1
+          code=$?
+          set -e
+          printf '{"returncode":%s}\n' "$code" > "$RUNNER_TEMP/replay-diagnostic/isolated-test-exit.json"
+          python "$RUNNER_TEMP/replay-diagnostic/probe.py" default
+          disabled=$(python -c "from numpy._core import _multiarray_umath as m;print(','.join(x for x in m.__cpu_dispatch__ if x.startswith('AVX512')))")
+          NPY_DISABLE_CPU_FEATURES="$disabled" python "$RUNNER_TEMP/replay-diagnostic/probe.py" no-avx512
+          disabled=$(python -c "from numpy._core import _multiarray_umath as m;print(','.join(m.__cpu_dispatch__))")
+          NPY_DISABLE_CPU_FEATURES="$disabled" python "$RUNNER_TEMP/replay-diagnostic/probe.py" baseline-dispatch
+          python - <<'PY'
+          import json,os,pathlib,numpy as np
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'replay-diagnostic'
+          base=np.load(out/'default-arrays.npz');comparison={}
+          for label in ['no-avx512','baseline-dispatch']:
+              other=np.load(out/(label+'-arrays.npz'))
+              comparison[label]={name:{'array_equal':bool(np.array_equal(base[name],other[name])),'different_elements':int(np.count_nonzero(base[name]!=other[name])),'max_abs_difference':float(np.max(np.abs(base[name]-other[name])))} for name in base.files}
+          (out/'variant-comparison.json').write_text(json.dumps(comparison,indent=2)+'\n')
+          PY
+      - name: Publish diagnostic readback only
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import base64,json,os,pathlib,subprocess
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'replay-diagnostic'
+          result={'workflow_run_id':os.environ['GITHUB_RUN_ID'],'code_commit':os.environ['GITHUB_SHA'],'purpose':'diagnosis only; no tests weakened, no archive mutation, no full E4 run'}
+          for name in ['isolated-test.txt','isolated-test-exit.json','default.json','no-avx512.json','baseline-dispatch.json','variant-comparison.json','cpu.txt']:
+              path=out/name
+              if path.exists():result[name]=json.loads(path.read_text()) if name.endswith('.json') else path.read_text()
+          payload={'message':'Retain historical replay runtime diagnosis','branch':'validation/week8-replay-diagnostic-20261031','content':base64.b64encode((json.dumps(result,indent=2)+'\n').encode()).decode()}
+          subprocess.run(['gh','api','repos/'+os.environ['GITHUB_REPOSITORY']+'/contents/replay-diagnostic-'+os.environ['GITHUB_RUN_ID']+'.json','--method','PUT','--input','-'],input=json.dumps(payload),text=True,check=True,stdout=subprocess.DEVNULL)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: replay-runtime-diagnostic-${{ github.run_id }}
+          path: ${{ runner.temp }}/replay-diagnostic/
+          retention-days: 30
+          include-hidden-files: true
+          if-no-files-found: error
