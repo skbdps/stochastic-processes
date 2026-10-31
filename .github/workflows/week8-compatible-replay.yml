@@ -1,0 +1,51 @@
+name: Historical replay with explicit compatible CPU preflight
+on:
+  push:
+    branches: [codex/week8-compatible-replay-20261031]
+    paths: [.github/workflows/week8-compatible-replay.yml]
+permissions:
+  contents: read
+jobs:
+  replay:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MPLCONFIGDIR: /tmp/ou-strict-replay-mpl
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          path: control
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: 0ff57919f5d8345f52d8689732ff94448ca3ca1d
+          fetch-depth: 0
+          path: science
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12.14'
+      - name: Install unchanged numerical packages
+        working-directory: science
+        run: python -m pip install -r requirements-lock.txt
+      - name: Capture hardware and run unchanged strict test only on compatible CPU
+        working-directory: science
+        run: |
+          set -euo pipefail
+          unset MKL_NUM_THREADS VECLIB_MAXIMUM_THREADS
+          export PYTHONPATH="$PWD:$GITHUB_WORKSPACE/control/scripts"
+          python -u ../control/scripts/week8_strict_replay.py "$RUNNER_TEMP/strict-replay"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: week8-compatible-replay-${{ matrix.os }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/strict-replay/
+          include-hidden-files: true
+          retention-days: 60
+          if-no-files-found: warn
