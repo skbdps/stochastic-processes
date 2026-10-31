@@ -1,0 +1,13 @@
+{
+  "base_commit": "7dfe7e191bc4e9516142e141b9208fd0fd4fd0dc",
+  "candidate_commit": "75a7875664fbfede55361b35cf17db707e3d211c",
+  "source_sha256": {
+    "ou_irregular/week8/runner.py": "9ce6c169f9e50476fa68bf70ebc64d3ed99e143da7bc169076da2b34e881e5f7",
+    "tests/week8/test_runner.py": "12af966502041ec8c91a45c80343fb2d44a614adde2506ab41558aafff1b4a47",
+    "docs/week8_runner.md": "3bc24e64d55fee1ffb33bb1242947eaf4395104e1f29cb8f81ab9435401f3b7d"
+  },
+  "run_id": "41198942670",
+  "scientific_sources_unchanged": true,
+  "full_E4_started": false,
+  "change": "CI process isolation only: all original test cases remain required; strict replay assertions are unchanged."
+}

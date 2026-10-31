@@ -1,0 +1,59 @@
+{
+  "run_id": "41198942670",
+  "candidate_commit": "75a7875664fbfede55361b35cf17db707e3d211c",
+  "all_collected_tests_accounted_for": 2061,
+  "counts": {
+    "strict-replay.xml": {
+      "tests": 4,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "current.xml": {
+      "tests": 1920,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 6
+    },
+    "historical.xml": {
+      "tests": 137,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    }
+  },
+  "skips": [
+    {
+      "test": "tests.week7.test_reporting_reference.test_saved_standard_metrics_use_own_valid_fits_and_keep_failed_hessian_diagnostics[followup]",
+      "reason": "paired-floor reference applies only to the floor fixture"
+    },
+    {
+      "test": "tests.week7.test_reporting_reference.test_bounded_epsilon_iterator_releases_raw_groups_and_matches_full_arithmetic[followup]",
+      "reason": "paired-floor reference applies only to the floor fixture"
+    },
+    {
+      "test": "tests.week7.test_reporting_reference.test_saved_epsilon_hand_references_missing_domains_and_complete_schema[followup]",
+      "reason": "paired-floor reference applies only to the floor fixture"
+    },
+    {
+      "test": "tests.week7.test_runner_accounting.test_floor_physical_paths_are_not_miscounted_as_independent_groups[followup-planned_independent_coupling_groups-24]",
+      "reason": "floor-only coupling accounting; the follow-up has no paired-floor fields"
+    },
+    {
+      "test": "tests.week7.test_runner_accounting.test_floor_physical_paths_are_not_miscounted_as_independent_groups[followup-source_paths_verified-8]",
+      "reason": "floor-only coupling accounting; the follow-up has no paired-floor fields"
+    },
+    {
+      "test": "tests.week7.test_runner_accounting.test_floor_physical_paths_are_not_miscounted_as_independent_groups[followup-source_array_hashes_verified-24]",
+      "reason": "floor-only coupling accounting; the follow-up has no paired-floor fields"
+    }
+  ],
+  "native_paths": 28,
+  "native_fits": 84,
+  "native_replayed_fits": 42,
+  "native_status": "audited_pending_visual_review",
+  "pipeline_errors": 0,
+  "figure_pairs": 18,
+  "prior_visual_equivalence": true,
+  "full_E4_started": false
+}

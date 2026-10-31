@@ -1,0 +1,1 @@
+["-q", "-ra", "tests", "--ignore=tests/week4/test_week3_isolation.py", "--ignore=tests/week7/test_plots_integrity.py", "--ignore=tests/week7/test_plots_reference.py", "--ignore=tests/week7/test_selection.py", "--junitxml=/home/runner/work/_temp/e4-checks/current.xml"]
