@@ -26,7 +26,18 @@ jobs:
       - name: Package pinned documents and original E4 output; verify hashes and counts
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python handoff_codex/build_bundle.py
+        run: |
+          python - <<'PY'
+          import sys
+          sys.path.insert(0, 'handoff_codex')
+          import build_bundle
+          def download_bytes(path):
+              # Preserve original ANSI sequences in downloaded log FILES.
+              # check_output captures bytes; untrusted sequences are never printed.
+              return build_bundle.command(['gh', 'api', '--allow-escape-sequences', f'repos/{build_bundle.REPO}/{path}'])
+          build_bundle.api_bytes = download_bytes
+          build_bundle.main()
+          PY
       - name: Upload the complete verified handoff
         uses: actions/upload-artifact@v4
         with:
