@@ -1,0 +1,1 @@
+python -m ou_irregular.week8.runner run --workers 4 --partition-size 250 --output <retained>/week8_e4

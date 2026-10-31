@@ -1,0 +1,10 @@
+{
+  "original_workflow_commit": "2a6f5dbf798171f16a23bbd2a47f7ecda378e98b",
+  "path": ".github/workflows/week8-full-e4.yml",
+  "source_url": "https://github.com/skbdps/stochastic-processes/blob/2a6f5dbf798171f16a23bbd2a47f7ecda378e98b/.github/workflows/week8-full-e4.yml",
+  "sha256": "bfbb5205704d9c7edc0b0258a23618299424d6330828e9a9a35357c8030931f1",
+  "preserved_local_handoff_copy": "ci_snapshots/completion/.github/workflows/week8-full-e4.yml",
+  "documentary_copy_not_republished": true,
+  "new_full_experiment_execution_authorized": false,
+  "disposition": "Keep original failed full-execution workflow at its original pinned branch and local bundle. The recovery publication workflow only verifies retained files and uses native Git; it contains no full-study run command."
+}

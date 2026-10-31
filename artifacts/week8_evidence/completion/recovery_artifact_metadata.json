@@ -1,0 +1,20 @@
+{
+  "id": 13047904238,
+  "node_id": "MDg6QXJ0aWZhY3QxMzA0NzkwNDIzOA==",
+  "name": "original-e4-recovery-41214670935",
+  "size_in_bytes": 108971540,
+  "url": "https://api.github.com/repos/skbdps/stochastic-processes/actions/artifacts/13047904238",
+  "archive_download_url": "https://api.github.com/repos/skbdps/stochastic-processes/actions/artifacts/13047904238/zip",
+  "expired": false,
+  "digest": "sha256:c6759301c7c85fc41cdbb0a9f8de8a1797432a092c924ccf372f06d49888571b",
+  "created_at": "2026-10-31T15:56:53Z",
+  "updated_at": "2026-10-31T15:56:53Z",
+  "expires_at": "2026-12-30T15:56:48Z",
+  "workflow_run": {
+    "id": 41214670935,
+    "repository_id": 1353535253,
+    "head_repository_id": 1353535253,
+    "head_branch": "codex/week8-publication-control-20261031",
+    "head_sha": "2ee68378cc2c651784301fc59640ac554d00d8cb"
+  }
+}
