@@ -1,0 +1,112 @@
+name: Week 8 runner verification
+on:
+  push:
+    branches: [validation/week8-runner-20261031]
+    paths:
+      - .github/workflows/week8-runner.yml
+      - ou_irregular/week8/runner.py
+      - tests/week8/test_runner.py
+      - docs/week8_runner.md
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MPLCONFIGDIR: /tmp/ou-week8-runner-mpl
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12.14'
+      - name: Preserve candidate source, invocation and unchanged-science check
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/week8-runner-ci"
+          python - <<'PY'
+          import hashlib,json,os,pathlib,subprocess
+          root=pathlib.Path.cwd(); out=pathlib.Path(os.environ['RUNNER_TEMP'])/'week8-runner-ci'
+          base='7dfe7e191bc4e9516142e141b9208fd0fd4fd0dc'
+          names=['ou_irregular/week8/runner.py','tests/week8/test_runner.py','docs/week8_runner.md']
+          changed=subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines()
+          assert set(changed)==set(names)|{'.github/workflows/week8-runner.yml'},changed
+          hashes={n:hashlib.sha256((root/n).read_bytes()).hexdigest() for n in names}
+          record={'base_commit':base,'candidate_commit':os.environ['GITHUB_SHA'],'workflow_run_id':os.environ['GITHUB_RUN_ID'],'candidate_sha256':hashes,'unchanged_prior_tracked_files':True,'allowed_changes':changed,'full_E4_started':False}
+          (out/'candidate.json').write_text(json.dumps(record,indent=2)+'\n')
+          for name in names:
+              target=out/'candidate_source'/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((root/name).read_bytes())
+          PY
+          git diff --check 7dfe7e191bc4e9516142e141b9208fd0fd4fd0dc HEAD
+      - name: Install and record pinned environment
+        run: |
+          set -euo pipefail
+          python -m pip install -r requirements-lock.txt
+          python --version > "$RUNNER_TEMP/week8-runner-ci/python-version.txt"
+          python -m pip freeze > "$RUNNER_TEMP/week8-runner-ci/dependencies.txt"
+      - name: Execute complete regression suite and native fixed-plan CLI
+        run: |
+          set -uo pipefail
+          export OU_E4_AUDIT_FIXTURE_ROOT="$RUNNER_TEMP/week8-runner-ci/audit_fixture"
+          export OU_E4_PLOTS_FIXTURE_ROOT="$RUNNER_TEMP/week8-runner-ci/plots_fixture"
+          export OU_E4_RUNNER_FIXTURE_ROOT="$RUNNER_TEMP/week8-runner-ci/runner_fixture"
+          mkdir -p "$OU_E4_AUDIT_FIXTURE_ROOT"
+          printf '%s\n' 'python -m pytest -q tests' > "$RUNNER_TEMP/week8-runner-ci/test-command.txt"
+          python -m pytest -q tests 2>&1 | tee "$RUNNER_TEMP/week8-runner-ci/pytest-all.txt"
+          code=${PIPESTATUS[0]}
+          printf '{"returncode":%s}\n' "$code" > "$RUNNER_TEMP/week8-runner-ci/test-exit.json"
+          exit "$code"
+      - name: Verify native evidence and prepare publication tree without moving refs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import base64,hashlib,json,os,pathlib,subprocess
+          from ou_irregular.week8 import runner
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'week8-runner-ci'; root=pathlib.Path.cwd(); repo=os.environ['GITHUB_REPOSITORY']
+          candidate=json.loads((out/'candidate.json').read_text()); base=candidate['base_commit']
+          native=out/'runner_fixture/native_archive'
+          verified=runner.verify_run(native)
+          a=verified['audit'];m=verified['metadata']
+          assert a['planned_paths']==a['source_paths_verified']==28 and a['planned_fit_records']==84 and a['replayed_fits']==42
+          assert a['pipeline_errors']==0 and a['full_completion_audit'] is True
+          assert m['status']=='audited_pending_visual_review' and not (native/'visual_review.json').exists()
+          summary={'candidate_commit':candidate['candidate_commit'],'workflow_run_id':os.environ['GITHUB_RUN_ID'],'regression_test_exit':0,'native_validation':{'paths':a['planned_paths'],'fits':a['planned_fit_records'],'source_hashes':a['source_array_hashes_verified'],'trace_hashes':a['schedule_trace_hashes_verified'],'replayed_fits':a['replayed_fits'],'pipeline_errors':a['pipeline_errors'],'status':m['status'],'figure_pairs':len(verified['figures']['figures'])//2},'actual_visual_review_pending':True,'full_E4_started':False}
+          (out/'ci_summary.json').write_text(json.dumps(summary,indent=2)+'\n')
+          def api(path,value=None):
+              args=['gh','api',f'repos/{repo}/{path}']
+              if value is not None:args+=['--method','POST','--input','-']
+              return json.loads(subprocess.check_output(args,input=json.dumps(value) if value is not None else None,text=True))
+          assert api('git/ref/heads/weeks5-8-sequential')['object']['sha']==base,'scientific branch moved'
+          paths={n:root/n for n in candidate['candidate_sha256']}
+          for name,digest in candidate['candidate_sha256'].items():assert hashlib.sha256(paths[name].read_bytes()).hexdigest()==digest,name
+          prefix='artifacts/week8_development/runner/ci/'+os.environ['GITHUB_RUN_ID']+'/'
+          for path in sorted(out.rglob('*')):
+              if path.is_file():paths[prefix+str(path.relative_to(out))]=path
+          blobs={};entries=[];records={}
+          for name,path in sorted(paths.items()):
+              data=path.read_bytes();digest=hashlib.sha256(data).hexdigest()
+              if digest not in blobs:blobs[digest]=api('git/blobs',{'content':base64.b64encode(data).decode(),'encoding':'base64'})['sha']
+              entries.append({'path':name,'mode':'100644','type':'blob','sha':blobs[digest]})
+              records[name]={'git_blob':blobs[digest],'sha256':digest,'bytes':len(data)}
+          tree=api('git/trees',{'base_tree':api('git/commits/'+base)['tree']['sha'],'tree':entries})['sha']
+          (out/'publication.json').write_text(json.dumps({'base_commit':base,'tree_sha':tree,'files':records,'scientific_refs_updated':False},indent=2)+'\n')
+          print('PUBLICATION_TREE='+tree)
+          print(json.dumps(summary,sort_keys=True))
+          PY
+      - name: Retain every original output, including failures and hidden lock files
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: week8-runner-verification-${{ github.run_id }}
+          path: ${{ runner.temp }}/week8-runner-ci/
+          include-hidden-files: true
+          retention-days: 30
+          if-no-files-found: error
