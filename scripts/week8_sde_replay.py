@@ -1,6 +1,6 @@
 """Run the unchanged four-case Week 3 replay in one Intel SDE process.
 
-Invoke through the pinned Intel SDE kit with ``-icl -- python this_script``.
+Invoke through the pinned kit with ``-follow_execv 0 -icl -- python this_script``.
 The effective NumPy runtime is captured in this same process before pytest.main;
 no scientific function, test, tolerance, or NumPy CPU flag is changed.
 """
@@ -14,6 +14,7 @@ import json
 import os
 from pathlib import Path
 import platform
+import re
 import subprocess
 import sys
 import traceback
@@ -45,7 +46,7 @@ def git(*args):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    for name in ("output", "emulator", "emulator-archive", "version-file", "command-file"):
+    for name in ("output", "emulator", "emulator-archive", "version-file", "help-file", "command-file"):
         parser.add_argument("--" + name, type=Path, required=True)
     args = parser.parse_args()
     root = Path.cwd().resolve()
@@ -57,7 +58,7 @@ def main():
     record = {"started_utc": datetime.now(timezone.utc).isoformat(), "status": "failed",
               "scientific_freeze": FREEZE, "control_commit": os.environ.get("CONTROL_COMMIT"),
               "workflow_run_id": os.environ.get("GITHUB_RUN_ID"),
-              "execution_mode": "Intel SDE instruction emulation (-icl), same-process pytest",
+              "execution_mode": "Intel SDE instruction emulation (-follow_execv 0 -icl), same-process pytest; auxiliary exec subprocesses native",
               "emulator_download_url": "https://downloadmirror.intel.com/924984/sde-external-10.13.1-2026-07-28-lin.tar.xz",
               "emulator_documentation_url": "https://www.intel.com/content/www/us/en/developer/articles/tool/software-development-emulator.html",
               "test_path": TEST_PATH, "new_full_experiment_executed": False,
@@ -70,13 +71,14 @@ def main():
         assert git("rev-parse", "--show-toplevel") == str(root)
         assert sha(args.emulator_archive) == ARCHIVE_SHA256
         command = json.loads(args.command_file.read_text())
-        assert command[:3] == [str(args.emulator.resolve()), "-icl", "--"]
-        assert Path(command[3]).resolve() == Path(sys.executable).resolve()
-        assert Path(command[4]).resolve() == Path(__file__).resolve()
-        assert command[5:] == sys.argv[1:]
+        assert command[:5] == [str(args.emulator.resolve()), "-follow_execv", "0", "-icl", "--"]
+        assert Path(command[5]).resolve() == Path(sys.executable).resolve()
+        assert Path(command[6]).resolve() == Path(__file__).resolve()
+        assert command[7:] == sys.argv[1:]
+        assert re.search(r"follow[-_]execv", args.help_file.read_text()), "pinned emulator help must declare follow_execv"
         record.update(emulator_archive_sha256=sha(args.emulator_archive),
                       emulator_executable_sha256=sha(args.emulator),
-                      emulator_version=args.version_file.read_text(), command=command,
+                      emulator_version=args.version_file.read_text(), emulator_help_sha256=sha(args.help_file), command=command,
                       test_sha256=sha(root / TEST_PATH), script_sha256=sha(__file__))
         cpu_controls = {n: os.environ.get(n) for n in
                         ("NPY_DISABLE_CPU_FEATURES", "OPENBLAS_CORETYPE", "MKL_ENABLE_INSTRUCTIONS")}
@@ -117,8 +119,10 @@ def main():
         os.environ["OU_RELEASE_COLLECTION_OUTPUT"] = str(out / "week3-isolation-nodeids.json")
         os.environ["OU_RELEASE_REPORT_OUTPUT"] = str(out / "week3-isolation-reports.json")
         import pytest
+        scratch = out.with_name(out.name + "-pytest")
+        assert not scratch.exists() and not scratch.is_symlink(), "pytest scratch must be fresh"
         pytest_args = ["-q", "-ra", TEST_PATH,
-                       "--basetemp=" + str(out / "pytest-temporary"),
+                       "--basetemp=" + str(scratch),
                        "--junitxml=" + str(out / "week3-isolation-junit.xml")]
         record["pytest_arguments"] = pytest_args
         record["pytest_pid"] = os.getpid()
@@ -144,7 +148,12 @@ def main():
         (out / "traceback.txt").write_text(traceback.format_exc())
         print(traceback.format_exc(), file=sys.stderr, flush=True)
     finally:
-        record["git_status_after"] = git("status", "--porcelain", "--untracked-files=all")
+        try:
+            record["git_status_after"] = git("status", "--porcelain", "--untracked-files=all")
+        except BaseException as exc:
+            # A diagnostic transport failure must not erase its own record.
+            record["git_status_after_error"] = repr(exc)
+            record["git_status_after"] = "unavailable"
         record["clean_before_and_after"] = not record.get("git_status_before", "missing") and not record["git_status_after"]
         if not record["clean_before_and_after"]:
             record["status"] = "failed"
