@@ -1,7 +1,7 @@
 """Run the unchanged four-case Week 3 replay in one Intel SDE process.
 
-Invoke with ``-p -follow_execv -p 0 -icl -- python this_script``. Each ``-p``
-forwards the next token to Pin rather than treating it as an SDE tool option.
+Invoke with ``-no-follow-child -icl -- python this_script``. The pinned SDK
+driver documents this control; do not inject a duplicate write-once Pin knob.
 The effective NumPy runtime is captured in this same process before pytest.main;
 no scientific function, test, tolerance, or NumPy CPU flag is changed.
 """
@@ -58,23 +58,24 @@ def main():
     record = {"started_utc": datetime.now(timezone.utc).isoformat(), "status": "failed",
               "scientific_freeze": FREEZE, "control_commit": os.environ.get("CONTROL_COMMIT"),
               "workflow_run_id": os.environ.get("GITHUB_RUN_ID"),
-              "execution_mode": "Intel SDE instruction emulation (-p -follow_execv -p 0 -icl), same-process pytest; Pin exec-follow configured off",
+              "execution_mode": "Intel SDE instruction emulation (-no-follow-child -icl), same-process pytest; driver exec-follow disabled",
               "emulator_download_url": "https://downloadmirror.intel.com/924984/sde-external-10.13.1-2026-07-28-lin.tar.xz",
               "emulator_documentation_url": "https://www.intel.com/content/www/us/en/developer/articles/tool/software-development-emulator.html",
-              "pin_argument_forwarding_source": "https://github.com/intel/pinplay-tools/blob/main/PinPoints/Test/sde-run.pinpoints.single-threaded.sh",
+              "exec_follow_control_source": "Pinned official SDK sde64 driver -help: -no-follow-child does not add the follow-execv knob to Pin",
               "test_path": TEST_PATH, "new_full_experiment_executed": False,
               "scope": "Four unchanged Week 3 archival checks, including one source/three-fit exact replay. No E4 study execution."}
     try:
         assert sha(args.emulator_archive) == ARCHIVE_SHA256
         command = json.loads(args.command_file.read_text())
-        assert command[:7] == [str(args.emulator.resolve()), "-p", "-follow_execv", "-p", "0", "-icl", "--"]
-        assert Path(command[7]).resolve() == Path(sys.executable).resolve()
-        assert Path(command[8]).resolve() == Path(__file__).resolve()
-        assert command[9:] == sys.argv[1:]
+        assert command[:4] == [str(args.emulator.resolve()), "-no-follow-child", "-icl", "--"]
+        assert Path(command[4]).resolve() == Path(sys.executable).resolve()
+        assert Path(command[5]).resolve() == Path(__file__).resolve()
+        assert command[6:] == sys.argv[1:]
+        assert "-no-follow-child" in args.help_file.read_text(), "Pinned driver help must document its own exec-follow control"
         record.update(emulator_archive_sha256=sha(args.emulator_archive),
                       emulator_executable_sha256=sha(args.emulator),
                       emulator_version=args.version_file.read_text(), emulator_help_sha256=sha(args.help_file), command=command,
-                      emulator_help_scope="Retained SDE Pin-tool help is informational; it is not an inventory of generic Pin launcher knobs.",
+                      emulator_help_scope="Actual SDK driver -help documents -no-follow-child; the separate long tool help is informational.",
                       test_sha256=sha(root / TEST_PATH), script_sha256=sha(__file__))
         write(out / "source_provenance.json", record)
         cpu_controls = {n: os.environ.get(n) for n in

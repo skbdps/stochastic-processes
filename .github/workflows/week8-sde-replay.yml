@@ -48,11 +48,19 @@ jobs:
           TASK_SDE_EXE="$(find "$RUNNER_TEMP/intel-sde-kit" -type f -name sde64 -print -quit)"
           test -x "$TASK_SDE_EXE"
           "$TASK_SDE_EXE" -version > "$RUNNER_TEMP/week3-sde-evidence/emulator-version.txt" 2>&1
+          task_sde_driver_help_status=0
+          "$TASK_SDE_EXE" -help > "$RUNNER_TEMP/week3-sde-evidence/emulator-driver-help.txt" 2>&1 || task_sde_driver_help_status=$?
+          printf '{"returncode":%s}\n' "$task_sde_driver_help_status" > "$RUNNER_TEMP/week3-sde-evidence/emulator-driver-help-exit.json"
           task_sde_help_status=0
           "$TASK_SDE_EXE" -long-help > "$RUNNER_TEMP/week3-sde-evidence/emulator-help.txt" 2>&1 || task_sde_help_status=$?
           printf '{"returncode":%s}\n' "$task_sde_help_status" > "$RUNNER_TEMP/week3-sde-evidence/emulator-help-exit.json"
-          # Tool help is retained as evidence. Generic Pin knobs are forwarded
-          # with -p; actual Git/NumPy smoke in the target is the execution gate.
+          # SDK driver help documents the child control. Long Pin-tool help is
+          # retained separately; actual Git/NumPy smoke is the execution gate.
+          python - <<'PY'
+          import os,pathlib
+          text=pathlib.Path(os.environ['RUNNER_TEMP'],'week3-sde-evidence/emulator-driver-help.txt').read_text()
+          assert '-no-follow-child' in text,'Pinned SDK driver does not declare required child control'
+          PY
           find "$RUNNER_TEMP/intel-sde-kit" -type f \( -iname '*license*' -o -iname '*eula*' \) -exec cp --parents '{}' "$RUNNER_TEMP/week3-sde-evidence/" \;
           printf 'TASK_SDE_ARCHIVE=%s\nTASK_SDE_EXE=%s\n' "$TASK_SDE_ARCHIVE" "$TASK_SDE_EXE" >> "$GITHUB_ENV"
       - name: Enable debugger attachment only within this disposable hosted VM
@@ -72,14 +80,22 @@ jobs:
           python -u - <<'PY' 2>&1 | tee "$RUNNER_TEMP/week3-sde-evidence/week3-isolation.txt"
           import json,os,pathlib,subprocess,sys
           outer=pathlib.Path(os.environ['RUNNER_TEMP'],'week3-sde-evidence')
-          command=[os.environ['TASK_SDE_EXE'],'-p','-follow_execv','-p','0','-icl','--',sys.executable,
+          command=[os.environ['TASK_SDE_EXE'],'-no-follow-child','-icl','--',sys.executable,
               str(pathlib.Path('../control/scripts/week8_sde_replay.py').resolve()),
               '--output',str(outer/'replay'),'--emulator',os.environ['TASK_SDE_EXE'],
               '--emulator-archive',os.environ['TASK_SDE_ARCHIVE'],
               '--version-file',str(outer/'emulator-version.txt'),
-              '--help-file',str(outer/'emulator-help.txt'),
+              '--help-file',str(outer/'emulator-driver-help.txt'),
               '--command-file',str(outer/'command.json')]
           (outer/'command.json').write_text(json.dumps(command,indent=2)+'\n')
+          # The driver's echo mode prints the parsed internal Pin command and
+          # exits. Bind the actual command assembly before starting Python.
+          echo=[command[0],'-no-follow-child','-icl','-echo','--',*command[4:]]
+          parsed=subprocess.run(echo,text=True,capture_output=True,check=False)
+          (outer/'internal-pin-command.txt').write_text(parsed.stdout+parsed.stderr)
+          (outer/'internal-pin-command-exit.json').write_text(json.dumps({'returncode':parsed.returncode})+'\n')
+          assert parsed.returncode==0
+          assert not any(knob in parsed.stdout+parsed.stderr for knob in ['-follow_execv','-follow-execv']),'Driver still enabled exec-follow'
           raise SystemExit(subprocess.run(command,check=False).returncode)
           PY
           task_sde_status=${PIPESTATUS[0]}
