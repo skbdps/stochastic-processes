@@ -1,0 +1,90 @@
+name: Strict historical Week 3 replay under recorded Intel SDE runtime
+on:
+  push:
+    branches: [codex/week8-sde-replay-20261031]
+    paths: [.github/workflows/week8-sde-replay.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  strict-replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MPLCONFIGDIR: /tmp/ou-week3-sde-mpl
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          path: control
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: 0ff57919f5d8345f52d8689732ff94448ca3ca1d
+          fetch-depth: 0
+          path: science
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12.14'
+      - name: Retain host identity and install unchanged pinned numerical runtime
+        working-directory: science
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/week3-sde-evidence"
+          lscpu > "$RUNNER_TEMP/week3-sde-evidence/host-lscpu.txt"
+          uname -a > "$RUNNER_TEMP/week3-sde-evidence/host-uname.txt"
+          python -m pip install -r requirements-lock.txt 2>&1 | tee "$RUNNER_TEMP/week3-sde-evidence/install.txt"
+          python -m pip freeze > "$RUNNER_TEMP/week3-sde-evidence/dependencies.txt"
+      - name: Download exact official emulator kit and retain license/version
+        run: |
+          set -euo pipefail
+          export TASK_SDE_ARCHIVE="$RUNNER_TEMP/sde-external-10.13.1-2026-07-28-lin.tar.xz"
+          curl --fail --location --retry 2 'https://downloadmirror.intel.com/924984/sde-external-10.13.1-2026-07-28-lin.tar.xz' --output "$TASK_SDE_ARCHIVE"
+          echo '94e97d623fec54385686e1e7ba65ebc9941748c05ee451423948334892bf2b50  '"$TASK_SDE_ARCHIVE" | sha256sum --check
+          mkdir "$RUNNER_TEMP/intel-sde-kit"
+          tar -xJf "$TASK_SDE_ARCHIVE" -C "$RUNNER_TEMP/intel-sde-kit"
+          TASK_SDE_EXE="$(find "$RUNNER_TEMP/intel-sde-kit" -type f -name sde64 -print -quit)"
+          test -x "$TASK_SDE_EXE"
+          "$TASK_SDE_EXE" -version > "$RUNNER_TEMP/week3-sde-evidence/emulator-version.txt" 2>&1
+          find "$RUNNER_TEMP/intel-sde-kit" -type f \( -iname '*license*' -o -iname '*eula*' \) -exec cp --parents '{}' "$RUNNER_TEMP/week3-sde-evidence/" \;
+          printf 'TASK_SDE_ARCHIVE=%s\nTASK_SDE_EXE=%s\n' "$TASK_SDE_ARCHIVE" "$TASK_SDE_EXE" >> "$GITHUB_ENV"
+      - name: Enable debugger attachment only within this disposable hosted VM
+        run: |
+          set -euo pipefail
+          sysctl kernel.yama.ptrace_scope > "$RUNNER_TEMP/week3-sde-evidence/ptrace-before.txt"
+          sudo sysctl kernel.yama.ptrace_scope=0 | tee "$RUNNER_TEMP/week3-sde-evidence/ptrace-execution.txt"
+      - name: Execute unchanged four-case exact replay and capture same-process runtime
+        working-directory: science
+        env:
+          CONTROL_COMMIT: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          unset MKL_NUM_THREADS VECLIB_MAXIMUM_THREADS
+          export PYTHONPATH="$PWD"
+          set +e
+          python -u - <<'PY' 2>&1 | tee "$RUNNER_TEMP/week3-sde-evidence/week3-isolation.txt"
+          import json,os,pathlib,subprocess,sys
+          outer=pathlib.Path(os.environ['RUNNER_TEMP'],'week3-sde-evidence')
+          command=[os.environ['TASK_SDE_EXE'],'-icl','--',sys.executable,
+              str(pathlib.Path('../control/scripts/week8_sde_replay.py').resolve()),
+              '--output',str(outer/'replay'),'--emulator',os.environ['TASK_SDE_EXE'],
+              '--emulator-archive',os.environ['TASK_SDE_ARCHIVE'],
+              '--version-file',str(outer/'emulator-version.txt'),
+              '--command-file',str(outer/'command.json')]
+          (outer/'command.json').write_text(json.dumps(command,indent=2)+'\n')
+          raise SystemExit(subprocess.run(command,check=False).returncode)
+          PY
+          task_sde_status=${PIPESTATUS[0]}
+          set -e
+          printf '{"returncode":%s}\n' "$task_sde_status" > "$RUNNER_TEMP/week3-sde-evidence/exit.json"
+          exit "$task_sde_status"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: week3-strict-sde-replay-${{ github.run_id }}
+          path: ${{ runner.temp }}/week3-sde-evidence/
+          include-hidden-files: true
+          retention-days: 60
+          if-no-files-found: warn
