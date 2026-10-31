@@ -1,0 +1,58 @@
+name: Correct runner CI process isolation
+on:
+  push:
+    branches: [validation/week8-completion-20261031]
+    paths: [.github/workflows/week8-ci-isolation.yml]
+permissions:
+  contents: write
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Apply only reviewed CI corrections to the validation workflow
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import base64,json,os,subprocess
+          repo=os.environ['GITHUB_REPOSITORY'];path='.github/workflows/week8-runner.yml';branch='validation/week8-runner-20261031'
+          saved=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/contents/{path}?ref={branch}'],text=True))
+          assert saved['sha']=='aa0ea91803a32a3a1b24e0c1c38347f7b03d487f'
+          text=base64.b64decode(saved['content']).decode()
+          old='          python -m pytest -q -ra tests --ignore=tests/week7/test_plots_integrity.py --ignore=tests/week7/test_plots_reference.py --ignore=tests/week7/test_selection.py 2>&1 | tee'
+          new='          python -c \'import os; import ou_irregular.runner; import pytest; os.environ.pop("MKL_NUM_THREADS", None); os.environ.pop("VECLIB_MAXIMUM_THREADS", None); raise SystemExit(pytest.main(["-q", "-ra", "tests", "--ignore=tests/week7/test_plots_integrity.py", "--ignore=tests/week7/test_plots_reference.py", "--ignore=tests/week7/test_selection.py"]))\' 2>&1 | tee'
+          assert text.count(old)==1;text=text.replace(old,new)
+          old="if value is not None:args+=['--method','POST','--input','-']"
+          new="if value is not None:args+=['--method','PUT' if path.startswith('contents/') else 'POST','--input','-']"
+          assert text.count(old)==1;text=text.replace(old,new)
+          text=text.replace("'correction':'CI-only: unset inherited MKL/VECLIB thread settings; run legacy archive fixtures in original minimal environment.","'correction':'CI-only: pre-import the historical Week 3 CLI before restoring its thread-environment side effects; run legacy archive fixtures in original minimal environment.")
+          old="assert set(changed)==set(names)|{'.github/workflows/week8-runner.yml'},changed"
+          new="assert set(changed)-{n for n in changed if n.startswith('runner-ci-') and n.endswith('.json')}==set(names)|{'.github/workflows/week8-runner.yml'},changed"
+          assert text.count(old)==1;text=text.replace(old,new)
+          marker='      - name: Retain every original output, including failures and hidden lock files\n'
+          assert text.count(marker)==1
+          step='''      - name: Publish compact diagnostic readback on validation branch only
+            if: always()
+            env:
+              GH_TOKEN: ${{ github.token }}
+            run: |
+              python - <<'PYCODE'
+              import base64,json,os,pathlib,subprocess
+              out=pathlib.Path(os.environ['RUNNER_TEMP'])/'week8-runner-ci'
+              values={}
+              for name in ['ci_summary.json','test-exit.json','pytest-current.txt','pytest-historical.txt','runner_fixture/stderr.txt','runner_fixture/exit.json']:
+                  path=out/name
+                  if path.is_file():values[name]=path.read_text()[-14000:]
+              if (out/'publication.json').is_file():
+                  p=json.loads((out/'publication.json').read_text());values['publication']={'base_commit':p['base_commit'],'tree_sha':p['tree_sha'],'file_count':len(p['files'])}
+              record={'run_id':os.environ['GITHUB_RUN_ID'],'candidate_commit':os.environ['GITHUB_SHA'],'records':values}
+              payload={'message':'Record exact runner CI results and failure diagnostics','branch':'validation/week8-runner-20261031','content':base64.b64encode((json.dumps(record,indent=2)+'\\n').encode()).decode()}
+              subprocess.run(['gh','api','repos/'+os.environ['GITHUB_REPOSITORY']+'/contents/runner-ci-diagnostic-'+os.environ['GITHUB_RUN_ID']+'.json','--method','PUT','--input','-'],input=json.dumps(payload),text=True,check=True,stdout=subprocess.DEVNULL)
+              PYCODE
+          '''
+          # Indentation of the embedded workflow block is normalized explicitly.
+          lines=step.splitlines();step='\n'.join([lines[0]]+[line[6:] if line.startswith('      ') else line for line in lines[1:]])+'\n'
+          text=text.replace(marker,step+marker)
+          payload={'message':'CI: isolate legacy runner import side effects; preserve strict environment checks and compact diagnostics','branch':branch,'sha':saved['sha'],'content':base64.b64encode(text.encode()).decode()}
+          print(subprocess.check_output(['gh','api',f'repos/{repo}/contents/{path}','--method','PUT','--input','-'],input=json.dumps(payload),text=True))
+          PY
