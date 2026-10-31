@@ -1,0 +1,83 @@
+name: Unchanged scientific freeze release regression
+on:
+  push:
+    branches: [codex/week8-regression-control-20261031]
+    paths: [.github/workflows/week8-regression.yml]
+permissions:
+  contents: write
+jobs:
+  regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MPLCONFIGDIR: /tmp/ou-e4-release-regression-mpl
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          path: control
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: 0ff57919f5d8345f52d8689732ff94448ca3ca1d
+          fetch-depth: 0
+          path: science
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12.14'
+      - name: Install both recorded runtimes
+        working-directory: science
+        run: |
+          set -euo pipefail
+          python -m pip install -r requirements-lock.txt
+          python -m venv "$RUNNER_TEMP/ou-legacy-env"
+          python - <<'PY'
+          import os,pathlib
+          omitted={'ipykernel','ipython','nbformat'}
+          lines=[l for l in pathlib.Path('requirements-lock.txt').read_text().splitlines() if l.split('==')[0].lower() not in omitted]
+          pathlib.Path(os.environ['RUNNER_TEMP'],'legacy-requirements.txt').write_text('\n'.join(lines)+'\n')
+          PY
+          "$RUNNER_TEMP/ou-legacy-env/bin/python" -m pip install -r "$RUNNER_TEMP/legacy-requirements.txt"
+      - name: Run every original test with exact identity accounting
+        working-directory: science
+        env:
+          OU_LEGACY_PYTHON: ${{ runner.temp }}/ou-legacy-env/bin/python
+        run: |
+          set -euo pipefail
+          unset MKL_NUM_THREADS VECLIB_MAXIMUM_THREADS
+          python -u ../control/scripts/week8_release_regression.py "$RUNNER_TEMP/final-regression"
+      - name: Retain full successful regression evidence on isolated scientific-evidence branch
+        working-directory: science
+        run: |
+          set -euo pipefail
+          test -z "$(git ls-remote origin refs/heads/codex/week8-regression-evidence-20261031)"
+          python - <<'PY'
+          import hashlib,json,os,pathlib,shutil,subprocess
+          src=pathlib.Path(os.environ['RUNNER_TEMP'],'final-regression');summary=json.loads((src/'regression_summary.json').read_text())
+          assert summary['status']=='passed' and summary['totals']=={'tests':2061,'passed':2055,'skipped':6,'failures':0,'errors':0}
+          dest=pathlib.Path('artifacts/week8_evidence/completion/final_regression')
+          shutil.copytree(src,dest)
+          for n,record in json.loads((dest/'evidence_sha256.json').read_text()).items():
+              p=dest/n;assert p.stat().st_size==record['bytes'] and hashlib.sha256(p.read_bytes()).hexdigest()==record['sha256'],n
+          shutil.copy2('../control/scripts/week8_release_regression.py',dest/'regression_script_executed.py')
+          shutil.copy2('../control/.github/workflows/week8-regression.yml',dest/'regression_workflow.yml')
+          subprocess.run(['git','add','-f','--',str(dest)],check=True)
+          wanted={str(p) for p in dest.rglob('*') if p.is_file()}
+          staged=set(subprocess.check_output(['git','diff','--cached','--name-only'],text=True).splitlines())
+          assert staged==wanted
+          for name in wanted:assert subprocess.check_output(['git','show',':'+name])==pathlib.Path(name).read_bytes(),name
+          PY
+          git diff --cached --check
+          git config user.name 'skbdps'
+          git config user.email '44168240+skbdps@users.noreply.github.com'
+          git commit -m 'Retain complete unchanged-suite release regression in recorded split environments'
+          git push origin HEAD:refs/heads/codex/week8-regression-evidence-20261031
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: week8-publication-regression-${{ github.run_id }}
+          path: ${{ runner.temp }}/final-regression/
+          include-hidden-files: true
+          retention-days: 60
+          if-no-files-found: warn
