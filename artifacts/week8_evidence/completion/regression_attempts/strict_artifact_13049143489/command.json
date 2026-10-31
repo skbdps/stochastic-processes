@@ -1,0 +1,20 @@
+[
+  "/home/runner/work/_temp/intel-sde-kit/sde-external-10.13.1-2026-07-28-lin/sde64",
+  "-no-follow-child",
+  "-icl",
+  "--",
+  "/opt/hostedtoolcache/Python/3.12.14/x64/bin/python",
+  "/home/runner/work/stochastic-processes/stochastic-processes/control/scripts/week8_sde_replay.py",
+  "--output",
+  "/home/runner/work/_temp/week3-sde-evidence/replay",
+  "--emulator",
+  "/home/runner/work/_temp/intel-sde-kit/sde-external-10.13.1-2026-07-28-lin/sde64",
+  "--emulator-archive",
+  "/home/runner/work/_temp/sde-external-10.13.1-2026-07-28-lin.tar.xz",
+  "--version-file",
+  "/home/runner/work/_temp/week3-sde-evidence/emulator-version.txt",
+  "--help-file",
+  "/home/runner/work/_temp/week3-sde-evidence/emulator-driver-help.txt",
+  "--command-file",
+  "/home/runner/work/_temp/week3-sde-evidence/command.json"
+]

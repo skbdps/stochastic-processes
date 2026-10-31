@@ -1,0 +1,51 @@
+{
+  "scope": "Independent standard-library saved-table readback, not numerical source reconstruction or fitting",
+  "checked_utc": "2026-10-31T15:31:01.567576+00:00",
+  "table_sha256": {
+    "parameter_summary.csv": "d84fc4b4f089d1666f272e15bd6a0419f7d73b46fb2b943af3611a11305e7f8e",
+    "matched_iid_comparisons.csv": "28e72befc9ffc2649476a1aa496ed4b8977495555b75edb13027e7c0b2986548",
+    "source_summary.csv": "3a7889e7bd8ad8fdbc34bca45c0e9d858153db6bf97960168a0766d7beb053ae"
+  },
+  "practical_classifications": {
+    "not_applicable_zero_truth": 21,
+    "supported_breach": 26,
+    "within_criteria": 16
+  },
+  "exact_operational_coverage_range": [
+    0.941,
+    0.9555
+  ],
+  "all_27_matched_bias_MC_intervals_contain_zero": true,
+  "pfml_mu_matched_findings": [
+    {
+      "cell_id": "c3e9152ad2d72f995317595a56764a2c97d40f01c74139eebe700744812e6a65",
+      "estimator": "pfml",
+      "parameter": "mu",
+      "ratio": "5",
+      "excess_bias": "-0.00048109179015740788",
+      "excess_bias_mc_lower": "-0.0021633217127851184",
+      "excess_bias_mc_upper": "0.0012011381324703028",
+      "rmse_ratio": "1.08387406948467",
+      "rmse_ratio_mc_lower": "1.037544831754174",
+      "rmse_ratio_mc_upper": "1.1322720354310445",
+      "operational_coverage_difference": "-0.027000000000000024",
+      "operational_coverage_difference_mc_lower": "-0.041579912427584957",
+      "operational_coverage_difference_mc_upper": "-0.012420087572415089"
+    },
+    {
+      "cell_id": "deea7da12604fa4c8ea24dd01d1c7425985b5e205ac4ba65580cb2ea9d8d61fc",
+      "estimator": "pfml",
+      "parameter": "mu",
+      "ratio": "20",
+      "excess_bias": "-0.0011578448902463386",
+      "excess_bias_mc_lower": "-0.0032079120837523664",
+      "excess_bias_mc_upper": "0.00089222230325968909",
+      "rmse_ratio": "1.1578630931010947",
+      "rmse_ratio_mc_lower": "1.1072645244678387",
+      "rmse_ratio_mc_upper": "1.2107738600312887",
+      "operational_coverage_difference": "-0.038499999999999979",
+      "operational_coverage_difference_mc_lower": "-0.054655189656114093",
+      "operational_coverage_difference_mc_upper": "-0.022344810343885864"
+    }
+  ]
+}

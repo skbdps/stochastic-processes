@@ -1,0 +1,34 @@
+{
+  "numpy_runtime.txt": {
+    "bytes": 1232,
+    "sha256": "6d35bf0b5d9d41351f73c2ce1c0099d6809648d8adb33afee225f73860c4166f"
+  },
+  "pytest-week3-isolation.txt": {
+    "bytes": 98,
+    "sha256": "6ba6496e31b1eb1e4d96722e1d1145d41eca7f27abda601a1c0141e2ec96a4c7"
+  },
+  "runtime_smoke.json": {
+    "bytes": 421,
+    "sha256": "fbcfca523e30336721bed8c383f13fc49cc2fbd3d7e87d821fe6d7382559e76d"
+  },
+  "same_process_runtime.json": {
+    "bytes": 5509,
+    "sha256": "79e2675531a7a1b19a775b94c8864104386a86bcab605df4c080f1060404fba2"
+  },
+  "source_provenance.json": {
+    "bytes": 3756,
+    "sha256": "74e8e92cee4800a324a474638b71e0c593f2bf20a261d3df48f5a6f8ca1b983b"
+  },
+  "week3-isolation-junit.xml": {
+    "bytes": 800,
+    "sha256": "103c3a50a547f1019b082d4b99049bd79e470de91a9e7bc9d01aa643ce327bca"
+  },
+  "week3-isolation-nodeids.json": {
+    "bytes": 414,
+    "sha256": "f0b62dcb0bc8b147c4597360c88a10adb3b062cb3cecb5773130e2b6f622574c"
+  },
+  "week3-isolation-reports.json": {
+    "bytes": 2194,
+    "sha256": "a055e8060cfabef605b7313e1aa491c5662c4dacbf81ef1b3058b67034834d0c"
+  }
+}

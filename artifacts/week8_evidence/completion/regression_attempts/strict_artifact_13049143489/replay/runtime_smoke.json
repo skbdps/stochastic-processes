@@ -1,0 +1,14 @@
+{
+  "effective_AVX512F": true,
+  "effective_AVX512_ICL": true,
+  "git_command": [
+    "git",
+    "rev-parse",
+    "HEAD"
+  ],
+  "git_returncode": 0,
+  "git_stderr": "",
+  "git_stdout": "0ff57919f5d8345f52d8689732ff94448ca3ca1d\n",
+  "parent_pid": 2689,
+  "scope": "Auxiliary Git exec succeeds and parent NumPy exposes required emulated dispatch. This is a runtime smoke, not historical numerical replay certification."
+}

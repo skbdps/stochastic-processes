@@ -1,0 +1,114 @@
+{
+  "artifacts/week5_e1/run_metadata.json": {
+    "expected_environment": {
+      "dependencies": {
+        "PyYAML": "6.0.3",
+        "matplotlib": "3.10.8",
+        "numpy": "2.3.5",
+        "pandas": "2.2.3",
+        "scipy": "1.17.0"
+      },
+      "implementation": "CPython",
+      "machine": "x86_64",
+      "other_requirements": {
+        "ipykernel": null,
+        "ipython": null,
+        "nbformat": null,
+        "pytest": "9.1.1"
+      },
+      "python": "3.12.14",
+      "system": "Linux",
+      "thread_environment": {
+        "MKL_NUM_THREADS": null,
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "VECLIB_MAXIMUM_THREADS": null
+      }
+    },
+    "matches_historical": true
+  },
+  "artifacts/week6_e2/run_metadata.json": {
+    "expected_environment": {
+      "dependencies": {
+        "PyYAML": "6.0.3",
+        "matplotlib": "3.10.8",
+        "numpy": "2.3.5",
+        "pandas": "2.2.3",
+        "scipy": "1.17.0"
+      },
+      "implementation": "CPython",
+      "machine": "x86_64",
+      "other_requirements": {
+        "ipykernel": null,
+        "ipython": null,
+        "nbformat": null,
+        "pytest": "9.1.1"
+      },
+      "python": "3.12.14",
+      "system": "Linux",
+      "thread_environment": {
+        "MKL_NUM_THREADS": null,
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "VECLIB_MAXIMUM_THREADS": null
+      }
+    },
+    "matches_historical": true
+  },
+  "artifacts/week7_recovery_evidence/floor_audit_current_capture/archive/run_metadata.json": {
+    "expected_environment": {
+      "dependencies": {
+        "PyYAML": "6.0.3",
+        "matplotlib": "3.10.8",
+        "numpy": "2.3.5",
+        "pandas": "2.2.3",
+        "scipy": "1.17.0"
+      },
+      "implementation": "CPython",
+      "machine": "x86_64",
+      "other_requirements": {
+        "ipykernel": null,
+        "ipython": null,
+        "nbformat": null,
+        "pytest": "9.1.1"
+      },
+      "python": "3.12.14",
+      "system": "Linux",
+      "thread_environment": {
+        "MKL_NUM_THREADS": null,
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "VECLIB_MAXIMUM_THREADS": null
+      }
+    },
+    "matches_historical": true
+  },
+  "artifacts/week8_development/audit/ci/native_fixture/native_archive/run_metadata.json": {
+    "expected_environment": {
+      "dependencies": {
+        "PyYAML": "6.0.3",
+        "matplotlib": "3.10.8",
+        "numpy": "2.3.5",
+        "pandas": "2.2.3",
+        "scipy": "1.17.0"
+      },
+      "implementation": "CPython",
+      "machine": "x86_64",
+      "other_requirements": {
+        "ipykernel": "7.3.0",
+        "ipython": "9.17.1",
+        "nbformat": "5.11.1",
+        "pytest": "9.1.1"
+      },
+      "python": "3.12.14",
+      "system": "Linux",
+      "thread_environment": {
+        "MKL_NUM_THREADS": null,
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "VECLIB_MAXIMUM_THREADS": null
+      }
+    },
+    "matches_current": true
+  }
+}

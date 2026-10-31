@@ -1,0 +1,65 @@
+{
+  "exitstatus": 1,
+  "reports": [
+    {
+      "nodeid": "tests/week4/test_week3_isolation.py::test_week3_module_bytes_match_the_original_validation_manifest",
+      "when": "setup",
+      "outcome": "passed"
+    },
+    {
+      "nodeid": "tests/week4/test_week3_isolation.py::test_week3_module_bytes_match_the_original_validation_manifest",
+      "when": "call",
+      "outcome": "passed"
+    },
+    {
+      "nodeid": "tests/week4/test_week3_isolation.py::test_week3_module_bytes_match_the_original_validation_manifest",
+      "when": "teardown",
+      "outcome": "passed"
+    },
+    {
+      "nodeid": "tests/week4/test_week3_isolation.py::test_archived_week3_outputs_retain_their_recorded_bytes",
+      "when": "setup",
+      "outcome": "passed"
+    },
+    {
+      "nodeid": "tests/week4/test_week3_isolation.py::test_archived_week3_outputs_retain_their_recorded_bytes",
+      "when": "call",
+      "outcome": "passed"
+    },
+    {
+      "nodeid": "tests/week4/test_week3_isolation.py::test_archived_week3_outputs_retain_their_recorded_bytes",
+      "when": "teardown",
+      "outcome": "passed"
+    },
+    {
+      "nodeid": "tests/week4/test_week3_isolation.py::test_original_week3_smoke_outputs_remain_unchanged",
+      "when": "setup",
+      "outcome": "passed"
+    },
+    {
+      "nodeid": "tests/week4/test_week3_isolation.py::test_original_week3_smoke_outputs_remain_unchanged",
+      "when": "call",
+      "outcome": "passed"
+    },
+    {
+      "nodeid": "tests/week4/test_week3_isolation.py::test_original_week3_smoke_outputs_remain_unchanged",
+      "when": "teardown",
+      "outcome": "passed"
+    },
+    {
+      "nodeid": "tests/week4/test_week3_isolation.py::test_historical_cv2_replication_replays_exactly_without_touching_archive",
+      "when": "setup",
+      "outcome": "passed"
+    },
+    {
+      "nodeid": "tests/week4/test_week3_isolation.py::test_historical_cv2_replication_replays_exactly_without_touching_archive",
+      "when": "call",
+      "outcome": "failed"
+    },
+    {
+      "nodeid": "tests/week4/test_week3_isolation.py::test_historical_cv2_replication_replays_exactly_without_touching_archive",
+      "when": "teardown",
+      "outcome": "passed"
+    }
+  ]
+}

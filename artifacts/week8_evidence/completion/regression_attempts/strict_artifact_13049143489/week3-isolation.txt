@@ -1,0 +1,14 @@
+....                                                                     [100%]
+4 passed in 8.20s
+
+{
+  "status": "passed",
+  "junit_counts": {
+    "tests": 4,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "evidence": "/home/runner/work/_temp/week3-sde-evidence/replay",
+  "execution_mode": "Intel SDE instruction emulation (-no-follow-child -icl), same-process pytest; driver exec-follow disabled"
+}

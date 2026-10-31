@@ -1,0 +1,67 @@
+{
+  "core": [
+    "/opt/hostedtoolcache/Python/3.12.14/x64/bin/python",
+    "/home/runner/work/_temp/final-regression/pytest_entry.py",
+    "-q",
+    "-ra",
+    "tests",
+    "--ignore=tests/week7",
+    "--ignore=tests/week8",
+    "--ignore=tests/week4/test_week3_isolation.py",
+    "-p",
+    "week8_release_identity_plugin",
+    "--basetemp=/home/runner/work/_temp/final-regression-pytest-core",
+    "--junitxml=/home/runner/work/_temp/final-regression/core-junit.xml"
+  ],
+  "historical": [
+    "/home/runner/work/_temp/ou-legacy-env/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "-ra",
+    "tests/week7/test_plots_integrity.py",
+    "tests/week7/test_plots_reference.py",
+    "tests/week7/test_selection.py",
+    "-p",
+    "week8_release_identity_plugin",
+    "--basetemp=/home/runner/work/_temp/final-regression-pytest-historical",
+    "--junitxml=/home/runner/work/_temp/final-regression/historical-junit.xml"
+  ],
+  "week3-isolation": [
+    "/opt/hostedtoolcache/Python/3.12.14/x64/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "-ra",
+    "tests/week4/test_week3_isolation.py",
+    "-p",
+    "week8_release_identity_plugin",
+    "--basetemp=/home/runner/work/_temp/final-regression-pytest-week3-isolation",
+    "--junitxml=/home/runner/work/_temp/final-regression/week3-isolation-junit.xml"
+  ],
+  "week7": [
+    "/opt/hostedtoolcache/Python/3.12.14/x64/bin/python",
+    "/home/runner/work/_temp/final-regression/pytest_entry.py",
+    "-q",
+    "-ra",
+    "tests/week7",
+    "--ignore=tests/week7/test_plots_integrity.py",
+    "--ignore=tests/week7/test_plots_reference.py",
+    "--ignore=tests/week7/test_selection.py",
+    "-p",
+    "week8_release_identity_plugin",
+    "--basetemp=/home/runner/work/_temp/final-regression-pytest-week7",
+    "--junitxml=/home/runner/work/_temp/final-regression/week7-junit.xml"
+  ],
+  "week8": [
+    "/opt/hostedtoolcache/Python/3.12.14/x64/bin/python",
+    "/home/runner/work/_temp/final-regression/pytest_entry.py",
+    "-q",
+    "-ra",
+    "tests/week8",
+    "-p",
+    "week8_release_identity_plugin",
+    "--basetemp=/home/runner/work/_temp/final-regression-pytest-week8",
+    "--junitxml=/home/runner/work/_temp/final-regression/week8-junit.xml"
+  ]
+}

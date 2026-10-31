@@ -7,49 +7,66 @@ $$
 dX_t = \theta(\mu-X_t)\,dt + \sigma\,dW_t.
 $$
 
-**Current stage on `weeks5-8-sequential`: Weeks 5–7 complete and audited; the Week 8 gate permits the separately specified optional E4 extension.**
-E1 retains 14,000 paths and 42,000 fits. E2 retains the complete 60-cell grid:
-120,000 paths and 360,000 fit records, including 86 unavailable intervals.
-Exact theta meets the practical criteria in 55/60 E2 cells; the five breaches
-are driven by positive bias at n=250,q=0.1, while its coverage remains near 95%
-there. Exact sigma meets the criteria throughout E2. PFML/Euler have extensive
-parameter-specific breaches, and five E2 parameter cells remain unresolved.
-See the [Week 6 results](docs/week6_progress.md) and
-[full-grid mathematics](docs/week6_mathematics.md). Week 7 completed the dated
-[exploratory protocol](docs/week7_exploratory_protocol.md): all 53 selected sources,
-20,000 independent follow-up paths and 24,000 paired-floor realizations.
-The follow-up retains 444 unavailable-interval records; all 72,000 floor-study
-fits and intervals are valid. Neither study has a pipeline error, and E1/E2
-remain unchanged. See the [Week 7 completion report](docs/week7_progress.md),
-[one-page findings memo](docs/week7_findings_memo.pdf), and
-[numerical disposition](docs/week7_numerical_disposition.md). The
-[Week 8 gate](docs/week8_gate.md), [dated E4 protocol](docs/week8_exploratory_protocol.md)
-and [mathematical basis](docs/week8_mathematics.md) are now recorded. E4 design
-and source modules are reviewed and published; the fixed source-only validation
-passed all 108 checks across 1,536 sequences. See the
-[implementation checkpoints](docs/week8_implementation.md). Guarded fitted
-execution and saved-record reporting have passed their module tests and review.
-The independent auditor is implemented and tested against all1,536 archived source-only
-schedules and the fixed R=4 module fixture (28 paths/84 fits, plus42 endpoint fit
-replays). Its final70 tests passed; see the [auditor checkpoint](docs/week8_audit_progress.md).
-Plotting, guarded integration, complete-runner validation and full E4 results remain pending. The
-[prospective population-target derivation](docs/week8_population_targets.md)
-explains the matched-marginal comparison without changing truth-based summaries.
-The [recovery record](docs/week7_recovery_20261030.md) distinguishes
-published module checkpoints, fresh validation and lost unpublished evidence.
-See the [Week 5 results](docs/week5_progress.md),
-[mathematics](docs/week5_mathematics.md) and [architecture](docs/week5_architecture.md).
-The Week 3/4 APIs and archives remain preserved. The project proceeds independently.
-See the [Week 4 results and validation](docs/week4_progress.md),
-[mathematical derivations](docs/week4_mathematics.md),
-[modular architecture](docs/week4_architecture.md) and
-[preregistered protocol](preregistration.md). Earlier work remains in the
-[27 September validation update](docs/week3_validation_update.md),
-[post-exploratory plan amendment](docs/plan_amendment_week3_validation.md),
-[original Week 3 completion record](docs/week3_progress.md) and
-[mathematical requirements and primary sources](docs/week3_mathematics.md).
-The [Week 2 record](docs/week2_progress.md) and [OU derivations](docs/ou_derivations.md)
-remain available. Written notes do not certify the owner's personal theory exercise.
+**Current stage: Weeks 5–8 research complete; original E4 recovered, audited, reviewed and sealed.**
+
+Weeks 5–7 retain their completed published studies. The original full Week 8
+E4 experiment has been recovered from Actions run
+[41200456847](https://github.com/skbdps/stochastic-processes/actions/runs/41200456847),
+executed at scientific freeze `0ff57919f5d8345f52d8689732ff94448ca3ca1d`.
+Its seven cells contain 14,000 independent source paths and 42,000 fits, with
+all points and intervals available and zero pipeline errors. All 18 new PNGs
+were individually inspected by Codex AI reviewers; the record explicitly
+distinguishes this from human review. Guarded sealing, external reproduction,
+final validation and publication evidence are recorded in the
+[Week 8 completion report](docs/week8_completion.md).
+
+E4 compares MMPP sampling with independent controls matching the entire
+event-stationary gap marginal, plus a regular reference. All 14 exact
+theta/sigma combinations meet the fixed practical criteria. The clearest
+matched-marginal difference is PFML mu: MMPP/IID RMSE ratios are 1.083874 at
+r=5 and 1.157863 at r=20, with coverage lower by 2.70 and 3.85 percentage
+points. These are pointwise comparisons, include realized-span consequences,
+and retain model-based PFML/Euler covariance. Read the
+[results and mathematical interpretation](docs/week8_results_interpretation.md)
+for MC uncertainty and limitations, and
+[reproduction instructions](docs/week8_reproduction.md) for saved-evidence
+verification before considering a new simulation.
+
+E1 retains 14,000 paths / 42,000 fits. E2 retains all 60 cells, 120,000 paths /
+360,000 fits, including 86 unavailable intervals. Exact theta meets the E2
+practical criteria in 55/60 cells; its five bias-driven breaches occur at
+n=250,q=0.1. Exact sigma meets the criteria throughout E2; five E2 parameter
+cells remain unresolved. See [Week 5](docs/week5_progress.md) and
+[Week 6](docs/week6_progress.md). Week 7 retains 53 selected sources / 159
+original-fit replays, 20,000 independent follow-up paths / 60,000 fits, and
+24,000 floor realizations / 72,000 fits in 8,000 independent coupling groups.
+The follow-up retains 444 unavailable intervals. See
+[Week 7 completion](docs/week7_progress.md), the
+[findings memo](docs/week7_findings_memo.pdf),
+[numerical disposition](docs/week7_numerical_disposition.md) and
+[historical runtime limitations](docs/week7_runtime_evidence.md).
+
+The Week 8 [gate](docs/week8_gate.md),
+[dated exploratory protocol](docs/week8_exploratory_protocol.md),
+[mathematical basis](docs/week8_mathematics.md) and
+[prospective population targets](docs/week8_population_targets.md) remain
+unchanged. Its completed development gate accounted for 2,061 cases:
+2,055 passed, six design-inapplicable skips and zero failures; source-only
+validation retained 1,536 sequences / 108 passed checks, and the sealed R=4
+validation retained 28 paths / 84 fits. See
+[runner validation](docs/week8_runner_validation.md) for exact scope and CPU
+replay limitations. Final release checks are recorded separately in the
+completion report.
+
+Earlier Week 3/4 APIs, archives, failures and the
+[preregistered protocol](preregistration.md) remain preserved. Their
+[validation update](docs/week3_validation_update.md),
+[plan amendment](docs/plan_amendment_week3_validation.md),
+[Week 4 results](docs/week4_progress.md),
+[mathematics](docs/week4_mathematics.md) and
+[architecture](docs/week4_architecture.md) retain the governing decisions.
+Written notes do not certify the owner's personal theory exercise, novelty,
+paper acceptance or Weeks 9–12 completion.
 
 The completed E1/E2 studies measure finite-sample bias, RMSE and confidence-interval
 coverage across a wider spacing grid, with equidistant comparisons. The original
@@ -94,7 +111,11 @@ The seal checks unchanged audited scientific evidence, metadata and figure input
 Complete raw partitions, uncertainty tables, paired comparisons, failure records,
 source/configuration hashes and replay evidence remain in the run directory.
 
-For the published archive, first restore its recorded local freeze commit object
+For the published E1/E2 archives, activate the historical optional-package environment
+from [reproduction instructions](docs/week8_reproduction.md#regression-and-strict-historical-replay)
+(`ipykernel`, `ipython` and `nbformat` absent), and unset
+`MKL_NUM_THREADS` and `VECLIB_MAXIMUM_THREADS`. The E4 environment does not
+match these earlier archives. First restore E1's recorded local freeze commit object
 from the documented identical-tree mapping, then audit. The connector published
 the same tree with different commit metadata; the original run record is retained.
 The restoration helper changes no refs, source files or run evidence.
@@ -135,6 +156,33 @@ hash, using the same fields described for Week 5. F5/F6 and availability heatmap
 show every registered grid cell; complete uncertainty and failure tables remain
 available even when a heatmap shows a rounded percentage.
 
+## Week 8: verify the existing full E4 archive
+
+Use a full-history checkout and the recorded Linux Python 3.12.14 environment
+with `requirements-lock.txt`. Preserve frozen source/document bytes and CPU,
+NumPy/BLAS and thread captures. Begin with saved readback; these commands do
+not execute another 14,000-path study.
+
+```bash
+export OPENBLAS_NUM_THREADS=1
+export OMP_NUM_THREADS=1
+unset MKL_NUM_THREADS VECLIB_MAXIMUM_THREADS
+python -m ou_irregular.week8.runner verify --run-dir artifacts/week8_e4 --require-completed
+python -m ou_irregular.week8.runner audit --run-dir artifacts/week8_e4 > /tmp/e4-repeat-audit.json
+python -m ou_irregular.week8.runner replot --run-dir artifacts/week8_e4 --output /tmp/e4-external-replot
+```
+
+Use fresh external outputs. The full audit reconstructs all sources and
+replays 42 endpoint fits; it does not refit all 42,000 records. Replotting
+regenerates all 18 PNG/PDF pairs from saved tables and must leave the sealed
+archive unchanged. Preserve the sibling `week8_e4-figure-renderer` state.
+Exact replay and figure bytes depend on the recorded runtime and hardware;
+a mismatch must be investigated rather than hidden by changed hashes.
+The [complete instructions](docs/week8_reproduction.md) cover artifact
+recovery, seal verification, external hash comparison and the required
+historical/current environment split for tests. The
+[artifact index](artifacts/README.md) identifies durable evidence.
+
 ## Quick start: reproduce the Week 3 and Week 4 results locally
 
 Install **Git and Python 3.12** first. Run all commands from the repository root.
@@ -170,10 +218,9 @@ On Windows, use `.\.venv\Scripts\python.exe` in place of `python` in the command
 below. This uses the virtual environment without requiring PowerShell activation.
 On macOS/Linux, keep the virtual environment activated.
 
-### 2. Test and reproduce both experiments
+### 2. Reproduce the historical Week 3 and Week 4 experiments
 
 ```bash
-python -m pytest -q
 python -m ou_irregular.runner run --config configs/week3_smoke.yaml --output artifacts/local_week3
 python -m ou_irregular.week4.runner run --config configs/week4_validation.yaml --output artifacts/local_week4
 python scripts/validate_week4_artifacts.py --run-dir artifacts/local_week4 --output artifacts/local_week4_audit.json
@@ -205,15 +252,20 @@ not alter the set of files recorded in the run manifest.
 
 Both run directories also contain the resolved configuration and
 `run_metadata.json`. The published checkpoint coverage is **94.45% (theta),
-94.85% (mu), and 94.15% (sigma)**. The full recorded validation suite had 520
-passing tests. These are reference results, not targets to tune a run toward.
+94.85% (mu), and 94.15% (sigma)**. The historical Week 4 validation suite had 520
+passing tests at its recorded checkpoint. Current release validation uses the
+documented separate historical/current environments and isolated replay
+processes; see the [Week 8 reproduction record](docs/week8_reproduction.md). These are reference results, not targets to tune a run toward.
 
 The direct dependencies are pinned in `requirements.txt`. To reproduce the recorded
 Linux environment more closely, use **Python 3.12.14** and install
 `requirements-lock.txt` instead; that complete dependency list is specific to the
 recorded Linux environment. Other platforms should start with `requirements.txt`.
 Exact historical replay requires the recorded Python and scientific dependency
-versions, and its test is skipped if those versions differ. Audit a new run using
+versions plus compatible CPU dispatch; matching package versions alone is
+insufficient. The historical isolation test has its original version guard,
+and release validation runs it without a version skip in the recorded environment.
+Audit a new run using
 the same environment that generated it. The audit verifies saved evidence; it does
 not independently refit the models or recompute the Hessians. Floating-point
 results, figure bytes and timing metadata can differ across machines.
@@ -228,7 +280,6 @@ implemented methods and interpretation rules.
 After completing the quick-start installation:
 
 ```bash
-python -m pytest -q
 python -m ou_irregular.week4.runner run --config configs/week4_validation.yaml --output artifacts/my_week4_run
 ```
 
@@ -321,6 +372,11 @@ installation; recorded measurements are in the progress document.
 
 | Path | Purpose |
 | --- | --- |
+| `ou_irregular/week5/`, `ou_irregular/week6/`, `artifacts/week5_e1/`, `artifacts/week6_e2/` | Completed registered E1/E2 engines, immutable raw records, uncertainty and failure evidence |
+| `ou_irregular/week7/`, `artifacts/week7_followup/`, `artifacts/week7_floor/` | Completed selected diagnostics, follow-up and paired-floor studies |
+| `ou_irregular/week8/`, `artifacts/week8_e4/`, `artifacts/week8_e4-figure-renderer/` | Fixed E4 source, runner, audit and renderer; recovered full results and renderer provenance |
+| `docs/week8_completion.md`, `docs/week8_results_interpretation.md`, `docs/week8_reproduction.md` | Actual completion evidence, saved-table interpretation, exact verification/reproduction scope |
+| `artifacts/week8_evidence/`, `artifacts/README.md` | Validation, recovery, figure-review, publication and release-check evidence index |
 | `ou_irregular/inference/` | Data contracts, adapters, normalization, numerical Hessians, Wald and bootstrap services |
 | `ou_irregular/week4/`, `configs/week4_validation.yaml` | Independent Week 4 orchestration, seed addressing, coverage accounting and figures |
 | `preregistration.md`, `docs/week4_*.md` | Frozen design, mathematics, architecture, execution evidence and limitations |
@@ -358,13 +414,14 @@ The exact-MLE relative biases are about +0.95% and +0.26%; PFML's are about
 unaffected by irregular sampling: finite-sample bias and uncertainty may depend
 on spacing. All table values regenerate from `results/cell4_teaser_naive_vs_exact.csv`.
 
-## Next stage
+## Completion boundary
 
-Weeks 5–7 are complete. The Week 7 publication includes all fixed exploratory
-studies, audited results, numerical dispositions and a one-page findings memo.
-The separate Week 8 gate permits the optional MMPP extension under its dated
-protocol and guarded execution conditions. Implement and validate one module
-at a time, publish the complete scientific freeze, then execute the fixed E4
-study. These stages preserve headline E1/E2 and all completed Week 7 evidence.
+Weeks 5–8 release disposition: **research and reproducibility requirements complete through Week 8; no Weeks 9–12 or manuscript claim**.
+The complete fixed E4 execution is preserved rather than restarted. Its
+completion report binds recovery, numerical audit, actual AI figure review,
+guarded seal, external reproduction and final release checks. Earlier study
+bytes and failures remain retained. The current task ends at publication of
+this verified work; professor correspondence, paper submission and Weeks
+9–12 manuscript work are outside this release.
 
 Author: Suryansh Kumar.

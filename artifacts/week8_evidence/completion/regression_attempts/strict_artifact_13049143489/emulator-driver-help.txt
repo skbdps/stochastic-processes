@@ -1,0 +1,103 @@
+Intel(R) Software Development Emulator.  Version:  10.13.1 external (0)
+Copyright (C) 2008-2026, Intel Corporation. All rights reserved.
+
+ Usage: sde [args] -- application [application-args]
+ 
+ For the longer tool help, use "-help-long".
+ 
+ If one of "-mix", "-debugtrace", or "-t toolname" are not,
+ supplied, then just the underlying emulator will run.
+ 
+     -mix                Run mix histogram tool
+     -omix               Set the output file name for mix, Implies -mix
+                         Default is "mix.out"
+ 
+     -footprint          Run footprint tool
+     -ofootprint         Set the output file name for footprint,
+                         Implies -footprint. Default is "footprint.out"
+ 
+     -debugtrace         Run mix debugtrace tool
+     -odebugtrace        Set the output file name for debugtrace,
+                         Implies -debugtrace
+                         Default is "debugtrace.out"
+ 
+     -ast                Run the Intel(R) AVX/SSE transition checker
+     -oast               Set the output file name for the Intel AVX/SSE
+                         transition checker. Implies -ast
+                         Default is "avx-sse-transition.out"
+ 
+     -quark              Set chip-check and CPUID for Intel(R) Quark CPU
+     -p4                 Set chip-check and CPUID for Intel(R) Pentium4 CPU
+     -p4p                Set chip-check and CPUID for Intel(R) Pentium4 Prescott CPU
+     -mrm                Set chip-check and CPUID for Intel(R) Merom CPU
+     -pnr                Set chip-check and CPUID for Intel(R) Penryn CPU
+     -nhm                Set chip-check and CPUID for Intel(R) Nehalem CPU
+     -wsm                Set chip-check and CPUID for Intel(R) Westmere CPU
+     -snb                Set chip-check and CPUID for Intel(R) Sandy Bridge CPU
+     -ivb                Set chip-check and CPUID for Intel(R) Ivy Bridge CPU
+     -hsw                Set chip-check and CPUID for Intel(R) Haswell CPU
+     -bdw                Set chip-check and CPUID for Intel(R) Broadwell CPU
+     -slt                Set chip-check and CPUID for Intel(R) Saltwell CPU
+     -slm                Set chip-check and CPUID for Intel(R) Silvermont CPU
+     -glm                Set chip-check and CPUID for Intel(R) Goldmont CPU
+     -glp                Set chip-check and CPUID for Intel(R) Goldmont Plus CPU
+     -tnt                Set chip-check and CPUID for Intel(R) Tremont CPU
+     -snr                Set chip-check and CPUID for Intel(R) Snow Ridge CPU
+     -skl                Set chip-check and CPUID for Intel(R) Skylake CPU
+     -cnl                Set chip-check and CPUID for Intel(R) Cannon Lake CPU
+     -icl                Set chip-check and CPUID for Intel(R) Ice Lake CPU
+     -skx                Set chip-check and CPUID for Intel(R) Skylake server CPU
+     -clx                Set chip-check and CPUID for Intel(R) Cascade Lake CPU
+     -cpx                Set chip-check and CPUID for Intel(R) Cooper Lake CPU
+     -icx                Set chip-check and CPUID for Intel(R) Ice Lake server CPU
+     -tgl                Set chip-check and CPUID for Intel(R) Tiger Lake CPU
+     -adl                Set chip-check and CPUID for Intel(R) Alder Lake CPU
+     -mtl                Set chip-check and CPUID for Intel(R) Meteor Lake CPU
+     -rpl                Set chip-check and CPUID for Intel(R) Raptor Lake CPU
+     -spr                Set chip-check and CPUID for Intel(R) Sapphire Rapids CPU
+     -emr                Set chip-check and CPUID for Intel(R) Emerald Rapids CPU
+     -gnr                Set chip-check and CPUID for Intel(R) Granite Rapids CPU
+     -dmr                Set chip-check and CPUID for Intel(R) Diamond Rapids CPU
+     -srf                Set chip-check and CPUID for Intel(R) Sierra Forest CPU
+     -arl                Set chip-check and CPUID for Intel(R) Arrow Lake CPU
+     -lnl                Set chip-check and CPUID for Intel(R) Lunar Lake CPU
+     -ptl                Set chip-check and CPUID for Intel(R) Panther Lake CPU
+     -nvl                Set chip-check and CPUID for Intel(R) Nova Lake CPU
+     -cwf                Set chip-check and CPUID for Intel(R) Clearwater Forest CPU
+     -future-ag          Set chip-check and CPUID for Intel(R) Future x86 Advisory Group compatible chip CPU
+     -future             Set chip-check and CPUID for Intel(R) Future chip CPU
+ 
+     -skip-int3          Skip int3 instructions in the execution
+ 
+     -help               Intel(R) SDE driver help
+     -help-long          Emit the longer help message
+     -phelp              Emit the pin JIT help message
+     -version            Intel(R) SDE version number
+ 
+     -debug              Enable debugging (pause to connect to debugger)
+     -debug-attach       Enable debugging (attach mid-execution)
+     -debug-port port    Specify the port number when debugging with gdb
+ 
+     -env VAR VALUE      Set environment variable VAR to VALUE.
+                         The -env option is repeatable.
+     -no-follow-child    Do not follow exec or subprocess creation
+                         Default is to follow exec or subprocess creation
+ 
+     -echo               Print the internal pin command line and exit
+     -echo-run           Print the internal pin command line and continue
+     -echo-file file     Specify the file name to echo the command line
+     -p  pinarg          Add a pin argument specifically for the pin JIT
+     -pt pintoolarg      Add a pin tool argument
+     -t  toolname        Specify another tool name in the kit
+ 
+     -pin-log-file fn    Specify a pin log file other than pin-log.txt
+     -attach-pid pid     Attach to a process with pid, no need for app
+ 
+     -controller-rep-nonstop Do not stop in the controller on repeat string instructions
+     -no-follow-child        Do not add -follow-execv knob to PIN
+     -follow-subprocess      Add -follow-subprocess knob to PIN
+  
+NOTE: All other arguments are passed to the emulator.
+  
+For bug reports:    https://software.intel.com/en-us/forums/intel-isa-extensions
+For documentation:  http://www.intel.com/software/sde

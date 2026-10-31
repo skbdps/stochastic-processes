@@ -1,0 +1,76 @@
+...F                                                                     [100%]
+=================================== FAILURES ===================================
+___ test_historical_cv2_replication_replays_exactly_without_touching_archive ___
+
+archive = (PosixPath('/home/runner/work/stochastic-processes/stochastic-processes/science/artifacts/week3_validation_rerun'), {'...9da76ec4055d5', 'dependency_versions_sha256': 'b0ecbe17bac2b19dfe67c8100483afff1eeaeb4deaca5954deec71dfa773399f', ...})
+tmp_path = PosixPath('/home/runner/work/_temp/final-regression-pytest-week3-isolation/test_historical_cv2_replicatio0')
+
+    def test_historical_cv2_replication_replays_exactly_without_touching_archive(archive, tmp_path):
+        path, metadata = archive
+        config = load_config(path / "config.yaml")
+        current = runner._provenance(config)
+        differences = runner.provenance_differences(metadata, current)
+        # Changed source must always fail; a different Python/dependency version
+        # may legitimately run the other tests, but cannot claim exact replay.
+        assert current["source_sha256"] == metadata["source_sha256"]
+        if differences:
+            pytest.skip("strict historical replay requires the archived Python/dependency versions")
+        cell = next(cell for cell in config.cells()
+                    if cell["cv"] == 2.0 and cell["theta_mean_gap"] == 0.5)
+        before = {str(file.relative_to(path)): digest(file)
+                  for file in path.rglob("*") if file.is_file()}
+        saved = pd.read_csv(path / "replications.csv", float_precision="round_trip")
+        saved = saved[(saved.cell_id == cell["cell_id"]) & (saved.rep == 0)].sort_values("estimator")
+>       replayed = runner.replay(path, cell["cell_id"], 0,
+                                 output_dir=tmp_path / "historical_replay").sort_values("estimator")
+
+tests/week4/test_week3_isolation.py:89: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+run_dir = PosixPath('/home/runner/work/stochastic-processes/stochastic-processes/science/artifacts/week3_validation_rerun')
+cell_id = 'f8d4e4a0284815907238717ce73c66fe15dbe632869f978cfd54f905b681ba41'
+rep = 0, allow_provenance_mismatch = False
+output_dir = PosixPath('/home/runner/work/_temp/final-regression-pytest-week3-isolation/test_historical_cv2_replicatio0/historical_replay')
+
+    def replay(run_dir, cell_id, rep, *, allow_provenance_mismatch=False, output_dir=None):
+        """Strict historical replay, or an explicitly recorded patched-code replay.
+    
+        Raw-file integrity does not prove historical code identity. By default a
+        source/dependency mismatch stops before any fitting. An intentional replay
+        with changed code requires a separate output directory and records both
+        provenance records, the original raw hash and exact input hashes.
+        """
+        run_dir = Path(run_dir)
+        run_metadata = json.loads((run_dir / "run_metadata.json").read_text())
+        config, saved = _validated_saved_rows(run_dir, run_metadata)
+        current = _provenance(config)
+        differences = provenance_differences(run_metadata, current)
+        if differences:
+            if not allow_provenance_mismatch or output_dir is None:
+                raise ValueError("Replay provenance mismatch: deliberate patched-code replay requires --allow-provenance-mismatch and a separate --output directory")
+            warnings.warn("PATCHED-CODE REPLAY: executing source/runtime differs from the historical run", RuntimeWarning)
+        if output_dir is not None:
+            output_dir = Path(output_dir)
+            if output_dir.resolve() == run_dir.resolve():
+                raise ValueError("Replay output must be separate from the source run")
+            if output_dir.exists() and any(output_dir.iterdir()):
+                raise FileExistsError("Replay output must be a new or empty directory")
+        matches = [cell for cell in config.cells() if cell["cell_id"] == cell_id]
+        if len(matches) != 1:
+            raise ValueError("cell_id must be an exact ID from cells.json")
+        result = pd.DataFrame(run_replication(config, matches[0], rep)[0])
+        historical = saved[(saved.cell_id == cell_id) & (saved.rep == rep)]
+        input_identity = "not_recorded_in_historical_run"
+        if {"times_sha256", "observations_sha256"}.issubset(historical):
+            hash_columns = ["times_sha256", "observations_sha256"]
+            if historical[hash_columns].notna().all().all():
+                input_identity = all(key in result and historical[key].iloc[0] == result[key].iloc[0]
+                                     for key in hash_columns)
+                if not input_identity:
+>                   raise ValueError("Replay did not reconstruct identical input arrays")
+E                   ValueError: Replay did not reconstruct identical input arrays
+
+ou_irregular/runner.py:335: ValueError
+=========================== short test summary info ============================
+FAILED tests/week4/test_week3_isolation.py::test_historical_cv2_replication_replays_exactly_without_touching_archive - ValueError: Replay did not reconstruct identical input arrays
+1 failed, 3 passed in 3.76s

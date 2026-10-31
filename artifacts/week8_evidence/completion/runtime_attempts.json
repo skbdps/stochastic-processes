@@ -1,0 +1,48 @@
+{
+  "recorded_utc": "2026-10-31T16:35:19.305686+00:00",
+  "operational_attempts": [
+    {
+      "run": 41216906116,
+      "artifact": 13048258221,
+      "sha256": "5c42b9f3882cb59072b902a3cb33dfb08dc408a831aefe8359a423c2d20e6d67",
+      "disposition": "Ubuntu24 hosted CPU lacked AVX512; preflight exit2, historical tests not executed.",
+      "source_url": "https://github.com/skbdps/stochastic-processes/actions/runs/41216906116/artifacts/13048258221",
+      "scientific_tests_executed": false
+    },
+    {
+      "run": 41216906116,
+      "artifact": 13048007290,
+      "sha256": "5ca726031bc9084d98452f9d5d08df988ad78eec259e47b6808b1bf95c8673b8",
+      "disposition": "Ubuntu22 hosted CPU lacked AVX512; preflight exit2, historical tests not executed.",
+      "source_url": "https://github.com/skbdps/stochastic-processes/actions/runs/41216906116/artifacts/13048007290",
+      "scientific_tests_executed": false
+    },
+    {
+      "run": 41217792794,
+      "artifact": 13048078316,
+      "sha256": "af5f3c354c6dc21dcebe0917feb7e6847a2d2cdd66cbf712f0f38612655d8eb5",
+      "disposition": "Emulator started parent Python, then auxiliary Git exec failed before tests (Pin followexecve ENOENT).",
+      "source_url": "https://github.com/skbdps/stochastic-processes/actions/runs/41217792794/artifacts/13048078316",
+      "scientific_tests_executed": false
+    },
+    {
+      "run": 41218696478,
+      "artifact": 13049341016,
+      "sha256": "fb283d40544d88b2022809244945646284ee6fb11dc96dbd323b4360a78ca31e",
+      "disposition": "Wrapper incorrectly expected generic Pin option in tool-only long help; assertion failed before tests.",
+      "source_url": "https://github.com/skbdps/stochastic-processes/actions/runs/41218696478/artifacts/13049341016",
+      "scientific_tests_executed": false
+    },
+    {
+      "run": 41219225720,
+      "artifact": 13049426606,
+      "sha256": "b314765f419a5f0308112c42d0c48c9d28e80597844d329d3be8c009506d02b0",
+      "disposition": "Forwarded generic Pin option duplicated SDK write-once follow_execv setting; launcher rejected before Python/tests.",
+      "source_url": "https://github.com/skbdps/stochastic-processes/actions/runs/41219225720/artifacts/13049426606",
+      "scientific_tests_executed": false
+    }
+  ],
+  "raw_operational_archives_preserved_locally": "operational_failures/",
+  "public_record_scope": "Artifact identities, digests and factual dispositions. Full GitHub job-server logs are not duplicated. Native failed scientific-test invocation and successful strict invocation are retained in complete bound regression_attempts/ directories.",
+  "no_scientific_code_or_assertion_relaxed": true
+}
