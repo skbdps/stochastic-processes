@@ -1,0 +1,199 @@
+name: Week 8 complete verification
+on:
+  push:
+    branches: [validation/week8-runner-20261031]
+    paths: [.github/workflows/week8-finish-checks.yml]
+  workflow_dispatch:
+concurrency:
+  group: week8-complete-verification
+  cancel-in-progress: false
+permissions:
+  contents: write
+  actions: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 70
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MPLCONFIGDIR: /tmp/ou-week8-final-checks-mpl
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12.14'
+      - name: Preserve exact candidate and prior diagnostic
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/e4-checks"
+          python - <<'PY'
+          import hashlib,json,os,pathlib,subprocess
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'e4-checks'
+          base='7dfe7e191bc4e9516142e141b9208fd0fd4fd0dc'
+          names=['ou_irregular/week8/runner.py','tests/week8/test_runner.py','docs/week8_runner.md']
+          diff=subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines()
+          assert all(n in names or n.startswith('.github/workflows/') or (n.startswith('runner-ci-') and n.endswith('.json')) for n in diff),diff
+          source={n:hashlib.sha256(pathlib.Path(n).read_bytes()).hexdigest() for n in names}
+          record={'base_commit':base,'candidate_commit':os.environ['GITHUB_SHA'],'source_sha256':source,'run_id':os.environ['GITHUB_RUN_ID'],'scientific_sources_unchanged':True,'full_E4_started':False,'change':'CI process isolation only: all original test cases remain required; strict replay assertions are unchanged.'}
+          (out/'candidate.json').write_text(json.dumps(record,indent=2)+'\n')
+          subprocess.run(['git','diff','--check',base,'HEAD'],check=True)
+          for n in names:
+              p=out/'candidate_source'/n;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(pathlib.Path(n).read_bytes())
+          diag=subprocess.check_output(['git','show','origin/validation/week8-replay-diagnostic-20261031:replay-diagnostic-41198536977.json'])
+          (out/'prior_replay_diagnostic.json').write_bytes(diag)
+          # Preserve original diagnostic logs, rather than nesting previous archives recursively.
+          for p in pathlib.Path('.').glob('runner-ci-*.json'):
+              target=out/'prior_diagnostics'/p.name;target.parent.mkdir(exist_ok=True);target.write_bytes(p.read_bytes())
+          PY
+      - name: Install pinned current and historical environments
+        run: |
+          set -euo pipefail
+          python -m pip install -r requirements-lock.txt
+          python -m venv "$RUNNER_TEMP/legacy"
+          python - <<'PY'
+          import os,pathlib
+          lines=[l for l in pathlib.Path('requirements-lock.txt').read_text().splitlines() if l.split('==')[0].lower() not in {'ipykernel','ipython','nbformat'}]
+          pathlib.Path(os.environ['RUNNER_TEMP'],'legacy.txt').write_text('\n'.join(lines)+'\n')
+          PY
+          "$RUNNER_TEMP/legacy/bin/python" -m pip install -r "$RUNNER_TEMP/legacy.txt"
+          python -m pip freeze > "$RUNNER_TEMP/e4-checks/dependencies.txt"
+          "$RUNNER_TEMP/legacy/bin/python" -m pip freeze > "$RUNNER_TEMP/e4-checks/legacy-dependencies.txt"
+      - name: Record numerical hardware and prepare spawn-safe test entry
+        run: |
+          set -euo pipefail
+          unset MKL_NUM_THREADS VECLIB_MAXIMUM_THREADS
+          python - <<'PY'
+          import contextlib,io,json,os,pathlib,platform,subprocess,numpy as np
+          from ou_irregular.experiments.provenance import environment
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'e4-checks'
+          runtime=environment();(out/'runtime.json').write_text(json.dumps(runtime,indent=2)+'\n')
+          buf=io.StringIO()
+          with contextlib.redirect_stdout(buf):np.show_runtime()
+          cpu={'platform':platform.platform(),'cpu_features':np._core._multiarray_umath.__cpu_features__,'cpu_dispatch':np._core._multiarray_umath.__cpu_dispatch__,'numpy_runtime':buf.getvalue(),'lscpu':subprocess.check_output(['lscpu'],text=True),'NPY_DISABLE_CPU_FEATURES':os.environ.get('NPY_DISABLE_CPU_FEATURES')}
+          (out/'cpu.json').write_text(json.dumps(cpu,indent=2)+'\n')
+          expected=json.loads(pathlib.Path('artifacts/week8_development/audit/ci/native_fixture/native_archive/run_metadata.json').read_text())['provenance']['environment']
+          assert runtime==expected,(runtime,expected)
+          old=json.loads(subprocess.check_output([os.environ['RUNNER_TEMP']+'/legacy/bin/python','-c','import json;from ou_irregular.experiments.provenance import environment;print(json.dumps(environment()))'],text=True))
+          (out/'legacy-runtime.json').write_text(json.dumps(old,indent=2)+'\n')
+          for name in ['artifacts/week5_e1/run_metadata.json','artifacts/week6_e2/run_metadata.json','artifacts/week7_recovery_evidence/floor_audit_current_capture/archive/run_metadata.json']:
+              assert old==json.loads(pathlib.Path(name).read_text())['provenance']['environment'],name
+          PY
+          cat > "$RUNNER_TEMP/e4-checks/pytest_entry.py" <<'PY'
+          import os,pathlib,sys,json
+          sys.path.insert(0,str(pathlib.Path.cwd()))
+          def main():
+              import ou_irregular.runner
+              import pytest
+              os.environ.pop('MKL_NUM_THREADS',None);os.environ.pop('VECLIB_MAXIMUM_THREADS',None)
+              from ou_irregular.experiments.provenance import environment
+              out=pathlib.Path(os.environ['RUNNER_TEMP'])/'e4-checks'
+              assert environment()==json.loads((out/'runtime.json').read_text())
+              args=['-q','-ra','tests','--ignore=tests/week4/test_week3_isolation.py','--ignore=tests/week7/test_plots_integrity.py','--ignore=tests/week7/test_plots_reference.py','--ignore=tests/week7/test_selection.py','--junitxml='+str(out/'current.xml')]
+              (out/'current-command.json').write_text(json.dumps(args)+'\n')
+              return pytest.main(args)
+          if __name__=='__main__':raise SystemExit(main())
+          PY
+      - name: Run unchanged strict historical replay in isolated process
+        run: |
+          set -uo pipefail
+          unset MKL_NUM_THREADS VECLIB_MAXIMUM_THREADS
+          python -m pytest -q -ra tests/week4/test_week3_isolation.py --junitxml="$RUNNER_TEMP/e4-checks/strict-replay.xml" 2>&1 | tee "$RUNNER_TEMP/e4-checks/strict-replay.txt"
+          code=${PIPESTATUS[0]}
+          printf '{"returncode":%s}\n' "$code" > "$RUNNER_TEMP/e4-checks/strict-exit.json"
+          exit "$code"
+      - name: Run all remaining tests and fixed R4 integrated validation
+        run: |
+          set -euo pipefail
+          unset MKL_NUM_THREADS VECLIB_MAXIMUM_THREADS
+          export OU_E4_AUDIT_FIXTURE_ROOT="$RUNNER_TEMP/e4-checks/audit_fixture"
+          export OU_E4_PLOTS_FIXTURE_ROOT="$RUNNER_TEMP/e4-checks/plots_fixture"
+          export OU_E4_RUNNER_FIXTURE_ROOT="$RUNNER_TEMP/e4-checks/runner_fixture"
+          mkdir -p "$OU_E4_AUDIT_FIXTURE_ROOT"
+          python -m pytest --collect-only -q tests > "$RUNNER_TEMP/e4-checks/collection.txt" 2>&1
+          set +e
+          python "$RUNNER_TEMP/e4-checks/pytest_entry.py" 2>&1 | tee "$RUNNER_TEMP/e4-checks/current.txt"
+          current=${PIPESTATUS[0]}
+          "$RUNNER_TEMP/legacy/bin/python" -m pytest -q -ra tests/week7/test_plots_integrity.py tests/week7/test_plots_reference.py tests/week7/test_selection.py --junitxml="$RUNNER_TEMP/e4-checks/historical.xml" 2>&1 | tee "$RUNNER_TEMP/e4-checks/historical.txt"
+          historical=${PIPESTATUS[0]}
+          printf '{"current":%s,"historical":%s}\n' "$current" "$historical" > "$RUNNER_TEMP/e4-checks/test-exit.json"
+          test "$current" -eq 0 && test "$historical" -eq 0
+      - name: Verify complete test accounting and prepare reviewed publication candidate
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          unset MKL_NUM_THREADS VECLIB_MAXIMUM_THREADS
+          python - <<'PY'
+          import base64,hashlib,json,os,pathlib,re,subprocess,xml.etree.ElementTree as ET
+          from ou_irregular.week8 import runner
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'e4-checks';repo=os.environ['GITHUB_REPOSITORY']
+          candidate=json.loads((out/'candidate.json').read_text());base=candidate['base_commit']
+          counts={};keys=[];skips=[]
+          for name in ['strict-replay.xml','current.xml','historical.xml']:
+              tree=ET.parse(out/name);suites=list(tree.getroot().iter('testsuite'))
+              counts[name]={k:sum(int(s.attrib.get(k,0)) for s in suites) for k in ['tests','errors','failures','skipped']}
+              for t in tree.getroot().iter('testcase'):
+                  key=t.attrib.get('classname','')+'.'+t.attrib.get('name','');keys.append(key)
+                  if t.find('skipped') is not None:skips.append({'test':key,'reason':t.find('skipped').attrib.get('message','')})
+          n=int(re.search(r'(\d+) tests collected',(out/'collection.txt').read_text()).group(1))
+          assert len(keys)==len(set(keys))==n,(n,counts)
+          assert all(v['errors']==v['failures']==0 for v in counts.values()),counts
+          assert counts['strict-replay.xml']['skipped']==0,'strict replay cannot be waived'
+          native=out/'runner_fixture/native_archive';verified=runner.verify_run(native);a=verified['audit'];m=verified['metadata']
+          assert a['planned_paths']==a['source_paths_verified']==28 and a['planned_fit_records']==84 and a['replayed_fits']==42
+          assert a['pipeline_errors']==0 and a['full_completion_audit'] is True and m['status']=='audited_pending_visual_review'
+          assert not (native/'visual_review.json').exists()
+          oldpath=pathlib.Path('artifacts/week8_development/plots/validation_visual_review.json');old=json.loads(oldpath.read_text())
+          pngs={name:hashlib.sha256((native/'figures'/name).read_bytes()).hexdigest() for name in verified['figures']['figures'] if name.endswith('.png')}
+          eq={'source_review_path':str(oldpath),'source_review_sha256':hashlib.sha256(oldpath.read_bytes()).hexdigest(),'all_png_bytes_identical_to_previously_inspected_images':pngs==old['figure_sha256'],'current_png_sha256':pngs,'new_visual_inspection_performed':False}
+          (out/'visual_equivalence.json').write_text(json.dumps(eq,indent=2)+'\n')
+          summary={'run_id':os.environ['GITHUB_RUN_ID'],'candidate_commit':os.environ['GITHUB_SHA'],'all_collected_tests_accounted_for':n,'counts':counts,'skips':skips,'native_paths':28,'native_fits':84,'native_replayed_fits':42,'native_status':m['status'],'pipeline_errors':0,'figure_pairs':18,'prior_visual_equivalence':eq['all_png_bytes_identical_to_previously_inspected_images'],'full_E4_started':False}
+          (out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
+          def api(path,value=None):
+              args=['gh','api',f'repos/{repo}/{path}']
+              if value is not None:args+=['--method','PUT' if path.startswith('contents/') else 'POST','--input','-']
+              return json.loads(subprocess.check_output(args,input=json.dumps(value) if value is not None else None,text=True))
+          assert api('git/ref/heads/weeks5-8-sequential')['object']['sha']==base,'scientific branch moved'
+          paths={name:pathlib.Path(name) for name in candidate['source_sha256']}
+          for name,d in candidate['source_sha256'].items():assert hashlib.sha256(paths[name].read_bytes()).hexdigest()==d
+          prefix='artifacts/week8_development/runner/ci/'+os.environ['GITHUB_RUN_ID']+'/'
+          for p in sorted(out.rglob('*')):
+              if p.is_file():paths[prefix+str(p.relative_to(out))]=p
+          blobs={};entries=[]
+          for name,p in sorted(paths.items()):
+              data=p.read_bytes();d=hashlib.sha256(data).hexdigest()
+              if d not in blobs:blobs[d]=api('git/blobs',{'content':base64.b64encode(data).decode(),'encoding':'base64'})['sha']
+              entries.append({'path':name,'mode':'100644','type':'blob','sha':blobs[d]})
+          tree=api('git/trees',{'base_tree':api('git/commits/'+base)['tree']['sha'],'tree':entries})['sha']
+          record={'summary':summary,'base_commit':base,'publication_tree':tree,'scientific_refs_updated':False,'artifact_prefix':prefix}
+          (out/'publication.json').write_text(json.dumps(record,indent=2)+'\n')
+          api('contents/runner-ci-result-'+os.environ['GITHUB_RUN_ID']+'.json',{'message':'Record complete verified E4 runner candidate','branch':'validation/week8-runner-20261031','content':base64.b64encode((json.dumps(record,indent=2)+'\n').encode()).decode()})
+          print(json.dumps(record,indent=2))
+          PY
+      - name: Retain diagnostic readback even on failure
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import base64,json,os,pathlib,subprocess
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'e4-checks'
+          names=['summary.json','strict-exit.json','strict-replay.txt','test-exit.json','current.txt','historical.txt','runner_fixture/stderr.txt','runner_fixture/exit.json','cpu.json']
+          data={n:(out/n).read_text()[-16000:] for n in names if (out/n).is_file()}
+          value={'message':'Retain actual complete-verification diagnostic','branch':'validation/week8-runner-20261031','content':base64.b64encode((json.dumps(data,indent=2)+'\n').encode()).decode()}
+          subprocess.run(['gh','api','repos/'+os.environ['GITHUB_REPOSITORY']+'/contents/runner-ci-diagnostic-'+os.environ['GITHUB_RUN_ID']+'.json','--method','PUT','--input','-'],input=json.dumps(value),text=True,check=True,stdout=subprocess.DEVNULL)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: week8-complete-verification-${{ github.run_id }}
+          path: ${{ runner.temp }}/e4-checks/
+          include-hidden-files: true
+          retention-days: 30
+          if-no-files-found: error
