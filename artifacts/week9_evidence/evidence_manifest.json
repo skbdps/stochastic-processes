@@ -1,4 +1,9 @@
 {
+  "excluded_generated_cache": {
+    "path": "cli_test_attempt01/__pycache__/test_cli.cpython-312-pytest-9.1.1.pyc",
+    "reason": "Generated replay bytecode is retained in the original local failure evidence and in the previous local commit; source, logs and JUnit remain in this release.",
+    "sha256": "45d045d46bb3bbebc8b0f9d8fe6f0e281d90db7fafe4297e879668b4f42a1610"
+  },
   "files": {
     "README.md": {
       "sha256": "50f2a077059fe4b32ffd3b0d835738dd4b7da855742e741161db6c9d5b5f99c6",
@@ -19,10 +24,6 @@
     "clean_build/stdout.txt": {
       "sha256": "673697ea2f227e8f3a8f1af8155c6d76a6555255638b4d4822e2dd3887fa4d02",
       "size_bytes": 594
-    },
-    "cli_test_attempt01/__pycache__/test_cli.cpython-312-pytest-9.1.1.pyc": {
-      "sha256": "45d045d46bb3bbebc8b0f9d8fe6f0e281d90db7fafe4297e879668b4f42a1610",
-      "size_bytes": 29899
     },
     "cli_test_attempt01/original_observed_failure.json": {
       "sha256": "303edc24d1e6bfe2cfb87088f4dc5d75e98f817a982b020ee6d70de2fdd3fb1b",
