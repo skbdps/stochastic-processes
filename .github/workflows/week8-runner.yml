@@ -44,19 +44,18 @@ jobs:
           changed=subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines()
           ignored={n for n in changed if n.startswith('runner-ci-') and n.endswith('.json')}
           assert set(changed)-ignored==set(names)|{'.github/workflows/week8-runner.yml'},changed
-          record={'base_commit':base,'candidate_commit':os.environ['GITHUB_SHA'],'workflow_run_id':os.environ['GITHUB_RUN_ID'],'candidate_sha256':{n:hashlib.sha256((root/n).read_bytes()).hexdigest() for n in names},'unchanged_prior_tracked_files':True,'allowed_changes':changed,'full_E4_started':False,'correction':'CI-only isolation: historical Week3 CLI sets MKL_NUM_THREADS=1 at import. Pre-import it then restore the recorded environment before pytest. Historical E1/E2/Week7 fixtures use their separate recorded minimal environment. Previous evidence-retrieval race is avoided by verifying predecessor completion. No scientific source, test assertion or threshold changed.'}
+          record={'base_commit':base,'candidate_commit':os.environ['GITHUB_SHA'],'workflow_run_id':os.environ['GITHUB_RUN_ID'],'candidate_sha256':{n:hashlib.sha256((root/n).read_bytes()).hexdigest() for n in names},'unchanged_prior_tracked_files':True,'allowed_changes':changed,'full_E4_started':False,'correction':'CI only: finalized predecessor evidence; exact historical/current runtime separation; restore import-time MKL setting; use a real spawn-safe guarded pytest entry file rather than stdin; explicitly capture both suite exits. No scientific source, test assertion, seed or threshold changed.'}
           (out/'candidate.json').write_text(json.dumps(record,indent=2)+'\n')
           for name in names:
               target=out/'candidate_source'/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((root/name).read_bytes())
           predecessors=[]
-          for run in [41155284522,41157375706,41158020585]:
+          for run in [41155284522,41157375706,41158020585,41176203211]:
               info=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/actions/runs/{run}'],text=True))
               assert info['status']=='completed',('predecessor not finalized',run)
               items=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/actions/runs/{run}/artifacts'],text=True))['artifacts']
               item=next(a for a in items if a['name']==f'week8-runner-verification-{run}')
               data=subprocess.check_output(['gh','api',f'repos/{repo}/actions/artifacts/{item["id"]}/zip'])
-              digest=hashlib.sha256(data).hexdigest()
-              assert item['digest']=='sha256:'+digest,run
+              digest=hashlib.sha256(data).hexdigest();assert item['digest']=='sha256:'+digest,run
               (out/f'prior_invocation_{run}.zip').write_bytes(data)
               predecessors.append({'run':run,'head_sha':info['head_sha'],'conclusion':info['conclusion'],'artifact_id':item['id'],'sha256':digest})
               z=zipfile.ZipFile(io.BytesIO(data))
@@ -80,14 +79,10 @@ jobs:
           "$RUNNER_TEMP/ou-legacy-env/bin/python" -m pip install -r "$RUNNER_TEMP/legacy-requirements.txt"
           python -m pip freeze > "$RUNNER_TEMP/week8-runner-ci/dependencies.txt"
           "$RUNNER_TEMP/ou-legacy-env/bin/python" -m pip freeze > "$RUNNER_TEMP/week8-runner-ci/legacy-dependencies.txt"
-      - name: Execute all regression tests and retain fixed R4 native CLI evidence
+      - name: Verify runtime identities and create guarded spawn-safe test entrypoint
         run: |
-          set -uo pipefail
+          set -euo pipefail
           unset MKL_NUM_THREADS VECLIB_MAXIMUM_THREADS
-          export OU_E4_AUDIT_FIXTURE_ROOT="$RUNNER_TEMP/week8-runner-ci/audit_fixture"
-          export OU_E4_PLOTS_FIXTURE_ROOT="$RUNNER_TEMP/week8-runner-ci/plots_fixture"
-          export OU_E4_RUNNER_FIXTURE_ROOT="$RUNNER_TEMP/week8-runner-ci/runner_fixture"
-          mkdir -p "$OU_E4_AUDIT_FIXTURE_ROOT"
           python - <<'PY'
           import json,os,pathlib,subprocess
           from ou_irregular.experiments.provenance import environment
@@ -99,21 +94,41 @@ jobs:
           (out/'legacy-runtime.json').write_text(json.dumps(historical,indent=2)+'\n')
           saved=json.loads(pathlib.Path('artifacts/week8_development/audit/ci/native_fixture/native_archive/run_metadata.json').read_text())['provenance']['environment'];assert environment()==saved,(environment(),saved)
           PY
-          preflight=$?
-          if [ "$preflight" -ne 0 ]; then exit "$preflight"; fi
-          python -m pytest --collect-only -q tests > "$RUNNER_TEMP/week8-runner-ci/collection.txt" 2>&1
-          python - <<'PY' 2>&1 | tee "$RUNNER_TEMP/week8-runner-ci/pytest-current.txt"
-          import json,os,pathlib
-          import ou_irregular.runner
-          import pytest
-          os.environ.pop('MKL_NUM_THREADS',None);os.environ.pop('VECLIB_MAXIMUM_THREADS',None)
-          from ou_irregular.experiments.provenance import environment
-          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'week8-runner-ci'
-          assert environment()==json.loads((out/'runtime.json').read_text())
-          args=['-q','-ra','tests','--ignore=tests/week7/test_plots_integrity.py','--ignore=tests/week7/test_plots_reference.py','--ignore=tests/week7/test_selection.py','--junitxml='+str(out/'current-junit.xml')]
-          (out/'current-test-command.json').write_text(json.dumps({'args':args,'bootstrap':'preimport unchanged historical runner, then restore archived thread environment'},indent=2)+'\n')
-          raise SystemExit(pytest.main(args))
+          cat > "$RUNNER_TEMP/week8-runner-ci/pytest_entry.py" <<'PY'
+          """CI-only bootstrap: native spawn can import this file without rerunning pytest."""
+          import json,os,pathlib,sys
+          sys.path.insert(0,str(pathlib.Path.cwd()))
+          def main():
+              import ou_irregular.runner
+              import pytest
+              os.environ.pop('MKL_NUM_THREADS',None);os.environ.pop('VECLIB_MAXIMUM_THREADS',None)
+              from ou_irregular.experiments.provenance import environment
+              out=pathlib.Path(os.environ['RUNNER_TEMP'])/'week8-runner-ci'
+              assert environment()==json.loads((out/'runtime.json').read_text())
+              focused=sys.argv[1:]==['--focused-execution']
+              assert focused or sys.argv[1:]==[]
+              args=(['-q','-ra','tests/week7/test_execution_reference.py','--junitxml='+str(out/'focused-execution-junit.xml')] if focused else ['-q','-ra','tests','--ignore=tests/week7/test_plots_integrity.py','--ignore=tests/week7/test_plots_reference.py','--ignore=tests/week7/test_selection.py','--junitxml='+str(out/'current-junit.xml')])
+              (out/('focused-test-command.json' if focused else 'current-test-command.json')).write_text(json.dumps({'args':args,'bootstrap':'real file with __main__ guard; preimport historical runner then restore recorded thread environment'},indent=2)+'\n')
+              return pytest.main(args)
+          if __name__=='__main__':
+              raise SystemExit(main())
           PY
+      - name: Check multiprocessing launcher before the complete suite
+        run: |
+          set -euo pipefail
+          unset MKL_NUM_THREADS VECLIB_MAXIMUM_THREADS
+          python "$RUNNER_TEMP/week8-runner-ci/pytest_entry.py" --focused-execution 2>&1 | tee "$RUNNER_TEMP/week8-runner-ci/pytest-focused-execution.txt"
+      - name: Execute every regression test and retain fixed R4 native CLI evidence
+        run: |
+          set -euo pipefail
+          unset MKL_NUM_THREADS VECLIB_MAXIMUM_THREADS
+          export OU_E4_AUDIT_FIXTURE_ROOT="$RUNNER_TEMP/week8-runner-ci/audit_fixture"
+          export OU_E4_PLOTS_FIXTURE_ROOT="$RUNNER_TEMP/week8-runner-ci/plots_fixture"
+          export OU_E4_RUNNER_FIXTURE_ROOT="$RUNNER_TEMP/week8-runner-ci/runner_fixture"
+          mkdir -p "$OU_E4_AUDIT_FIXTURE_ROOT"
+          python -m pytest --collect-only -q tests > "$RUNNER_TEMP/week8-runner-ci/collection.txt" 2>&1
+          set +e
+          python "$RUNNER_TEMP/week8-runner-ci/pytest_entry.py" 2>&1 | tee "$RUNNER_TEMP/week8-runner-ci/pytest-current.txt"
           current=${PIPESTATUS[0]}
           "$RUNNER_TEMP/ou-legacy-env/bin/python" -m pytest -q -ra tests/week7/test_plots_integrity.py tests/week7/test_plots_reference.py tests/week7/test_selection.py --junitxml="$RUNNER_TEMP/week8-runner-ci/historical-junit.xml" 2>&1 | tee "$RUNNER_TEMP/week8-runner-ci/pytest-historical.txt"
           historical=${PIPESTATUS[0]}
@@ -143,7 +158,12 @@ jobs:
           collected=int(re.search(r'(\d+) tests collected', (out/'collection.txt').read_text()).group(1))
           assert sum(v['tests'] for v in counts.values())==collected and len(set(testkeys))==collected,(counts,collected)
           assert all(v['errors']==v['failures']==0 for v in counts.values()),counts
-          summary={'candidate_commit':candidate['candidate_commit'],'workflow_run_id':os.environ['GITHUB_RUN_ID'],'all_collected_tests_accounted_for':collected,'test_counts':counts,'skips':skips,'native_validation':{'paths':28,'fits':84,'source_hashes':a['source_array_hashes_verified'],'trace_hashes':a['schedule_trace_hashes_verified'],'replayed_fits':42,'pipeline_errors':0,'status':m['status'],'figure_pairs':len(verified['figures']['figures'])//2},'actual_visual_review_pending':True,'full_E4_started':False}
+          prior=root/'artifacts/week8_development/plots/validation_visual_review.json'
+          old_review=json.loads(prior.read_text())
+          png_hashes={name:hashlib.sha256((native/'figures'/name).read_bytes()).hexdigest() for name in verified['figures']['figures'] if name.endswith('.png')}
+          equivalence={'source_review_path':str(prior.relative_to(root)),'source_review_sha256':hashlib.sha256(prior.read_bytes()).hexdigest(),'source_reviewed_at_utc':old_review['reviewed_at_utc'],'all_png_bytes_identical_to_previously_inspected_images':png_hashes==old_review['figure_sha256'],'current_png_sha256':png_hashes,'original_png_sha256':old_review['figure_sha256'],'new_visual_inspection_performed':False}
+          (out/'prior_visual_equivalence.json').write_text(json.dumps(equivalence,indent=2)+'\n')
+          summary={'candidate_commit':candidate['candidate_commit'],'workflow_run_id':os.environ['GITHUB_RUN_ID'],'all_collected_tests_accounted_for':collected,'test_counts':counts,'skips':skips,'native_validation':{'paths':28,'fits':84,'source_hashes':a['source_array_hashes_verified'],'trace_hashes':a['schedule_trace_hashes_verified'],'replayed_fits':42,'pipeline_errors':0,'status':m['status'],'figure_pairs':len(verified['figures']['figures'])//2},'pngs_match_prior_actual_inspection':equivalence['all_png_bytes_identical_to_previously_inspected_images'],'actual_visual_seal_pending':True,'full_E4_started':False}
           (out/'ci_summary.json').write_text(json.dumps(summary,indent=2)+'\n')
           def api(path,value=None):
               args=['gh','api',f'repos/{repo}/{path}']
@@ -174,7 +194,7 @@ jobs:
           python - <<'PY'
           import base64,json,os,pathlib,subprocess
           out=pathlib.Path(os.environ['RUNNER_TEMP'])/'week8-runner-ci'
-          names=['ci_summary.json','test-exit.json','pytest-current.txt','pytest-historical.txt','runner_fixture/stderr.txt','runner_fixture/exit.json']
+          names=['ci_summary.json','test-exit.json','pytest-focused-execution.txt','pytest-current.txt','pytest-historical.txt','runner_fixture/stderr.txt','runner_fixture/exit.json']
           data={n:(out/n).read_text()[-18000:] for n in names if (out/n).is_file()}
           payload={'message':'Record observed runner CI diagnostic','branch':'validation/week8-runner-20261031','content':base64.b64encode((json.dumps(data,indent=2)+'\n').encode()).decode()}
           subprocess.run(['gh','api','repos/'+os.environ['GITHUB_REPOSITORY']+'/contents/runner-ci-diagnostic-'+os.environ['GITHUB_RUN_ID']+'.json','--method','PUT','--input','-'],input=json.dumps(payload),text=True,check=True,stdout=subprocess.DEVNULL)
