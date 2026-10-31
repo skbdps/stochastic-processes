@@ -1,0 +1,43 @@
+name: Week 8 runner failure diagnostics
+on:
+  push:
+    branches: [validation/week8-completion-20261031]
+    paths: [.github/workflows/week8-runner-diagnostics.yml]
+permissions:
+  contents: write
+  actions: read
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Read retained failed-run output and publish compact diagnostic text
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import base64,io,json,os,pathlib,subprocess,urllib.request,zipfile
+          repo=os.environ['GITHUB_REPOSITORY']; run=41155284522
+          def api(path, data=None, method=None):
+              args=['gh','api',f'repos/{repo}/{path}']
+              if data is not None: args+=['--method',method or 'POST','--input','-']
+              return json.loads(subprocess.check_output(args,input=json.dumps(data) if data is not None else None,text=True))
+          artifacts=api(f'actions/runs/{run}/artifacts')['artifacts']
+          artifact=next(a for a in artifacts if a['name']==f'week8-runner-verification-{run}')
+          data=subprocess.check_output(['gh','api',f'repos/{repo}/actions/artifacts/{artifact["id"]}/zip'])
+          z=zipfile.ZipFile(io.BytesIO(data)); names=z.namelist(); sections=[]
+          sections.append('Original failed workflow run: '+str(run)+'\nArtifact ID: '+str(artifact['id']))
+          for name in names:
+              if name.endswith(('test-exit.json','runner_fixture/stderr.txt','runner_fixture/exit.json')):
+                  sections.append('=== '+name+' ===\n'+z.read(name).decode()[-16000:])
+          log=z.read('pytest-all.txt').decode(); pos=log.rfind('short test summary info')
+          sections.append('=== PYTEST SUMMARY ===\n'+(log[pos:] if pos>=0 else log[-12000:]))
+          parts=log.split('___________________________________')
+          sections.append('=== FIRST TRACEBACKS ===\n'+log[log.find('FAILURES'):log.find('FAILURES')+22000] if 'FAILURES' in log else '=== ERROR HEAD ===\n'+log[:14000])
+          text='\n\n'.join(sections)
+          target='diagnostics/runner-41155284522.txt'
+          result=api('contents/'+target,{'message':'Record original runner CI failure diagnostics; no scientific changes','branch':'validation/week8-completion-20261031','content':base64.b64encode(text.encode()).decode()},method='PUT')
+          print('DIAGNOSTIC_COMMIT='+result['commit']['sha'])
+          print(text[-6000:])
+          PY
