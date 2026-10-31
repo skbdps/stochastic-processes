@@ -1,0 +1,188 @@
+{
+  "actual_native_runner_environment": {
+    "dependencies": {
+      "PyYAML": "6.0.3",
+      "matplotlib": "3.10.8",
+      "numpy": "2.3.5",
+      "pandas": "2.2.3",
+      "scipy": "1.17.0"
+    },
+    "implementation": "CPython",
+    "machine": "x86_64",
+    "other_requirements": {
+      "ipykernel": "7.3.0",
+      "ipython": "9.17.1",
+      "nbformat": "5.11.1",
+      "pytest": "9.1.1"
+    },
+    "python": "3.12.14",
+    "system": "Linux",
+    "thread_environment": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": null
+    }
+  },
+  "archive_comparisons": {
+    "artifacts/week8_development/audit/ci/native_fixture/native_archive/run_metadata.json": {
+      "environment": {
+        "dependencies": {
+          "PyYAML": "6.0.3",
+          "matplotlib": "3.10.8",
+          "numpy": "2.3.5",
+          "pandas": "2.2.3",
+          "scipy": "1.17.0"
+        },
+        "implementation": "CPython",
+        "machine": "x86_64",
+        "other_requirements": {
+          "ipykernel": "7.3.0",
+          "ipython": "9.17.1",
+          "nbformat": "5.11.1",
+          "pytest": "9.1.1"
+        },
+        "python": "3.12.14",
+        "system": "Linux",
+        "thread_environment": {
+          "MKL_NUM_THREADS": null,
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": null
+        }
+      },
+      "different_fields": {
+        "thread_environment": {
+          "current": {
+            "MKL_NUM_THREADS": "1",
+            "OMP_NUM_THREADS": "1",
+            "OPENBLAS_NUM_THREADS": "1",
+            "VECLIB_MAXIMUM_THREADS": null
+          },
+          "saved": {
+            "MKL_NUM_THREADS": null,
+            "OMP_NUM_THREADS": "1",
+            "OPENBLAS_NUM_THREADS": "1",
+            "VECLIB_MAXIMUM_THREADS": null
+          }
+        }
+      }
+    },
+    "artifacts/week5_e1/run_metadata.json": {
+      "environment": {
+        "dependencies": {
+          "PyYAML": "6.0.3",
+          "matplotlib": "3.10.8",
+          "numpy": "2.3.5",
+          "pandas": "2.2.3",
+          "scipy": "1.17.0"
+        },
+        "implementation": "CPython",
+        "machine": "x86_64",
+        "other_requirements": {
+          "ipykernel": null,
+          "ipython": null,
+          "nbformat": null,
+          "pytest": "9.1.1"
+        },
+        "python": "3.12.14",
+        "system": "Linux",
+        "thread_environment": {
+          "MKL_NUM_THREADS": null,
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": null
+        }
+      },
+      "different_fields": {
+        "thread_environment": {
+          "current": {
+            "MKL_NUM_THREADS": "1",
+            "OMP_NUM_THREADS": "1",
+            "OPENBLAS_NUM_THREADS": "1",
+            "VECLIB_MAXIMUM_THREADS": null
+          },
+          "saved": {
+            "MKL_NUM_THREADS": null,
+            "OMP_NUM_THREADS": "1",
+            "OPENBLAS_NUM_THREADS": "1",
+            "VECLIB_MAXIMUM_THREADS": null
+          }
+        },
+        "other_requirements": {
+          "current": {
+            "ipykernel": "7.3.0",
+            "ipython": "9.17.1",
+            "nbformat": "5.11.1",
+            "pytest": "9.1.1"
+          },
+          "saved": {
+            "ipykernel": null,
+            "ipython": null,
+            "nbformat": null,
+            "pytest": "9.1.1"
+          }
+        }
+      }
+    },
+    "artifacts/week6_e2/run_metadata.json": {
+      "environment": {
+        "dependencies": {
+          "PyYAML": "6.0.3",
+          "matplotlib": "3.10.8",
+          "numpy": "2.3.5",
+          "pandas": "2.2.3",
+          "scipy": "1.17.0"
+        },
+        "implementation": "CPython",
+        "machine": "x86_64",
+        "other_requirements": {
+          "ipykernel": null,
+          "ipython": null,
+          "nbformat": null,
+          "pytest": "9.1.1"
+        },
+        "python": "3.12.14",
+        "system": "Linux",
+        "thread_environment": {
+          "MKL_NUM_THREADS": null,
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": null
+        }
+      },
+      "different_fields": {
+        "thread_environment": {
+          "current": {
+            "MKL_NUM_THREADS": "1",
+            "OMP_NUM_THREADS": "1",
+            "OPENBLAS_NUM_THREADS": "1",
+            "VECLIB_MAXIMUM_THREADS": null
+          },
+          "saved": {
+            "MKL_NUM_THREADS": null,
+            "OMP_NUM_THREADS": "1",
+            "OPENBLAS_NUM_THREADS": "1",
+            "VECLIB_MAXIMUM_THREADS": null
+          }
+        },
+        "other_requirements": {
+          "current": {
+            "ipykernel": "7.3.0",
+            "ipython": "9.17.1",
+            "nbformat": "5.11.1",
+            "pytest": "9.1.1"
+          },
+          "saved": {
+            "ipykernel": null,
+            "ipython": null,
+            "nbformat": null,
+            "pytest": "9.1.1"
+          }
+        }
+      }
+    }
+  },
+  "first_error": "ERRORS ====================================\n_ ERROR at setup of test_real_manifest_binds_epsilon_separately_and_does_not_upgrade_raw_provenance _\n\ntmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f3a6e871d90>, _basetemp=PosixPath('/tmp/pytest-of-runner/pytest-0'), _retention_count=3, _retention_policy='all')\n\n    @pytest.fixture(scope='module')\n    def rendered_floor(tmp_path_factory):\n        from .test_plots_reference import rendered_floor_archive\n>       return rendered_floor_archive(tmp_path_factory)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\ntests/week7/test_plots_integrity.py:102: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/week7/test_plots_reference.py:135: in rendered_floor_archive\n    plots.write_figures('floor', output, design)\nou_irregular/week7/plots.py:1241: in write_figures\n    return _write_prepared(loader(), loader, extra_files)\n                           ^^^^^^^^\nou_irregular/week7/plots.py:1240: in <lambda>\n    loader = lambda: _load_run_inputs(kind, output_dir, design)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nou_irregular/week7/plots.py:867: in _load_run_inputs\n    _frozen_provenance(metadata[\"provenance\"], design, required=required, frozen=expected[\"require_frozen\"])\nou_irregular/week7/plots.py:703: in _frozen_provenance\n    verify(provenance, expected_design=design)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nprovenance = {'captured_utc': '2026-10-30T09:36:02.568652+00:00', 'code_commit': '517f5664d14ad06650b0a05e6a77c5de2699032f', 'desig...on', 'replications': 2, ...}, 'design_sha256': 'df9b88a93f0297ed20b541460f5a09629ea300be9ef4674534396421dec548c6', ...}\nroot = PosixPath('/home/runner/work/stochastic-processes/stochastic-processes')\nexpected_design = RunDesign(name='week7_floor_sensitivity_validation', seed=21261009, replications=2, cells=(Cell(n=1000, q=0.5, cv=0.0,...1000, q=0.5, cv=3.0, theta=1.0, mu=0.0, sigma=0.5, floor_fraction=0.0001, floor_cv_threshold=1.5)), scope='validation')\ncheck_environment = True\n\n    def verify(provenance, *, root=ROOT, expected_design=None, check_environment=True):\n        \"\"\"Reject tampered provenance, changed dependencies, runtime or run identity.\"\"\"\n        identity = {k: provenance[k] for k in (\"design\", \"design_sha256\", \"preregistration_commit\",\n                                              \"source_files\", \"environment\")}\n        if digest_bytes(canonical(identity).encode()) != provenance[\"identity_sha256\"]:\n            raise ValueError(\"provenance identity digest mismatch\")\n        if provenance[\"preregistration_commit\"] != PREREG_COMMIT:\n            raise ValueError(\"unexpected registration freeze\")\n        if expected_design is not None and (provenance[\"design_sha256\"] != expected_design.digest\n                                            or provenance[\"design\"] != expected_design.to_dict()):\n            raise ValueError(\"resume design identity mismatch\")\n        for path, expected in provenance[\"source_files\"].items():\n            if Path(path).is_absolute() or \"..\" in Path(path).parts:\n                raise ValueError(\"unsafe dependency path\")\n            if file_digest(Path(root) / path) != expected:\n                raise ValueError(f\"dependency changed: {path}\")\n        if check_environment and environment() != provenance[\"environment\"]:\n>           raise ValueError(\"numerical environment changed\")\nE           ValueError: numerical environment changed\n\nou_irregular/experiments/provenance.py:130: ValueError\n_ ERROR at setup of test_complete_readback_is_pure_self_contained_and_does_not_recapture _\n\ntmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f3a6e871d90>, _basetemp=PosixPath('/tmp/pytest-of-runner/pytest-0'), _retention_count=3, _retention_policy='all')\n\n    @pytest.fixture(scope='module')\n    def rendered_floor(tmp_path_factory):\n        from .test_plots_reference import rendered_floor_archive\n>       return rendered_floor_archive(tmp_path_factory)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\ntests/week7/test_plots_integrity.py:102: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/week7/test_plots_reference.py:135: in rendered_floor_archive\n    plots.write_figures('floor', output, design)\nou_irregular/week7/plots.py:1241: in write_figures\n    return _write_prepared(loader(), loader, extra_files)\n                           ^^^^^^^^\nou_irregular/week7/plots.py:1240: in <lambda>\n    loader = lambda: _load_run_inputs(kind, output_dir, design)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nou_irregular/week7/plots.py:867: in _load_run_inputs\n    _frozen_provenance(metadata[\"provenance\"], design, required=required, frozen=expected[\"require_frozen\"])\nou_irregular/week7/plots.py:703: in _frozen_provenance\n    verify(provenance, expected_design=design)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nprovenance = {'captured_utc': '2026-10-30T09:36:02.568652+00:00', 'code_commit': '517f5664d14ad06650b0a05e6a77c5de2699032f', 'desig...on', 'replications': 2, ...}, 'design_sha256': 'df9b88a93f0297ed20b541460f5a09629ea300be9ef4674534396421dec548c6', ...}\nroot = PosixPath('/home/runner/work/stochastic-processes/stochastic-processes')\nexpected_design = RunDesign(name='week7_floor_sensitivity_validation', seed=21261009, replications=2, cells=(Cell(n=1000, q=0.5, cv=0.0,...1000, q=0.5, cv=3.0, theta=1.0, mu=0.0, sigma=0.5, floor_fraction=0.0001, floor_cv_threshold=1.5)), scope='validation')\ncheck_environment = True\n\n    def verify(provenance, *, root=ROOT, expected_design=None, check_environment=True):\n        \"\"\"Reject tampered provenance, changed dependencies, runtime or run identity.\"\"\"\n        identity = {k: provenance[k] for k in (\"design\", \"design_sha256\", \"preregistration_commit\",\n                                              \"source_files\", \"environment\")}\n        if digest_bytes(canonical(identity).encode()) != provenance[\"identity_sha256\"]:\n            raise ValueError(\"provenance identity digest mismatch\")\n        if provenance[\"preregistration_commit\"] != PREREG_COMMIT:\n            raise ValueError(\"unexpected registration freeze\")\n        if expected_design is not None and (provenance[\"design_sha256\"] != expected_design.digest\n                                            or provenance[\"design\"] != expected_design.to_dict()):\n            raise ValueError(\"resume design identity mismatch\")\n        for path, expected in provenance[\"source_files\"].items():\n            if Path(path).is_absolute() or \"..\" in Path(path).parts:\n                raise ValueError(\"unsafe dependency path\")\n            if file_digest(Path(root) / path) != expected:\n                raise ValueError(f\"dependency changed: {path}\")\n        if check_environment and environment() != provenance[\"environment\"]:\n>           raise ValueError(\"numerical environment changed\")\nE           ValueError: numerical environment changed\n\nou_irregular/experiments/provenance.py:130: ValueError\n_ ERROR at setup of test_complete_declared_products_are_never_recreated_or_overwritten[missing_png] _\n\ntmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f3a6e871d90>, _basetemp=PosixPath('/tmp/pytest-of-runner/pytest-0'), _retention_count=3, _retention_policy='all')\n\n    @pytest.fixture(scope='module')\n    def rendered_floor(tmp_path_factory):\n        from .test_plots_reference import rendered_floor_archive\n>       return rendered_floor_archive(tmp_path_factory)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\ntests/week7/test_plots_integrity.py:102: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \ntests/week7/test_plots_reference.py:135: in rendered_floor_archive\n    plots.write_figures('floor', output, design)\nou_ir",
+  "native_stderr": ""
+}
