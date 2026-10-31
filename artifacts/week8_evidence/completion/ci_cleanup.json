@@ -1,0 +1,56 @@
+{
+  "disabled": [
+    {
+      "id": 402836697,
+      "name": "Recover original full E4 without resimulation",
+      "path": ".github/workflows/week8-recover-original.yml",
+      "before": "active",
+      "after": "disabled_manually"
+    },
+    {
+      "id": 402870423,
+      "name": "Publish verified retained E4 recovery bytes",
+      "path": ".github/workflows/week8-publish-recovered.yml",
+      "before": "active",
+      "after": "disabled_manually"
+    },
+    {
+      "id": 402842811,
+      "name": "Unchanged scientific freeze release regression",
+      "path": ".github/workflows/week8-regression.yml",
+      "before": "active",
+      "after": "disabled_manually"
+    },
+    {
+      "id": 402855843,
+      "name": "Historical replay with explicit compatible CPU preflight",
+      "path": ".github/workflows/week8-compatible-replay.yml",
+      "before": "active",
+      "after": "disabled_manually"
+    },
+    {
+      "id": 402863243,
+      "name": "Strict historical Week 3 replay under recorded Intel SDE runtime",
+      "path": ".github/workflows/week8-sde-replay.yml",
+      "before": "active",
+      "after": "disabled_manually"
+    },
+    {
+      "id": 402886126,
+      "name": "One-off clean-checkout scientific release readback",
+      "path": ".github/workflows/week8-final-readback.yml",
+      "before": "active",
+      "after": "disabled_manually"
+    },
+    {
+      "id": 402715298,
+      "name": "Week 8 full E4 experiment",
+      "path": ".github/workflows/week8-full-e4.yml",
+      "before": "active",
+      "after": "disabled_manually"
+    }
+  ],
+  "sources_logs_artifacts_and_branches_preserved": true,
+  "scientific_tests_removed": false,
+  "main_contains_workflows": false
+}
