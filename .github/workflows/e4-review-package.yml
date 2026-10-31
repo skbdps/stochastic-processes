@@ -1,0 +1,51 @@
+name: E4 image review package
+on:
+  push:
+    branches: [validation/week8-completion-20261031]
+    paths: [.github/workflows/e4-review-package.yml]
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: 7dfe7e191bc4e9516142e141b9208fd0fd4fd0dc
+          persist-credentials: false
+      - name: Build Office Open XML package from exact original image bytes
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,pathlib,shutil,xml.etree.ElementTree as ET
+          from xml.sax.saxutils import escape
+          src=pathlib.Path('artifacts/week8_development/plots/ci/plots_fixture/rendered_archive/figures')
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'review_docx'
+          (out/'_rels').mkdir(parents=True);(out/'word/_rels').mkdir(parents=True);(out/'word/media').mkdir()
+          images=sorted(src.glob('*.png'));assert len(images)==18
+          ct='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Default Extension="png" ContentType="image/png"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>'
+          (out/'[Content_Types].xml').write_text(ct)
+          (out/'_rels/.rels').write_text('<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>')
+          parts=[];rels=[];hashes={}
+          for i,p in enumerate(images,1):
+              name=f'image{i:02d}.png';data=p.read_bytes();assert data.startswith(b'\x89PNG\r\n\x1a\n')
+              (out/'word/media'/name).write_bytes(data);hashes[p.name]=hashlib.sha256(data).hexdigest()
+              rels.append(f'<Relationship Id="rId{i}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/{name}"/>')
+              br='<w:pageBreakBefore/>' if i>1 else ''
+              parts.append(f'<w:p><w:pPr>{br}<w:spacing w:before="0" w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="20"/></w:rPr><w:t>{escape(p.name)}</w:t></w:r></w:p>')
+              parts.append(f'<w:p><w:pPr><w:spacing w:before="0" w:after="0"/><w:jc w:val="center"/></w:pPr><w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="9692640" cy="6400800"/><wp:docPr id="{i}" name="{escape(p.name)}"/><a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic><pic:nvPicPr><pic:cNvPr id="{i}" name="{escape(p.name)}"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="rId{i}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="9692640" cy="6400800"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r></w:p>')
+          document='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><w:body>'+''.join(parts)+'<w:sectPr><w:pgSz w:w="16838" w:h="11906" w:orient="landscape"/><w:pgMar w:top="432" w:right="432" w:bottom="432" w:left="432" w:header="0" w:footer="0" w:gutter="0"/></w:sectPr></w:body></w:document>'
+          (out/'word/document.xml').write_text(document)
+          (out/'word/_rels/document.xml.rels').write_text('<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+''.join(rels)+'</Relationships>')
+          for p in out.rglob('*'):
+              if p.is_file() and p.suffix in {'.xml','.rels'}:ET.parse(p)
+          for i,p in enumerate(images,1):assert (out/'word/media'/f'image{i:02d}.png').read_bytes()==p.read_bytes()
+          print(json.dumps({'purpose':'visual inspection only; valid DOCX package; all PNG bytes unchanged','png_sha256':hashes},indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Week8-Validation-Figure-Review-docx-package
+          path: ${{ runner.temp }}/review_docx/
+          include-hidden-files: true
+          retention-days: 30
+          if-no-files-found: error
