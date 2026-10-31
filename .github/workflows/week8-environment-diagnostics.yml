@@ -1,0 +1,38 @@
+name: Week 8 environment diagnostic
+on:
+  push:
+    branches: [validation/week8-completion-20261031]
+    paths: [.github/workflows/week8-environment-diagnostics.yml]
+permissions:
+  contents: write
+  actions: read
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Compare saved fingerprints without changing any scientific evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import base64,io,json,os,subprocess,zipfile
+          repo=os.environ['GITHUB_REPOSITORY']
+          def api(path,data=None):
+              args=['gh','api',f'repos/{repo}/{path}']
+              if data is not None:args+=['--method','PUT','--input','-']
+              return json.loads(subprocess.check_output(args,input=json.dumps(data) if data else None,text=True))
+          z=zipfile.ZipFile(io.BytesIO(subprocess.check_output(['gh','api',f'repos/{repo}/actions/artifacts/13024699761/zip'])))
+          actual=json.loads(z.read('runner_fixture/native_archive/run_metadata.json'))['provenance']['environment']
+          refs=['artifacts/week8_development/audit/ci/native_fixture/native_archive/run_metadata.json','artifacts/week5_e1/run_metadata.json','artifacts/week6_e2/run_metadata.json']
+          result={'actual_native_runner_environment':actual,'archive_comparisons':{}}
+          for path in refs:
+              value=api('contents/'+path+'?ref=7dfe7e191bc4e9516142e141b9208fd0fd4fd0dc')
+              other=json.loads(base64.b64decode(value['content']))['provenance']['environment']
+              result['archive_comparisons'][path]={'environment':other,'different_fields':{k:{'current':actual.get(k),'saved':other.get(k)} for k in set(actual)|set(other) if actual.get(k)!=other.get(k)}}
+          log=z.read('pytest-all.txt').decode()
+          result['first_error']=log[log.find('ERRORS'):log.find('ERRORS')+8000]
+          result['native_stderr']=z.read('runner_fixture/stderr.txt').decode()
+          text=json.dumps(result,indent=2)+'\n'
+          r=api('contents/diagnostics/runner-environment-41155284522.json',{'message':'Record observed CI runtime differences and original failure trace','branch':'validation/week8-completion-20261031','content':base64.b64encode(text.encode()).decode()})
+          print(r['commit']['sha']);print(text)
+          PY
