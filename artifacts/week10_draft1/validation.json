@@ -1,0 +1,287 @@
+{
+  "status": "passed",
+  "checked_utc": "2026-10-31T19:31:53.217006+00:00",
+  "document_date": "2026-11-01",
+  "document_timezone": "Asia/Kolkata",
+  "research_baseline": "4bddb527f3c8bb88bc1ebec28c8818e03dc251aa",
+  "scope": "Documentation-only Week10 first methods manuscript; content/source checks, no new scientific tests or experiments",
+  "draft_sha256": "80a22e2eb97f48c0b720691da3d429778691e6a230e5f29466984b5bed256d35",
+  "documents": {
+    "manuscript/week10_draft1.md": {
+      "sha256": "80a22e2eb97f48c0b720691da3d429778691e6a230e5f29466984b5bed256d35",
+      "bytes": 24684
+    },
+    "manuscript/README.md": {
+      "sha256": "3f467cb87ff1f6e8269755a09bdb653e680fa8bd1ec257a0b9fd40e2ff334e50",
+      "bytes": 3256
+    },
+    "manuscript/week10_source_map.md": {
+      "sha256": "41c132eb2eb1a65bcb486835707f0de532bcbc873c75a49b362db54185995083",
+      "bytes": 4235
+    },
+    "docs/week10_draft1_status.md": {
+      "sha256": "98d50e9592a0b9411e386d488efcf161496c39528a31bc2da351955a77d22e15",
+      "bytes": 3353
+    },
+    "artifacts/week10_draft1/review.md": {
+      "sha256": "05424f70e21c901e5f6aca0c197d85fe2578bec794b770def91a69381e998fbd",
+      "bytes": 4700
+    },
+    "README.md": {
+      "sha256": "a4dfa044ef548988ba093db31a9d4d464eea20982a5213b370dcda0deac6f4d8",
+      "bytes": 26330
+    },
+    "artifacts/week10_draft1/week9_verify.json": {
+      "sha256": "adcca6cf960bad0616482906f0502a2901948e83e328f6f5d61a651cbc9b765e",
+      "bytes": 582
+    }
+  },
+  "local_links": {
+    "checked": 66,
+    "scope": "all five new Markdown files and first19lines of rootREADME",
+    "missing": []
+  },
+  "markdown_checks": {
+    "trailing_whitespace": false,
+    "display_math_blocks": 14,
+    "math_delimiters_balanced": true,
+    "rendered_pdf_review": false
+  },
+  "baseline_preservation": {
+    "tracked_files_checked": 3704,
+    "byte_identical_files": 3703,
+    "intentional_existing_file_changes": [
+      "README.md"
+    ],
+    "other_changes": [],
+    "method": "Recalculate Git blob IDs for every baseline tracked file; sole intentional exception rootREADME"
+  },
+  "source_files": {
+    "artifacts/week9_publication/README.md": {
+      "sha256": "9d23adc808578852e90e55b0f6c9bb1c674e55610dd793a23dd56b64ecc458dd",
+      "git_blob": "25329abebaad56ddc10f23161906e4bb4a5938a4",
+      "bytes": 1088
+    },
+    "artifacts/week9_publication/claims.json": {
+      "sha256": "3d7af00ff19b55d3cfadfbdeafc2bf04f090203901b61f38d011a109fb63278c",
+      "git_blob": "9d96aed78c5427f33f6261a60647956b23b87d1c",
+      "bytes": 448148
+    },
+    "artifacts/week9_publication/claims.md": {
+      "sha256": "1aa47d9dce1ace021c89c475ed33ae792c87b229bedf5bd665254af6e8a1780c",
+      "git_blob": "e6d75a11990b8779211900c751a09e2c3db6ba77",
+      "bytes": 13083
+    },
+    "artifacts/week9_publication/manifest.json": {
+      "sha256": "370f30e1628821d90cfa42568a60d51dc2c80eb8da71c7036f93c4979d03efbe",
+      "git_blob": "6bc30fbe777742b802fa055c25c525f46bf64e74",
+      "bytes": 15410
+    },
+    "artifacts/week9_publication/package_state.json": {
+      "sha256": "35b2582c8087d197b9df77511553aa9728b0451466d72f05372c361967fb9e52",
+      "git_blob": "6e86583eb391a9b615eb7fba114a9ed733de2d48",
+      "bytes": 421
+    },
+    "artifacts/week9_publication/tables/T1.md": {
+      "sha256": "629a60f31a7db2ad36b1abd013bbde3bd043cb7b1939d96d4cb9bd5dbf1abeec",
+      "git_blob": "cfdb6a7d84e089ebaa1a96484b2c6c4ff24641f5",
+      "bytes": 3097
+    },
+    "docs/plan_amendment_week3_validation.md": {
+      "sha256": "6eff66aa749c53cd2a0dbe1c4ac60a2ad4f72c341a34e68c0bc80d8f45a1df4f",
+      "git_blob": "d3bca983d822a852997d52f0e2557feef970a8e7",
+      "bytes": 13187
+    },
+    "docs/week3_mathematics.md": {
+      "sha256": "a5cb41e94f863a685ad80a22ca3451a9663ecb72c29fd8253cc92a39cb504d5b",
+      "git_blob": "479fb9abf64525411cb4b146a312d9418ba2d633",
+      "bytes": 23787
+    },
+    "docs/week4_mathematics.md": {
+      "sha256": "f877a1033e67e05ef8bef1f507d97e8ba1bccff49bdbe145fbd5150ed2e219c2",
+      "git_blob": "14407658b8452497e95f3a87b5ee6d10ac4c590e",
+      "bytes": 18244
+    },
+    "docs/week4_progress.md": {
+      "sha256": "28bbfd3824d1b2fef216020e8ff601ee0ac1134652c73a6b498a8b1d2ee2fdac",
+      "git_blob": "01a6888c139d243b94cb0ec6dc2c4d1a2f363ef5",
+      "bytes": 10946
+    },
+    "docs/week5_mathematics.md": {
+      "sha256": "bf9faa54b7cfe7a4c776759fe74970f5c8d42a4392e6b373f4f2f7e618ad05db",
+      "git_blob": "6e2d4c3a5ab4ef4c564adf9fd57f3eef5b113507",
+      "bytes": 10675
+    },
+    "docs/week6_mathematics.md": {
+      "sha256": "dba7e532a97ce71425ab63fadeb56f87320db89e732946c679dca68f322a7a78",
+      "git_blob": "5d3fcb040134ed98ef0269a31263c58eddb3b838",
+      "bytes": 7661
+    },
+    "docs/week7_exploratory_protocol.md": {
+      "sha256": "5313a9e90d034b401d2245834263f4c36e01ff2ab404246dd158268af9ee796c",
+      "git_blob": "f5cdbab888090fa703ca76c99c5a8c674919f436",
+      "bytes": 9771
+    },
+    "docs/week7_progress.md": {
+      "sha256": "7c19dcef8ad797156f6c4175a401592db17569171aefd05682cb6b0300ff6308",
+      "git_blob": "0dc691a4ff42f3dd52f1cc81a6623e5b819ca85b",
+      "bytes": 15079
+    },
+    "docs/week8_completion.md": {
+      "sha256": "b130115e31805d85a90374933717d65da6d3b18569f3fed4d7916dbc1aeb8754",
+      "git_blob": "0c2382338c1f736e5a037dff78227368f16dab83",
+      "bytes": 12305
+    },
+    "docs/week8_exploratory_protocol.md": {
+      "sha256": "f21a55324213f923b555dd7703c239fcef2577139edef540e27789860647789e",
+      "git_blob": "ee23103b5547b2a3f05173b451c9102bde128703",
+      "bytes": 10762
+    },
+    "docs/week8_mathematics.md": {
+      "sha256": "5c76da727883a523de68317ef476054d9cda4e966a27f076c9643091067493a2",
+      "git_blob": "7642513878691f5b9cca971820fa59c6f514819e",
+      "bytes": 5242
+    },
+    "docs/week8_population_targets.md": {
+      "sha256": "f58c24dfe217333a2fe93842a16f2c57b0e46c2670c9e8f57e2e507361ff7e4b",
+      "git_blob": "4a41bdf930b4472de16d26b719a72ff0afa50307",
+      "bytes": 7703
+    },
+    "docs/week8_source.md": {
+      "sha256": "f0e0ed27a723a899bbfa0e326aba6cabb3ff368e963f186545999bc09c8d96b2",
+      "git_blob": "f8394eb9fc69c93bc6a1192ca5c7d285a1cd9fe8",
+      "bytes": 3764
+    },
+    "docs/week9_benchmarks.md": {
+      "sha256": "8ab6e6e91088728b41031c8e67f689b72fec514740d6427dfd38ca8b7a329e0d",
+      "git_blob": "50ea4212cc36165bcf95fdf53d268e6d24979895",
+      "bytes": 7122
+    },
+    "docs/week9_completion.md": {
+      "sha256": "2976662e3066a85cea2c8804741b53d3a41526f5bf7b81214281a0416c9de56a",
+      "git_blob": "e80536e2b409324e5b308a68e663d6f129f589ef",
+      "bytes": 9794
+    },
+    "docs/week9_figure_plan.md": {
+      "sha256": "318bc627daaef54dae70b6a2d61ab777bc6ecf0d0d921e1f8638f8fcb7551aa9",
+      "git_blob": "b855958b5bbb7f5027c6717da6cf5e588dbd7b44",
+      "bytes": 6538
+    },
+    "docs/week9_literature_comparison.md": {
+      "sha256": "710a53447e7ad2c6a7f188527cc4ea7093d918e49c3f2082e8e410bfcdab4e57",
+      "git_blob": "167717f17cb55c8de0cabe072524b18d17822757",
+      "bytes": 11220
+    },
+    "docs/week9_protocol.md": {
+      "sha256": "b546e7a9d5ab4c4933455cada85751dc859cfbc79e1edabdd64e48ec97f631a7",
+      "git_blob": "31ecd9adea6928a883fd1fb4d1043cd95aff3fcd",
+      "bytes": 7691
+    },
+    "docs/week9_reproduction.md": {
+      "sha256": "a53f46028cb3653e7c248e9d68432b1a3336bb1f04cf9647c2388cb3aee3a43c",
+      "git_blob": "618edb7916a7485130bdbb22fe2b7710a6b6e3a1",
+      "bytes": 7348
+    },
+    "ou_irregular/estimators.py": {
+      "sha256": "75848a02d9479991bdd7d2dcf384aa4075f6c96a6638adeb661113134a2558e9",
+      "git_blob": "a360f94daef69c170e77e04a4222ffe3dc62040b",
+      "bytes": 21795
+    },
+    "ou_irregular/experiments/comparisons.py": {
+      "sha256": "75e794d0bc2f16dc016fc1c52c3311f001911b82eef8915fe1ca7ae16133cc71",
+      "git_blob": "32af1ad26d6b9ffa6b0dc8f32e2a79153bbd6f98",
+      "bytes": 9111
+    },
+    "ou_irregular/experiments/summaries.py": {
+      "sha256": "ac6c8a63e23df3c72626f571295c9f78e12fc1a34105744b4ca7ab2950f9c4e5",
+      "git_blob": "7c622a7990f06871d4925d030788cd5f81a4387f",
+      "bytes": 11939
+    },
+    "ou_irregular/inference/adapters.py": {
+      "sha256": "15f5d388f61db9a2b83ed9741a690d5f3267c6d6f3671e04593492d4ef751c3d",
+      "git_blob": "1cfa93560a7ec88f03a937b8cc00ebfe2a78366f",
+      "bytes": 1805
+    },
+    "ou_irregular/inference/coordinates.py": {
+      "sha256": "948678cd390305948b14269247b5fa92933591500e5d4872a544c57e00a66142",
+      "git_blob": "51c84f993239a9a819dff12d3bccc0b4bc99e811",
+      "bytes": 4301
+    },
+    "ou_irregular/inference/hessian.py": {
+      "sha256": "a225717d9999b8be100e860d39e6a97dc99b091bd53e153b2340c746d2b5def1",
+      "git_blob": "91b714300c9e182267443c311940d24dc4acbaa7",
+      "bytes": 7264
+    },
+    "ou_irregular/inference/wald.py": {
+      "sha256": "2664a02831e860045186b833fdcaf11ef0fafa76a7cfeac25c3c54aca05db744",
+      "git_blob": "089bd1aaf565541b56a07fb82e5be6c5a15bb598",
+      "bytes": 8582
+    },
+    "ou_irregular/ou.py": {
+      "sha256": "3fd7db4001d1973599662d4507aa89e506ba3d36f483f689561e5f4ca57236fa",
+      "git_blob": "2820343f2a763bb041f3da0f284dfbf4bdf393cf",
+      "bytes": 12362
+    },
+    "preregistration.md": {
+      "sha256": "d7b1a7b6a6afa6351d3115ade91100402f846eb931952b394ecec4b68dd2813a",
+      "git_blob": "66b24604e4ea05b6546fb13e18bfdc12a005c75d",
+      "bytes": 9759
+    }
+  },
+  "saved_evidence_verification": {
+    "exit_code": 0,
+    "stderr_empty": true,
+    "output_file": "artifacts/week10_draft1/week9_verify.json",
+    "summary": {
+      "claims": 24,
+      "contract": "week9_verified_saved_evidence_publication_v1",
+      "copied_pngs": 40,
+      "immutable_files": 141,
+      "manifest_sha256": "370f30e1628821d90cfa42568a60d51dc2c80eb8da71c7036f93c4979d03efbe",
+      "new_model_fits": 0,
+      "new_pngs": 11,
+      "new_simulated_sources": 0,
+      "source_files": 831,
+      "status": "completed",
+      "tables": {
+        "T1_counts.csv": 18,
+        "T1_e1.csv": 42,
+        "T1_e2.csv": 360,
+        "availability.csv": 264,
+        "calibration.csv": 792,
+        "classification_counts.csv": 5,
+        "e3_floor_contrasts.csv": 72,
+        "e4_matched.csv": 27,
+        "e4_sources.csv": 7,
+        "f1_ecdf.csv": 126000,
+        "parameter_summary.csv": 792,
+        "unresolved.csv": 6
+      },
+      "verified": true
+    },
+    "interpreter_version": "CPython3.12.10, recorded Week9 macOSARM64 renderer environment",
+    "portable_command_template": "env -u MKL_NUM_THREADS -u VECLIB_MAXIMUM_THREADS OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MPLCONFIGDIR=/tmp/ou-week9-mpl <week9-python> -m ou_irregular.week9.cli verify --run-dir artifacts/week9_publication --require-completed",
+    "actual_module_arguments": [
+      "-m",
+      "ou_irregular.week9.cli",
+      "verify",
+      "--run-dir",
+      "artifacts/week9_publication",
+      "--require-completed"
+    ]
+  },
+  "reviews": {
+    "type": "actual_ai_content_and_source_review",
+    "final_manuscript_sha256": "80a22e2eb97f48c0b720691da3d429778691e6a230e5f29466984b5bed256d35",
+    "technical_review_utc": "2026-10-31T19:30:17.493100+00:00",
+    "literature_review_utc": "2026-10-31T19:29:17+00:00",
+    "record": "artifacts/week10_draft1/review.md",
+    "human_academic_review": false,
+    "remaining_blockers_within_reviewed_scope": []
+  },
+  "limits": [
+    "First methods draft only; Results, full Discussion/relatedwork, abstract and submission are later tasks",
+    "No renderedPDF or journal-layoutreview",
+    "No fresh full scientific regression suite or numerical replay; existing historical failures remain preserved"
+  ]
+}

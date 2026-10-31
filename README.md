@@ -7,7 +7,15 @@ $$
 dX_t = \theta(\mu-X_t)\,dt + \sigma\,dW_t.
 $$
 
-**Current stage: Week 9 publication evidence complete and sealed; ready for manuscript preparation.**
+**Current stage: Week 10 first methods manuscript draft; Week 9 publication evidence remains complete and sealed.**
+
+Read [Week 10 Draft 1](manuscript/week10_draft1.md) for the introduction, model,
+estimators, mathematical benchmarks and experimental methods. The
+[author review guide](manuscript/README.md),
+[source map](manuscript/week10_source_map.md) and
+[draft status](docs/week10_draft1_status.md) identify its scope and checks.
+This is an initial methods draft; author review, the full Results/Discussion
+manuscript, academic review and submission remain subsequent work.
 
 Week 9 assembles the completed studies into a verified publication package:
 360 E2 and 42 E1 practical-classification rows, all six unresolved cases,
