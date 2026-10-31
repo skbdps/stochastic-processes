@@ -1,0 +1,46 @@
+name: Week 8 final integration
+on:
+  push:
+    branches: [validation/week8-final-20261031]
+    paths: [.github/workflows/week8-final.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  snapshot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12.14'
+      - name: Package exact source and pinned execution environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/week8-workspace"
+          python -m pip install -r requirements-lock.txt
+          python - <<'PY'
+          import hashlib,json,os,pathlib,subprocess,sys,tarfile
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'week8-workspace'
+          paths=subprocess.check_output(['git','ls-files','-z']).decode().split('\0')
+          selected=[p for p in paths if p and not p.startswith(('artifacts/','results/','figures/','notebooks/','.github/'))]
+          with tarfile.open(out/'source.tar.gz','w:gz') as tar:
+              for p in selected: tar.add(p,arcname=p,recursive=False)
+          (out/'source-manifest.json').write_text(json.dumps({p:hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest() for p in selected},indent=2)+'\n')
+          with tarfile.open(out/'python312.tar.gz','w:gz') as tar:
+              tar.add(sys.prefix,arcname='python312',filter=lambda m:None if '__pycache__' in m.name or '/share/' in m.name else m)
+          (out/'environment.txt').write_text(subprocess.check_output([sys.executable,'-m','pip','freeze'],text=True))
+          (out/'head.txt').write_text(subprocess.check_output(['git','rev-parse','HEAD'],text=True))
+          print('Source files:',len(selected),'Python:',sys.version)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: week8-workspace
+          path: ${{ runner.temp }}/week8-workspace/
+          retention-days: 7
+          if-no-files-found: error
