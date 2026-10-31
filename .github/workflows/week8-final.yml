@@ -5,11 +5,15 @@ on:
     paths: [.github/workflows/week8-final.yml]
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 jobs:
-  snapshot:
+  plots:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 30
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MPLCONFIGDIR: /tmp/ou-week8-final-mpl
     steps:
       - uses: actions/checkout@v6
         with:
@@ -18,29 +22,83 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12.14'
-      - name: Package exact source and pinned execution environment
-        shell: bash
+      - name: Verify and restore exact plotting checkpoint
         run: |
           set -euo pipefail
-          mkdir -p "$RUNNER_TEMP/week8-workspace"
-          python -m pip install -r requirements-lock.txt
+          mkdir -p "$RUNNER_TEMP/week8-plots-ci"
           python - <<'PY'
-          import hashlib,json,os,pathlib,subprocess,sys,tarfile
-          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'week8-workspace'
-          paths=subprocess.check_output(['git','ls-files','-z']).decode().split('\0')
-          selected=[p for p in paths if p and not p.startswith(('artifacts/','results/','figures/','notebooks/','.github/'))]
-          with tarfile.open(out/'source.tar.gz','w:gz') as tar:
-              for p in selected: tar.add(p,arcname=p,recursive=False)
-          (out/'source-manifest.json').write_text(json.dumps({p:hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest() for p in selected},indent=2)+'\n')
-          with tarfile.open(out/'python312.tar.gz','w:gz') as tar:
-              tar.add(sys.prefix,arcname='python312',filter=lambda m:None if '__pycache__' in m.name or '/share/' in m.name else m)
-          (out/'environment.txt').write_text(subprocess.check_output([sys.executable,'-m','pip','freeze'],text=True))
-          (out/'head.txt').write_text(subprocess.check_output(['git','rev-parse','HEAD'],text=True))
-          print('Source files:',len(selected),'Python:',sys.version)
+          import base64,gzip,hashlib,io,json,lzma,os,pathlib,tarfile
+          root=pathlib.Path.cwd(); out=pathlib.Path(os.environ['RUNNER_TEMP'])/'week8-plots-ci'
+          paths=sorted(root.glob('validation_payload/plots-final/part*.b64'))
+          assert [p.name for p in paths]==[f'part{i:02d}.b64' for i in range(3)]
+          packed=base64.b64decode(''.join(p.read_text().strip() for p in paths),validate=True)
+          assert hashlib.sha256(packed).hexdigest()=='aed4b1472ef44907b4033eaf8623972d32c6186a3d793568ea2f6c95b703735f'
+          with tarfile.open(fileobj=io.BytesIO(lzma.decompress(packed))) as tar:
+              members={m.name:m for m in tar.getmembers()}
+              assert len(members)==len(tar.getmembers()) and all(m.isfile() for m in members.values())
+              manifest=json.loads(tar.extractfile(members['manifest.json']).read())
+              assert manifest['base_commit']=='941254cc88c3432aba1d8fe3605c3082636d803d'
+              for name,digest in manifest['files'].items():
+                  p=pathlib.PurePosixPath(name)
+                  assert not p.is_absolute() and '..' not in p.parts
+                  assert name.startswith(('ou_irregular/week8/','tests/week8/','docs/week8_','artifacts/week8_development/plots/'))
+                  data=tar.extractfile(members['blobs/'+digest]).read()
+                  recipe=manifest['compression_recipes'].get(digest)
+                  if recipe: data=bytes.fromhex(recipe['header_hex'])+gzip.compress(data,compresslevel=recipe['level'],mtime=0)[10:]
+                  assert hashlib.sha256(data).hexdigest()==digest,name
+                  target=root/name; assert not target.is_symlink()
+                  target.parent.mkdir(parents=True,exist_ok=True); target.write_bytes(data)
+          (out/'candidate_manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
+          (out/'payload-verification.txt').write_text(f'PASS: {len(manifest["files"])} exact files restored; compressed payload SHA-256 verified.\n')
           PY
-      - uses: actions/upload-artifact@v4
+      - name: Install pinned environment
+        run: |
+          set -euo pipefail
+          python -m pip install -r requirements-lock.txt
+          python --version > "$RUNNER_TEMP/week8-plots-ci/python-version.txt"
+          python -m pip freeze > "$RUNNER_TEMP/week8-plots-ci/dependencies.txt"
+          git diff --check
+      - name: Run all Week 8 tests and retain original invocation
+        run: |
+          set -euo pipefail
+          export OU_E4_AUDIT_FIXTURE_ROOT="$RUNNER_TEMP/week8-plots-ci/native_audit_fixture"
+          export OU_E4_PLOTS_FIXTURE_ROOT="$RUNNER_TEMP/week8-plots-ci/plots_fixture"
+          mkdir -p "$OU_E4_AUDIT_FIXTURE_ROOT"
+          python -m pytest -q tests/week8 | tee "$RUNNER_TEMP/week8-plots-ci/pytest-week8.txt"
+      - name: Prepare exact tested scientific tree without updating refs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import base64,hashlib,json,os,pathlib,subprocess
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'week8-plots-ci'; repo=os.environ['GITHUB_REPOSITORY']
+          manifest=json.loads((out/'candidate_manifest.json').read_text()); base=manifest['base_commit']
+          def api(path,value=None):
+              args=['gh','api',f'repos/{repo}/{path}']
+              if value is not None: args+=['--method','POST','--input','-']
+              return json.loads(subprocess.check_output(args,input=json.dumps(value) if value is not None else None,text=True))
+          assert api('git/ref/heads/weeks5-8-sequential')['object']['sha']==base,'scientific head moved'
+          paths={n:pathlib.Path(n) for n in manifest['files']}
+          for n,p in paths.items(): assert hashlib.sha256(p.read_bytes()).hexdigest()==manifest['files'][n],n
+          for p in sorted(out.rglob('*')):
+              if p.is_file(): paths['artifacts/week8_development/plots/ci/'+str(p.relative_to(out))]=p
+          blobs={}; entries=[]; records={}
+          for name,path in sorted(paths.items()):
+              data=path.read_bytes(); digest=hashlib.sha256(data).hexdigest()
+              if digest not in blobs: blobs[digest]=api('git/blobs',{'content':base64.b64encode(data).decode(),'encoding':'base64'})['sha']
+              entries.append({'path':name,'mode':'100644','type':'blob','sha':blobs[digest]})
+              records[name]={'git_blob':blobs[digest],'sha256':digest,'bytes':len(data)}
+          base_tree=api('git/commits/'+base)['tree']['sha']
+          tree=api('git/trees',{'base_tree':base_tree,'tree':entries})['sha']
+          (out/'publication.json').write_text(json.dumps({'base_commit':base,'base_tree':base_tree,'tree_sha':tree,'files':records,'scientific_refs_updated':False},indent=2)+'\n')
+          print('Verified publication tree:',tree)
+          PY
+      - name: Retain validation evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          name: week8-workspace
-          path: ${{ runner.temp }}/week8-workspace/
-          retention-days: 7
+          name: week8-plots-final-checkpoint
+          path: ${{ runner.temp }}/week8-plots-ci/
+          retention-days: 30
           if-no-files-found: error
