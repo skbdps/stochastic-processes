@@ -1,0 +1,547 @@
+Original failed workflow run: 41155284522
+Artifact ID: 13024699761
+
+=== runner_fixture/exit.json ===
+{"returncode":0}
+
+
+=== runner_fixture/stderr.txt ===
+
+
+=== PYTEST SUMMARY ===
+short test summary info ============================
+FAILED tests/week7/test_plots_integrity.py::test_saved_full_audit_claim_requires_exact_bound_scope[duplicate_endpoint] - AssertionError: Regex pattern did not match.
+  Expected regex: 'audit|endpoint|tolerance'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_saved_full_audit_claim_requires_exact_bound_scope[missing_endpoint_field] - AssertionError: Regex pattern did not match.
+  Expected regex: 'audit|endpoint|tolerance'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_saved_full_audit_claim_requires_exact_bound_scope[boolean_replication] - AssertionError: Regex pattern did not match.
+  Expected regex: 'audit|endpoint|tolerance'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_saved_full_audit_claim_requires_exact_bound_scope[wrong_estimator_scope] - AssertionError: Regex pattern did not match.
+  Expected regex: 'audit|endpoint|tolerance'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_saved_full_audit_claim_requires_exact_bound_scope[wrong_source_hash] - AssertionError: Regex pattern did not match.
+  Expected regex: 'audit|endpoint|tolerance'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_saved_full_audit_claim_requires_exact_bound_scope[malformed_source_hash] - AssertionError: Regex pattern did not match.
+  Expected regex: 'audit|endpoint|tolerance'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_saved_full_audit_claim_requires_exact_bound_scope[replay_selection] - AssertionError: Regex pattern did not match.
+  Expected regex: 'audit|endpoint|tolerance'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_saved_full_audit_claim_requires_exact_bound_scope[replay_tolerance] - AssertionError: Regex pattern did not match.
+  Expected regex: 'audit|endpoint|tolerance'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_saved_full_audit_claim_requires_exact_bound_scope[arithmetic_tolerance] - AssertionError: Regex pattern did not match.
+  Expected regex: 'audit|endpoint|tolerance'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_saved_full_audit_claim_requires_exact_bound_scope[not_full] - AssertionError: Regex pattern did not match.
+  Expected regex: 'audit|endpoint|tolerance'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_saved_full_audit_claim_requires_exact_bound_scope[wrong_code_commit] - AssertionError: Regex pattern did not match.
+  Expected regex: 'audit|endpoint|tolerance'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_saved_full_audit_claim_requires_exact_bound_scope[missing_floor_override] - AssertionError: Regex pattern did not match.
+  Expected regex: 'audit|endpoint|tolerance'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_saved_full_audit_claim_requires_exact_bound_scope[wrong_source_policy] - AssertionError: Regex pattern did not match.
+  Expected regex: 'audit|endpoint|tolerance'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_saved_full_audit_claim_requires_exact_bound_scope[false_source_count] - AssertionError: Regex pattern did not match.
+  Expected regex: 'audit|endpoint|tolerance'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_saved_full_audit_claim_requires_exact_bound_scope[false_fit_count] - AssertionError: Regex pattern did not match.
+  Expected regex: 'audit|endpoint|tolerance'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_saved_full_audit_claim_requires_exact_bound_scope[false_table_count] - AssertionError: Regex pattern did not match.
+  Expected regex: 'audit|endpoint|tolerance'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_every_standard_table_requires_complete_unique_keys_before_state_creation[parameter_summary.csv] - AssertionError: Regex pattern did not match.
+  Expected regex: 'key|duplicate|group|incomplete'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_every_standard_table_requires_complete_unique_keys_before_state_creation[regular_comparisons.csv] - AssertionError: Regex pattern did not match.
+  Expected regex: 'key|duplicate|group|incomplete'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_every_standard_table_requires_complete_unique_keys_before_state_creation[paired_comparisons.csv] - AssertionError: Regex pattern did not match.
+  Expected regex: 'key|duplicate|group|incomplete'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_every_standard_table_requires_complete_unique_keys_before_state_creation[spacing_summary.csv] - AssertionError: Regex pattern did not match.
+  Expected regex: 'key|duplicate|group|incomplete'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_every_standard_table_requires_complete_unique_keys_before_state_creation[outcome_counts.csv] - AssertionError: Regex pattern did not match.
+  Expected regex: 'key|duplicate|group|incomplete'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_every_standard_table_requires_complete_unique_keys_before_state_creation[numerical_diagnostics.csv] - AssertionError: Regex pattern did not match.
+  Expected regex: 'key|duplicate|group|incomplete'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_rehashed_tables_still_require_complete_preflight[spacing_header] - AssertionError: Regex pattern did not match.
+  Expected regex: 'header|source|R |coordinate|count|fraction|outcome'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_rehashed_tables_still_require_complete_preflight[spacing_denominator] - AssertionError: Regex pattern did not match.
+  Expected regex: 'header|source|R |coordinate|count|fraction|outcome'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_rehashed_tables_still_require_complete_preflight[summary_coordinate] - AssertionError: Regex pattern did not match.
+  Expected regex: 'header|source|R |coordinate|count|fraction|outcome'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_rehashed_tables_still_require_complete_preflight[summary_header] - AssertionError: Regex pattern did not match.
+  Expected regex: 'header|source|R |coordinate|count|fraction|outcome'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_rehashed_tables_still_require_complete_preflight[outcome_total] - AssertionError: Regex pattern did not match.
+  Expected regex: 'header|source|R |coordinate|count|fraction|outcome'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_rehashed_tables_still_require_complete_preflight[numerical_coordinate] - AssertionError: Regex pattern did not match.
+  Expected regex: 'header|source|R |coordinate|count|fraction|outcome'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_incomplete_render_owns_the_run_lock_before_images_or_state - ValueError: numerical environment changed
+FAILED tests/week7/test_plots_integrity.py::test_renderer_state_cannot_be_nested_inside_an_existing_archive - AssertionError: Regex pattern did not match.
+  Expected regex: 'archiv|nested|inside'
+  Actual message: 'numerical environment changed'
+FAILED tests/week7/test_plots_integrity.py::test_full_renderer_freeze_cannot_be_counterfeited_by_clean_dirty_list - ValueError: numerical environment changed
+FAILED tests/week7/test_plots_reference.py::test_actual_saved_floor_render_is_bound_to_existing_audit_and_does_not_change_scientific_bytes - ValueError: numerical environment changed
+FAILED tests/week7/test_selection.py::test_published_completed_inputs_verify_without_regeneration_or_mutation[week5_e1] - ValueError: numerical environment changed
+FAILED tests/week7/test_selection.py::test_published_completed_inputs_verify_without_regeneration_or_mutation[week6_e2] - ValueError: numerical environment changed
+FAILED tests/week8/test_plots.py::test_saved_readback_is_pure_and_binds_all_expected_inputs - ValueError: numerical environment changed
+FAILED tests/week8/test_plots.py::test_incomplete_pair_fails_before_state_or_figure_publication - AssertionError: Regex pattern did not match.
+  Expected regex: 'pair incomplete'
+  Actual message: 'numerical environment changed'
+FAILED tests/week8/test_plots.py::test_root_drift_during_rendering_preserves_outside_write - ValueError: numerical environment changed
+FAILED tests/week8/test_plots.py::test_external_replot_preserves_entire_source_and_reuses_saved_values - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_real_manifest_binds_epsilon_separately_and_does_not_upgrade_raw_provenance - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_complete_readback_is_pure_self_contained_and_does_not_recapture - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_complete_declared_products_are_never_recreated_or_overwritten[missing_png] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_complete_declared_products_are_never_recreated_or_overwritten[changed_pdf] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_complete_declared_products_are_never_recreated_or_overwritten[extra_name] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_complete_declared_products_are_never_recreated_or_overwritten[nested_directory] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_complete_declared_products_are_never_recreated_or_overwritten[image_symlink] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_complete_declared_products_are_never_recreated_or_overwritten[manifest_missing_file] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_complete_declared_products_are_never_recreated_or_overwritten[wrong_epsilon_hash] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_embedded_renderer_provenance_is_exact_and_verified[missing_dependency] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_embedded_renderer_provenance_is_exact_and_verified[extra_dependency] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_embedded_renderer_provenance_is_exact_and_verified[changed_dependency] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_embedded_renderer_provenance_is_exact_and_verified[changed_environment] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_embedded_renderer_provenance_is_exact_and_verified[renderer_environment] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_embedded_renderer_provenance_is_exact_and_verified[descriptor_digest] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_partial_byte_equal_files_are_adopted_with_original_state - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_partial_outputs_fail_closed_without_original_matching_state[missing_state] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_partial_outputs_fail_closed_without_original_matching_state[changed_partial] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_partial_outputs_fail_closed_without_original_matching_state[extra_state_file] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_partial_outputs_fail_closed_without_original_matching_state[state_symlink] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_partial_outputs_fail_closed_without_original_matching_state[state_descriptor] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_partial_outputs_fail_closed_without_original_matching_state[empty_state_directory] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_external_root_drift_is_preserved_and_blocks_automatic_resume[False] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_external_root_drift_is_preserved_and_blocks_automatic_resume[True] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_nonroot_input_or_renderer_state_drift_blocks_image_commit[epsilon_comparisons.csv] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_nonroot_input_or_renderer_state_drift_blocks_image_commit[audit.json] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_nonroot_input_or_renderer_state_drift_blocks_image_commit[renderer_state] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_legitimate_later_lifecycle_does_not_invalidate_semantic_figure_binding - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_completed_archive_never_recreates_missing_figures[missing_image] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_completed_archive_never_recreates_missing_figures[missing_manifest] - ValueError: numerical environment changed
+ERROR tests/week7/test_plots_integrity.py::test_completed_archive_never_recreates_missing_figures[missing_all_figures] - ValueError: numerical environment changed
+ERROR tests/week8/test_plots.py::test_native_render_has_all_pairs_and_repeat_is_pure - ValueError: numerical environment changed
+ERROR tests/week8/test_plots.py::test_identical_partial_adoption_recreates_only_missing_pair - ValueError: numerical environment changed
+ERROR tests/week8/test_plots.py::test_conflicting_late_partial_blocks_every_missing_output - ValueError: numerical environment changed
+ERROR tests/week8/test_plots.py::test_missing_original_renderer_state_blocks_partial_adoption - ValueError: numerical environment changed
+ERROR tests/week8/test_plots.py::test_complete_embedded_renderer_allows_readback_without_sibling - ValueError: numerical environment changed
+ERROR tests/week8/test_plots.py::test_complete_figure_tampering_is_not_repaired[figure_bytes] - ValueError: numerical environment changed
+ERROR tests/week8/test_plots.py::test_complete_figure_tampering_is_not_repaired[manifest_binding] - ValueError: numerical environment changed
+ERROR tests/week8/test_plots.py::test_complete_figure_tampering_is_not_repaired[renderer_settings] - ValueError: numerical environment changed
+ERROR tests/week8/test_plots.py::test_complete_figure_tampering_is_not_repaired[renderer_dependency] - ValueError: numerical environment changed
+ERROR tests/week8/test_plots.py::test_complete_figure_tampering_is_not_repaired[missing_figure] - ValueError: numerical environment changed
+ERROR tests/week8/test_plots.py::test_complete_figure_tampering_is_not_repaired[unknown_figure] - ValueError: numerical environment changed
+ERROR tests/week8/test_plots.py::test_completed_seal_is_read_only_and_wrong_artifact_map_is_rejected - ValueError: numerical environment changed
+ERROR tests/week8/test_plots.py::test_external_replot_accepts_a_valid_sealed_source_without_mutation - ValueError: numerical environment changed
+38 failed, 1973 passed, 6 skipped, 2 warnings, 44 errors in 504.81s (0:08:24)
+
+
+=== FIRST TRACEBACKS ===
+FAILURES ===================================
+__ test_saved_full_audit_claim_requires_exact_bound_scope[duplicate_endpoint] __
+
+copied_saved = (PosixPath('/tmp/pytest-of-runner/pytest-0/test_saved_full_audit_claim_re0/run'), RunDesign(name='week7_floor_sensitiv...000, q=0.5, cv=3.0, theta=1.0, mu=0.0, sigma=0.5, floor_fraction=0.0001, floor_cv_threshold=1.5)), scope='validation'))
+fault = 'duplicate_endpoint'
+
+    @pytest.mark.parametrize('fault', (
+        'duplicate_endpoint', 'missing_endpoint_field', 'boolean_replication',
+        'wrong_estimator_scope', 'wrong_source_hash', 'malformed_source_hash',
+        'replay_selection', 'replay_tolerance', 'arithmetic_tolerance',
+        'not_full', 'wrong_code_commit', 'missing_floor_override', 'wrong_source_policy',
+        'false_source_count', 'false_fit_count', 'false_table_count'))
+    def test_saved_full_audit_claim_requires_exact_bound_scope(copied_saved, fault):
+        output, design = copied_saved
+        report = read_json(output/'audit.json')
+        record = report['replay_records'][0]
+        if fault == 'duplicate_endpoint':
+            report['replay_records'][1] = deepcopy(record)
+        elif fault == 'missing_endpoint_field':
+            del record['times_sha256']
+        elif fault == 'boolean_replication':
+            record['replication'] = False
+        elif fault == 'wrong_estimator_scope':
+            record['estimators_checked'] = ['exact', 'pfml', 'pfml']
+        elif fault == 'wrong_source_hash':
+            record['observations_sha256'] = '0'*64
+        elif fault == 'malformed_source_hash':
+            record['times_sha256'] = 'invalid hash'
+        elif fault == 'replay_selection':
+            report['replay_selection'] = 'first source only'
+        elif fault == 'replay_tolerance':
+            report['tolerances']['replay_rtol'] = .1
+        elif fault == 'arithmetic_tolerance':
+            report['tolerances']['arithmetic_atol'] = .1
+        elif fault == 'not_full':
+            report['full_completion_audit'] = False
+        elif fault == 'wrong_code_commit':
+            report['code_commit'] = '0'*40
+        elif fault == 'missing_floor_override':
+            report['scientific_overrides'] = []
+        elif fault == 'wrong_source_policy':
+            report['source_policy']['root_seed'] += 1
+        elif fault == 'false_source_count':
+            report['source_array_hashes_verified'] -= 1
+        elif fault == 'false_fit_count':
+            report['replayed_fits'] -= 1
+        else:
+            report['tables_verified']['parameter_summary.csv'] -= 1
+        write_json(output/'audit.json', report)
+>       assert_failed_without_writes(output, design, match='audit|endpoint|tolerance')
+
+tests/week7/test_plots_integrity.py:261: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+output = PosixPath('/tmp/pytest-of-runner/pytest-0/test_saved_full_audit_claim_re0/run')
+design = RunDesign(name='week7_floor_sensitivity_validation', seed=21261009, replications=2, cells=(Cell(n=1000, q=0.5, cv=0.0,...1000, q=0.5, cv=3.0, theta=1.0, mu=0.0, sigma=0.5, floor_fraction=0.0001, floor_cv_threshold=1.5)), scope='validation')
+action = None, match = 'audit|endpoint|tolerance'
+
+    def assert_failed_without_writes(output, design, action=None, *, match=None):
+        before, state_before = snapshot(output), snapshot(renderer_state(output))
+>       with pytest.raises((ValueError, FileNotFoundError, FileExistsError), match=match):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'audit|endpoint|tolerance'
+E         Actual message: 'numerical environment changed'
+
+tests/week7/test_plots_integrity.py:179: AssertionError
+_ test_saved_full_audit_claim_requires_exact_bound_scope[missing_endpoint_field] _
+
+copied_saved = (PosixPath('/tmp/pytest-of-runner/pytest-0/test_saved_full_audit_claim_re1/run'), RunDesign(name='week7_floor_sensitiv...000, q=0.5, cv=3.0, theta=1.0, mu=0.0, sigma=0.5, floor_fraction=0.0001, floor_cv_threshold=1.5)), scope='validation'))
+fault = 'missing_endpoint_field'
+
+    @pytest.mark.parametrize('fault', (
+        'duplicate_endpoint', 'missing_endpoint_field', 'boolean_replication',
+        'wrong_estimator_scope', 'wrong_source_hash', 'malformed_source_hash',
+        'replay_selection', 'replay_tolerance', 'arithmetic_tolerance',
+        'not_full', 'wrong_code_commit', 'missing_floor_override', 'wrong_source_policy',
+        'false_source_count', 'false_fit_count', 'false_table_count'))
+    def test_saved_full_audit_claim_requires_exact_bound_scope(copied_saved, fault):
+        output, design = copied_saved
+        report = read_json(output/'audit.json')
+        record = report['replay_records'][0]
+        if fault == 'duplicate_endpoint':
+            report['replay_records'][1] = deepcopy(record)
+        elif fault == 'missing_endpoint_field':
+            del record['times_sha256']
+        elif fault == 'boolean_replication':
+            record['replication'] = False
+        elif fault == 'wrong_estimator_scope':
+            record['estimators_checked'] = ['exact', 'pfml', 'pfml']
+        elif fault == 'wrong_source_hash':
+            record['observations_sha256'] = '0'*64
+        elif fault == 'malformed_source_hash':
+            record['times_sha256'] = 'invalid hash'
+        elif fault == 'replay_selection':
+            report['replay_selection'] = 'first source only'
+        elif fault == 'replay_tolerance':
+            report['tolerances']['replay_rtol'] = .1
+        elif fault == 'arithmetic_tolerance':
+            report['tolerances']['arithmetic_atol'] = .1
+        elif fault == 'not_full':
+            report['full_completion_audit'] = False
+        elif fault == 'wrong_code_commit':
+            report['code_commit'] = '0'*40
+        elif fault == 'missing_floor_override':
+            report['scientific_overrides'] = []
+        elif fault == 'wrong_source_policy':
+            report['source_policy']['root_seed'] += 1
+        elif fault == 'false_source_count':
+            report['source_array_hashes_verified'] -= 1
+        elif fault == 'false_fit_count':
+            report['replayed_fits'] -= 1
+        else:
+            report['tables_verified']['parameter_summary.csv'] -= 1
+        write_json(output/'audit.json', report)
+>       assert_failed_without_writes(output, design, match='audit|endpoint|tolerance')
+
+tests/week7/test_plots_integrity.py:261: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+output = PosixPath('/tmp/pytest-of-runner/pytest-0/test_saved_full_audit_claim_re1/run')
+design = RunDesign(name='week7_floor_sensitivity_validation', seed=21261009, replications=2, cells=(Cell(n=1000, q=0.5, cv=0.0,...1000, q=0.5, cv=3.0, theta=1.0, mu=0.0, sigma=0.5, floor_fraction=0.0001, floor_cv_threshold=1.5)), scope='validation')
+action = None, match = 'audit|endpoint|tolerance'
+
+    def assert_failed_without_writes(output, design, action=None, *, match=None):
+        before, state_before = snapshot(output), snapshot(renderer_state(output))
+>       with pytest.raises((ValueError, FileNotFoundError, FileExistsError), match=match):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'audit|endpoint|tolerance'
+E         Actual message: 'numerical environment changed'
+
+tests/week7/test_plots_integrity.py:179: AssertionError
+_ test_saved_full_audit_claim_requires_exact_bound_scope[boolean_replication] __
+
+copied_saved = (PosixPath('/tmp/pytest-of-runner/pytest-0/test_saved_full_audit_claim_re2/run'), RunDesign(name='week7_floor_sensitiv...000, q=0.5, cv=3.0, theta=1.0, mu=0.0, sigma=0.5, floor_fraction=0.0001, floor_cv_threshold=1.5)), scope='validation'))
+fault = 'boolean_replication'
+
+    @pytest.mark.parametrize('fault', (
+        'duplicate_endpoint', 'missing_endpoint_field', 'boolean_replication',
+        'wrong_estimator_scope', 'wrong_source_hash', 'malformed_source_hash',
+        'replay_selection', 'replay_tolerance', 'arithmetic_tolerance',
+        'not_full', 'wrong_code_commit', 'missing_floor_override', 'wrong_source_policy',
+        'false_source_count', 'false_fit_count', 'false_table_count'))
+    def test_saved_full_audit_claim_requires_exact_bound_scope(copied_saved, fault):
+        output, design = copied_saved
+        report = read_json(output/'audit.json')
+        record = report['replay_records'][0]
+        if fault == 'duplicate_endpoint':
+            report['replay_records'][1] = deepcopy(record)
+        elif fault == 'missing_endpoint_field':
+            del record['times_sha256']
+        elif fault == 'boolean_replication':
+            record['replication'] = False
+        elif fault == 'wrong_estimator_scope':
+            record['estimators_checked'] = ['exact', 'pfml', 'pfml']
+        elif fault == 'wrong_source_hash':
+            record['observations_sha256'] = '0'*64
+        elif fault == 'malformed_source_hash':
+            record['times_sha256'] = 'invalid hash'
+        elif fault == 'replay_selection':
+            report['replay_selection'] = 'first source only'
+        elif fault == 'replay_tolerance':
+            report['tolerances']['replay_rtol'] = .1
+        elif fault == 'arithmetic_tolerance':
+            report['tolerances']['arithmetic_atol'] = .1
+        elif fault == 'not_full':
+            report['full_completion_audit'] = False
+        elif fault == 'wrong_code_commit':
+            report['code_commit'] = '0'*40
+        elif fault == 'missing_floor_override':
+            report['scientific_overrides'] = []
+        elif fault == 'wrong_source_policy':
+            report['source_policy']['root_seed'] += 1
+        elif fault == 'false_source_count':
+            report['source_array_hashes_verified'] -= 1
+        elif fault == 'false_fit_count':
+            report['replayed_fits'] -= 1
+        else:
+            report['tables_verified']['parameter_summary.csv'] -= 1
+        write_json(output/'audit.json', report)
+>       assert_failed_without_writes(output, design, match='audit|endpoint|tolerance')
+
+tests/week7/test_plots_integrity.py:261: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+output = PosixPath('/tmp/pytest-of-runner/pytest-0/test_saved_full_audit_claim_re2/run')
+design = RunDesign(name='week7_floor_sensitivity_validation', seed=21261009, replications=2, cells=(Cell(n=1000, q=0.5, cv=0.0,...1000, q=0.5, cv=3.0, theta=1.0, mu=0.0, sigma=0.5, floor_fraction=0.0001, floor_cv_threshold=1.5)), scope='validation')
+action = None, match = 'audit|endpoint|tolerance'
+
+    def assert_failed_without_writes(output, design, action=None, *, match=None):
+        before, state_before = snapshot(output), snapshot(renderer_state(output))
+>       with pytest.raises((ValueError, FileNotFoundError, FileExistsError), match=match):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'audit|endpoint|tolerance'
+E         Actual message: 'numerical environment changed'
+
+tests/week7/test_plots_integrity.py:179: AssertionError
+_ test_saved_full_audit_claim_requires_exact_bound_scope[wrong_estimator_scope] _
+
+copied_saved = (PosixPath('/tmp/pytest-of-runner/pytest-0/test_saved_full_audit_claim_re3/run'), RunDesign(name='week7_floor_sensitiv...000, q=0.5, cv=3.0, theta=1.0, mu=0.0, sigma=0.5, floor_fraction=0.0001, floor_cv_threshold=1.5)), scope='validation'))
+fault = 'wrong_estimator_scope'
+
+    @pytest.mark.parametrize('fault', (
+        'duplicate_endpoint', 'missing_endpoint_field', 'boolean_replication',
+        'wrong_estimator_scope', 'wrong_source_hash', 'malformed_source_hash',
+        'replay_selection', 'replay_tolerance', 'arithmetic_tolerance',
+        'not_full', 'wrong_code_commit', 'missing_floor_override', 'wrong_source_policy',
+        'false_source_count', 'false_fit_count', 'false_table_count'))
+    def test_saved_full_audit_claim_requires_exact_bound_scope(copied_saved, fault):
+        output, design = copied_saved
+        report = read_json(output/'audit.json')
+        record = report['replay_records'][0]
+        if fault == 'duplicate_endpoint':
+            report['replay_records'][1] = deepcopy(record)
+        elif fault == 'missing_endpoint_field':
+            del record['times_sha256']
+        elif fault == 'boolean_replication':
+            record['replication'] = False
+        elif fault == 'wrong_estimator_scope':
+            record['estimators_checked'] = ['exact', 'pfml', 'pfml']
+        elif fault == 'wrong_source_hash':
+            record['observations_sha256'] = '0'*64
+        elif fault == 'malformed_source_hash':
+            record['times_sha256'] = 'invalid hash'
+        elif fault == 'replay_selection':
+            report['replay_selection'] = 'first source only'
+        elif fault == 'replay_tolerance':
+            report['tolerances']['replay_rtol'] = .1
+        elif fault == 'arithmetic_tolerance':
+            report['tolerances']['arithmetic_atol'] = .1
+        elif fault == 'not_full':
+            report['full_completion_audit'] = False
+        elif fault == 'wrong_code_commit':
+            report['code_commit'] = '0'*40
+        elif fault == 'missing_floor_override':
+            report['scientific_overrides'] = []
+        elif fault == 'wrong_source_policy':
+            report['source_policy']['root_seed'] += 1
+        elif fault == 'false_source_count':
+            report['source_array_hashes_verified'] -= 1
+        elif fault == 'false_fit_count':
+            report['replayed_fits'] -= 1
+        else:
+            report['tables_verified']['parameter_summary.csv'] -= 1
+        write_json(output/'audit.json', report)
+>       assert_failed_without_writes(output, design, match='audit|endpoint|tolerance')
+
+tests/week7/test_plots_integrity.py:261: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+output = PosixPath('/tmp/pytest-of-runner/pytest-0/test_saved_full_audit_claim_re3/run')
+design = RunDesign(name='week7_floor_sensitivity_validation', seed=21261009, replications=2, cells=(Cell(n=1000, q=0.5, cv=0.0,...1000, q=0.5, cv=3.0, theta=1.0, mu=0.0, sigma=0.5, floor_fraction=0.0001, floor_cv_threshold=1.5)), scope='validation')
+action = None, match = 'audit|endpoint|tolerance'
+
+    def assert_failed_without_writes(output, design, action=None, *, match=None):
+        before, state_before = snapshot(output), snapshot(renderer_state(output))
+>       with pytest.raises((ValueError, FileNotFoundError, FileExistsError), match=match):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'audit|endpoint|tolerance'
+E         Actual message: 'numerical environment changed'
+
+tests/week7/test_plots_integrity.py:179: AssertionError
+__ test_saved_full_audit_claim_requires_exact_bound_scope[wrong_source_hash] ___
+
+copied_saved = (PosixPath('/tmp/pytest-of-runner/pytest-0/test_saved_full_audit_claim_re4/run'), RunDesign(name='week7_floor_sensitiv...000, q=0.5, cv=3.0, theta=1.0, mu=0.0, sigma=0.5, floor_fraction=0.0001, floor_cv_threshold=1.5)), scope='validation'))
+fault = 'wrong_source_hash'
+
+    @pytest.mark.parametrize('fault', (
+        'duplicate_endpoint', 'missing_endpoint_field', 'boolean_replication',
+        'wrong_estimator_scope', 'wrong_source_hash', 'malformed_source_hash',
+        'replay_selection', 'replay_tolerance', 'arithmetic_tolerance',
+        'not_full', 'wrong_code_commit', 'missing_floor_override', 'wrong_source_policy',
+        'false_source_count', 'false_fit_count', 'false_table_count'))
+    def test_saved_full_audit_claim_requires_exact_bound_scope(copied_saved, fault):
+        output, design = copied_saved
+        report = read_json(output/'audit.json')
+        record = report['replay_records'][0]
+        if fault == 'duplicate_endpoint':
+            report['replay_records'][1] = deepcopy(record)
+        elif fault == 'missing_endpoint_field':
+            del record['times_sha256']
+        elif fault == 'boolean_replication':
+            record['replication'] = False
+        elif fault == 'wrong_estimator_scope':
+            record['estimators_checked'] = ['exact', 'pfml', 'pfml']
+        elif fault == 'wrong_source_hash':
+            record['observations_sha256'] = '0'*64
+        elif fault == 'malformed_source_hash':
+            record['times_sha256'] = 'invalid hash'
+        elif fault == 'replay_selection':
+            report['replay_selection'] = 'first source only'
+        elif fault == 'replay_tolerance':
+            report['tolerances']['replay_rtol'] = .1
+        elif fault == 'arithmetic_tolerance':
+            report['tolerances']['arithmetic_atol'] = .1
+        elif fault == 'not_full':
+            report['full_completion_audit'] = False
+        elif fault == 'wrong_code_commit':
+            report['code_commit'] = '0'*40
+        elif fault == 'missing_floor_override':
+            report['scientific_overrides'] = []
+        elif fault == 'wrong_source_policy':
+            report['source_policy']['root_seed'] += 1
+        elif fault == 'false_source_count':
+            report['source_array_hashes_verified'] -= 1
+        elif fault == 'false_fit_count':
+            report['replayed_fits'] -= 1
+        else:
+            report['tables_verified']['parameter_summary.csv'] -= 1
+        write_json(output/'audit.json', report)
+>       assert_failed_without_writes(output, design, match='audit|endpoint|tolerance')
+
+tests/week7/test_plots_integrity.py:261: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+output = PosixPath('/tmp/pytest-of-runner/pytest-0/test_saved_full_audit_claim_re4/run')
+design = RunDesign(name='week7_floor_sensitivity_validation', seed=21261009, replications=2, cells=(Cell(n=1000, q=0.5, cv=0.0,...1000, q=0.5, cv=3.0, theta=1.0, mu=0.0, sigma=0.5, floor_fraction=0.0001, floor_cv_threshold=1.5)), scope='validation')
+action = None, match = 'audit|endpoint|tolerance'
+
+    def assert_failed_without_writes(output, design, action=None, *, match=None):
+        before, state_before = snapshot(output), snapshot(renderer_state(output))
+>       with pytest.raises((ValueError, FileNotFoundError, FileExistsError), match=match):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'audit|endpoint|tolerance'
+E         Actual message: 'numerical environment changed'
+
+tests/week7/test_plots_integrity.py:179: AssertionError
+_ test_saved_full_audit_claim_requires_exact_bound_scope[malformed_source_hash] _
+
+copied_saved = (PosixPath('/tmp/pytest-of-runner/pytest-0/test_saved_full_audit_claim_re5/run'), RunDesign(name='week7_floor_sensitiv...000, q=0.5, cv=3.0, theta=1.0, mu=0.0, sigma=0.5, floor_fraction=0.0001, floor_cv_threshold=1.5)), scope='validation'))
+fault = 'malformed_source_hash'
+
+    @pytest.mark.parametrize('fault', (
+        'duplicate_endpoint', 'missing_endpoint_field', 'boolean_replication',
+        'wrong_estimator_scope', 'wrong_source_hash', 'malformed_source_hash',
+        'replay_selection', 'replay_tolerance', 'arithmetic_tolerance',
+        'not_full', 'wrong_code_commit', 'missing_floor_override', 'wrong_source_policy',
+        'false_source_count', 'false_fit_count', 'false_table_count'))
+    def test_saved_full_audit_claim_requires_exact_bound_scope(copied_saved, fault):
+        output, design = copied_saved
+        report = read_json(output/'audit.json')
+        record = report['replay_records'][0]
+        if fault == 'duplicate_endpoint':
+            report['replay_records'][1] = deepcopy(record)
+        elif fault == 'missing_endpoint_field':
+            del record['times_sha256']
+        elif fault == 'boolean_replication':
+            record['replication'] = False
+        elif fault == 'wrong_estimator_scope':
+            record['estimators_checked'] = ['exact', 'pfml', 'pfml']
+        elif fault == 'wrong_source_hash':
+            record['observations_sha256'] = '0'*64
+        elif fault == 'malformed_source_hash':
+            record['times_sha256'] = 'invalid hash'
+        elif fault == 'replay_selection':
+            report['replay_selection'] = 'first source only'
+        elif fault == 'replay_tolerance':
+            report['tolerances']['replay_rtol'] = .1
+        elif fault == 'arithmetic_tolerance':
+            report['tolerances']['arithmetic_atol'] = .1
+        elif fault == 'not_full':
+            report['full_completion_audit'] = False
+        elif fault == 'wrong_code_commit':
+            report['code_commit'] = '0'*40
+        elif fault == 'missing_floor_override':
+            report['scientific_overrides'] = []
+        elif fault == 'wrong_source_policy':
+            report['source_policy']['root_seed'] += 1
+        elif fault == 'false_source_count':
+            report['source_array_hashes_verified'] -= 1
+        elif fault == 'false_fit_count':
+            report['replayed_fits'] -= 1
+        else:
+            report['tables_verified']['parameter_summary.csv'] -= 1
+        write_json(output/'audit.json', report)
+>       assert_failed_without_writes(output, design, match='audit|endpoint|tolerance')
+
+tests/week7/test_plots_integrity.py:261: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+output = PosixPath('/tmp/pytest-of-runner/pytest-0/test_saved_full_audit_claim_re5/run')
+design = RunDesign(name='week7_floor_sensitivity_validation', seed=21261009, replications=2, cells=(Cell(n=1000, q=0.5, cv=0.0,...1000, q=0.5, cv=3.0, theta=1.0, mu=0.0, sigma=0.5, floor_fraction=0.0001, floor_cv_threshold=1.5)), scope='validation')
+action = None, match = 'audit|endpoint|tolerance'
+
+    def assert_failed_wit
