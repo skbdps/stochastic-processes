@@ -1,0 +1,31 @@
+name: Week 8 recovery workspace
+on:
+  push:
+    branches: [validation/week8-completion-20261031]
+    paths: [.github/workflows/week8-workspace.yml]
+permissions:
+  contents: read
+jobs:
+  export:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Export committed research history without altering scientific refs
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/research-recovery"
+          test "$(git rev-parse refs/remotes/origin/weeks5-8-sequential)" = 941254cc88c3432aba1d8fe3605c3082636d803d
+          git bundle create "$RUNNER_TEMP/research-recovery/scientific.bundle" refs/remotes/origin/weeks5-8-sequential refs/remotes/origin/main
+          git bundle verify "$RUNNER_TEMP/research-recovery/scientific.bundle" 2>&1 | tee "$RUNNER_TEMP/research-recovery/bundle-verification.txt"
+          git show-ref > "$RUNNER_TEMP/research-recovery/refs.txt"
+          sha256sum "$RUNNER_TEMP/research-recovery/scientific.bundle" > "$RUNNER_TEMP/research-recovery/sha256.txt"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: week8-scientific-history
+          path: ${{ runner.temp }}/research-recovery/
+          retention-days: 30
+          if-no-files-found: error
