@@ -1,0 +1,84 @@
+name: Week 8 rendered-pixel inspection
+on:
+  push:
+    branches: [validation/week8-completion-20261031]
+    paths: [.github/workflows/week8-pixel-review.yml]
+permissions:
+  contents: write
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: 7dfe7e191bc4e9516142e141b9208fd0fd4fd0dc
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12.14'
+      - name: Isolated image-inspection dependencies, not the numerical research environment
+        run: |
+          python -m venv "$RUNNER_TEMP/vision-env"
+          "$RUNNER_TEMP/vision-env/bin/python" -m pip install torch==2.9.0 torchvision==0.24.0 --index-url https://download.pytorch.org/whl/cpu
+          "$RUNNER_TEMP/vision-env/bin/python" -m pip install transformers==4.57.1 accelerate==1.11.0 pillow==12.3.0
+      - name: Inspect actual PNG pixels and retain complete unedited responses
+        env:
+          SHARD: ${{ matrix.shard }}
+          HF_HUB_DISABLE_TELEMETRY: '1'
+          TOKENIZERS_PARALLELISM: 'false'
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/pixel-review"
+          cat > "$RUNNER_TEMP/pixel-review/inspect.py" <<'PY'
+          import hashlib,json,os,pathlib,platform,subprocess,time
+          import torch
+          from PIL import Image
+          from transformers import AutoProcessor,Qwen3VLForConditionalGeneration
+          MODEL='Qwen/Qwen3-VL-2B-Instruct'; REV='60fc6cc485d11346ef250b5ae97ec715a3fc8ba6'
+          root=pathlib.Path('artifacts/week8_development/plots/ci/plots_fixture/rendered_archive/figures')
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'pixel-review'; shard=int(os.environ['SHARD'])
+          prompt=('Inspect the actual scientific chart in the first image and its enlarged lower portion in the second. '
+                  'Report the visible chart title, y-axis label, legend labels, and whether the x-axis labels and explanatory footer are readable. '
+                  'Identify any clipped text, text collisions, legend hiding data, or missing/ambiguous marks. '
+                  'Do not infer numerical correctness or statistical significance. Do not assume the chart is acceptable. '
+                  'Return a JSON object with title, y_axis, legend, x_labels_readable, footer_readable, problems (list), and uncertain (list). '
+                  'Use uncertainty rather than inventing unreadable text. An all-zero line is not itself an error; inspect its labelling.')
+          torch.set_num_threads(4);torch.set_num_interop_threads(1)
+          model=Qwen3VLForConditionalGeneration.from_pretrained(MODEL,revision=REV,torch_dtype=torch.bfloat16,device_map={'':'cpu'},attn_implementation='sdpa',trust_remote_code=False)
+          model.eval()
+          processor=AutoProcessor.from_pretrained(MODEL,revision=REV,min_pixels=256*256,max_pixels=1280*1280,trust_remote_code=False)
+          record={'model':MODEL,'revision':REV,'method':'Actual rendered PNG pixels plus lower-half pixel crop; no synthetic review and no completion seal','source_commit':'7dfe7e191bc4e9516142e141b9208fd0fd4fd0dc','manifest_sha256':hashlib.sha256((root/'figure_manifest.json').read_bytes()).hexdigest(),'prompt':prompt,'shard':shard,'outputs':[],'limitations':'Independent automated visual assessment is fallible; findings must be reviewed alongside exact data-binding and geometry checks. No human inspection is claimed.'}
+          (out/'dependencies.txt').write_text(subprocess.check_output([os.sys.executable,'-m','pip','freeze'],text=True))
+          for path in sorted(root.glob('*.png'))[shard::4]:
+              image=Image.open(path).convert('RGB'); crop=image.crop((0,int(image.height*.58),image.width,image.height))
+              messages=[{'role':'user','content':[{'type':'image'},{'type':'image'},{'type':'text','text':prompt}]}]
+              text=processor.apply_chat_template(messages,tokenize=False,add_generation_prompt=True)
+              inputs=processor(text=[text],images=[image,crop],return_tensors='pt')
+              started=time.monotonic()
+              with torch.inference_mode(): result=model.generate(**inputs,max_new_tokens=320,do_sample=False)
+              response=processor.batch_decode(result[:,inputs.input_ids.shape[1]:],skip_special_tokens=True,clean_up_tokenization_spaces=False)[0]
+              item={'file':path.name,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'image_size':image.size,'crop_box':[0,int(image.height*.58),image.width,image.height],'response':response,'elapsed_seconds':time.monotonic()-started,'input_tokens':inputs.input_ids.shape[1]}
+              record['outputs'].append(item)
+              (out/'review.json').write_text(json.dumps(record,indent=2)+'\n')
+              print(json.dumps(item),flush=True)
+          PY
+          "$RUNNER_TEMP/vision-env/bin/python" "$RUNNER_TEMP/pixel-review/inspect.py"
+          python - <<'PY'
+          import base64,json,os,pathlib,subprocess
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'pixel-review'; name='diagnostics/pixel-review-'+os.environ['GITHUB_RUN_ID']+'-shard'+os.environ['SHARD']+'.json'
+          payload={'message':'Retain actual rendered-pixel inspection; not a completion certification','branch':'validation/week8-completion-20261031','content':base64.b64encode((out/'review.json').read_bytes()).decode()}
+          subprocess.run(['gh','api','repos/'+os.environ['GITHUB_REPOSITORY']+'/contents/'+name,'--method','PUT','--input','-'],input=json.dumps(payload),text=True,check=True,stdout=subprocess.DEVNULL)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: week8-pixel-review-${{ github.run_id }}-${{ matrix.shard }}
+          path: ${{ runner.temp }}/pixel-review/
+          retention-days: 30
+          if-no-files-found: warn
