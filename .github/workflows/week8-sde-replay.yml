@@ -51,11 +51,8 @@ jobs:
           task_sde_help_status=0
           "$TASK_SDE_EXE" -long-help > "$RUNNER_TEMP/week3-sde-evidence/emulator-help.txt" 2>&1 || task_sde_help_status=$?
           printf '{"returncode":%s}\n' "$task_sde_help_status" > "$RUNNER_TEMP/week3-sde-evidence/emulator-help-exit.json"
-          python - <<'PY'
-          import os,pathlib,re
-          text=pathlib.Path(os.environ['RUNNER_TEMP'],'week3-sde-evidence/emulator-help.txt').read_text()
-          assert re.search(r'follow[-_]execv',text),'Pinned emulator does not declare requested follow_execv knob'
-          PY
+          # Tool help is retained as evidence. Generic Pin knobs are forwarded
+          # with -p; actual Git/NumPy smoke in the target is the execution gate.
           find "$RUNNER_TEMP/intel-sde-kit" -type f \( -iname '*license*' -o -iname '*eula*' \) -exec cp --parents '{}' "$RUNNER_TEMP/week3-sde-evidence/" \;
           printf 'TASK_SDE_ARCHIVE=%s\nTASK_SDE_EXE=%s\n' "$TASK_SDE_ARCHIVE" "$TASK_SDE_EXE" >> "$GITHUB_ENV"
       - name: Enable debugger attachment only within this disposable hosted VM
@@ -63,7 +60,7 @@ jobs:
           set -euo pipefail
           sysctl kernel.yama.ptrace_scope > "$RUNNER_TEMP/week3-sde-evidence/ptrace-before.txt"
           sudo sysctl kernel.yama.ptrace_scope=0 | tee "$RUNNER_TEMP/week3-sde-evidence/ptrace-execution.txt"
-      - name: Execute unchanged four-case exact replay and capture same-process runtime
+      - name: Smoke auxiliary Git exec and parent dispatch, then unchanged exact replay
         working-directory: science
         env:
           CONTROL_COMMIT: ${{ github.sha }}
@@ -75,7 +72,7 @@ jobs:
           python -u - <<'PY' 2>&1 | tee "$RUNNER_TEMP/week3-sde-evidence/week3-isolation.txt"
           import json,os,pathlib,subprocess,sys
           outer=pathlib.Path(os.environ['RUNNER_TEMP'],'week3-sde-evidence')
-          command=[os.environ['TASK_SDE_EXE'],'-follow_execv','0','-icl','--',sys.executable,
+          command=[os.environ['TASK_SDE_EXE'],'-p','-follow_execv','-p','0','-icl','--',sys.executable,
               str(pathlib.Path('../control/scripts/week8_sde_replay.py').resolve()),
               '--output',str(outer/'replay'),'--emulator',os.environ['TASK_SDE_EXE'],
               '--emulator-archive',os.environ['TASK_SDE_ARCHIVE'],

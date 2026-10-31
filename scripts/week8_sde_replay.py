@@ -1,6 +1,7 @@
 """Run the unchanged four-case Week 3 replay in one Intel SDE process.
 
-Invoke through the pinned kit with ``-follow_execv 0 -icl -- python this_script``.
+Invoke with ``-p -follow_execv -p 0 -icl -- python this_script``. Each ``-p``
+forwards the next token to Pin rather than treating it as an SDE tool option.
 The effective NumPy runtime is captured in this same process before pytest.main;
 no scientific function, test, tolerance, or NumPy CPU flag is changed.
 """
@@ -14,7 +15,6 @@ import json
 import os
 from pathlib import Path
 import platform
-import re
 import subprocess
 import sys
 import traceback
@@ -58,28 +58,25 @@ def main():
     record = {"started_utc": datetime.now(timezone.utc).isoformat(), "status": "failed",
               "scientific_freeze": FREEZE, "control_commit": os.environ.get("CONTROL_COMMIT"),
               "workflow_run_id": os.environ.get("GITHUB_RUN_ID"),
-              "execution_mode": "Intel SDE instruction emulation (-follow_execv 0 -icl), same-process pytest; auxiliary exec subprocesses native",
+              "execution_mode": "Intel SDE instruction emulation (-p -follow_execv -p 0 -icl), same-process pytest; Pin exec-follow configured off",
               "emulator_download_url": "https://downloadmirror.intel.com/924984/sde-external-10.13.1-2026-07-28-lin.tar.xz",
               "emulator_documentation_url": "https://www.intel.com/content/www/us/en/developer/articles/tool/software-development-emulator.html",
+              "pin_argument_forwarding_source": "https://github.com/intel/pinplay-tools/blob/main/PinPoints/Test/sde-run.pinpoints.single-threaded.sh",
               "test_path": TEST_PATH, "new_full_experiment_executed": False,
               "scope": "Four unchanged Week 3 archival checks, including one source/three-fit exact replay. No E4 study execution."}
     try:
-        record["candidate_commit"] = git("rev-parse", "HEAD")
-        record["git_status_before"] = git("status", "--porcelain", "--untracked-files=all")
-        assert record["candidate_commit"] == FREEZE
-        assert not record["git_status_before"]
-        assert git("rev-parse", "--show-toplevel") == str(root)
         assert sha(args.emulator_archive) == ARCHIVE_SHA256
         command = json.loads(args.command_file.read_text())
-        assert command[:5] == [str(args.emulator.resolve()), "-follow_execv", "0", "-icl", "--"]
-        assert Path(command[5]).resolve() == Path(sys.executable).resolve()
-        assert Path(command[6]).resolve() == Path(__file__).resolve()
-        assert command[7:] == sys.argv[1:]
-        assert re.search(r"follow[-_]execv", args.help_file.read_text()), "pinned emulator help must declare follow_execv"
+        assert command[:7] == [str(args.emulator.resolve()), "-p", "-follow_execv", "-p", "0", "-icl", "--"]
+        assert Path(command[7]).resolve() == Path(sys.executable).resolve()
+        assert Path(command[8]).resolve() == Path(__file__).resolve()
+        assert command[9:] == sys.argv[1:]
         record.update(emulator_archive_sha256=sha(args.emulator_archive),
                       emulator_executable_sha256=sha(args.emulator),
                       emulator_version=args.version_file.read_text(), emulator_help_sha256=sha(args.help_file), command=command,
+                      emulator_help_scope="Retained SDE Pin-tool help is informational; it is not an inventory of generic Pin launcher knobs.",
                       test_sha256=sha(root / TEST_PATH), script_sha256=sha(__file__))
+        write(out / "source_provenance.json", record)
         cpu_controls = {n: os.environ.get(n) for n in
                         ("NPY_DISABLE_CPU_FEATURES", "OPENBLAS_CORETYPE", "MKL_ENABLE_INSTRUCTIONS")}
         assert all(v is None for v in cpu_controls.values()), cpu_controls
@@ -103,7 +100,25 @@ def main():
                    "execution_mode": record["execution_mode"]}
         write(out / "same_process_runtime.json", runtime)
         (out / "numpy_runtime.txt").write_text(buffer.getvalue())
+        # Operational smoke replaces an invalid help-text check. It exercises
+        # the exact auxiliary exec that failed before any historical test ran.
+        # Numerical tests and runtime capture stay in this instrumented parent.
+        probe_command = ["git", "rev-parse", "HEAD"]
+        probe = subprocess.run(probe_command, text=True, capture_output=True, check=False)
+        smoke = {"parent_pid": os.getpid(), "git_command": probe_command,
+                 "git_returncode": probe.returncode, "git_stdout": probe.stdout,
+                 "git_stderr": probe.stderr, "effective_AVX512F": features.get("AVX512F"),
+                 "effective_AVX512_ICL": features.get("AVX512_ICL"),
+                 "scope": "Auxiliary Git exec succeeds and parent NumPy exposes required emulated dispatch. This is a runtime smoke, not historical numerical replay certification."}
+        write(out / "runtime_smoke.json", smoke)
+        record["runtime_smoke"] = smoke
+        assert probe.returncode == 0, smoke
         assert features.get("AVX512F") is True and features.get("AVX512_ICL") is True, features
+        record["candidate_commit"] = probe.stdout.strip()
+        record["git_status_before"] = git("status", "--porcelain", "--untracked-files=all")
+        assert record["candidate_commit"] == FREEZE
+        assert not record["git_status_before"]
+        assert git("rev-parse", "--show-toplevel") == str(root)
         saved = json.loads((root / "artifacts/week3_validation_rerun/run_metadata.json").read_text())
         config = load_config(root / "artifacts/week3_validation_rerun/config.yaml")
         differences = runner.provenance_differences(saved, runner._provenance(config))
