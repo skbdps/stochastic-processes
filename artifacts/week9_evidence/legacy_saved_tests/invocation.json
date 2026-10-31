@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/Users/lucifer/Desktop/stochastic/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "-ra",
+    "tests/week8/test_plots.py",
+    "tests/week7/test_plots_reference.py",
+    "tests/week7/test_reporting_reference.py",
+    "--junitxml=/Users/lucifer/Desktop/stochastic/week9_work/legacy_saved_tests/junit.xml"
+  ],
+  "returncode": 1
+}

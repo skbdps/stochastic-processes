@@ -1,0 +1,16 @@
+{
+  "actual_command": "../.venv-week9/bin/python -m pytest -q tests/week9/test_cli.py --junitxml=/private/tmp/week9_cli_test_attempt02.xml",
+  "actual_junit_included": true,
+  "actual_result": {
+    "duration_seconds": 112.45,
+    "failed": 1,
+    "passed": 16
+  },
+  "disposition": "make CSVcolumns canonical independent of dictionary insertion order; retained assertionunchanged",
+  "failed_test": "test_real_build_generates_bound_tables_and_visible_qualifications",
+  "failure": "claims_csv_bytes(read_json(claims.json)) changed CSVcolumn order relative to saved claims.csv because JSON keys are sorted while the initial builder used dictionary insertion order",
+  "original_full_stdout_not_captured_to_disk": true,
+  "package_build_completed_pending_visual_review": true,
+  "scientific_source_or_fit_execution": false,
+  "source_and_renderer_hashes_verified": true
+}

@@ -1,0 +1,128 @@
+{
+  "passed": true,
+  "pdfs": 11,
+  "all_fonts_embedded": true,
+  "reports": [
+    {
+      "report": "artifacts/week9_evidence/pdf_review/F7_classification_n250.fonts.txt",
+      "fonts": [
+        {
+          "font": "BMQQDV+DejaVuSans",
+          "embedded": true,
+          "subset": true,
+          "unicode_mapping": true
+        }
+      ]
+    },
+    {
+      "report": "artifacts/week9_evidence/pdf_review/F7_classification_n1000.fonts.txt",
+      "fonts": [
+        {
+          "font": "BMQQDV+DejaVuSans",
+          "embedded": true,
+          "subset": true,
+          "unicode_mapping": true
+        }
+      ]
+    },
+    {
+      "report": "artifacts/week9_evidence/pdf_review/S_calibration_e4_mean.fonts.txt",
+      "fonts": [
+        {
+          "font": "BMQQDV+DejaVuSans",
+          "embedded": true,
+          "subset": true,
+          "unicode_mapping": true
+        }
+      ]
+    },
+    {
+      "report": "artifacts/week9_evidence/pdf_review/S_F1_distributions_cv0_to_1.fonts.txt",
+      "fonts": [
+        {
+          "font": "BMQQDV+DejaVuSans",
+          "embedded": true,
+          "subset": true,
+          "unicode_mapping": true
+        }
+      ]
+    },
+    {
+      "report": "artifacts/week9_evidence/pdf_review/S_calibration_e2_n1000.fonts.txt",
+      "fonts": [
+        {
+          "font": "BMQQDV+DejaVuSans",
+          "embedded": true,
+          "subset": true,
+          "unicode_mapping": true
+        }
+      ]
+    },
+    {
+      "report": "artifacts/week9_evidence/pdf_review/S_calibration_e2_n250.fonts.txt",
+      "fonts": [
+        {
+          "font": "BMQQDV+DejaVuSans",
+          "embedded": true,
+          "subset": true,
+          "unicode_mapping": true
+        }
+      ]
+    },
+    {
+      "report": "artifacts/week9_evidence/pdf_review/F1_distributions_main.fonts.txt",
+      "fonts": [
+        {
+          "font": "BMQQDV+DejaVuSans",
+          "embedded": true,
+          "subset": true,
+          "unicode_mapping": true
+        }
+      ]
+    },
+    {
+      "report": "artifacts/week9_evidence/pdf_review/S_calibration_e2_n4000.fonts.txt",
+      "fonts": [
+        {
+          "font": "BMQQDV+DejaVuSans",
+          "embedded": true,
+          "subset": true,
+          "unicode_mapping": true
+        }
+      ]
+    },
+    {
+      "report": "artifacts/week9_evidence/pdf_review/F7_classification_n4000.fonts.txt",
+      "fonts": [
+        {
+          "font": "BMQQDV+DejaVuSans",
+          "embedded": true,
+          "subset": true,
+          "unicode_mapping": true
+        }
+      ]
+    },
+    {
+      "report": "artifacts/week9_evidence/pdf_review/F8_matched_mean.fonts.txt",
+      "fonts": [
+        {
+          "font": "BMQQDV+DejaVuSans",
+          "embedded": true,
+          "subset": true,
+          "unicode_mapping": true
+        }
+      ]
+    },
+    {
+      "report": "artifacts/week9_evidence/pdf_review/S_F1_distributions_cv1p5_to_3.fonts.txt",
+      "fonts": [
+        {
+          "font": "BMQQDV+DejaVuSans",
+          "embedded": true,
+          "subset": true,
+          "unicode_mapping": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "command": [
+    "/Users/lucifer/Desktop/stochastic/.venv-week9/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "-ra",
+    "tests/week9",
+    "--junitxml=/Users/lucifer/Desktop/stochastic/week9_work/final_week9_tests/junit.xml"
+  ],
+  "returncode": 0
+}

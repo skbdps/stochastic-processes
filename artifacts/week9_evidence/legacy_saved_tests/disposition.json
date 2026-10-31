@@ -1,0 +1,169 @@
+{
+  "status": "failed_preserved",
+  "scope": "additional historical tests attempted on an unsupported Mac runtime; not a new scientific study or numerical replay certification",
+  "counts": {
+    "passed": 78,
+    "failed": 7,
+    "errors": 13,
+    "skipped": 3
+  },
+  "cases": 101,
+  "affected_cases": [
+    {
+      "node": "tests.week8.test_plots::test_saved_readback_is_pure_and_binds_all_expected_inputs",
+      "outcome": "failed",
+      "diagnostic": "archived_numerical_environment_mismatch"
+    },
+    {
+      "node": "tests.week8.test_plots::test_native_render_has_all_pairs_and_repeat_is_pure",
+      "outcome": "errors",
+      "diagnostic": "archived_numerical_environment_mismatch"
+    },
+    {
+      "node": "tests.week8.test_plots::test_identical_partial_adoption_recreates_only_missing_pair",
+      "outcome": "errors",
+      "diagnostic": "archived_numerical_environment_mismatch"
+    },
+    {
+      "node": "tests.week8.test_plots::test_conflicting_late_partial_blocks_every_missing_output",
+      "outcome": "errors",
+      "diagnostic": "archived_numerical_environment_mismatch"
+    },
+    {
+      "node": "tests.week8.test_plots::test_incomplete_pair_fails_before_state_or_figure_publication",
+      "outcome": "failed",
+      "diagnostic": "archived_numerical_environment_mismatch"
+    },
+    {
+      "node": "tests.week8.test_plots::test_missing_original_renderer_state_blocks_partial_adoption",
+      "outcome": "errors",
+      "diagnostic": "archived_numerical_environment_mismatch"
+    },
+    {
+      "node": "tests.week8.test_plots::test_complete_embedded_renderer_allows_readback_without_sibling",
+      "outcome": "errors",
+      "diagnostic": "archived_numerical_environment_mismatch"
+    },
+    {
+      "node": "tests.week8.test_plots::test_complete_figure_tampering_is_not_repaired[figure_bytes]",
+      "outcome": "errors",
+      "diagnostic": "archived_numerical_environment_mismatch"
+    },
+    {
+      "node": "tests.week8.test_plots::test_complete_figure_tampering_is_not_repaired[manifest_binding]",
+      "outcome": "errors",
+      "diagnostic": "archived_numerical_environment_mismatch"
+    },
+    {
+      "node": "tests.week8.test_plots::test_complete_figure_tampering_is_not_repaired[renderer_settings]",
+      "outcome": "errors",
+      "diagnostic": "archived_numerical_environment_mismatch"
+    },
+    {
+      "node": "tests.week8.test_plots::test_complete_figure_tampering_is_not_repaired[renderer_dependency]",
+      "outcome": "errors",
+      "diagnostic": "archived_numerical_environment_mismatch"
+    },
+    {
+      "node": "tests.week8.test_plots::test_complete_figure_tampering_is_not_repaired[missing_figure]",
+      "outcome": "errors",
+      "diagnostic": "archived_numerical_environment_mismatch"
+    },
+    {
+      "node": "tests.week8.test_plots::test_complete_figure_tampering_is_not_repaired[unknown_figure]",
+      "outcome": "errors",
+      "diagnostic": "archived_numerical_environment_mismatch"
+    },
+    {
+      "node": "tests.week8.test_plots::test_root_drift_during_rendering_preserves_outside_write",
+      "outcome": "failed",
+      "diagnostic": "archived_numerical_environment_mismatch"
+    },
+    {
+      "node": "tests.week8.test_plots::test_completed_seal_is_read_only_and_wrong_artifact_map_is_rejected",
+      "outcome": "errors",
+      "diagnostic": "archived_numerical_environment_mismatch"
+    },
+    {
+      "node": "tests.week8.test_plots::test_external_replot_preserves_entire_source_and_reuses_saved_values",
+      "outcome": "failed",
+      "diagnostic": "archived_numerical_environment_mismatch"
+    },
+    {
+      "node": "tests.week8.test_plots::test_external_replot_accepts_a_valid_sealed_source_without_mutation",
+      "outcome": "errors",
+      "diagnostic": "archived_numerical_environment_mismatch"
+    },
+    {
+      "node": "tests.week7.test_plots_reference::test_selected_profile_subtracts_extended_absolutes_before_float_conversion",
+      "outcome": "failed",
+      "diagnostic": "host_longdouble_precision_assumption"
+    },
+    {
+      "node": "tests.week7.test_plots_reference::test_selected_missing_grid_values_remain_gaps_and_literal_scope_cannot_be_promoted",
+      "outcome": "failed",
+      "diagnostic": "host_longdouble_precision_assumption"
+    },
+    {
+      "node": "tests.week7.test_plots_reference::test_actual_saved_floor_render_is_bound_to_existing_audit_and_does_not_change_scientific_bytes",
+      "outcome": "failed",
+      "diagnostic": "archived_numerical_environment_mismatch"
+    }
+  ],
+  "observed_environment": {
+    "python": "3.14.3",
+    "implementation": "CPython",
+    "system": "Darwin",
+    "machine": "arm64",
+    "thread_environment": {
+      "OPENBLAS_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": null,
+      "VECLIB_MAXIMUM_THREADS": null
+    },
+    "dependencies": {
+      "numpy": "2.3.5",
+      "scipy": "1.17.0",
+      "pandas": "2.2.3",
+      "matplotlib": "3.10.8",
+      "PyYAML": "6.0.3"
+    },
+    "other_requirements": {
+      "nbformat": "5.11.1",
+      "ipython": "9.17.1",
+      "ipykernel": "7.3.0",
+      "pytest": "9.1.1"
+    }
+  },
+  "archived_fixture_environment": {
+    "dependencies": {
+      "PyYAML": "6.0.3",
+      "matplotlib": "3.10.8",
+      "numpy": "2.3.5",
+      "pandas": "2.2.3",
+      "scipy": "1.17.0"
+    },
+    "implementation": "CPython",
+    "machine": "x86_64",
+    "other_requirements": {
+      "ipykernel": "7.3.0",
+      "ipython": "9.17.1",
+      "nbformat": "5.11.1",
+      "pytest": "9.1.1"
+    },
+    "python": "3.12.14",
+    "system": "Linux",
+    "thread_environment": {
+      "MKL_NUM_THREADS": null,
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": null
+    }
+  },
+  "longdouble": {
+    "bits": 64,
+    "eps": 2.220446049250313e-16
+  },
+  "old_source_and_test_files_changed": [],
+  "disposition": "Keep original failures. Historical checks require their archived Linux runtime and extended precision; do not weaken them or count this probe as passing. Prior complete Linux release evidence remains unchanged. New Week9 saved-data verification uses its own pinned contract and tests."
+}

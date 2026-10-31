@@ -1,0 +1,12 @@
+{
+  "cause": "test guard imported historical scientific modules, pulling PyYAML into the lean Week9 environment; ModuleNotFoundError: yaml before the build",
+  "disposition": "replace historical imports with forbidden-import guard and patch only already-loaded numerical entry points; no PyYAML installation",
+  "observed_original_command": "../.venv-week9/bin/python -m pytest -q tests/week9/test_cli.py",
+  "observed_original_duration_seconds": 18.28,
+  "observed_original_exit_code": 1,
+  "observed_original_pytest_setup_errors": 17,
+  "original_full_stdout_not_captured_to_disk": true,
+  "original_junit_not_requested": true,
+  "source_preservation": "exact prior source reconstructed from the single known guard-only patch; publication source and input archives were never modified",
+  "source_sha256": "f92b6c235fc51fd9c8caa34c9da88e8ab7643f384e23bd2987217946c3448d08"
+}

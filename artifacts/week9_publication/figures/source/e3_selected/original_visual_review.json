@@ -1,0 +1,20 @@
+{
+  "all_panels_legible": true,
+  "figure_manifest_sha256": "8a26ca39bf0eb9bbee9835138989372097e9d8b72171b03ef293db0c7721f3df",
+  "figure_sha256": {
+    "W7_selected_E2_cv0_rep001424.png": "96545c546b5d1d404254877c47b5996d755955e2f914b93b58c2007f021e2fa4",
+    "W7_selected_E2_cv0p5_rep000465.png": "0787e4ac2d018fc7c487664eaad763279eb178fa9680ee5760e046f5046e7a51"
+  },
+  "notes": [
+    "Both complete six-panel PNGs were opened and visually inspected. Titles, axes, legends, registered thresholds, signed objective scale and explanatory footnotes are legible.",
+    "The accepted regular control and rejected irregular case are clearly identified. No replacement fit, interval or covariance is claimed.",
+    "The rejection case retains the original 0.01 whitened-discrepancy gate, and smaller-step points are labelled diagnostic only. Long-double precision is stated with its actual mantissa."
+  ],
+  "reviewed_at_utc": "2026-10-30T13:27:10.608306+00:00",
+  "reviewed_pngs": [
+    "W7_selected_E2_cv0_rep001424.png",
+    "W7_selected_E2_cv0p5_rep000465.png"
+  ],
+  "reviewer": "ChatGPT, actual rendered-image inspection",
+  "source_archive_modified": false
+}

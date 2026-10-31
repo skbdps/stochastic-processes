@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "reviewer": "Codex AI /root/week9_inputs_impl",
+  "review_kind": "actual individual PNG and rendered-PDF raster inspection; not human review",
+  "human_review": false,
+  "reviewed_utc": "2026-10-31T17:42:21.066076+00:00",
+  "source_build": "/Users/lucifer/Desktop/stochastic/week9_work/attempt_02",
+  "pdf_render_manifest_sha256": "1f964dcc816aebc1e3dcc18252b569b9788b3651cd45739a49bc226e0f932090",
+  "tool": "tools.view_image via functions.exec",
+  "actual_tool_inspection_count": 8,
+  "actual_inspected_image_paths": [
+    "/Users/lucifer/Desktop/stochastic/week9_work/attempt_02/figures/new/F1_distributions_main.png",
+    "/Users/lucifer/Desktop/stochastic/week9_work/pdf_attempt02/F1_distributions_main.png",
+    "/Users/lucifer/Desktop/stochastic/week9_work/attempt_02/figures/new/S_F1_distributions_cv0_to_1.png",
+    "/Users/lucifer/Desktop/stochastic/week9_work/pdf_attempt02/S_F1_distributions_cv0_to_1.png",
+    "/Users/lucifer/Desktop/stochastic/week9_work/attempt_02/figures/new/S_F1_distributions_cv1p5_to_3.png",
+    "/Users/lucifer/Desktop/stochastic/week9_work/pdf_attempt02/S_F1_distributions_cv1p5_to_3.png",
+    "/Users/lucifer/Desktop/stochastic/week9_work/attempt_02/figures/new/S_calibration_e4_mean.png",
+    "/Users/lucifer/Desktop/stochastic/week9_work/pdf_attempt02/S_calibration_e4_mean.png"
+  ],
+  "reviewed_figure_count": 4,
+  "all_panels_legible": true,
+  "blocking_issues": [],
+  "review_scope": "Legibility, axes, legend, complete series/parameters/design displays, truth/count annotations, source-consistent trends, qualification and raster/PDF layout. Numerical arithmetic has separate independent tests; this image review is not a model-correctness proof.",
+  "transfer_condition": "Judgment may be transferred only when both PNG and PDF bytes exactly match the recorded hashes; the new package must name this original reviewer/time and identify the transfer.",
+  "entries": [
+    {
+      "stem": "F1_distributions_main",
+      "png_path": "figures/new/F1_distributions_main.png",
+      "png_sha256": "80e6150ed8ec9e633b420192eae3a6cd8f9a724d1311193f34d1a3751a6979c3",
+      "pdf_path": "figures/new/F1_distributions_main.pdf",
+      "pdf_sha256": "039639fe8d44ff025de38361509c31aaea223b967f3e084f7790c19034ced358",
+      "rendered_pdf_page_path": "/Users/lucifer/Desktop/stochastic/week9_work/pdf_attempt02/F1_distributions_main.png",
+      "rendered_pdf_page_sha256": "83d97748bff53edd4bc530adeecd9e0f580dd0f743fe0ed0293c353c92567407",
+      "pdf_page": 1,
+      "actual_png_inspected": true,
+      "actual_pdf_raster_inspected": true,
+      "all_panels_legible": true,
+      "blocking_issues": [],
+      "notes": [
+        "Individually inspected the native PNG and the actual rendered PDF page. All nine panels are present: nominal CV = 0, 1, 3 crossed with theta,mu,sigma; Exact,PFML,Euler are named and identifiable by color and line style.",
+        "Simulation truth lines, valid/planned counts 2000/2000, original-unit mu labels and cumulative-probability axes are legible. Visible tails reach the full ECDF range; no apparent axis cropping or omitted extreme series.",
+        "Regular exact/PFML curves coincide as expected; this is disclosed in the footer and their solid/dashed styles are visible. The regular mu curves also coincide. Descriptive/post-result-selection qualification and absence of confidence bands are stated.",
+        "At 1400-pixel PDF rendering the first-row mu tick labels are compact but distinguishable; no blocking overlap or clipping is visible."
+      ]
+    },
+    {
+      "stem": "S_F1_distributions_cv0_to_1",
+      "png_path": "figures/new/S_F1_distributions_cv0_to_1.png",
+      "png_sha256": "35d6fd9be0a7a15253051f017193b388d3e1aee22094565ad79cc895fbabfc30",
+      "pdf_path": "figures/new/S_F1_distributions_cv0_to_1.pdf",
+      "pdf_sha256": "79cdb7164a7da5af113d3b5d23f5e4d8539234186a74ba89b6e80f5cba40fcaa",
+      "rendered_pdf_page_path": "/Users/lucifer/Desktop/stochastic/week9_work/pdf_attempt02/S_F1_distributions_cv0_to_1.png",
+      "rendered_pdf_page_sha256": "2f7defc44d72133018c882cf245b7de13451994eabed490c6db1720824a81f54",
+      "pdf_page": 1,
+      "actual_png_inspected": true,
+      "actual_pdf_raster_inspected": true,
+      "all_panels_legible": true,
+      "blocking_issues": [],
+      "notes": [
+        "Individually inspected native PNG and rendered PDF page. All 12 panels are present for CV = 0, 0.25, 0.5, 1 and theta,mu,sigma, with all three estimator series, truth lines and 2000/2000 counts.",
+        "Complete lower-CV supplementary coverage complements the main presentation. The regular exact/PFML overlap is disclosed and distinguished by line style; mu curves remain close/coincident rather than being incorrectly separated.",
+        "Axis titles, tick labels, legend and footer are readable at the 1400-pixel PDF scale. The page is dense but has no cropped or overlapping panels. Count annotations lightly cover the lowest ECDF region; raw samples and full ECDF data remain available."
+      ]
+    },
+    {
+      "stem": "S_F1_distributions_cv1p5_to_3",
+      "png_path": "figures/new/S_F1_distributions_cv1p5_to_3.png",
+      "png_sha256": "fc33c546b70a23d35ed2266d62050f328b1e039a9ed0e4991cba3b01e9dc95e0",
+      "pdf_path": "figures/new/S_F1_distributions_cv1p5_to_3.pdf",
+      "pdf_sha256": "33edc09e695c0f439938c6dc6fa01f8e40bfc6fa27b85b91ef3c21b31460dc12",
+      "rendered_pdf_page_path": "/Users/lucifer/Desktop/stochastic/week9_work/pdf_attempt02/S_F1_distributions_cv1p5_to_3.png",
+      "rendered_pdf_page_sha256": "07a5dd170242952c86439a16045347f852f40c72200d4de2fe5cb060abd0db34",
+      "pdf_page": 1,
+      "actual_png_inspected": true,
+      "actual_pdf_raster_inspected": true,
+      "all_panels_legible": true,
+      "blocking_issues": [],
+      "notes": [
+        "Individually inspected native PNG and rendered PDF page. All nine panels for CV = 1.5, 2, 3 and theta,mu,sigma include all three estimator series, truth lines and 2000/2000 counts.",
+        "The visible change in Euler sigma relative to PFML across CVs is retained rather than forced into a monotone story. Mu is labelled in original state units. Full observed-tail extents are visible with no apparent axis clipping.",
+        "PDF labels, legend, uncertainty-scope footer and post-result-presentation disclosure are legible at 1400 pixels. The generic regular-grid coincidence note refers to the complete F1 set even though this supplementary page contains only positive CVs; this is nonblocking."
+      ]
+    },
+    {
+      "stem": "S_calibration_e4_mean",
+      "png_path": "figures/new/S_calibration_e4_mean.png",
+      "png_sha256": "109354ad954128311f52f08b713f52c9579e7acffe3c0950b4bf69437cbe6647",
+      "pdf_path": "figures/new/S_calibration_e4_mean.pdf",
+      "pdf_sha256": "bbe1faad1a11bb4ccbeed9ccdd66659e4b2041648ae24ab3687780c2b3386c7b",
+      "rendered_pdf_page_path": "/Users/lucifer/Desktop/stochastic/week9_work/pdf_attempt02/S_calibration_e4_mean.png",
+      "rendered_pdf_page_sha256": "d0f2f4b0f7e234dc25d91d05ec9d324d4bd5d7ca6428cf43fa1ef178c9da8861",
+      "pdf_page": 1,
+      "actual_png_inspected": true,
+      "actual_pdf_raster_inspected": true,
+      "all_panels_legible": true,
+      "blocking_issues": [],
+      "notes": [
+        "Individually inspected native PNG and rendered PDF page. Both empirical-SD and RMS-reported-SE panels contain all 18 stochastic cell/method points: MMPP/IID at r = 1, 5, 20 and Exact,PFML,Euler.",
+        "Both panels visibly use identical y limits/ticks; markers and common legend are clear. r = 20 PFML empirical SD near 0.0354 under MMPP versus 0.0306 under IID, and RMS reported SE near 0.0309/0.0308, agree with independently checked saved quantities.",
+        "Header states exploratory E4, mu in original state units and 2,000 interval-valid fits per cell/method. Footer accurately identifies descriptive points with no new MC intervals and the same eligible subset, and retains the working-covariance limitation.",
+        "No blocking clipping, text overlap or missing series is visible in PNG or 1400-pixel PDF rendering. Axis shorthand MMPP at r = 20 relies on the accompanying full caption/protocol to state the declared floor and MMPP-derived source qualification."
+      ]
+    }
+  ]
+}

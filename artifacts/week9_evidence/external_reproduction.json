@@ -1,0 +1,21 @@
+{
+  "command": [
+    "/Users/lucifer/Desktop/stochastic/.venv-week9/bin/python",
+    "-m",
+    "ou_irregular.week9.cli",
+    "compare",
+    "--left",
+    "/Users/lucifer/Desktop/stochastic/research/artifacts/week9_publication",
+    "--right",
+    "/Users/lucifer/Desktop/stochastic/week9_work/clean_rebuild"
+  ],
+  "returncode": 0,
+  "clean_renderer_commit": "dad63eced437736cc32f7a481b687e226cb4bdaf",
+  "clean_checkout_status": [],
+  "result": {
+    "byte_identical": true,
+    "immutable_files": 141,
+    "manifest_sha256": "370f30e1628821d90cfa42568a60d51dc2c80eb8da71c7036f93c4979d03efbe",
+    "scope": "all immutable derivative files, including PNG/PDF/table/claim bytes; lifecycle/review are separate"
+  }
+}

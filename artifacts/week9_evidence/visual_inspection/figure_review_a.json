@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "reviewer": "Codex AI /root/week9_literature_docs; actual tool-based image inspection, not human review",
+  "review_type": "actual_ai_raster_and_pdf_review",
+  "reviewed_utc": "2026-10-31T17:42:05+00:00",
+  "reviewed_package": "week9_work/attempt_02",
+  "figure_manifest_sha256": "ef28a5d0b025a7901b005ef704900ed88d101decc81eb4fc6639c46bc748597e",
+  "tool_inspection_count": 8,
+  "individual_png_inspections": 4,
+  "individual_rendered_pdf_page_inspections": 4,
+  "all_panels_legible": true,
+  "blocking_issues": [],
+  "entries": [
+    {
+      "png_path": "figures/new/F7_classification_n250.png",
+      "png_sha256": "307fc0a9db8a3bb3573eafc66f370df416c2563372f43d1526f46e953c578665",
+      "pdf_path": "figures/new/F7_classification_n250.pdf",
+      "pdf_sha256": "75e662e4fbfd64e6d921e0466616bd607d5ca2bf4885597e7ace7c8a3adcdb01",
+      "pdf_page": 1,
+      "rendered_page_sha256": "1c936e9a76f36a1b1dabe196b42d69d449f760a0d6c390abb26229a961e93722",
+      "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png <source.pdf> <output-prefix>",
+      "renderer": "pdftoppm version 25.04.0",
+      "notes": [
+        "Original PNG and complete PDF page rendered to maximum dimension1400 were individually inspected. All six panels, four q rows and five CV columns are present and legible; no clipping or overlap was seen.",
+        "Exact-theta q=0.1 row has five bias-only breaches. PFML-theta sequence B:b,B:b,B:b,W,U and Euler-sigma sequence B:c,B:c,B:c,U,W preserve the observed nonmonotonicity and agree with T1.",
+        "All four n250 unresolved labels appear: Euler-theta CV0/CV0.5, PFML-theta CV3 and Euler-sigma CV2 at q0.1. Footers state criteria, pointwise scope, working covariance and floor policy."
+      ],
+      "blocking_issues": []
+    },
+    {
+      "png_path": "figures/new/F7_classification_n1000.png",
+      "png_sha256": "e2856e585e98223a52fb7861d0518c93aed1b6a1c6cd764d8eb6a3c69acf0349",
+      "pdf_path": "figures/new/F7_classification_n1000.pdf",
+      "pdf_sha256": "3c96334edb1d313daf0e0ba299a63f6c196976c5d3e9160fcef60d022341663e",
+      "pdf_page": 1,
+      "rendered_page_sha256": "eeb7f7c068d29e9074002355dd2fdb5fe842104208db180dfd62827f6de31140",
+      "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png <source.pdf> <output-prefix>",
+      "renderer": "pdftoppm version 25.04.0",
+      "notes": [
+        "Original PNG and complete rendered PDF page were individually inspected. All six panels and complete4x5 grids are readable, evenly separated and unclipped.",
+        "Exact theta/sigma grids are all W. The sole n1000 E2 unresolved PFML-sigma cell at q0.5,CV0.5 is visible as U. Other bias/coverage/both codes agree with T1.",
+        "Axis labels, categorical coordinates and W/B/U definitions remain legible in the1400-scale PDF page; no interpolation is implied."
+      ],
+      "blocking_issues": []
+    },
+    {
+      "png_path": "figures/new/F7_classification_n4000.png",
+      "png_sha256": "f785dd1f2925cb8bdbd9e0fa254840bc6a355dd3a591dd338f8cc15c87a0a277",
+      "pdf_path": "figures/new/F7_classification_n4000.pdf",
+      "pdf_sha256": "f6430fc2b2644693ce4e760490ade0e988db8c860bc0430ab89c8763f8c6c76d",
+      "pdf_page": 1,
+      "rendered_page_sha256": "c9f1c010001d179cd507398e54c37afc05ecde2fe63d24bd8d9dfd3989f734c0",
+      "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png <source.pdf> <output-prefix>",
+      "renderer": "pdftoppm version 25.04.0",
+      "notes": [
+        "Original PNG and complete rendered PDF page were individually inspected. All120 displayed cells in six panels are visible; headings, q/CV axes and footnotes are readable.",
+        "Exact theta/sigma grids are entirely W and no unresolved cells occur at this n. PFML/Euler codes agree with T1 and independently computed breach drivers.",
+        "Footnotes distinguish the broad practical criteria from nominal95% coverage and retain model-based covariance and flooring qualifications."
+      ],
+      "blocking_issues": []
+    },
+    {
+      "png_path": "figures/new/F8_matched_mean.png",
+      "png_sha256": "b027610f24eb1e12d4968f6161f69c710779b2367fc03f82797bde84a0625b38",
+      "pdf_path": "figures/new/F8_matched_mean.pdf",
+      "pdf_sha256": "4df07ad75d381e703e3a1d25f23e91714b77b8a0308f94f983b1c2d97b09d3af",
+      "pdf_page": 1,
+      "rendered_page_sha256": "6761a3908e1edb9e25ae1cc7f3f19cf584ac1ecf4f2394acabf49065d234a62e",
+      "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png <source.pdf> <output-prefix>",
+      "renderer": "pdftoppm version 25.04.0",
+      "notes": [
+        "Original PNG and complete rendered PDF page were individually inspected. Both panels show all three methods at r1,r5,r20 with distinct color/marker legend and separated uncertainty bars.",
+        "PFML RMSE ratios near1.084/1.158 and coverage differences -2.70/-3.85 percentage points at r5/r20 agree with the saved source. Their intervals exclude null while Exact/Euler and r1 intervals include the respective null. Ratio asymmetry and coverage signs are correct; no intervals are clipped.",
+        "Contrast directions, units and null reference lines at1 and0 are clear. Footnotes retain independent-cell pointwise uncertainty, log-delta ratio limits, full-marginal/floor match, realized-span consequences, working covariance and lack of an established mean-bias shift.",
+        "No missing series, overlaps or truncated labels were observed in either raster or1400-scale PDF page."
+      ],
+      "blocking_issues": []
+    }
+  ],
+  "source_checks": {
+    "original_E2_classifications_and_independent_breach_drivers_checked": 360,
+    "E4_mu_matched_rows_checked": 9,
+    "E4_mu_metric_values_checked": 54,
+    "source_table_sha256": {
+      "artifacts/week6_e2/parameter_summary.csv": "4c76d333cae81f700a5bf28a36cb7b068502c5e07ac5ce6b35a39a82542742ff",
+      "artifacts/week8_e4/matched_iid_comparisons.csv": "28e72befc9ffc2649476a1aa496ed4b8977495555b75edb13027e7c0b2986548"
+    },
+    "publication_table_sha256": {
+      "tables/T1_e2.csv": "79f9ce54a936192de03ef109a9d48807349ebeb002dadbca15b9ea9389c3ee8a",
+      "tables/e4_matched.csv": "96d5de729c495d96a064046db375e9f3c7ccea848670a4bd4d7201e8fd60a218"
+    },
+    "validator_attempts": "Initial two stdlib checks used incorrect expected driver spellings for unresolved/both; corrected to uncertain/bias_and_coverage. Complete corrected check passed; no source, output table or renderer was changed."
+  },
+  "scope_limitations": [
+    "Actual AI raster/PDF-page inspection and saved-row comparison, not human review, new simulation or numerical fit replay.",
+    "Six-panel classification figures should retain a full-page or comparably readable manuscript layout; subsequent downscaling requires review at final placement size.",
+    "Judgment transfers only after the reviewed PNG/PDF/rendered-page bytes are shown identical."
+  ]
+}

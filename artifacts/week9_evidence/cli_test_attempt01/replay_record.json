@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "/Users/lucifer/Desktop/stochastic/.venv-week9/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "/Users/lucifer/Desktop/stochastic/week9_work/cli_test_attempt01/test_cli.py",
+    "--junitxml=/Users/lucifer/Desktop/stochastic/week9_work/cli_test_attempt01/replayed_failure.junit.xml"
+  ],
+  "exit_code": 1,
+  "scientific_execution_reached": false,
+  "scope": "reproduction of the preserved failed harness; these are replay logs, not original logs",
+  "source_sha256": "f92b6c235fc51fd9c8caa34c9da88e8ab7643f384e23bd2987217946c3448d08",
+  "started_utc": "2026-10-31T17:40:21.144406+00:00"
+}

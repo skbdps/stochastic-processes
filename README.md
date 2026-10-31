@@ -7,7 +7,30 @@ $$
 dX_t = \theta(\mu-X_t)\,dt + \sigma\,dW_t.
 $$
 
-**Current stage: Weeks 5–8 research complete; original E4 recovered, audited, reviewed and sealed.**
+**Current stage: Week 9 publication evidence complete and sealed; ready for manuscript preparation.**
+
+Week 9 assembles the completed studies into a verified publication package:
+360 E2 and 42 E1 practical-classification rows, all six unresolved cases,
+24 source-bound claim records, 11 new PNG/PDF layouts and 40 unchanged source
+figure pairs. All 92 Week 9 tests pass. A clean checkout reproduced all 141
+immutable package files byte-for-byte; actual AI PNG/PDF inspection is bound
+to the final seal. The renderer is frozen at
+`dad63eced437736cc32f7a481b687e226cb4bdaf`.
+
+Read the [Week 9 completion report](docs/week9_completion.md),
+[T1 classification summary](artifacts/week9_publication/tables/T1.md),
+[numerical claims ledger](artifacts/week9_publication/claims.md),
+[figure captions](artifacts/week9_publication/captions.md), and
+[reproduction instructions](docs/week9_reproduction.md).
+The [source-checked literature comparison](docs/week9_literature_comparison.md)
+updates the historical positioning, and the
+[benchmark note](docs/week9_benchmarks.md) retains the limits of the available
+covariance theory. The completion report preserves an additional failed Mac
+probe of historical Linux/extended-precision checks; it does not relabel that
+probe successful. Week 9 uses saved results and performs no new model fits.
+
+Weeks 5–8 remain complete; the original E4 is recovered, audited, reviewed
+and sealed.
 
 Weeks 5–7 retain their completed published studies. The original full Week 8
 E4 experiment has been recovered from Actions run
@@ -66,7 +89,7 @@ Earlier Week 3/4 APIs, archives, failures and the
 [mathematics](docs/week4_mathematics.md) and
 [architecture](docs/week4_architecture.md) retain the governing decisions.
 Written notes do not certify the owner's personal theory exercise, novelty,
-paper acceptance or Weeks 9–12 completion.
+paper acceptance or Weeks 10–12 completion.
 
 The completed E1/E2 studies measure finite-sample bias, RMSE and confidence-interval
 coverage across a wider spacing grid, with equidistant comparisons. The original

@@ -1,0 +1,6 @@
+study,n_parameter_rows,within_criteria,supported_breach,unresolved,not_applicable_zero_truth
+e1,63,19,22,1,21
+e2,540,160,195,5,180
+e3_floor,108,30,42,0,36
+e3_followup,18,6,6,0,6
+e4,63,16,26,0,21

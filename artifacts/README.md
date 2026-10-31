@@ -1,4 +1,4 @@
-# Research artifact index through Week 8
+# Research artifact index through Week 9
 
 This index distinguishes immutable study results, development validation,
 historical failures and later recovery/completion evidence. The governing
@@ -9,6 +9,23 @@ historical failures and later recovery/completion evidence. The governing
 designs and denominators. Later completion records take precedence over
 historical module documents' dated next-step language without rewriting their
 scientific bytes.
+
+## Week 9 publication evidence
+
+| Path | Role and scope |
+| --- | --- |
+| [week9_publication/](week9_publication/) | Completed derivative package from saved studies: 141 immutable files, 11 new PNG/PDF layouts, 40 identical source pairs, tables, claims, captions and notes. No new sources or model fits. |
+| [T1 summary](week9_publication/tables/T1.md), [E2 inventory](week9_publication/tables/T1_e2.csv), [E1 inventory](week9_publication/tables/T1_e1.csv) and [unresolved rows](week9_publication/tables/unresolved.csv) | All 360 E2 and 42 E1 eligible theta/sigma classifications, kept separate by study, including all six unresolved cases. |
+| [claims.md](week9_publication/claims.md), [claims.json](week9_publication/claims.json) and [captions.md](week9_publication/captions.md) | Generated numerical and interpretive statements with source selectors, hashes, counts, uncertainty and qualifications. Unsupported theory claims are explicitly excluded. |
+| [source catalog](week9_publication/source_catalog.json) and [build record](week9_publication/build_record.json) | 831 pinned baseline files and a new renderer/runtime identity, without changing historical numerical provenance. |
+| [visual review](week9_publication/visual_review.json) and [lifecycle](week9_publication/package_state.json) | Actual AI inspection of all 11 new PNGs and 11 rendered PDF pages, transferred only after exact byte comparison, then guarded sealing against committed renderer bytes. Original figure copies retain their original reviews and manifests. |
+| [week9_evidence/](week9_evidence/) | 92 passing Week 9 tests, clean-checkout reproduction, PDF-page/font evidence, source preservation, completed readback, and preserved development failures and historical-host probe. |
+
+See the [Week 9 completion report](../docs/week9_completion.md) and
+[reproduction commands](../docs/week9_reproduction.md). The package freezes
+discrete, pointwise conclusions and empirical calibration. It does not establish
+a continuous operating boundary, robust interval procedure, general dependent-gap
+covariance theory, novelty guarantee or completed manuscript.
 
 ## Earlier foundations and registered studies
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="17" time="112.444" timestamp="2026-10-31T23:09:18.636225+05:30" hostname="bloodbot"><testcase classname="tests.week9.test_cli" name="test_real_build_generates_bound_tables_and_visible_qualifications" time="26.017"><failure message="AssertionError: assert b'claim_id,te...ameters.,[]\n' == b'claim_id,co...plicable,{}\n'&#10;  &#10;  At index 9 diff: b't' != b'c'&#10;  Use -v to get more diff">publication = PosixPath('/private/var/folders/4h/n_hm57ms2fn3znjcwf3vwpxr0000gn/T/pytest-of-lucifer/pytest-3/week9_cli0/pending_package')
+
+    def test_real_build_generates_bound_tables_and_visible_qualifications(publication):
+        record = cli.read_json(publication/"build_record.json")
+        assert record["source_preservation_passed"]
+        assert record["new_simulated_sources"] == record["new_model_fits"] == 0
+        assert record["tables"]["T1_e2.csv"]["rows"] == 360
+        assert record["tables"]["T1_e1.csv"]["rows"] == 42
+        assert record["tables"]["unresolved.csv"]["rows"] == 6
+        assert record["tables"]["f1_ecdf.csv"]["rows"] == 126000
+        assert (publication/"tables/f1_ecdf.csv.gz").is_file()
+        assert (publication/"source_catalog.json").read_bytes() == CONFIG.read_bytes()
+        claims = cli.read_json(publication/"claims.json")
+        readable = (publication/"claims.md").read_text()
+        for claim in claims:
+            assert claim["text"] in readable
+            assert claim["qualifications"] in readable
+            assert claim["status"] in readable
+&gt;       assert (publication/"claims.csv").read_bytes() == cli.claims_csv_bytes(claims)
+E       AssertionError: assert b'claim_id,te...ameters.,[]\n' == b'claim_id,co...plicable,{}\n'
+E         
+E         At index 9 diff: b't' != b'c'
+E         Use -v to get more diff
+
+tests/week9/test_cli.py:150: AssertionError</failure></testcase><testcase classname="tests.week9.test_cli" name="test_pending_package_cannot_be_reported_completed" time="8.188" /><testcase classname="tests.week9.test_cli" name="test_changed_member_is_rejected_without_rebinding" time="0.010" /><testcase classname="tests.week9.test_cli" name="test_rebound_human_views_are_regenerated_from_sources[claims.csv-claim CSV differs]" time="8.024" /><testcase classname="tests.week9.test_cli" name="test_rebound_human_views_are_regenerated_from_sources[claims.md-readable claims differ]" time="11.565" /><testcase classname="tests.week9.test_cli" name="test_rebound_human_views_are_regenerated_from_sources[captions.md-captions differ]" time="15.905" /><testcase classname="tests.week9.test_cli" name="test_rebound_source_catalog_cannot_redefine_accepted_inputs" time="0.052" /><testcase classname="tests.week9.test_cli" name="test_compare_checks_actual_membership_even_when_manifests_match[extra_file]" time="0.016" /><testcase classname="tests.week9.test_cli" name="test_compare_checks_actual_membership_even_when_manifests_match[symlink]" time="0.005" /><testcase classname="tests.week9.test_cli" name="test_invalid_review_payloads_cannot_certify_uninspected_figures[missing_png-omits or changes a new PNG]" time="0.003" /><testcase classname="tests.week9.test_cli" name="test_invalid_review_payloads_cannot_certify_uninspected_figures[missing_pdf-omits a new PDF]" time="0.003" /><testcase classname="tests.week9.test_cli" name="test_invalid_review_payloads_cannot_certify_uninspected_figures[forged_figure_manifest-different figures]" time="0.002" /><testcase classname="tests.week9.test_cli" name="test_invalid_review_payloads_cannot_certify_uninspected_figures[nonhex_render_hash-PDF page review binding]" time="0.001" /><testcase classname="tests.week9.test_cli" name="test_invalid_review_payloads_cannot_certify_uninspected_figures[forged_pdf_source-PDF page review binding]" time="0.002" /><testcase classname="tests.week9.test_cli" name="test_invalid_review_payloads_cannot_certify_uninspected_figures[future_timestamp-timestamp]" time="0.002" /><testcase classname="tests.week9.test_cli" name="test_invalid_review_payloads_cannot_certify_uninspected_figures[blocking_issues-blocking issues]" time="0.003" /><testcase classname="tests.week9.test_cli" name="test_finalize_rejects_invalid_review_without_lifecycle_mutation" time="25.858" /></testsuite></testsuites>

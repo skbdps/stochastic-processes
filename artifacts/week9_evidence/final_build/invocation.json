@@ -1,0 +1,13 @@
+{
+  "command": [
+    "/Users/lucifer/Desktop/stochastic/.venv-week9/bin/python",
+    "-m",
+    "ou_irregular.week9.cli",
+    "build",
+    "--sources",
+    "configs/week9_publication.json",
+    "--output",
+    "/Users/lucifer/Desktop/stochastic/research/artifacts/week9_publication"
+  ],
+  "returncode": 0
+}

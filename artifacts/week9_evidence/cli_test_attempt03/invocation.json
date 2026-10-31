@@ -1,0 +1,30 @@
+{
+  "argv": [
+    "/Users/lucifer/Desktop/stochastic/.venv-week9/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/week9/test_cli.py",
+    "--junitxml=/Users/lucifer/Desktop/stochastic/week9_work/cli_test_attempt03/actual.junit.xml"
+  ],
+  "exit_code": 0,
+  "finished_utc": "2026-10-31T17:46:23.333354+00:00",
+  "renderer_files": {
+    "configs/week9_publication.json": "ba4bc13e2734de8b5fa30a05b31cd735e861e9ee1eaa5807a3b234d2c6e8c3a9",
+    "docs/week9_benchmarks.md": "8ab6e6e91088728b41031c8e67f689b72fec514740d6427dfd38ca8b7a329e0d",
+    "docs/week9_figure_plan.md": "318bc627daaef54dae70b6a2d61ab777bc6ecf0d0d921e1f8638f8fcb7551aa9",
+    "docs/week9_literature_comparison.md": "710a53447e7ad2c6a7f188527cc4ea7093d918e49c3f2082e8e410bfcdab4e57",
+    "docs/week9_protocol.md": "b546e7a9d5ab4c4933455cada85751dc859cfbc79e1edabdd64e48ec97f631a7",
+    "docs/week9_reproduction.md": "a53f46028cb3653e7c248e9d68432b1a3336bb1f04cf9647c2388cb3aee3a43c",
+    "ou_irregular/week9/__init__.py": "8bf66ed262488a33960c61598a1f4a6256b3ae25c552f79e0948e1012eb6e52e",
+    "ou_irregular/week9/cli.py": "707104560b5da93fa162257e72b1252b834c03c491b59cd5d683fa3e86132ae2",
+    "ou_irregular/week9/inputs.py": "73068e6d893f6c3edad4651ffa1632e76777e35a3f23246b29cd99f7fac5efa0",
+    "ou_irregular/week9/plots.py": "b44709ecfbaab52558d39a4f4d61c9f844caf90f1f5f3062fea4805565897762",
+    "ou_irregular/week9/tables.py": "f56752aed555caf6fd753a385a3ac65a1584e5aa9f9fa09a2717b916a95a91ee",
+    "requirements-week9-lock.txt": "f03732f7bd3d6cbe7a808f77c53d52f92ed995d4632f15972b89e018986ca9cf",
+    "requirements-week9.txt": "1ce9f007f5225ac1e3dc33b044ab54fab699d326fc7f2bb4284970b9c5b17b54"
+  },
+  "scientific_execution_guard": "forbid imports plus already-loaded function patches; no positive visual-review fixture",
+  "started_utc": "2026-10-31T17:44:52.277798+00:00",
+  "test_sha256": "95c02e3d82e5151d8b5db5a7873773197acc4cf242334dffc541468db7c48d52"
+}

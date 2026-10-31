@@ -1,0 +1,11 @@
+{
+  "ou_irregular/week9/__init__.py": "8bf66ed262488a33960c61598a1f4a6256b3ae25c552f79e0948e1012eb6e52e",
+  "ou_irregular/week9/plots.py": "777097b4a54dc24b386b59dad5e45aa8032a43ac7f615de0cae062ba25f3fda1",
+  "ou_irregular/week9/inputs.py": "73068e6d893f6c3edad4651ffa1632e76777e35a3f23246b29cd99f7fac5efa0",
+  "ou_irregular/week9/cli.py": "dfd037e1ae740ab360bd79c1b0d0d0fff3f7b6ace7bb35dc976434477ff5a013",
+  "ou_irregular/week9/tables.py": "f56752aed555caf6fd753a385a3ac65a1584e5aa9f9fa09a2717b916a95a91ee",
+  "tests/week9/test_reference.py": "ef3c111cd7ead32160d96fd21443530c87d326ad0c64c5ee28d2494cfcb6ad08",
+  "tests/week9/test_inputs.py": "a8b0296402ad8418aa8d84b968df3efea41828da3d1cfe0cb2bcba9fa94e4b9b",
+  "tests/week9/test_tables.py": "d3fbc8cf25384182255300deb3617acc84fcc5c1d5f25c122a6530b5d1d910ee",
+  "tests/week9/test_cli.py": "355470bbbac0119142e3cae6a6498892fceb9dd32bb57a0713de9290dc72bfd5"
+}

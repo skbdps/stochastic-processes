@@ -1,0 +1,732 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="17" failures="0" skipped="0" tests="17" time="29.890" timestamp="2026-10-31T23:10:21.482683+05:30" hostname="bloodbot"><testcase classname="week9_work.cli_test_attempt01.test_cli" name="test_real_build_generates_bound_tables_and_visible_qualifications" time="0.007"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'yaml'&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x10a031b50&gt;, _basetemp=None, _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def publication(tmp_path_factory):
+        """One real build; original scientific inputs remain byte-identical."""
+        with pytest.MonkeyPatch.context() as patch:
+&gt;           forbid_scientific_execution(patch)
+
+../week9_work/cli_test_attempt01/test_cli.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../week9_work/cli_test_attempt01/test_cli.py:36: in forbid_scientific_execution
+    module = importlib.import_module(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1387: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:999: in exec_module
+    ???
+&lt;frozen importlib._bootstrap&gt;:488: in _call_with_frames_removed
+    ???
+ou_irregular/week8/source.py:25: in &lt;module&gt;
+    from ..week4.config import canonical_json
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Strict Week 4 configuration without extending Week 3's smoke schema."""
+    from copy import deepcopy
+    from dataclasses import dataclass
+    import hashlib
+    import json
+    from pathlib import Path
+    
+    import numpy as np
+&gt;   import yaml
+E   ModuleNotFoundError: No module named 'yaml'
+
+ou_irregular/week4/config.py:9: ModuleNotFoundError</error></testcase><testcase classname="week9_work.cli_test_attempt01.test_cli" name="test_pending_package_cannot_be_reported_completed" time="0.000"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'yaml'&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x10a031b50&gt;, _basetemp=None, _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def publication(tmp_path_factory):
+        """One real build; original scientific inputs remain byte-identical."""
+        with pytest.MonkeyPatch.context() as patch:
+&gt;           forbid_scientific_execution(patch)
+
+../week9_work/cli_test_attempt01/test_cli.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../week9_work/cli_test_attempt01/test_cli.py:36: in forbid_scientific_execution
+    module = importlib.import_module(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1387: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:999: in exec_module
+    ???
+&lt;frozen importlib._bootstrap&gt;:488: in _call_with_frames_removed
+    ???
+ou_irregular/week8/source.py:25: in &lt;module&gt;
+    from ..week4.config import canonical_json
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Strict Week 4 configuration without extending Week 3's smoke schema."""
+    from copy import deepcopy
+    from dataclasses import dataclass
+    import hashlib
+    import json
+    from pathlib import Path
+    
+    import numpy as np
+&gt;   import yaml
+E   ModuleNotFoundError: No module named 'yaml'
+
+ou_irregular/week4/config.py:9: ModuleNotFoundError</error></testcase><testcase classname="week9_work.cli_test_attempt01.test_cli" name="test_changed_member_is_rejected_without_rebinding" time="0.000"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'yaml'&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x10a031b50&gt;, _basetemp=None, _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def publication(tmp_path_factory):
+        """One real build; original scientific inputs remain byte-identical."""
+        with pytest.MonkeyPatch.context() as patch:
+&gt;           forbid_scientific_execution(patch)
+
+../week9_work/cli_test_attempt01/test_cli.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../week9_work/cli_test_attempt01/test_cli.py:36: in forbid_scientific_execution
+    module = importlib.import_module(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1387: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:999: in exec_module
+    ???
+&lt;frozen importlib._bootstrap&gt;:488: in _call_with_frames_removed
+    ???
+ou_irregular/week8/source.py:25: in &lt;module&gt;
+    from ..week4.config import canonical_json
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Strict Week 4 configuration without extending Week 3's smoke schema."""
+    from copy import deepcopy
+    from dataclasses import dataclass
+    import hashlib
+    import json
+    from pathlib import Path
+    
+    import numpy as np
+&gt;   import yaml
+E   ModuleNotFoundError: No module named 'yaml'
+
+ou_irregular/week4/config.py:9: ModuleNotFoundError</error></testcase><testcase classname="week9_work.cli_test_attempt01.test_cli" name="test_rebound_human_views_are_regenerated_from_sources[claims.csv-claim CSV differs]" time="0.000"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'yaml'&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x10a031b50&gt;, _basetemp=None, _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def publication(tmp_path_factory):
+        """One real build; original scientific inputs remain byte-identical."""
+        with pytest.MonkeyPatch.context() as patch:
+&gt;           forbid_scientific_execution(patch)
+
+../week9_work/cli_test_attempt01/test_cli.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../week9_work/cli_test_attempt01/test_cli.py:36: in forbid_scientific_execution
+    module = importlib.import_module(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1387: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:999: in exec_module
+    ???
+&lt;frozen importlib._bootstrap&gt;:488: in _call_with_frames_removed
+    ???
+ou_irregular/week8/source.py:25: in &lt;module&gt;
+    from ..week4.config import canonical_json
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Strict Week 4 configuration without extending Week 3's smoke schema."""
+    from copy import deepcopy
+    from dataclasses import dataclass
+    import hashlib
+    import json
+    from pathlib import Path
+    
+    import numpy as np
+&gt;   import yaml
+E   ModuleNotFoundError: No module named 'yaml'
+
+ou_irregular/week4/config.py:9: ModuleNotFoundError</error></testcase><testcase classname="week9_work.cli_test_attempt01.test_cli" name="test_rebound_human_views_are_regenerated_from_sources[claims.md-readable claims differ]" time="0.000"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'yaml'&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x10a031b50&gt;, _basetemp=None, _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def publication(tmp_path_factory):
+        """One real build; original scientific inputs remain byte-identical."""
+        with pytest.MonkeyPatch.context() as patch:
+&gt;           forbid_scientific_execution(patch)
+
+../week9_work/cli_test_attempt01/test_cli.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../week9_work/cli_test_attempt01/test_cli.py:36: in forbid_scientific_execution
+    module = importlib.import_module(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1387: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:999: in exec_module
+    ???
+&lt;frozen importlib._bootstrap&gt;:488: in _call_with_frames_removed
+    ???
+ou_irregular/week8/source.py:25: in &lt;module&gt;
+    from ..week4.config import canonical_json
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Strict Week 4 configuration without extending Week 3's smoke schema."""
+    from copy import deepcopy
+    from dataclasses import dataclass
+    import hashlib
+    import json
+    from pathlib import Path
+    
+    import numpy as np
+&gt;   import yaml
+E   ModuleNotFoundError: No module named 'yaml'
+
+ou_irregular/week4/config.py:9: ModuleNotFoundError</error></testcase><testcase classname="week9_work.cli_test_attempt01.test_cli" name="test_rebound_human_views_are_regenerated_from_sources[captions.md-captions differ]" time="0.000"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'yaml'&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x10a031b50&gt;, _basetemp=None, _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def publication(tmp_path_factory):
+        """One real build; original scientific inputs remain byte-identical."""
+        with pytest.MonkeyPatch.context() as patch:
+&gt;           forbid_scientific_execution(patch)
+
+../week9_work/cli_test_attempt01/test_cli.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../week9_work/cli_test_attempt01/test_cli.py:36: in forbid_scientific_execution
+    module = importlib.import_module(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1387: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:999: in exec_module
+    ???
+&lt;frozen importlib._bootstrap&gt;:488: in _call_with_frames_removed
+    ???
+ou_irregular/week8/source.py:25: in &lt;module&gt;
+    from ..week4.config import canonical_json
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Strict Week 4 configuration without extending Week 3's smoke schema."""
+    from copy import deepcopy
+    from dataclasses import dataclass
+    import hashlib
+    import json
+    from pathlib import Path
+    
+    import numpy as np
+&gt;   import yaml
+E   ModuleNotFoundError: No module named 'yaml'
+
+ou_irregular/week4/config.py:9: ModuleNotFoundError</error></testcase><testcase classname="week9_work.cli_test_attempt01.test_cli" name="test_rebound_source_catalog_cannot_redefine_accepted_inputs" time="0.000"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'yaml'&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x10a031b50&gt;, _basetemp=None, _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def publication(tmp_path_factory):
+        """One real build; original scientific inputs remain byte-identical."""
+        with pytest.MonkeyPatch.context() as patch:
+&gt;           forbid_scientific_execution(patch)
+
+../week9_work/cli_test_attempt01/test_cli.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../week9_work/cli_test_attempt01/test_cli.py:36: in forbid_scientific_execution
+    module = importlib.import_module(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1387: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:999: in exec_module
+    ???
+&lt;frozen importlib._bootstrap&gt;:488: in _call_with_frames_removed
+    ???
+ou_irregular/week8/source.py:25: in &lt;module&gt;
+    from ..week4.config import canonical_json
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Strict Week 4 configuration without extending Week 3's smoke schema."""
+    from copy import deepcopy
+    from dataclasses import dataclass
+    import hashlib
+    import json
+    from pathlib import Path
+    
+    import numpy as np
+&gt;   import yaml
+E   ModuleNotFoundError: No module named 'yaml'
+
+ou_irregular/week4/config.py:9: ModuleNotFoundError</error></testcase><testcase classname="week9_work.cli_test_attempt01.test_cli" name="test_compare_checks_actual_membership_even_when_manifests_match[extra_file]" time="0.000"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'yaml'&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x10a031b50&gt;, _basetemp=None, _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def publication(tmp_path_factory):
+        """One real build; original scientific inputs remain byte-identical."""
+        with pytest.MonkeyPatch.context() as patch:
+&gt;           forbid_scientific_execution(patch)
+
+../week9_work/cli_test_attempt01/test_cli.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../week9_work/cli_test_attempt01/test_cli.py:36: in forbid_scientific_execution
+    module = importlib.import_module(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1387: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:999: in exec_module
+    ???
+&lt;frozen importlib._bootstrap&gt;:488: in _call_with_frames_removed
+    ???
+ou_irregular/week8/source.py:25: in &lt;module&gt;
+    from ..week4.config import canonical_json
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Strict Week 4 configuration without extending Week 3's smoke schema."""
+    from copy import deepcopy
+    from dataclasses import dataclass
+    import hashlib
+    import json
+    from pathlib import Path
+    
+    import numpy as np
+&gt;   import yaml
+E   ModuleNotFoundError: No module named 'yaml'
+
+ou_irregular/week4/config.py:9: ModuleNotFoundError</error></testcase><testcase classname="week9_work.cli_test_attempt01.test_cli" name="test_compare_checks_actual_membership_even_when_manifests_match[symlink]" time="0.000"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'yaml'&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x10a031b50&gt;, _basetemp=None, _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def publication(tmp_path_factory):
+        """One real build; original scientific inputs remain byte-identical."""
+        with pytest.MonkeyPatch.context() as patch:
+&gt;           forbid_scientific_execution(patch)
+
+../week9_work/cli_test_attempt01/test_cli.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../week9_work/cli_test_attempt01/test_cli.py:36: in forbid_scientific_execution
+    module = importlib.import_module(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1387: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:999: in exec_module
+    ???
+&lt;frozen importlib._bootstrap&gt;:488: in _call_with_frames_removed
+    ???
+ou_irregular/week8/source.py:25: in &lt;module&gt;
+    from ..week4.config import canonical_json
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Strict Week 4 configuration without extending Week 3's smoke schema."""
+    from copy import deepcopy
+    from dataclasses import dataclass
+    import hashlib
+    import json
+    from pathlib import Path
+    
+    import numpy as np
+&gt;   import yaml
+E   ModuleNotFoundError: No module named 'yaml'
+
+ou_irregular/week4/config.py:9: ModuleNotFoundError</error></testcase><testcase classname="week9_work.cli_test_attempt01.test_cli" name="test_invalid_review_payloads_cannot_certify_uninspected_figures[missing_png-omits or changes a new PNG]" time="0.000"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'yaml'&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x10a031b50&gt;, _basetemp=None, _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def publication(tmp_path_factory):
+        """One real build; original scientific inputs remain byte-identical."""
+        with pytest.MonkeyPatch.context() as patch:
+&gt;           forbid_scientific_execution(patch)
+
+../week9_work/cli_test_attempt01/test_cli.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../week9_work/cli_test_attempt01/test_cli.py:36: in forbid_scientific_execution
+    module = importlib.import_module(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1387: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:999: in exec_module
+    ???
+&lt;frozen importlib._bootstrap&gt;:488: in _call_with_frames_removed
+    ???
+ou_irregular/week8/source.py:25: in &lt;module&gt;
+    from ..week4.config import canonical_json
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Strict Week 4 configuration without extending Week 3's smoke schema."""
+    from copy import deepcopy
+    from dataclasses import dataclass
+    import hashlib
+    import json
+    from pathlib import Path
+    
+    import numpy as np
+&gt;   import yaml
+E   ModuleNotFoundError: No module named 'yaml'
+
+ou_irregular/week4/config.py:9: ModuleNotFoundError</error></testcase><testcase classname="week9_work.cli_test_attempt01.test_cli" name="test_invalid_review_payloads_cannot_certify_uninspected_figures[missing_pdf-omits a new PDF]" time="0.000"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'yaml'&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x10a031b50&gt;, _basetemp=None, _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def publication(tmp_path_factory):
+        """One real build; original scientific inputs remain byte-identical."""
+        with pytest.MonkeyPatch.context() as patch:
+&gt;           forbid_scientific_execution(patch)
+
+../week9_work/cli_test_attempt01/test_cli.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../week9_work/cli_test_attempt01/test_cli.py:36: in forbid_scientific_execution
+    module = importlib.import_module(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1387: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:999: in exec_module
+    ???
+&lt;frozen importlib._bootstrap&gt;:488: in _call_with_frames_removed
+    ???
+ou_irregular/week8/source.py:25: in &lt;module&gt;
+    from ..week4.config import canonical_json
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Strict Week 4 configuration without extending Week 3's smoke schema."""
+    from copy import deepcopy
+    from dataclasses import dataclass
+    import hashlib
+    import json
+    from pathlib import Path
+    
+    import numpy as np
+&gt;   import yaml
+E   ModuleNotFoundError: No module named 'yaml'
+
+ou_irregular/week4/config.py:9: ModuleNotFoundError</error></testcase><testcase classname="week9_work.cli_test_attempt01.test_cli" name="test_invalid_review_payloads_cannot_certify_uninspected_figures[forged_figure_manifest-different figures]" time="0.000"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'yaml'&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x10a031b50&gt;, _basetemp=None, _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def publication(tmp_path_factory):
+        """One real build; original scientific inputs remain byte-identical."""
+        with pytest.MonkeyPatch.context() as patch:
+&gt;           forbid_scientific_execution(patch)
+
+../week9_work/cli_test_attempt01/test_cli.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../week9_work/cli_test_attempt01/test_cli.py:36: in forbid_scientific_execution
+    module = importlib.import_module(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1387: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:999: in exec_module
+    ???
+&lt;frozen importlib._bootstrap&gt;:488: in _call_with_frames_removed
+    ???
+ou_irregular/week8/source.py:25: in &lt;module&gt;
+    from ..week4.config import canonical_json
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Strict Week 4 configuration without extending Week 3's smoke schema."""
+    from copy import deepcopy
+    from dataclasses import dataclass
+    import hashlib
+    import json
+    from pathlib import Path
+    
+    import numpy as np
+&gt;   import yaml
+E   ModuleNotFoundError: No module named 'yaml'
+
+ou_irregular/week4/config.py:9: ModuleNotFoundError</error></testcase><testcase classname="week9_work.cli_test_attempt01.test_cli" name="test_invalid_review_payloads_cannot_certify_uninspected_figures[nonhex_render_hash-PDF page review binding]" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'yaml'&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x10a031b50&gt;, _basetemp=None, _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def publication(tmp_path_factory):
+        """One real build; original scientific inputs remain byte-identical."""
+        with pytest.MonkeyPatch.context() as patch:
+&gt;           forbid_scientific_execution(patch)
+
+../week9_work/cli_test_attempt01/test_cli.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../week9_work/cli_test_attempt01/test_cli.py:36: in forbid_scientific_execution
+    module = importlib.import_module(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1387: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:999: in exec_module
+    ???
+&lt;frozen importlib._bootstrap&gt;:488: in _call_with_frames_removed
+    ???
+ou_irregular/week8/source.py:25: in &lt;module&gt;
+    from ..week4.config import canonical_json
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Strict Week 4 configuration without extending Week 3's smoke schema."""
+    from copy import deepcopy
+    from dataclasses import dataclass
+    import hashlib
+    import json
+    from pathlib import Path
+    
+    import numpy as np
+&gt;   import yaml
+E   ModuleNotFoundError: No module named 'yaml'
+
+ou_irregular/week4/config.py:9: ModuleNotFoundError</error></testcase><testcase classname="week9_work.cli_test_attempt01.test_cli" name="test_invalid_review_payloads_cannot_certify_uninspected_figures[forged_pdf_source-PDF page review binding]" time="0.000"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'yaml'&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x10a031b50&gt;, _basetemp=None, _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def publication(tmp_path_factory):
+        """One real build; original scientific inputs remain byte-identical."""
+        with pytest.MonkeyPatch.context() as patch:
+&gt;           forbid_scientific_execution(patch)
+
+../week9_work/cli_test_attempt01/test_cli.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../week9_work/cli_test_attempt01/test_cli.py:36: in forbid_scientific_execution
+    module = importlib.import_module(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1387: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:999: in exec_module
+    ???
+&lt;frozen importlib._bootstrap&gt;:488: in _call_with_frames_removed
+    ???
+ou_irregular/week8/source.py:25: in &lt;module&gt;
+    from ..week4.config import canonical_json
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Strict Week 4 configuration without extending Week 3's smoke schema."""
+    from copy import deepcopy
+    from dataclasses import dataclass
+    import hashlib
+    import json
+    from pathlib import Path
+    
+    import numpy as np
+&gt;   import yaml
+E   ModuleNotFoundError: No module named 'yaml'
+
+ou_irregular/week4/config.py:9: ModuleNotFoundError</error></testcase><testcase classname="week9_work.cli_test_attempt01.test_cli" name="test_invalid_review_payloads_cannot_certify_uninspected_figures[future_timestamp-timestamp]" time="0.000"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'yaml'&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x10a031b50&gt;, _basetemp=None, _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def publication(tmp_path_factory):
+        """One real build; original scientific inputs remain byte-identical."""
+        with pytest.MonkeyPatch.context() as patch:
+&gt;           forbid_scientific_execution(patch)
+
+../week9_work/cli_test_attempt01/test_cli.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../week9_work/cli_test_attempt01/test_cli.py:36: in forbid_scientific_execution
+    module = importlib.import_module(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1387: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:999: in exec_module
+    ???
+&lt;frozen importlib._bootstrap&gt;:488: in _call_with_frames_removed
+    ???
+ou_irregular/week8/source.py:25: in &lt;module&gt;
+    from ..week4.config import canonical_json
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Strict Week 4 configuration without extending Week 3's smoke schema."""
+    from copy import deepcopy
+    from dataclasses import dataclass
+    import hashlib
+    import json
+    from pathlib import Path
+    
+    import numpy as np
+&gt;   import yaml
+E   ModuleNotFoundError: No module named 'yaml'
+
+ou_irregular/week4/config.py:9: ModuleNotFoundError</error></testcase><testcase classname="week9_work.cli_test_attempt01.test_cli" name="test_invalid_review_payloads_cannot_certify_uninspected_figures[blocking_issues-blocking issues]" time="0.000"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'yaml'&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x10a031b50&gt;, _basetemp=None, _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def publication(tmp_path_factory):
+        """One real build; original scientific inputs remain byte-identical."""
+        with pytest.MonkeyPatch.context() as patch:
+&gt;           forbid_scientific_execution(patch)
+
+../week9_work/cli_test_attempt01/test_cli.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../week9_work/cli_test_attempt01/test_cli.py:36: in forbid_scientific_execution
+    module = importlib.import_module(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1387: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:999: in exec_module
+    ???
+&lt;frozen importlib._bootstrap&gt;:488: in _call_with_frames_removed
+    ???
+ou_irregular/week8/source.py:25: in &lt;module&gt;
+    from ..week4.config import canonical_json
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Strict Week 4 configuration without extending Week 3's smoke schema."""
+    from copy import deepcopy
+    from dataclasses import dataclass
+    import hashlib
+    import json
+    from pathlib import Path
+    
+    import numpy as np
+&gt;   import yaml
+E   ModuleNotFoundError: No module named 'yaml'
+
+ou_irregular/week4/config.py:9: ModuleNotFoundError</error></testcase><testcase classname="week9_work.cli_test_attempt01.test_cli" name="test_finalize_rejects_invalid_review_without_lifecycle_mutation" time="0.000"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'yaml'&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x10a031b50&gt;, _basetemp=None, _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def publication(tmp_path_factory):
+        """One real build; original scientific inputs remain byte-identical."""
+        with pytest.MonkeyPatch.context() as patch:
+&gt;           forbid_scientific_execution(patch)
+
+../week9_work/cli_test_attempt01/test_cli.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../week9_work/cli_test_attempt01/test_cli.py:36: in forbid_scientific_execution
+    module = importlib.import_module(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1387: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:999: in exec_module
+    ???
+&lt;frozen importlib._bootstrap&gt;:488: in _call_with_frames_removed
+    ???
+ou_irregular/week8/source.py:25: in &lt;module&gt;
+    from ..week4.config import canonical_json
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Strict Week 4 configuration without extending Week 3's smoke schema."""
+    from copy import deepcopy
+    from dataclasses import dataclass
+    import hashlib
+    import json
+    from pathlib import Path
+    
+    import numpy as np
+&gt;   import yaml
+E   ModuleNotFoundError: No module named 'yaml'
+
+ou_irregular/week4/config.py:9: ModuleNotFoundError</error></testcase></testsuite></testsuites>

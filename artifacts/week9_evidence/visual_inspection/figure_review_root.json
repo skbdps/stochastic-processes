@@ -1,0 +1,70 @@
+{
+  "reviewer": "Codex root, actual AI visual inspection",
+  "review_type": "actual_ai_raster_and_pdf_review",
+  "entries": [
+    {
+      "png": "figures/new/S_calibration_e2_n250.png",
+      "png_sha256": "8653efc53d0b938fef286a2d99c0734488e2ccc00fd923e18115deee57a5e863",
+      "pdf": "figures/new/S_calibration_e2_n250.pdf",
+      "pdf_review": {
+        "page": 1,
+        "source_pdf_sha256": "09dfc05adb23819e6631c4192ca9ce261d4cd1a99272b848666bb79b3c21d857",
+        "rendered_page_sha256": "8a31b31841ad86ecaf3bf2790600c56d218adb344908d1999d5641aefb671e0a",
+        "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png <source.pdf> <output-prefix>",
+        "renderer": "pdftoppm version 25.04.0",
+        "rendered_path": "/Users/lucifer/Desktop/stochastic/week9_work/pdf_attempt02/S_calibration_e2_n250.png"
+      },
+      "notes": [
+        "Individually inspected original PNG and Poppler-rendered PDF page at1400-pixel page scale.",
+        "All nine method/parameter panels and20q/CVcells perpanel arecomplete; numericlabels/axes/footerslegiblewithoutoverlap.",
+        "Sharedlog2colorlimitsand saturation aredeclared; fullratiosretainedinlabels andcalibration.csv.",
+        "SD/RMSSEratio isdescriptive oncommoninterval-validsubset; captiondoesnotclaimcovariance theorem orcoverageexplanation."
+      ],
+      "blocking_issues": []
+    },
+    {
+      "png": "figures/new/S_calibration_e2_n1000.png",
+      "png_sha256": "7e4489a4c62b2681b0714214235cea05cd413606e9d2d42adfe374a9605f3acc",
+      "pdf": "figures/new/S_calibration_e2_n1000.pdf",
+      "pdf_review": {
+        "page": 1,
+        "source_pdf_sha256": "bf2971ccf22b3050db153903d69c8488f4bdbfb38382d64d5881d64cff6646b8",
+        "rendered_page_sha256": "d3f13d423fbf1124a8b1e0186aa25887a1f02200aba881111a49c9e8cd11f3a3",
+        "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png <source.pdf> <output-prefix>",
+        "renderer": "pdftoppm version 25.04.0",
+        "rendered_path": "/Users/lucifer/Desktop/stochastic/week9_work/pdf_attempt02/S_calibration_e2_n1000.png"
+      },
+      "notes": [
+        "Individually inspected original PNG and Poppler-rendered PDF page at1400-pixel page scale.",
+        "All nine method/parameter panels and20q/CVcells perpanel arecomplete; numericlabels/axes/footerslegiblewithoutoverlap.",
+        "Sharedlog2colorlimitsand saturation aredeclared; fullratiosretainedinlabels andcalibration.csv.",
+        "SD/RMSSEratio isdescriptive oncommoninterval-validsubset; captiondoesnotclaimcovariance theorem orcoverageexplanation."
+      ],
+      "blocking_issues": []
+    },
+    {
+      "png": "figures/new/S_calibration_e2_n4000.png",
+      "png_sha256": "c7eb221cc631f7719d833e707a4ab391c732a5d0b9e263193c5aaf4fa854ae22",
+      "pdf": "figures/new/S_calibration_e2_n4000.pdf",
+      "pdf_review": {
+        "page": 1,
+        "source_pdf_sha256": "d0f7645c2873a46e701ed6194b236214349529cd0bcb603762008cfb0663ad71",
+        "rendered_page_sha256": "031b919293305d298efb86c8a3264f5d3edbbe9f2e899a609cfe00ebf8168bb2",
+        "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png <source.pdf> <output-prefix>",
+        "renderer": "pdftoppm version 25.04.0",
+        "rendered_path": "/Users/lucifer/Desktop/stochastic/week9_work/pdf_attempt02/S_calibration_e2_n4000.png"
+      },
+      "notes": [
+        "Individually inspected original PNG and Poppler-rendered PDF page at1400-pixel page scale.",
+        "All nine method/parameter panels and20q/CVcells perpanel arecomplete; numericlabels/axes/footerslegiblewithoutoverlap.",
+        "Sharedlog2colorlimitsand saturation aredeclared; fullratiosretainedinlabels andcalibration.csv.",
+        "SD/RMSSEratio isdescriptive oncommoninterval-validsubset; captiondoesnotclaimcovariance theorem orcoverageexplanation."
+      ],
+      "blocking_issues": []
+    }
+  ],
+  "actual_image_tool_calls": 6,
+  "all_panels_legible": true,
+  "blocking_issues": [],
+  "reviewed_utc": "2026-10-31T17:40:39+00:00"
+}

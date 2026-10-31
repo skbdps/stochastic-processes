@@ -1,0 +1,101 @@
+{
+  "figures/new/F1_distributions_main.pdf": {
+    "page": 1,
+    "source_pdf_sha256": "039639fe8d44ff025de38361509c31aaea223b967f3e084f7790c19034ced358",
+    "rendered_page_sha256": "83d97748bff53edd4bc530adeecd9e0f580dd0f743fe0ed0293c353c92567407",
+    "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/F1_distributions_main.pdf artifacts/week9_evidence/pdf_review/F1_distributions_main",
+    "renderer": "pdftoppm version 25.04.0",
+    "rendered_path": "artifacts/week9_evidence/pdf_review/F1_distributions_main.png",
+    "identical_to_actually_inspected_page": true
+  },
+  "figures/new/F7_classification_n1000.pdf": {
+    "page": 1,
+    "source_pdf_sha256": "3c96334edb1d313daf0e0ba299a63f6c196976c5d3e9160fcef60d022341663e",
+    "rendered_page_sha256": "eeb7f7c068d29e9074002355dd2fdb5fe842104208db180dfd62827f6de31140",
+    "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/F7_classification_n1000.pdf artifacts/week9_evidence/pdf_review/F7_classification_n1000",
+    "renderer": "pdftoppm version 25.04.0",
+    "rendered_path": "artifacts/week9_evidence/pdf_review/F7_classification_n1000.png",
+    "identical_to_actually_inspected_page": true
+  },
+  "figures/new/F7_classification_n250.pdf": {
+    "page": 1,
+    "source_pdf_sha256": "75e662e4fbfd64e6d921e0466616bd607d5ca2bf4885597e7ace7c8a3adcdb01",
+    "rendered_page_sha256": "1c936e9a76f36a1b1dabe196b42d69d449f760a0d6c390abb26229a961e93722",
+    "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/F7_classification_n250.pdf artifacts/week9_evidence/pdf_review/F7_classification_n250",
+    "renderer": "pdftoppm version 25.04.0",
+    "rendered_path": "artifacts/week9_evidence/pdf_review/F7_classification_n250.png",
+    "identical_to_actually_inspected_page": true
+  },
+  "figures/new/F7_classification_n4000.pdf": {
+    "page": 1,
+    "source_pdf_sha256": "f6430fc2b2644693ce4e760490ade0e988db8c860bc0430ab89c8763f8c6c76d",
+    "rendered_page_sha256": "c9f1c010001d179cd507398e54c37afc05ecde2fe63d24bd8d9dfd3989f734c0",
+    "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/F7_classification_n4000.pdf artifacts/week9_evidence/pdf_review/F7_classification_n4000",
+    "renderer": "pdftoppm version 25.04.0",
+    "rendered_path": "artifacts/week9_evidence/pdf_review/F7_classification_n4000.png",
+    "identical_to_actually_inspected_page": true
+  },
+  "figures/new/F8_matched_mean.pdf": {
+    "page": 1,
+    "source_pdf_sha256": "4df07ad75d381e703e3a1d25f23e91714b77b8a0308f94f983b1c2d97b09d3af",
+    "rendered_page_sha256": "6761a3908e1edb9e25ae1cc7f3f19cf584ac1ecf4f2394acabf49065d234a62e",
+    "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/F8_matched_mean.pdf artifacts/week9_evidence/pdf_review/F8_matched_mean",
+    "renderer": "pdftoppm version 25.04.0",
+    "rendered_path": "artifacts/week9_evidence/pdf_review/F8_matched_mean.png",
+    "identical_to_actually_inspected_page": true
+  },
+  "figures/new/S_F1_distributions_cv0_to_1.pdf": {
+    "page": 1,
+    "source_pdf_sha256": "79cdb7164a7da5af113d3b5d23f5e4d8539234186a74ba89b6e80f5cba40fcaa",
+    "rendered_page_sha256": "2f7defc44d72133018c882cf245b7de13451994eabed490c6db1720824a81f54",
+    "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/S_F1_distributions_cv0_to_1.pdf artifacts/week9_evidence/pdf_review/S_F1_distributions_cv0_to_1",
+    "renderer": "pdftoppm version 25.04.0",
+    "rendered_path": "artifacts/week9_evidence/pdf_review/S_F1_distributions_cv0_to_1.png",
+    "identical_to_actually_inspected_page": true
+  },
+  "figures/new/S_F1_distributions_cv1p5_to_3.pdf": {
+    "page": 1,
+    "source_pdf_sha256": "33edc09e695c0f439938c6dc6fa01f8e40bfc6fa27b85b91ef3c21b31460dc12",
+    "rendered_page_sha256": "07a5dd170242952c86439a16045347f852f40c72200d4de2fe5cb060abd0db34",
+    "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/S_F1_distributions_cv1p5_to_3.pdf artifacts/week9_evidence/pdf_review/S_F1_distributions_cv1p5_to_3",
+    "renderer": "pdftoppm version 25.04.0",
+    "rendered_path": "artifacts/week9_evidence/pdf_review/S_F1_distributions_cv1p5_to_3.png",
+    "identical_to_actually_inspected_page": true
+  },
+  "figures/new/S_calibration_e2_n1000.pdf": {
+    "page": 1,
+    "source_pdf_sha256": "bf2971ccf22b3050db153903d69c8488f4bdbfb38382d64d5881d64cff6646b8",
+    "rendered_page_sha256": "d3f13d423fbf1124a8b1e0186aa25887a1f02200aba881111a49c9e8cd11f3a3",
+    "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/S_calibration_e2_n1000.pdf artifacts/week9_evidence/pdf_review/S_calibration_e2_n1000",
+    "renderer": "pdftoppm version 25.04.0",
+    "rendered_path": "artifacts/week9_evidence/pdf_review/S_calibration_e2_n1000.png",
+    "identical_to_actually_inspected_page": true
+  },
+  "figures/new/S_calibration_e2_n250.pdf": {
+    "page": 1,
+    "source_pdf_sha256": "09dfc05adb23819e6631c4192ca9ce261d4cd1a99272b848666bb79b3c21d857",
+    "rendered_page_sha256": "8a31b31841ad86ecaf3bf2790600c56d218adb344908d1999d5641aefb671e0a",
+    "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/S_calibration_e2_n250.pdf artifacts/week9_evidence/pdf_review/S_calibration_e2_n250",
+    "renderer": "pdftoppm version 25.04.0",
+    "rendered_path": "artifacts/week9_evidence/pdf_review/S_calibration_e2_n250.png",
+    "identical_to_actually_inspected_page": true
+  },
+  "figures/new/S_calibration_e2_n4000.pdf": {
+    "page": 1,
+    "source_pdf_sha256": "d0f7645c2873a46e701ed6194b236214349529cd0bcb603762008cfb0663ad71",
+    "rendered_page_sha256": "031b919293305d298efb86c8a3264f5d3edbbe9f2e899a609cfe00ebf8168bb2",
+    "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/S_calibration_e2_n4000.pdf artifacts/week9_evidence/pdf_review/S_calibration_e2_n4000",
+    "renderer": "pdftoppm version 25.04.0",
+    "rendered_path": "artifacts/week9_evidence/pdf_review/S_calibration_e2_n4000.png",
+    "identical_to_actually_inspected_page": true
+  },
+  "figures/new/S_calibration_e4_mean.pdf": {
+    "page": 1,
+    "source_pdf_sha256": "bbe1faad1a11bb4ccbeed9ccdd66659e4b2041648ae24ab3687780c2b3386c7b",
+    "rendered_page_sha256": "d0f2f4b0f7e234dc25d91d05ec9d324d4bd5d7ca6428cf43fa1ef178c9da8861",
+    "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/S_calibration_e4_mean.pdf artifacts/week9_evidence/pdf_review/S_calibration_e4_mean",
+    "renderer": "pdftoppm version 25.04.0",
+    "rendered_path": "artifacts/week9_evidence/pdf_review/S_calibration_e4_mean.png",
+    "identical_to_actually_inspected_page": true
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "actual_individual_image_inspections": 22,
+  "all_panels_legible": true,
+  "blocking_issues": [],
+  "bound_utc": "2026-10-31T17:59:27.555180+00:00",
+  "byte_identity_transfer": {
+    "final_figure_manifest_sha256": "01ab51af55951f57a9ac693a961f1be0feea011e7b663c07f7f6d9676c2da18c",
+    "inspected_figure_manifest_sha256": "ef28a5d0b025a7901b005ef704900ed88d101decc81eb4fc6639c46bc748597e",
+    "new_figure_table_bindings_unchanged": true,
+    "new_png_pdf_files": 22,
+    "passed": true,
+    "scope": "Actual judgments from the individually inspected original PNG/PDF bytes; no claim of a second image inspection."
+  },
+  "figure_manifest_sha256": "01ab51af55951f57a9ac693a961f1be0feea011e7b663c07f7f6d9676c2da18c",
+  "human_review": false,
+  "notes": [
+    "All11newPNGs and all11Poppler-renderedPDFpages were individually inspected by AI reviewers; the original per-reviewer records retain actual inspection times and hashes.",
+    "FinalnewPNG/PDFbytes and their plotting-table bindings match the individually inspected development layouts. FinalPDFpage rasters also match those actually viewed. This is a byte-identity transfer, not a claimed second inspection.",
+    "F1includes every eligible retainedestimate for its declared designs; the supplement exposes allsevenCVs. Truthlines, counts, labels and coincidentregularmethodstyles are visible.",
+    "F7shows all360E2theta/sigma classifications with bias/coverage/both drivers and unresolvedcells, without interpolation or a nominal95%-coverage certification claim.",
+    "F8includes allthree ratios and methods for the matchedmu contrasts with correct asymmetricRMSEratio limits and pointwiseindependent-cell uncertainty.",
+    "Calibrationuses empiricalSD and RMSreportedSE on the same interval-validsubset; its ratio is descriptive. The E4externalcaption explicitly identifies r20flooredMMPP-derived gaps.",
+    "FortyoriginalPNG/PDFpairs are copiedwithoutbytechanges and retain their individually identified originalreview and figuremanifest records. No new inspection of those source copies is claimed.",
+    "No blocking overlap, clipping, missingseries or illegiblelabels were found at nativePNG resolution and the1400-pixel PDFpage review scale. Humanacademicreview and finaljournaltypesetting remain later work."
+  ],
+  "review_type": "actual_ai_raster_and_pdf_review",
+  "reviewed_pdf_pages": {
+    "figures/new/F1_distributions_main.pdf": {
+      "identical_to_actually_inspected_page": true,
+      "page": 1,
+      "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/F1_distributions_main.pdf artifacts/week9_evidence/pdf_review/F1_distributions_main",
+      "rendered_page_sha256": "83d97748bff53edd4bc530adeecd9e0f580dd0f743fe0ed0293c353c92567407",
+      "rendered_path": "artifacts/week9_evidence/pdf_review/F1_distributions_main.png",
+      "renderer": "pdftoppm version 25.04.0",
+      "source_pdf_sha256": "039639fe8d44ff025de38361509c31aaea223b967f3e084f7790c19034ced358"
+    },
+    "figures/new/F7_classification_n1000.pdf": {
+      "identical_to_actually_inspected_page": true,
+      "page": 1,
+      "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/F7_classification_n1000.pdf artifacts/week9_evidence/pdf_review/F7_classification_n1000",
+      "rendered_page_sha256": "eeb7f7c068d29e9074002355dd2fdb5fe842104208db180dfd62827f6de31140",
+      "rendered_path": "artifacts/week9_evidence/pdf_review/F7_classification_n1000.png",
+      "renderer": "pdftoppm version 25.04.0",
+      "source_pdf_sha256": "3c96334edb1d313daf0e0ba299a63f6c196976c5d3e9160fcef60d022341663e"
+    },
+    "figures/new/F7_classification_n250.pdf": {
+      "identical_to_actually_inspected_page": true,
+      "page": 1,
+      "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/F7_classification_n250.pdf artifacts/week9_evidence/pdf_review/F7_classification_n250",
+      "rendered_page_sha256": "1c936e9a76f36a1b1dabe196b42d69d449f760a0d6c390abb26229a961e93722",
+      "rendered_path": "artifacts/week9_evidence/pdf_review/F7_classification_n250.png",
+      "renderer": "pdftoppm version 25.04.0",
+      "source_pdf_sha256": "75e662e4fbfd64e6d921e0466616bd607d5ca2bf4885597e7ace7c8a3adcdb01"
+    },
+    "figures/new/F7_classification_n4000.pdf": {
+      "identical_to_actually_inspected_page": true,
+      "page": 1,
+      "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/F7_classification_n4000.pdf artifacts/week9_evidence/pdf_review/F7_classification_n4000",
+      "rendered_page_sha256": "c9f1c010001d179cd507398e54c37afc05ecde2fe63d24bd8d9dfd3989f734c0",
+      "rendered_path": "artifacts/week9_evidence/pdf_review/F7_classification_n4000.png",
+      "renderer": "pdftoppm version 25.04.0",
+      "source_pdf_sha256": "f6430fc2b2644693ce4e760490ade0e988db8c860bc0430ab89c8763f8c6c76d"
+    },
+    "figures/new/F8_matched_mean.pdf": {
+      "identical_to_actually_inspected_page": true,
+      "page": 1,
+      "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/F8_matched_mean.pdf artifacts/week9_evidence/pdf_review/F8_matched_mean",
+      "rendered_page_sha256": "6761a3908e1edb9e25ae1cc7f3f19cf584ac1ecf4f2394acabf49065d234a62e",
+      "rendered_path": "artifacts/week9_evidence/pdf_review/F8_matched_mean.png",
+      "renderer": "pdftoppm version 25.04.0",
+      "source_pdf_sha256": "4df07ad75d381e703e3a1d25f23e91714b77b8a0308f94f983b1c2d97b09d3af"
+    },
+    "figures/new/S_F1_distributions_cv0_to_1.pdf": {
+      "identical_to_actually_inspected_page": true,
+      "page": 1,
+      "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/S_F1_distributions_cv0_to_1.pdf artifacts/week9_evidence/pdf_review/S_F1_distributions_cv0_to_1",
+      "rendered_page_sha256": "2f7defc44d72133018c882cf245b7de13451994eabed490c6db1720824a81f54",
+      "rendered_path": "artifacts/week9_evidence/pdf_review/S_F1_distributions_cv0_to_1.png",
+      "renderer": "pdftoppm version 25.04.0",
+      "source_pdf_sha256": "79cdb7164a7da5af113d3b5d23f5e4d8539234186a74ba89b6e80f5cba40fcaa"
+    },
+    "figures/new/S_F1_distributions_cv1p5_to_3.pdf": {
+      "identical_to_actually_inspected_page": true,
+      "page": 1,
+      "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/S_F1_distributions_cv1p5_to_3.pdf artifacts/week9_evidence/pdf_review/S_F1_distributions_cv1p5_to_3",
+      "rendered_page_sha256": "07a5dd170242952c86439a16045347f852f40c72200d4de2fe5cb060abd0db34",
+      "rendered_path": "artifacts/week9_evidence/pdf_review/S_F1_distributions_cv1p5_to_3.png",
+      "renderer": "pdftoppm version 25.04.0",
+      "source_pdf_sha256": "33edc09e695c0f439938c6dc6fa01f8e40bfc6fa27b85b91ef3c21b31460dc12"
+    },
+    "figures/new/S_calibration_e2_n1000.pdf": {
+      "identical_to_actually_inspected_page": true,
+      "page": 1,
+      "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/S_calibration_e2_n1000.pdf artifacts/week9_evidence/pdf_review/S_calibration_e2_n1000",
+      "rendered_page_sha256": "d3f13d423fbf1124a8b1e0186aa25887a1f02200aba881111a49c9e8cd11f3a3",
+      "rendered_path": "artifacts/week9_evidence/pdf_review/S_calibration_e2_n1000.png",
+      "renderer": "pdftoppm version 25.04.0",
+      "source_pdf_sha256": "bf2971ccf22b3050db153903d69c8488f4bdbfb38382d64d5881d64cff6646b8"
+    },
+    "figures/new/S_calibration_e2_n250.pdf": {
+      "identical_to_actually_inspected_page": true,
+      "page": 1,
+      "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/S_calibration_e2_n250.pdf artifacts/week9_evidence/pdf_review/S_calibration_e2_n250",
+      "rendered_page_sha256": "8a31b31841ad86ecaf3bf2790600c56d218adb344908d1999d5641aefb671e0a",
+      "rendered_path": "artifacts/week9_evidence/pdf_review/S_calibration_e2_n250.png",
+      "renderer": "pdftoppm version 25.04.0",
+      "source_pdf_sha256": "09dfc05adb23819e6631c4192ca9ce261d4cd1a99272b848666bb79b3c21d857"
+    },
+    "figures/new/S_calibration_e2_n4000.pdf": {
+      "identical_to_actually_inspected_page": true,
+      "page": 1,
+      "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/S_calibration_e2_n4000.pdf artifacts/week9_evidence/pdf_review/S_calibration_e2_n4000",
+      "rendered_page_sha256": "031b919293305d298efb86c8a3264f5d3edbbe9f2e899a609cfe00ebf8168bb2",
+      "rendered_path": "artifacts/week9_evidence/pdf_review/S_calibration_e2_n4000.png",
+      "renderer": "pdftoppm version 25.04.0",
+      "source_pdf_sha256": "d0f7645c2873a46e701ed6194b236214349529cd0bcb603762008cfb0663ad71"
+    },
+    "figures/new/S_calibration_e4_mean.pdf": {
+      "identical_to_actually_inspected_page": true,
+      "page": 1,
+      "render_command": "pdftoppm -f 1 -singlefile -scale-to 1400 -png artifacts/week9_publication/figures/new/S_calibration_e4_mean.pdf artifacts/week9_evidence/pdf_review/S_calibration_e4_mean",
+      "rendered_page_sha256": "d0f2f4b0f7e234dc25d91d05ec9d324d4bd5d7ca6428cf43fa1ef178c9da8861",
+      "rendered_path": "artifacts/week9_evidence/pdf_review/S_calibration_e4_mean.png",
+      "renderer": "pdftoppm version 25.04.0",
+      "source_pdf_sha256": "bbe1faad1a11bb4ccbeed9ccdd66659e4b2041648ae24ab3687780c2b3386c7b"
+    }
+  },
+  "reviewed_png_sha256": {
+    "figures/new/F1_distributions_main.png": "80e6150ed8ec9e633b420192eae3a6cd8f9a724d1311193f34d1a3751a6979c3",
+    "figures/new/F7_classification_n1000.png": "e2856e585e98223a52fb7861d0518c93aed1b6a1c6cd764d8eb6a3c69acf0349",
+    "figures/new/F7_classification_n250.png": "307fc0a9db8a3bb3573eafc66f370df416c2563372f43d1526f46e953c578665",
+    "figures/new/F7_classification_n4000.png": "f785dd1f2925cb8bdbd9e0fa254840bc6a355dd3a591dd338f8cc15c87a0a277",
+    "figures/new/F8_matched_mean.png": "b027610f24eb1e12d4968f6161f69c710779b2367fc03f82797bde84a0625b38",
+    "figures/new/S_F1_distributions_cv0_to_1.png": "35d6fd9be0a7a15253051f017193b388d3e1aee22094565ad79cc895fbabfc30",
+    "figures/new/S_F1_distributions_cv1p5_to_3.png": "fc33c546b70a23d35ed2266d62050f328b1e039a9ed0e4991cba3b01e9dc95e0",
+    "figures/new/S_calibration_e2_n1000.png": "7e4489a4c62b2681b0714214235cea05cd413606e9d2d42adfe374a9605f3acc",
+    "figures/new/S_calibration_e2_n250.png": "8653efc53d0b938fef286a2d99c0734488e2ccc00fd923e18115deee57a5e863",
+    "figures/new/S_calibration_e2_n4000.png": "c7eb221cc631f7719d833e707a4ab391c732a5d0b9e263193c5aaf4fa854ae22",
+    "figures/new/S_calibration_e4_mean.png": "109354ad954128311f52f08b713f52c9579e7acffe3c0950b4bf69437cbe6647"
+  },
+  "reviewed_utc": "2026-10-31T17:42:21.066076+00:00",
+  "reviewer": "Codex AI reviewers: root, week9_inputs_impl, week9_literature_docs",
+  "schema_version": 1,
+  "source_inspection_records": [
+    {
+      "path": "artifacts/week9_evidence/visual_inspection/figure_review_a.json",
+      "reviewed_utc": "2026-10-31T17:42:05+00:00",
+      "reviewer": "Codex AI /root/week9_literature_docs; actual tool-based image inspection, not human review",
+      "sha256": "90bb360afc40683124e01c7821ba668def244bf3586daad26895fa85b8e0967a"
+    },
+    {
+      "path": "artifacts/week9_evidence/visual_inspection/figure_review_b.json",
+      "reviewed_utc": "2026-10-31T17:42:21.066076+00:00",
+      "reviewer": "Codex AI /root/week9_inputs_impl",
+      "sha256": "14597b5fdbb4800f00fb56c38deb54c9f9330c4845cb553d952c40b50851ae04"
+    },
+    {
+      "path": "artifacts/week9_evidence/visual_inspection/figure_review_root.json",
+      "reviewed_utc": "2026-10-31T17:40:39+00:00",
+      "reviewer": "Codex root, actual AI visual inspection",
+      "sha256": "8afce4c95f686201614658bfddd68c798163757b527deb459dc0977250533322"
+    }
+  ]
+}

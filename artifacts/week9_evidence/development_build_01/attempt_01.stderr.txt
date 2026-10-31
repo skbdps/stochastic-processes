@@ -1,0 +1,22 @@
+/Users/lucifer/.matplotlib is not a writable directory
+Matplotlib created a temporary cache directory at /var/folders/4h/n_hm57ms2fn3znjcwf3vwpxr0000gn/T/matplotlib-2zj9vr2m because there was an issue with the default path (/Users/lucifer/.matplotlib); it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+Matplotlib is building the font cache; this may take a moment.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/lucifer/Desktop/stochastic/research/ou_irregular/week9/cli.py", line 424, in <module>
+    main()
+  File "/Users/lucifer/Desktop/stochastic/research/ou_irregular/week9/cli.py", line 413, in main
+    result = build(args.sources, args.output)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lucifer/Desktop/stochastic/research/ou_irregular/week9/cli.py", line 267, in build
+    return verify(destination, root=bundle.root)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lucifer/Desktop/stochastic/research/ou_irregular/week9/cli.py", line 292, in verify
+    bundle = load_sources(output/"source_catalog.json", root=root)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lucifer/Desktop/stochastic/research/ou_irregular/week9/inputs.py", line 271, in load_sources
+    _require(_sha(raw) == CONFIG_SHA256, "pinned source catalog digest mismatch")
+  File "/Users/lucifer/Desktop/stochastic/research/ou_irregular/week9/inputs.py", line 35, in _require
+    raise ValueError(message)
+ValueError: pinned source catalog digest mismatch

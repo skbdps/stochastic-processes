@@ -1,0 +1,1 @@
+{"byte_identical":true,"immutable_files":141,"manifest_sha256":"370f30e1628821d90cfa42568a60d51dc2c80eb8da71c7036f93c4979d03efbe","scope":"all immutable derivative files, including PNG/PDF/table/claim bytes; lifecycle/review are separate"}

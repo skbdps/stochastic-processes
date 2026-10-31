@@ -1,0 +1,1084 @@
+...............................F............EEEFEEEEEEEEFE.....F....E... [ 71%]
+.........F...F....F..sss.....                                            [100%]
+==================================== ERRORS ====================================
+____ ERROR at setup of test_native_render_has_all_pairs_and_repeat_is_pure _____
+
+saved = PosixPath('/private/var/folders/4h/n_hm57ms2fn3znjcwf3vwpxr0000gn/T/pytest-of-lucifer/pytest-5/e4_plot0/saved_archive')
+
+    @pytest.fixture(scope='module')
+    def rendered(saved):
+        # Retains actual PNG/PDF bytes for separate visual inspection after tests.
+        out=saved.parent/'rendered_archive';shutil.copytree(saved,out)
+>       result=plots.write_figures(out,validation_design())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/week8/test_plots.py:194: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ou_irregular/week8/plots.py:470: in write_figures
+    inputs = load_inputs(output, design)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/plots.py:322: in load_inputs
+    metadata, raw = audit._metadata(output, design, raw_extra)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:460: in _metadata
+    provenance = verify_provenance(metadata, design, extra_files)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:307: in verify_provenance
+    verify(provenance, expected_design=design)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+provenance = {'captured_utc': '2026-10-30T23:33:02.275645+00:00', 'code_commit': '205cb5d6f363bf5be6a8eafba545563b042dc33c', 'desig...on', 'replications': 4, ...}, 'design_sha256': '8b54754c95c98f68d2de2f9c19659608bfb752bc4881bf0d7064ff68d6b05022', ...}
+root = PosixPath('/Users/lucifer/Desktop/stochastic/research')
+expected_design = RunDesign(name='week8_e4_clustered_sampling_validation', seed=21261011, replications=4, cells=(E4Cell(n=1000, q=0.5, c... mu=0.0, sigma=0.5, floor_fraction=1e-06, floor_cv_threshold=1.5, mechanism='regular', ratio=0.0)), scope='validation')
+check_environment = True
+
+    def verify(provenance, *, root=ROOT, expected_design=None, check_environment=True):
+        """Reject tampered provenance, changed dependencies, runtime or run identity."""
+        identity = {k: provenance[k] for k in ("design", "design_sha256", "preregistration_commit",
+                                              "source_files", "environment")}
+        if digest_bytes(canonical(identity).encode()) != provenance["identity_sha256"]:
+            raise ValueError("provenance identity digest mismatch")
+        if provenance["preregistration_commit"] != PREREG_COMMIT:
+            raise ValueError("unexpected registration freeze")
+        if expected_design is not None and (provenance["design_sha256"] != expected_design.digest
+                                            or provenance["design"] != expected_design.to_dict()):
+            raise ValueError("resume design identity mismatch")
+        for path, expected in provenance["source_files"].items():
+            if Path(path).is_absolute() or ".." in Path(path).parts:
+                raise ValueError("unsafe dependency path")
+            if file_digest(Path(root) / path) != expected:
+                raise ValueError(f"dependency changed: {path}")
+        if check_environment and environment() != provenance["environment"]:
+>           raise ValueError("numerical environment changed")
+E           ValueError: numerical environment changed
+
+ou_irregular/experiments/provenance.py:130: ValueError
+_ ERROR at setup of test_identical_partial_adoption_recreates_only_missing_pair _
+
+saved = PosixPath('/private/var/folders/4h/n_hm57ms2fn3znjcwf3vwpxr0000gn/T/pytest-of-lucifer/pytest-5/e4_plot0/saved_archive')
+
+    @pytest.fixture(scope='module')
+    def rendered(saved):
+        # Retains actual PNG/PDF bytes for separate visual inspection after tests.
+        out=saved.parent/'rendered_archive';shutil.copytree(saved,out)
+>       result=plots.write_figures(out,validation_design())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/week8/test_plots.py:194: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ou_irregular/week8/plots.py:470: in write_figures
+    inputs = load_inputs(output, design)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/plots.py:322: in load_inputs
+    metadata, raw = audit._metadata(output, design, raw_extra)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:460: in _metadata
+    provenance = verify_provenance(metadata, design, extra_files)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:307: in verify_provenance
+    verify(provenance, expected_design=design)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+provenance = {'captured_utc': '2026-10-30T23:33:02.275645+00:00', 'code_commit': '205cb5d6f363bf5be6a8eafba545563b042dc33c', 'desig...on', 'replications': 4, ...}, 'design_sha256': '8b54754c95c98f68d2de2f9c19659608bfb752bc4881bf0d7064ff68d6b05022', ...}
+root = PosixPath('/Users/lucifer/Desktop/stochastic/research')
+expected_design = RunDesign(name='week8_e4_clustered_sampling_validation', seed=21261011, replications=4, cells=(E4Cell(n=1000, q=0.5, c... mu=0.0, sigma=0.5, floor_fraction=1e-06, floor_cv_threshold=1.5, mechanism='regular', ratio=0.0)), scope='validation')
+check_environment = True
+
+    def verify(provenance, *, root=ROOT, expected_design=None, check_environment=True):
+        """Reject tampered provenance, changed dependencies, runtime or run identity."""
+        identity = {k: provenance[k] for k in ("design", "design_sha256", "preregistration_commit",
+                                              "source_files", "environment")}
+        if digest_bytes(canonical(identity).encode()) != provenance["identity_sha256"]:
+            raise ValueError("provenance identity digest mismatch")
+        if provenance["preregistration_commit"] != PREREG_COMMIT:
+            raise ValueError("unexpected registration freeze")
+        if expected_design is not None and (provenance["design_sha256"] != expected_design.digest
+                                            or provenance["design"] != expected_design.to_dict()):
+            raise ValueError("resume design identity mismatch")
+        for path, expected in provenance["source_files"].items():
+            if Path(path).is_absolute() or ".." in Path(path).parts:
+                raise ValueError("unsafe dependency path")
+            if file_digest(Path(root) / path) != expected:
+                raise ValueError(f"dependency changed: {path}")
+        if check_environment and environment() != provenance["environment"]:
+>           raise ValueError("numerical environment changed")
+E           ValueError: numerical environment changed
+
+ou_irregular/experiments/provenance.py:130: ValueError
+_ ERROR at setup of test_conflicting_late_partial_blocks_every_missing_output __
+
+saved = PosixPath('/private/var/folders/4h/n_hm57ms2fn3znjcwf3vwpxr0000gn/T/pytest-of-lucifer/pytest-5/e4_plot0/saved_archive')
+
+    @pytest.fixture(scope='module')
+    def rendered(saved):
+        # Retains actual PNG/PDF bytes for separate visual inspection after tests.
+        out=saved.parent/'rendered_archive';shutil.copytree(saved,out)
+>       result=plots.write_figures(out,validation_design())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/week8/test_plots.py:194: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ou_irregular/week8/plots.py:470: in write_figures
+    inputs = load_inputs(output, design)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/plots.py:322: in load_inputs
+    metadata, raw = audit._metadata(output, design, raw_extra)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:460: in _metadata
+    provenance = verify_provenance(metadata, design, extra_files)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:307: in verify_provenance
+    verify(provenance, expected_design=design)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+provenance = {'captured_utc': '2026-10-30T23:33:02.275645+00:00', 'code_commit': '205cb5d6f363bf5be6a8eafba545563b042dc33c', 'desig...on', 'replications': 4, ...}, 'design_sha256': '8b54754c95c98f68d2de2f9c19659608bfb752bc4881bf0d7064ff68d6b05022', ...}
+root = PosixPath('/Users/lucifer/Desktop/stochastic/research')
+expected_design = RunDesign(name='week8_e4_clustered_sampling_validation', seed=21261011, replications=4, cells=(E4Cell(n=1000, q=0.5, c... mu=0.0, sigma=0.5, floor_fraction=1e-06, floor_cv_threshold=1.5, mechanism='regular', ratio=0.0)), scope='validation')
+check_environment = True
+
+    def verify(provenance, *, root=ROOT, expected_design=None, check_environment=True):
+        """Reject tampered provenance, changed dependencies, runtime or run identity."""
+        identity = {k: provenance[k] for k in ("design", "design_sha256", "preregistration_commit",
+                                              "source_files", "environment")}
+        if digest_bytes(canonical(identity).encode()) != provenance["identity_sha256"]:
+            raise ValueError("provenance identity digest mismatch")
+        if provenance["preregistration_commit"] != PREREG_COMMIT:
+            raise ValueError("unexpected registration freeze")
+        if expected_design is not None and (provenance["design_sha256"] != expected_design.digest
+                                            or provenance["design"] != expected_design.to_dict()):
+            raise ValueError("resume design identity mismatch")
+        for path, expected in provenance["source_files"].items():
+            if Path(path).is_absolute() or ".." in Path(path).parts:
+                raise ValueError("unsafe dependency path")
+            if file_digest(Path(root) / path) != expected:
+                raise ValueError(f"dependency changed: {path}")
+        if check_environment and environment() != provenance["environment"]:
+>           raise ValueError("numerical environment changed")
+E           ValueError: numerical environment changed
+
+ou_irregular/experiments/provenance.py:130: ValueError
+_ ERROR at setup of test_missing_original_renderer_state_blocks_partial_adoption _
+
+saved = PosixPath('/private/var/folders/4h/n_hm57ms2fn3znjcwf3vwpxr0000gn/T/pytest-of-lucifer/pytest-5/e4_plot0/saved_archive')
+
+    @pytest.fixture(scope='module')
+    def rendered(saved):
+        # Retains actual PNG/PDF bytes for separate visual inspection after tests.
+        out=saved.parent/'rendered_archive';shutil.copytree(saved,out)
+>       result=plots.write_figures(out,validation_design())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/week8/test_plots.py:194: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ou_irregular/week8/plots.py:470: in write_figures
+    inputs = load_inputs(output, design)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/plots.py:322: in load_inputs
+    metadata, raw = audit._metadata(output, design, raw_extra)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:460: in _metadata
+    provenance = verify_provenance(metadata, design, extra_files)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:307: in verify_provenance
+    verify(provenance, expected_design=design)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+provenance = {'captured_utc': '2026-10-30T23:33:02.275645+00:00', 'code_commit': '205cb5d6f363bf5be6a8eafba545563b042dc33c', 'desig...on', 'replications': 4, ...}, 'design_sha256': '8b54754c95c98f68d2de2f9c19659608bfb752bc4881bf0d7064ff68d6b05022', ...}
+root = PosixPath('/Users/lucifer/Desktop/stochastic/research')
+expected_design = RunDesign(name='week8_e4_clustered_sampling_validation', seed=21261011, replications=4, cells=(E4Cell(n=1000, q=0.5, c... mu=0.0, sigma=0.5, floor_fraction=1e-06, floor_cv_threshold=1.5, mechanism='regular', ratio=0.0)), scope='validation')
+check_environment = True
+
+    def verify(provenance, *, root=ROOT, expected_design=None, check_environment=True):
+        """Reject tampered provenance, changed dependencies, runtime or run identity."""
+        identity = {k: provenance[k] for k in ("design", "design_sha256", "preregistration_commit",
+                                              "source_files", "environment")}
+        if digest_bytes(canonical(identity).encode()) != provenance["identity_sha256"]:
+            raise ValueError("provenance identity digest mismatch")
+        if provenance["preregistration_commit"] != PREREG_COMMIT:
+            raise ValueError("unexpected registration freeze")
+        if expected_design is not None and (provenance["design_sha256"] != expected_design.digest
+                                            or provenance["design"] != expected_design.to_dict()):
+            raise ValueError("resume design identity mismatch")
+        for path, expected in provenance["source_files"].items():
+            if Path(path).is_absolute() or ".." in Path(path).parts:
+                raise ValueError("unsafe dependency path")
+            if file_digest(Path(root) / path) != expected:
+                raise ValueError(f"dependency changed: {path}")
+        if check_environment and environment() != provenance["environment"]:
+>           raise ValueError("numerical environment changed")
+E           ValueError: numerical environment changed
+
+ou_irregular/experiments/provenance.py:130: ValueError
+_ ERROR at setup of test_complete_embedded_renderer_allows_readback_without_sibling _
+
+saved = PosixPath('/private/var/folders/4h/n_hm57ms2fn3znjcwf3vwpxr0000gn/T/pytest-of-lucifer/pytest-5/e4_plot0/saved_archive')
+
+    @pytest.fixture(scope='module')
+    def rendered(saved):
+        # Retains actual PNG/PDF bytes for separate visual inspection after tests.
+        out=saved.parent/'rendered_archive';shutil.copytree(saved,out)
+>       result=plots.write_figures(out,validation_design())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/week8/test_plots.py:194: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ou_irregular/week8/plots.py:470: in write_figures
+    inputs = load_inputs(output, design)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/plots.py:322: in load_inputs
+    metadata, raw = audit._metadata(output, design, raw_extra)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:460: in _metadata
+    provenance = verify_provenance(metadata, design, extra_files)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:307: in verify_provenance
+    verify(provenance, expected_design=design)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+provenance = {'captured_utc': '2026-10-30T23:33:02.275645+00:00', 'code_commit': '205cb5d6f363bf5be6a8eafba545563b042dc33c', 'desig...on', 'replications': 4, ...}, 'design_sha256': '8b54754c95c98f68d2de2f9c19659608bfb752bc4881bf0d7064ff68d6b05022', ...}
+root = PosixPath('/Users/lucifer/Desktop/stochastic/research')
+expected_design = RunDesign(name='week8_e4_clustered_sampling_validation', seed=21261011, replications=4, cells=(E4Cell(n=1000, q=0.5, c... mu=0.0, sigma=0.5, floor_fraction=1e-06, floor_cv_threshold=1.5, mechanism='regular', ratio=0.0)), scope='validation')
+check_environment = True
+
+    def verify(provenance, *, root=ROOT, expected_design=None, check_environment=True):
+        """Reject tampered provenance, changed dependencies, runtime or run identity."""
+        identity = {k: provenance[k] for k in ("design", "design_sha256", "preregistration_commit",
+                                              "source_files", "environment")}
+        if digest_bytes(canonical(identity).encode()) != provenance["identity_sha256"]:
+            raise ValueError("provenance identity digest mismatch")
+        if provenance["preregistration_commit"] != PREREG_COMMIT:
+            raise ValueError("unexpected registration freeze")
+        if expected_design is not None and (provenance["design_sha256"] != expected_design.digest
+                                            or provenance["design"] != expected_design.to_dict()):
+            raise ValueError("resume design identity mismatch")
+        for path, expected in provenance["source_files"].items():
+            if Path(path).is_absolute() or ".." in Path(path).parts:
+                raise ValueError("unsafe dependency path")
+            if file_digest(Path(root) / path) != expected:
+                raise ValueError(f"dependency changed: {path}")
+        if check_environment and environment() != provenance["environment"]:
+>           raise ValueError("numerical environment changed")
+E           ValueError: numerical environment changed
+
+ou_irregular/experiments/provenance.py:130: ValueError
+_ ERROR at setup of test_complete_figure_tampering_is_not_repaired[figure_bytes] _
+
+saved = PosixPath('/private/var/folders/4h/n_hm57ms2fn3znjcwf3vwpxr0000gn/T/pytest-of-lucifer/pytest-5/e4_plot0/saved_archive')
+
+    @pytest.fixture(scope='module')
+    def rendered(saved):
+        # Retains actual PNG/PDF bytes for separate visual inspection after tests.
+        out=saved.parent/'rendered_archive';shutil.copytree(saved,out)
+>       result=plots.write_figures(out,validation_design())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/week8/test_plots.py:194: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ou_irregular/week8/plots.py:470: in write_figures
+    inputs = load_inputs(output, design)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/plots.py:322: in load_inputs
+    metadata, raw = audit._metadata(output, design, raw_extra)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:460: in _metadata
+    provenance = verify_provenance(metadata, design, extra_files)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:307: in verify_provenance
+    verify(provenance, expected_design=design)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+provenance = {'captured_utc': '2026-10-30T23:33:02.275645+00:00', 'code_commit': '205cb5d6f363bf5be6a8eafba545563b042dc33c', 'desig...on', 'replications': 4, ...}, 'design_sha256': '8b54754c95c98f68d2de2f9c19659608bfb752bc4881bf0d7064ff68d6b05022', ...}
+root = PosixPath('/Users/lucifer/Desktop/stochastic/research')
+expected_design = RunDesign(name='week8_e4_clustered_sampling_validation', seed=21261011, replications=4, cells=(E4Cell(n=1000, q=0.5, c... mu=0.0, sigma=0.5, floor_fraction=1e-06, floor_cv_threshold=1.5, mechanism='regular', ratio=0.0)), scope='validation')
+check_environment = True
+
+    def verify(provenance, *, root=ROOT, expected_design=None, check_environment=True):
+        """Reject tampered provenance, changed dependencies, runtime or run identity."""
+        identity = {k: provenance[k] for k in ("design", "design_sha256", "preregistration_commit",
+                                              "source_files", "environment")}
+        if digest_bytes(canonical(identity).encode()) != provenance["identity_sha256"]:
+            raise ValueError("provenance identity digest mismatch")
+        if provenance["preregistration_commit"] != PREREG_COMMIT:
+            raise ValueError("unexpected registration freeze")
+        if expected_design is not None and (provenance["design_sha256"] != expected_design.digest
+                                            or provenance["design"] != expected_design.to_dict()):
+            raise ValueError("resume design identity mismatch")
+        for path, expected in provenance["source_files"].items():
+            if Path(path).is_absolute() or ".." in Path(path).parts:
+                raise ValueError("unsafe dependency path")
+            if file_digest(Path(root) / path) != expected:
+                raise ValueError(f"dependency changed: {path}")
+        if check_environment and environment() != provenance["environment"]:
+>           raise ValueError("numerical environment changed")
+E           ValueError: numerical environment changed
+
+ou_irregular/experiments/provenance.py:130: ValueError
+_ ERROR at setup of test_complete_figure_tampering_is_not_repaired[manifest_binding] _
+
+saved = PosixPath('/private/var/folders/4h/n_hm57ms2fn3znjcwf3vwpxr0000gn/T/pytest-of-lucifer/pytest-5/e4_plot0/saved_archive')
+
+    @pytest.fixture(scope='module')
+    def rendered(saved):
+        # Retains actual PNG/PDF bytes for separate visual inspection after tests.
+        out=saved.parent/'rendered_archive';shutil.copytree(saved,out)
+>       result=plots.write_figures(out,validation_design())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/week8/test_plots.py:194: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ou_irregular/week8/plots.py:470: in write_figures
+    inputs = load_inputs(output, design)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/plots.py:322: in load_inputs
+    metadata, raw = audit._metadata(output, design, raw_extra)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:460: in _metadata
+    provenance = verify_provenance(metadata, design, extra_files)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:307: in verify_provenance
+    verify(provenance, expected_design=design)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+provenance = {'captured_utc': '2026-10-30T23:33:02.275645+00:00', 'code_commit': '205cb5d6f363bf5be6a8eafba545563b042dc33c', 'desig...on', 'replications': 4, ...}, 'design_sha256': '8b54754c95c98f68d2de2f9c19659608bfb752bc4881bf0d7064ff68d6b05022', ...}
+root = PosixPath('/Users/lucifer/Desktop/stochastic/research')
+expected_design = RunDesign(name='week8_e4_clustered_sampling_validation', seed=21261011, replications=4, cells=(E4Cell(n=1000, q=0.5, c... mu=0.0, sigma=0.5, floor_fraction=1e-06, floor_cv_threshold=1.5, mechanism='regular', ratio=0.0)), scope='validation')
+check_environment = True
+
+    def verify(provenance, *, root=ROOT, expected_design=None, check_environment=True):
+        """Reject tampered provenance, changed dependencies, runtime or run identity."""
+        identity = {k: provenance[k] for k in ("design", "design_sha256", "preregistration_commit",
+                                              "source_files", "environment")}
+        if digest_bytes(canonical(identity).encode()) != provenance["identity_sha256"]:
+            raise ValueError("provenance identity digest mismatch")
+        if provenance["preregistration_commit"] != PREREG_COMMIT:
+            raise ValueError("unexpected registration freeze")
+        if expected_design is not None and (provenance["design_sha256"] != expected_design.digest
+                                            or provenance["design"] != expected_design.to_dict()):
+            raise ValueError("resume design identity mismatch")
+        for path, expected in provenance["source_files"].items():
+            if Path(path).is_absolute() or ".." in Path(path).parts:
+                raise ValueError("unsafe dependency path")
+            if file_digest(Path(root) / path) != expected:
+                raise ValueError(f"dependency changed: {path}")
+        if check_environment and environment() != provenance["environment"]:
+>           raise ValueError("numerical environment changed")
+E           ValueError: numerical environment changed
+
+ou_irregular/experiments/provenance.py:130: ValueError
+_ ERROR at setup of test_complete_figure_tampering_is_not_repaired[renderer_settings] _
+
+saved = PosixPath('/private/var/folders/4h/n_hm57ms2fn3znjcwf3vwpxr0000gn/T/pytest-of-lucifer/pytest-5/e4_plot0/saved_archive')
+
+    @pytest.fixture(scope='module')
+    def rendered(saved):
+        # Retains actual PNG/PDF bytes for separate visual inspection after tests.
+        out=saved.parent/'rendered_archive';shutil.copytree(saved,out)
+>       result=plots.write_figures(out,validation_design())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/week8/test_plots.py:194: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ou_irregular/week8/plots.py:470: in write_figures
+    inputs = load_inputs(output, design)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/plots.py:322: in load_inputs
+    metadata, raw = audit._metadata(output, design, raw_extra)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:460: in _metadata
+    provenance = verify_provenance(metadata, design, extra_files)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:307: in verify_provenance
+    verify(provenance, expected_design=design)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+provenance = {'captured_utc': '2026-10-30T23:33:02.275645+00:00', 'code_commit': '205cb5d6f363bf5be6a8eafba545563b042dc33c', 'desig...on', 'replications': 4, ...}, 'design_sha256': '8b54754c95c98f68d2de2f9c19659608bfb752bc4881bf0d7064ff68d6b05022', ...}
+root = PosixPath('/Users/lucifer/Desktop/stochastic/research')
+expected_design = RunDesign(name='week8_e4_clustered_sampling_validation', seed=21261011, replications=4, cells=(E4Cell(n=1000, q=0.5, c... mu=0.0, sigma=0.5, floor_fraction=1e-06, floor_cv_threshold=1.5, mechanism='regular', ratio=0.0)), scope='validation')
+check_environment = True
+
+    def verify(provenance, *, root=ROOT, expected_design=None, check_environment=True):
+        """Reject tampered provenance, changed dependencies, runtime or run identity."""
+        identity = {k: provenance[k] for k in ("design", "design_sha256", "preregistration_commit",
+                                              "source_files", "environment")}
+        if digest_bytes(canonical(identity).encode()) != provenance["identity_sha256"]:
+            raise ValueError("provenance identity digest mismatch")
+        if provenance["preregistration_commit"] != PREREG_COMMIT:
+            raise ValueError("unexpected registration freeze")
+        if expected_design is not None and (provenance["design_sha256"] != expected_design.digest
+                                            or provenance["design"] != expected_design.to_dict()):
+            raise ValueError("resume design identity mismatch")
+        for path, expected in provenance["source_files"].items():
+            if Path(path).is_absolute() or ".." in Path(path).parts:
+                raise ValueError("unsafe dependency path")
+            if file_digest(Path(root) / path) != expected:
+                raise ValueError(f"dependency changed: {path}")
+        if check_environment and environment() != provenance["environment"]:
+>           raise ValueError("numerical environment changed")
+E           ValueError: numerical environment changed
+
+ou_irregular/experiments/provenance.py:130: ValueError
+_ ERROR at setup of test_complete_figure_tampering_is_not_repaired[renderer_dependency] _
+
+saved = PosixPath('/private/var/folders/4h/n_hm57ms2fn3znjcwf3vwpxr0000gn/T/pytest-of-lucifer/pytest-5/e4_plot0/saved_archive')
+
+    @pytest.fixture(scope='module')
+    def rendered(saved):
+        # Retains actual PNG/PDF bytes for separate visual inspection after tests.
+        out=saved.parent/'rendered_archive';shutil.copytree(saved,out)
+>       result=plots.write_figures(out,validation_design())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/week8/test_plots.py:194: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ou_irregular/week8/plots.py:470: in write_figures
+    inputs = load_inputs(output, design)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/plots.py:322: in load_inputs
+    metadata, raw = audit._metadata(output, design, raw_extra)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:460: in _metadata
+    provenance = verify_provenance(metadata, design, extra_files)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:307: in verify_provenance
+    verify(provenance, expected_design=design)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+provenance = {'captured_utc': '2026-10-30T23:33:02.275645+00:00', 'code_commit': '205cb5d6f363bf5be6a8eafba545563b042dc33c', 'desig...on', 'replications': 4, ...}, 'design_sha256': '8b54754c95c98f68d2de2f9c19659608bfb752bc4881bf0d7064ff68d6b05022', ...}
+root = PosixPath('/Users/lucifer/Desktop/stochastic/research')
+expected_design = RunDesign(name='week8_e4_clustered_sampling_validation', seed=21261011, replications=4, cells=(E4Cell(n=1000, q=0.5, c... mu=0.0, sigma=0.5, floor_fraction=1e-06, floor_cv_threshold=1.5, mechanism='regular', ratio=0.0)), scope='validation')
+check_environment = True
+
+    def verify(provenance, *, root=ROOT, expected_design=None, check_environment=True):
+        """Reject tampered provenance, changed dependencies, runtime or run identity."""
+        identity = {k: provenance[k] for k in ("design", "design_sha256", "preregistration_commit",
+                                              "source_files", "environment")}
+        if digest_bytes(canonical(identity).encode()) != provenance["identity_sha256"]:
+            raise ValueError("provenance identity digest mismatch")
+        if provenance["preregistration_commit"] != PREREG_COMMIT:
+            raise ValueError("unexpected registration freeze")
+        if expected_design is not None and (provenance["design_sha256"] != expected_design.digest
+                                            or provenance["design"] != expected_design.to_dict()):
+            raise ValueError("resume design identity mismatch")
+        for path, expected in provenance["source_files"].items():
+            if Path(path).is_absolute() or ".." in Path(path).parts:
+                raise ValueError("unsafe dependency path")
+            if file_digest(Path(root) / path) != expected:
+                raise ValueError(f"dependency changed: {path}")
+        if check_environment and environment() != provenance["environment"]:
+>           raise ValueError("numerical environment changed")
+E           ValueError: numerical environment changed
+
+ou_irregular/experiments/provenance.py:130: ValueError
+_ ERROR at setup of test_complete_figure_tampering_is_not_repaired[missing_figure] _
+
+saved = PosixPath('/private/var/folders/4h/n_hm57ms2fn3znjcwf3vwpxr0000gn/T/pytest-of-lucifer/pytest-5/e4_plot0/saved_archive')
+
+    @pytest.fixture(scope='module')
+    def rendered(saved):
+        # Retains actual PNG/PDF bytes for separate visual inspection after tests.
+        out=saved.parent/'rendered_archive';shutil.copytree(saved,out)
+>       result=plots.write_figures(out,validation_design())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/week8/test_plots.py:194: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ou_irregular/week8/plots.py:470: in write_figures
+    inputs = load_inputs(output, design)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/plots.py:322: in load_inputs
+    metadata, raw = audit._metadata(output, design, raw_extra)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:460: in _metadata
+    provenance = verify_provenance(metadata, design, extra_files)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:307: in verify_provenance
+    verify(provenance, expected_design=design)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+provenance = {'captured_utc': '2026-10-30T23:33:02.275645+00:00', 'code_commit': '205cb5d6f363bf5be6a8eafba545563b042dc33c', 'desig...on', 'replications': 4, ...}, 'design_sha256': '8b54754c95c98f68d2de2f9c19659608bfb752bc4881bf0d7064ff68d6b05022', ...}
+root = PosixPath('/Users/lucifer/Desktop/stochastic/research')
+expected_design = RunDesign(name='week8_e4_clustered_sampling_validation', seed=21261011, replications=4, cells=(E4Cell(n=1000, q=0.5, c... mu=0.0, sigma=0.5, floor_fraction=1e-06, floor_cv_threshold=1.5, mechanism='regular', ratio=0.0)), scope='validation')
+check_environment = True
+
+    def verify(provenance, *, root=ROOT, expected_design=None, check_environment=True):
+        """Reject tampered provenance, changed dependencies, runtime or run identity."""
+        identity = {k: provenance[k] for k in ("design", "design_sha256", "preregistration_commit",
+                                              "source_files", "environment")}
+        if digest_bytes(canonical(identity).encode()) != provenance["identity_sha256"]:
+            raise ValueError("provenance identity digest mismatch")
+        if provenance["preregistration_commit"] != PREREG_COMMIT:
+            raise ValueError("unexpected registration freeze")
+        if expected_design is not None and (provenance["design_sha256"] != expected_design.digest
+                                            or provenance["design"] != expected_design.to_dict()):
+            raise ValueError("resume design identity mismatch")
+        for path, expected in provenance["source_files"].items():
+            if Path(path).is_absolute() or ".." in Path(path).parts:
+                raise ValueError("unsafe dependency path")
+            if file_digest(Path(root) / path) != expected:
+                raise ValueError(f"dependency changed: {path}")
+        if check_environment and environment() != provenance["environment"]:
+>           raise ValueError("numerical environment changed")
+E           ValueError: numerical environment changed
+
+ou_irregular/experiments/provenance.py:130: ValueError
+_ ERROR at setup of test_complete_figure_tampering_is_not_repaired[unknown_figure] _
+
+saved = PosixPath('/private/var/folders/4h/n_hm57ms2fn3znjcwf3vwpxr0000gn/T/pytest-of-lucifer/pytest-5/e4_plot0/saved_archive')
+
+    @pytest.fixture(scope='module')
+    def rendered(saved):
+        # Retains actual PNG/PDF bytes for separate visual inspection after tests.
+        out=saved.parent/'rendered_archive';shutil.copytree(saved,out)
+>       result=plots.write_figures(out,validation_design())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/week8/test_plots.py:194: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ou_irregular/week8/plots.py:470: in write_figures
+    inputs = load_inputs(output, design)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/plots.py:322: in load_inputs
+    metadata, raw = audit._metadata(output, design, raw_extra)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:460: in _metadata
+    provenance = verify_provenance(metadata, design, extra_files)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:307: in verify_provenance
+    verify(provenance, expected_design=design)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+provenance = {'captured_utc': '2026-10-30T23:33:02.275645+00:00', 'code_commit': '205cb5d6f363bf5be6a8eafba545563b042dc33c', 'desig...on', 'replications': 4, ...}, 'design_sha256': '8b54754c95c98f68d2de2f9c19659608bfb752bc4881bf0d7064ff68d6b05022', ...}
+root = PosixPath('/Users/lucifer/Desktop/stochastic/research')
+expected_design = RunDesign(name='week8_e4_clustered_sampling_validation', seed=21261011, replications=4, cells=(E4Cell(n=1000, q=0.5, c... mu=0.0, sigma=0.5, floor_fraction=1e-06, floor_cv_threshold=1.5, mechanism='regular', ratio=0.0)), scope='validation')
+check_environment = True
+
+    def verify(provenance, *, root=ROOT, expected_design=None, check_environment=True):
+        """Reject tampered provenance, changed dependencies, runtime or run identity."""
+        identity = {k: provenance[k] for k in ("design", "design_sha256", "preregistration_commit",
+                                              "source_files", "environment")}
+        if digest_bytes(canonical(identity).encode()) != provenance["identity_sha256"]:
+            raise ValueError("provenance identity digest mismatch")
+        if provenance["preregistration_commit"] != PREREG_COMMIT:
+            raise ValueError("unexpected registration freeze")
+        if expected_design is not None and (provenance["design_sha256"] != expected_design.digest
+                                            or provenance["design"] != expected_design.to_dict()):
+            raise ValueError("resume design identity mismatch")
+        for path, expected in provenance["source_files"].items():
+            if Path(path).is_absolute() or ".." in Path(path).parts:
+                raise ValueError("unsafe dependency path")
+            if file_digest(Path(root) / path) != expected:
+                raise ValueError(f"dependency changed: {path}")
+        if check_environment and environment() != provenance["environment"]:
+>           raise ValueError("numerical environment changed")
+E           ValueError: numerical environment changed
+
+ou_irregular/experiments/provenance.py:130: ValueError
+_ ERROR at setup of test_completed_seal_is_read_only_and_wrong_artifact_map_is_rejected _
+
+saved = PosixPath('/private/var/folders/4h/n_hm57ms2fn3znjcwf3vwpxr0000gn/T/pytest-of-lucifer/pytest-5/e4_plot0/saved_archive')
+
+    @pytest.fixture(scope='module')
+    def rendered(saved):
+        # Retains actual PNG/PDF bytes for separate visual inspection after tests.
+        out=saved.parent/'rendered_archive';shutil.copytree(saved,out)
+>       result=plots.write_figures(out,validation_design())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/week8/test_plots.py:194: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ou_irregular/week8/plots.py:470: in write_figures
+    inputs = load_inputs(output, design)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/plots.py:322: in load_inputs
+    metadata, raw = audit._metadata(output, design, raw_extra)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:460: in _metadata
+    provenance = verify_provenance(metadata, design, extra_files)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:307: in verify_provenance
+    verify(provenance, expected_design=design)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+provenance = {'captured_utc': '2026-10-30T23:33:02.275645+00:00', 'code_commit': '205cb5d6f363bf5be6a8eafba545563b042dc33c', 'desig...on', 'replications': 4, ...}, 'design_sha256': '8b54754c95c98f68d2de2f9c19659608bfb752bc4881bf0d7064ff68d6b05022', ...}
+root = PosixPath('/Users/lucifer/Desktop/stochastic/research')
+expected_design = RunDesign(name='week8_e4_clustered_sampling_validation', seed=21261011, replications=4, cells=(E4Cell(n=1000, q=0.5, c... mu=0.0, sigma=0.5, floor_fraction=1e-06, floor_cv_threshold=1.5, mechanism='regular', ratio=0.0)), scope='validation')
+check_environment = True
+
+    def verify(provenance, *, root=ROOT, expected_design=None, check_environment=True):
+        """Reject tampered provenance, changed dependencies, runtime or run identity."""
+        identity = {k: provenance[k] for k in ("design", "design_sha256", "preregistration_commit",
+                                              "source_files", "environment")}
+        if digest_bytes(canonical(identity).encode()) != provenance["identity_sha256"]:
+            raise ValueError("provenance identity digest mismatch")
+        if provenance["preregistration_commit"] != PREREG_COMMIT:
+            raise ValueError("unexpected registration freeze")
+        if expected_design is not None and (provenance["design_sha256"] != expected_design.digest
+                                            or provenance["design"] != expected_design.to_dict()):
+            raise ValueError("resume design identity mismatch")
+        for path, expected in provenance["source_files"].items():
+            if Path(path).is_absolute() or ".." in Path(path).parts:
+                raise ValueError("unsafe dependency path")
+            if file_digest(Path(root) / path) != expected:
+                raise ValueError(f"dependency changed: {path}")
+        if check_environment and environment() != provenance["environment"]:
+>           raise ValueError("numerical environment changed")
+E           ValueError: numerical environment changed
+
+ou_irregular/experiments/provenance.py:130: ValueError
+_ ERROR at setup of test_external_replot_accepts_a_valid_sealed_source_without_mutation _
+
+saved = PosixPath('/private/var/folders/4h/n_hm57ms2fn3znjcwf3vwpxr0000gn/T/pytest-of-lucifer/pytest-5/e4_plot0/saved_archive')
+
+    @pytest.fixture(scope='module')
+    def rendered(saved):
+        # Retains actual PNG/PDF bytes for separate visual inspection after tests.
+        out=saved.parent/'rendered_archive';shutil.copytree(saved,out)
+>       result=plots.write_figures(out,validation_design())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/week8/test_plots.py:194: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ou_irregular/week8/plots.py:470: in write_figures
+    inputs = load_inputs(output, design)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/plots.py:322: in load_inputs
+    metadata, raw = audit._metadata(output, design, raw_extra)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:460: in _metadata
+    provenance = verify_provenance(metadata, design, extra_files)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:307: in verify_provenance
+    verify(provenance, expected_design=design)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+provenance = {'captured_utc': '2026-10-30T23:33:02.275645+00:00', 'code_commit': '205cb5d6f363bf5be6a8eafba545563b042dc33c', 'desig...on', 'replications': 4, ...}, 'design_sha256': '8b54754c95c98f68d2de2f9c19659608bfb752bc4881bf0d7064ff68d6b05022', ...}
+root = PosixPath('/Users/lucifer/Desktop/stochastic/research')
+expected_design = RunDesign(name='week8_e4_clustered_sampling_validation', seed=21261011, replications=4, cells=(E4Cell(n=1000, q=0.5, c... mu=0.0, sigma=0.5, floor_fraction=1e-06, floor_cv_threshold=1.5, mechanism='regular', ratio=0.0)), scope='validation')
+check_environment = True
+
+    def verify(provenance, *, root=ROOT, expected_design=None, check_environment=True):
+        """Reject tampered provenance, changed dependencies, runtime or run identity."""
+        identity = {k: provenance[k] for k in ("design", "design_sha256", "preregistration_commit",
+                                              "source_files", "environment")}
+        if digest_bytes(canonical(identity).encode()) != provenance["identity_sha256"]:
+            raise ValueError("provenance identity digest mismatch")
+        if provenance["preregistration_commit"] != PREREG_COMMIT:
+            raise ValueError("unexpected registration freeze")
+        if expected_design is not None and (provenance["design_sha256"] != expected_design.digest
+                                            or provenance["design"] != expected_design.to_dict()):
+            raise ValueError("resume design identity mismatch")
+        for path, expected in provenance["source_files"].items():
+            if Path(path).is_absolute() or ".." in Path(path).parts:
+                raise ValueError("unsafe dependency path")
+            if file_digest(Path(root) / path) != expected:
+                raise ValueError(f"dependency changed: {path}")
+        if check_environment and environment() != provenance["environment"]:
+>           raise ValueError("numerical environment changed")
+E           ValueError: numerical environment changed
+
+ou_irregular/experiments/provenance.py:130: ValueError
+=================================== FAILURES ===================================
+__________ test_saved_readback_is_pure_and_binds_all_expected_inputs ___________
+
+archive = PosixPath('/private/var/folders/4h/n_hm57ms2fn3znjcwf3vwpxr0000gn/T/pytest-of-lucifer/pytest-5/test_saved_readback_is_pure_an0/e4')
+
+    def test_saved_readback_is_pure_and_binds_all_expected_inputs(archive):
+        before = snapshot(archive)
+>       result = plots.load_inputs(archive, validation_design())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/week8/test_plots.py:143: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ou_irregular/week8/plots.py:322: in load_inputs
+    metadata, raw = audit._metadata(output, design, raw_extra)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:460: in _metadata
+    provenance = verify_provenance(metadata, design, extra_files)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:307: in verify_provenance
+    verify(provenance, expected_design=design)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+provenance = {'captured_utc': '2026-10-30T23:33:02.275645+00:00', 'code_commit': '205cb5d6f363bf5be6a8eafba545563b042dc33c', 'desig...on', 'replications': 4, ...}, 'design_sha256': '8b54754c95c98f68d2de2f9c19659608bfb752bc4881bf0d7064ff68d6b05022', ...}
+root = PosixPath('/Users/lucifer/Desktop/stochastic/research')
+expected_design = RunDesign(name='week8_e4_clustered_sampling_validation', seed=21261011, replications=4, cells=(E4Cell(n=1000, q=0.5, c... mu=0.0, sigma=0.5, floor_fraction=1e-06, floor_cv_threshold=1.5, mechanism='regular', ratio=0.0)), scope='validation')
+check_environment = True
+
+    def verify(provenance, *, root=ROOT, expected_design=None, check_environment=True):
+        """Reject tampered provenance, changed dependencies, runtime or run identity."""
+        identity = {k: provenance[k] for k in ("design", "design_sha256", "preregistration_commit",
+                                              "source_files", "environment")}
+        if digest_bytes(canonical(identity).encode()) != provenance["identity_sha256"]:
+            raise ValueError("provenance identity digest mismatch")
+        if provenance["preregistration_commit"] != PREREG_COMMIT:
+            raise ValueError("unexpected registration freeze")
+        if expected_design is not None and (provenance["design_sha256"] != expected_design.digest
+                                            or provenance["design"] != expected_design.to_dict()):
+            raise ValueError("resume design identity mismatch")
+        for path, expected in provenance["source_files"].items():
+            if Path(path).is_absolute() or ".." in Path(path).parts:
+                raise ValueError("unsafe dependency path")
+            if file_digest(Path(root) / path) != expected:
+                raise ValueError(f"dependency changed: {path}")
+        if check_environment and environment() != provenance["environment"]:
+>           raise ValueError("numerical environment changed")
+E           ValueError: numerical environment changed
+
+ou_irregular/experiments/provenance.py:130: ValueError
+________ test_incomplete_pair_fails_before_state_or_figure_publication _________
+
+archive = PosixPath('/private/var/folders/4h/n_hm57ms2fn3znjcwf3vwpxr0000gn/T/pytest-of-lucifer/pytest-5/test_incomplete_pair_fails_bef0/e4')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x113dd9390>
+
+    def test_incomplete_pair_fails_before_state_or_figure_publication(archive,monkeypatch):
+        monkeypatch.setattr(plots,'figure_bytes',lambda fig,stem:{stem+'.png':b'png'})
+        before=snapshot(archive)
+>       with pytest.raises(ValueError,match='pair incomplete'): plots.write_figures(archive,validation_design())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'pair incomplete'
+E         Actual message: 'numerical environment changed'
+
+tests/week8/test_plots.py:236: AssertionError
+___________ test_root_drift_during_rendering_preserves_outside_write ___________
+
+archive = PosixPath('/private/var/folders/4h/n_hm57ms2fn3znjcwf3vwpxr0000gn/T/pytest-of-lucifer/pytest-5/test_root_drift_during_renderi0/e4')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x113dc6510>
+
+    def test_root_drift_during_rendering_preserves_outside_write(archive,monkeypatch):
+        original=plots.figure_bytes;called=[]
+        def change(fig,stem):
+            if not called:
+                p=archive/'run_metadata.json';m=json.loads(p.read_bytes());m['outside_change']='retained';write_json(p,m);called.append(1)
+            return original(fig,stem)
+        monkeypatch.setattr(plots,'figure_bytes',change)
+>       with pytest.raises(execution.ManifestDriftError): plots.write_figures(archive,validation_design())
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/week8/test_plots.py:275: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ou_irregular/week8/plots.py:470: in write_figures
+    inputs = load_inputs(output, design)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/plots.py:322: in load_inputs
+    metadata, raw = audit._metadata(output, design, raw_extra)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:460: in _metadata
+    provenance = verify_provenance(metadata, design, extra_files)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:307: in verify_provenance
+    verify(provenance, expected_design=design)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+provenance = {'captured_utc': '2026-10-30T23:33:02.275645+00:00', 'code_commit': '205cb5d6f363bf5be6a8eafba545563b042dc33c', 'desig...on', 'replications': 4, ...}, 'design_sha256': '8b54754c95c98f68d2de2f9c19659608bfb752bc4881bf0d7064ff68d6b05022', ...}
+root = PosixPath('/Users/lucifer/Desktop/stochastic/research')
+expected_design = RunDesign(name='week8_e4_clustered_sampling_validation', seed=21261011, replications=4, cells=(E4Cell(n=1000, q=0.5, c... mu=0.0, sigma=0.5, floor_fraction=1e-06, floor_cv_threshold=1.5, mechanism='regular', ratio=0.0)), scope='validation')
+check_environment = True
+
+    def verify(provenance, *, root=ROOT, expected_design=None, check_environment=True):
+        """Reject tampered provenance, changed dependencies, runtime or run identity."""
+        identity = {k: provenance[k] for k in ("design", "design_sha256", "preregistration_commit",
+                                              "source_files", "environment")}
+        if digest_bytes(canonical(identity).encode()) != provenance["identity_sha256"]:
+            raise ValueError("provenance identity digest mismatch")
+        if provenance["preregistration_commit"] != PREREG_COMMIT:
+            raise ValueError("unexpected registration freeze")
+        if expected_design is not None and (provenance["design_sha256"] != expected_design.digest
+                                            or provenance["design"] != expected_design.to_dict()):
+            raise ValueError("resume design identity mismatch")
+        for path, expected in provenance["source_files"].items():
+            if Path(path).is_absolute() or ".." in Path(path).parts:
+                raise ValueError("unsafe dependency path")
+            if file_digest(Path(root) / path) != expected:
+                raise ValueError(f"dependency changed: {path}")
+        if check_environment and environment() != provenance["environment"]:
+>           raise ValueError("numerical environment changed")
+E           ValueError: numerical environment changed
+
+ou_irregular/experiments/provenance.py:130: ValueError
+_____ test_external_replot_preserves_entire_source_and_reuses_saved_values _____
+
+saved = PosixPath('/private/var/folders/4h/n_hm57ms2fn3znjcwf3vwpxr0000gn/T/pytest-of-lucifer/pytest-5/e4_plot0/saved_archive')
+tmp_path = PosixPath('/private/var/folders/4h/n_hm57ms2fn3znjcwf3vwpxr0000gn/T/pytest-of-lucifer/pytest-5/test_external_replot_preserves0')
+
+    def test_external_replot_preserves_entire_source_and_reuses_saved_values(saved,tmp_path):
+        before=snapshot(saved);out=tmp_path/'external'
+>       result=plots.write_figures(saved,validation_design(),destination=out)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/week8/test_plots.py:332: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ou_irregular/week8/plots.py:470: in write_figures
+    inputs = load_inputs(output, design)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/plots.py:322: in load_inputs
+    metadata, raw = audit._metadata(output, design, raw_extra)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:460: in _metadata
+    provenance = verify_provenance(metadata, design, extra_files)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week8/audit.py:307: in verify_provenance
+    verify(provenance, expected_design=design)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+provenance = {'captured_utc': '2026-10-30T23:33:02.275645+00:00', 'code_commit': '205cb5d6f363bf5be6a8eafba545563b042dc33c', 'desig...on', 'replications': 4, ...}, 'design_sha256': '8b54754c95c98f68d2de2f9c19659608bfb752bc4881bf0d7064ff68d6b05022', ...}
+root = PosixPath('/Users/lucifer/Desktop/stochastic/research')
+expected_design = RunDesign(name='week8_e4_clustered_sampling_validation', seed=21261011, replications=4, cells=(E4Cell(n=1000, q=0.5, c... mu=0.0, sigma=0.5, floor_fraction=1e-06, floor_cv_threshold=1.5, mechanism='regular', ratio=0.0)), scope='validation')
+check_environment = True
+
+    def verify(provenance, *, root=ROOT, expected_design=None, check_environment=True):
+        """Reject tampered provenance, changed dependencies, runtime or run identity."""
+        identity = {k: provenance[k] for k in ("design", "design_sha256", "preregistration_commit",
+                                              "source_files", "environment")}
+        if digest_bytes(canonical(identity).encode()) != provenance["identity_sha256"]:
+            raise ValueError("provenance identity digest mismatch")
+        if provenance["preregistration_commit"] != PREREG_COMMIT:
+            raise ValueError("unexpected registration freeze")
+        if expected_design is not None and (provenance["design_sha256"] != expected_design.digest
+                                            or provenance["design"] != expected_design.to_dict()):
+            raise ValueError("resume design identity mismatch")
+        for path, expected in provenance["source_files"].items():
+            if Path(path).is_absolute() or ".." in Path(path).parts:
+                raise ValueError("unsafe dependency path")
+            if file_digest(Path(root) / path) != expected:
+                raise ValueError(f"dependency changed: {path}")
+        if check_environment and environment() != provenance["environment"]:
+>           raise ValueError("numerical environment changed")
+E           ValueError: numerical environment changed
+
+ou_irregular/experiments/provenance.py:130: ValueError
+__ test_selected_profile_subtracts_extended_absolutes_before_float_conversion __
+
+selected_figures = {0.5: ({'selection': {'experiment': 'E2', 'cell_id': '22f160a706b9d06e7dcfbe9f15c8dce3831728735ecdccb2262ec2a8399ab505...d', 'headline_results_replaced': False, 'literal_validation_fixture': True, ...}, <Figure size 1540x1180 with 6 Axes>)}
+
+    def test_selected_profile_subtracts_extended_absolutes_before_float_conversion(selected_figures):
+        from ou_irregular.week7 import plots
+        for payload, figure in selected_figures.values():
+            profile = payload['diagnostic']['exact_profile']
+            # Every binary64 absolute is identical: subtracting those would erase
+            # every signed difference used by this independent decimal reference.
+            assert len(set(profile['grid_nll'])) == 1
+            exact = np.array([float(Decimal(value)-Decimal(profile['best_finite']['nll_extended']))
+                              for value in profile['grid_nll_extended']])
+            with forbid_science():
+                series = plots.profile_series(payload)
+            # The platform's 64-significand-bit arithmetic rounds absolute values
+            # by at most about 3e-14 near 1e6; it is not arbitrary precision.
+>           np.testing.assert_allclose(series['delta_nll'], exact, rtol=0, atol=6e-14)
+E           AssertionError: 
+E           Not equal to tolerance rtol=0, atol=6e-14
+E           
+E           Mismatched elements: 5 / 6 (83.3%)
+E           Max absolute difference among violations: 4.e-11
+E           Max relative difference among violations: 1.
+E            ACTUAL: array([0., 0., 0., 0., 0., 0.])
+E            DESIRED: array([ 2.e-11,  4.e-11,  1.e-11,  0.e+00, -1.e-11,  3.e-11])
+
+tests/week7/test_plots_reference.py:733: AssertionError
+_ test_selected_missing_grid_values_remain_gaps_and_literal_scope_cannot_be_promoted _
+
+    def test_selected_missing_grid_values_remain_gaps_and_literal_scope_cannot_be_promoted():
+        from ou_irregular.week7 import plots
+        payload = literal_selected_payload(.5)
+        payload['diagnostic']['exact_profile']['grid_nll_extended'][2] = None
+        with forbid_science():
+            series = plots.profile_series(payload)
+            assert np.isnan(series['delta_nll'][2])
+>           assert series['delta_nll'][4] < 0
+E           assert np.float64(0.0) < 0
+
+tests/week7/test_plots_reference.py:822: AssertionError
+_ test_actual_saved_floor_render_is_bound_to_existing_audit_and_does_not_change_scientific_bytes _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x10a2935c0>, _basetemp=PosixPath.../folders/4h/n_hm57ms2fn3znjcwf3vwpxr0000gn/T/pytest-of-lucifer/pytest-5'), _retention_count=3, _retention_policy='all')
+
+    def test_actual_saved_floor_render_is_bound_to_existing_audit_and_does_not_change_scientific_bytes(tmp_path_factory):
+        from ou_irregular.week7 import plots
+        source, design = saved_floor_archive(tmp_path_factory)
+        before = snapshot(source)
+>       output, actual_design = rendered_floor_archive(tmp_path_factory)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/week7/test_plots_reference.py:866: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/week7/test_plots_reference.py:135: in rendered_floor_archive
+    plots.write_figures('floor', output, design)
+ou_irregular/week7/plots.py:1241: in write_figures
+    return _write_prepared(loader(), loader, extra_files)
+                           ^^^^^^^^
+ou_irregular/week7/plots.py:1240: in <lambda>
+    loader = lambda: _load_run_inputs(kind, output_dir, design)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ou_irregular/week7/plots.py:867: in _load_run_inputs
+    _frozen_provenance(metadata["provenance"], design, required=required, frozen=expected["require_frozen"])
+ou_irregular/week7/plots.py:703: in _frozen_provenance
+    verify(provenance, expected_design=design)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+provenance = {'captured_utc': '2026-10-30T09:36:02.568652+00:00', 'code_commit': '517f5664d14ad06650b0a05e6a77c5de2699032f', 'desig...on', 'replications': 2, ...}, 'design_sha256': 'df9b88a93f0297ed20b541460f5a09629ea300be9ef4674534396421dec548c6', ...}
+root = PosixPath('/Users/lucifer/Desktop/stochastic/research')
+expected_design = RunDesign(name='week7_floor_sensitivity_validation', seed=21261009, replications=2, cells=(Cell(n=1000, q=0.5, cv=0.0,...1000, q=0.5, cv=3.0, theta=1.0, mu=0.0, sigma=0.5, floor_fraction=0.0001, floor_cv_threshold=1.5)), scope='validation')
+check_environment = True
+
+    def verify(provenance, *, root=ROOT, expected_design=None, check_environment=True):
+        """Reject tampered provenance, changed dependencies, runtime or run identity."""
+        identity = {k: provenance[k] for k in ("design", "design_sha256", "preregistration_commit",
+                                              "source_files", "environment")}
+        if digest_bytes(canonical(identity).encode()) != provenance["identity_sha256"]:
+            raise ValueError("provenance identity digest mismatch")
+        if provenance["preregistration_commit"] != PREREG_COMMIT:
+            raise ValueError("unexpected registration freeze")
+        if expected_design is not None and (provenance["design_sha256"] != expected_design.digest
+                                            or provenance["design"] != expected_design.to_dict()):
+            raise ValueError("resume design identity mismatch")
+        for path, expected in provenance["source_files"].items():
+            if Path(path).is_absolute() or ".." in Path(path).parts:
+                raise ValueError("unsafe dependency path")
+            if file_digest(Path(root) / path) != expected:
+                raise ValueError(f"dependency changed: {path}")
+        if check_environment and environment() != provenance["environment"]:
+>           raise ValueError("numerical environment changed")
+E           ValueError: numerical environment changed
+
+ou_irregular/experiments/provenance.py:130: ValueError
+=============================== warnings summary ===============================
+tests/week8/test_plots.py::test_each_planned_figure_is_single_axes_with_validation_label[W8_coverage_theta]
+  /Users/lucifer/Desktop/stochastic/research/ou_irregular/week8/reporting.py:160: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+  You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+  A typical example is when you are setting values in a column of a DataFrame, like:
+  
+  df["col"][row_indexer] = value
+  
+  Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+  
+  See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  
+    data[field] = expected
+
+tests/week7/test_plots_reference.py: 16 warnings
+tests/week7/test_reporting_reference.py: 680 warnings
+  /Users/lucifer/Desktop/stochastic/research/ou_irregular/experiments/summaries.py:24: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+  You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+  A typical example is when you are setting values in a column of a DataFrame, like:
+  
+  df["col"][row_indexer] = value
+  
+  Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+  
+  See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  
+    data[name] = pd.to_numeric(data[name], errors="raise")
+
+tests/week7/test_plots_reference.py: 2 warnings
+tests/week7/test_reporting_reference.py: 28 warnings
+  /Users/lucifer/Desktop/stochastic/research/ou_irregular/experiments/summaries.py:194: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+  You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+  A typical example is when you are setting values in a column of a DataFrame, like:
+  
+  df["col"][row_indexer] = value
+  
+  Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+  
+  See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  
+    result["n_planned"] = [totals[c, e] for c, e in zip(result.cell_id, result.estimator)]
+
+tests/week7/test_plots_reference.py: 2 warnings
+tests/week7/test_reporting_reference.py: 28 warnings
+  /Users/lucifer/Desktop/stochastic/research/ou_irregular/experiments/summaries.py:195: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+  You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+  A typical example is when you are setting values in a column of a DataFrame, like:
+  
+  df["col"][row_indexer] = value
+  
+  Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+  
+  See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  
+    result["fraction"] = result["count"] / result.n_planned
+
+tests/week7/test_plots_reference.py: 4 warnings
+tests/week7/test_reporting_reference.py: 56 warnings
+  /Users/lucifer/Desktop/stochastic/research/ou_irregular/experiments/summaries.py:197: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+  You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+  A typical example is when you are setting values in a column of a DataFrame, like:
+  
+  df["col"][row_indexer] = value
+  
+  Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+  
+  See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  
+    result["wilson_lower"], result["wilson_upper"] = zip(*bounds)
+
+tests/week7/test_plots_reference.py::test_floor_every_paired_point_and_saved_interval_matches_all_72_keys
+tests/week7/test_plots_reference.py::test_r2000_constant_minima_roundoff_is_accepted_without_altering_any_saved_scalar
+  /Users/lucifer/Desktop/stochastic/research/ou_irregular/week7/plots.py:125: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+  You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+  A typical example is when you are setting values in a column of a DataFrame, like:
+  
+  df["col"][row_indexer] = value
+  
+  Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+  
+  See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  
+    spacing["floor_fraction"] = spacing.cell_id.map(lambda cid: mapping[cid].floor_fraction)
+
+tests/week7/test_plots_reference.py::test_spacing_uses_each_source_once_and_saved_mean_mcse_without_minimum_substitution
+  /Users/lucifer/Desktop/stochastic/research/tests/week7/test_plots_reference.py:602: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+  You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+  A typical example is when you are setting values in a column of a DataFrame, like:
+  
+  df["col"][row_indexer] = value
+  
+  Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+  
+  See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  
+    spacing['epsilon'] = spacing.cell_id.map(lambda cid: mapping[cid].floor_fraction)
+
+tests/week7/test_reporting_reference.py: 394 warnings
+  /Users/lucifer/Desktop/stochastic/research/ou_irregular/experiments/storage.py:114: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+  You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
+  A typical example is when you are setting values in a column of a DataFrame, like:
+  
+  df["col"][row_indexer] = value
+  
+  Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in a single step and ensure this keeps updating the original `df`.
+  
+  See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  
+    data["rep"] = data.rep - start
+
+tests/week7/test_reporting_reference.py::test_standard_composition_and_every_raw_byte_are_preserved[followup]
+tests/week7/test_reporting_reference.py::test_standard_composition_and_every_raw_byte_are_preserved[followup]
+  /Users/lucifer/Desktop/stochastic/research/ou_irregular/experiments/analysis.py:81: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+    reference_data = pd.concat([data, read_cell(output, design, reference, identity)], ignore_index=True)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] tests/week7/test_reporting_reference.py:208: paired-floor reference applies only to the floor fixture
+SKIPPED [1] tests/week7/test_reporting_reference.py:230: paired-floor reference applies only to the floor fixture
+SKIPPED [1] tests/week7/test_reporting_reference.py:268: paired-floor reference applies only to the floor fixture
+ERROR tests/week8/test_plots.py::test_native_render_has_all_pairs_and_repeat_is_pure
+ERROR tests/week8/test_plots.py::test_identical_partial_adoption_recreates_only_missing_pair
+ERROR tests/week8/test_plots.py::test_conflicting_late_partial_blocks_every_missing_output
+ERROR tests/week8/test_plots.py::test_missing_original_renderer_state_blocks_partial_adoption
+ERROR tests/week8/test_plots.py::test_complete_embedded_renderer_allows_readback_without_sibling
+ERROR tests/week8/test_plots.py::test_complete_figure_tampering_is_not_repaired[figure_bytes]
+ERROR tests/week8/test_plots.py::test_complete_figure_tampering_is_not_repaired[manifest_binding]
+ERROR tests/week8/test_plots.py::test_complete_figure_tampering_is_not_repaired[renderer_settings]
+ERROR tests/week8/test_plots.py::test_complete_figure_tampering_is_not_repaired[renderer_dependency]
+ERROR tests/week8/test_plots.py::test_complete_figure_tampering_is_not_repaired[missing_figure]
+ERROR tests/week8/test_plots.py::test_complete_figure_tampering_is_not_repaired[unknown_figure]
+ERROR tests/week8/test_plots.py::test_completed_seal_is_read_only_and_wrong_artifact_map_is_rejected
+ERROR tests/week8/test_plots.py::test_external_replot_accepts_a_valid_sealed_source_without_mutation
+FAILED tests/week8/test_plots.py::test_saved_readback_is_pure_and_binds_all_expected_inputs
+FAILED tests/week8/test_plots.py::test_incomplete_pair_fails_before_state_or_figure_publication
+FAILED tests/week8/test_plots.py::test_root_drift_during_rendering_preserves_outside_write
+FAILED tests/week8/test_plots.py::test_external_replot_preserves_entire_source_and_reuses_saved_values
+FAILED tests/week7/test_plots_reference.py::test_selected_profile_subtracts_extended_absolutes_before_float_conversion
+FAILED tests/week7/test_plots_reference.py::test_selected_missing_grid_values_remain_gaps_and_literal_scope_cannot_be_promoted
+FAILED tests/week7/test_plots_reference.py::test_actual_saved_floor_render_is_bound_to_existing_audit_and_does_not_change_scientific_bytes
+7 failed, 78 passed, 3 skipped, 1216 warnings, 13 errors in 46.56s
