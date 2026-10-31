@@ -1,0 +1,75 @@
+name: Recover original full E4 without resimulation
+on:
+  push:
+    branches: [codex/week8-publication-control-20261031]
+    paths: [.github/workflows/week8-recover-original.yml]
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: week8-original-artifact-recovery
+  cancel-in-progress: false
+jobs:
+  recover:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MPLCONFIGDIR: /tmp/ou-e4-recovery-mpl
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          path: control
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: 0ff57919f5d8345f52d8689732ff94448ca3ca1d
+          fetch-depth: 0
+          path: science
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12.14'
+      - name: Install unchanged original runtime
+        working-directory: science
+        run: python -m pip install -r requirements-lock.txt
+      - name: Recover and verify original, independently audit, seal actual review, replot
+        working-directory: science
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CONTROL_COMMIT: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          unset MKL_NUM_THREADS VECLIB_MAXIMUM_THREADS
+          mkdir -p "$RUNNER_TEMP/recovery-logs"
+          gh api repos/${{ github.repository }}/actions/artifacts/13042844395/zip > "$RUNNER_TEMP/original_e4.zip"
+          export PYTHONPATH="$PWD"
+          python -u ../control/scripts/week8_recover_original.py --zip "$RUNNER_TEMP/original_e4.zip" --work "$RUNNER_TEMP/e4-recovery" --review ../control/release_inputs/week8_visual_review.json 2>&1 | tee "$RUNNER_TEMP/recovery-logs/recovery.txt"
+      - name: Commit exact recovered evidence with native Git on an isolated result branch
+        working-directory: science
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "$(git ls-remote origin refs/heads/codex/week8-recovered-20261031)"
+          cp "$RUNNER_TEMP/recovery-logs/recovery.txt" artifacts/week8_evidence/completion/recovery.txt
+          cp ../control/scripts/week8_recover_original.py artifacts/week8_evidence/completion/recovery_script.py
+          cp ../control/.github/workflows/week8-recover-original.yml artifacts/week8_evidence/completion/recovery_workflow.yml
+          git config user.name 'skbdps'
+          git config user.email '44168240+skbdps@users.noreply.github.com'
+          git add artifacts/week8_e4 artifacts/week8_e4-figure-renderer artifacts/week8_evidence/full_run_41200456847 artifacts/week8_evidence/completion
+          git diff --cached --check
+          git commit -m 'Recover original full E4, independently re-audit, visually review and seal'
+          git push origin HEAD:refs/heads/codex/week8-recovered-20261031
+          git rev-parse HEAD | tee "$RUNNER_TEMP/recovery-logs/recovered_commit.txt"
+          test "$(git ls-remote origin refs/heads/codex/week8-recovered-20261031 | cut -f1)" = "$(git rev-parse HEAD)"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-e4-recovery-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/e4-recovery/
+            ${{ runner.temp }}/recovery-logs/
+          include-hidden-files: true
+          retention-days: 60
+          if-no-files-found: warn

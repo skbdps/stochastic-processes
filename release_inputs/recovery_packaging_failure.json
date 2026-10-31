@@ -1,0 +1,18 @@
+{
+  "workflow_run_id": 41214670935,
+  "job_id": 124576598409,
+  "saved_verification_passed": true,
+  "independent_numerical_reaudit_passed": true,
+  "guarded_seal_passed": true,
+  "external_render_completed": true,
+  "failed_operation": "wrapper lookup at external_replot/<figure>; actual renderer outputs external_replot/figures/<figure>",
+  "scientific_modules_changed": false,
+  "new_full_experiment_executed": false,
+  "raw_log_source": "https://github.com/skbdps/stochastic-processes/actions/runs/41214670935/job/124576598409",
+  "retained_output_artifact_id": 13047904238,
+  "retained_output_artifact_sha256": "c6759301c7c85fc41cdbb0a9f8de8a1797432a092c924ccf372f06d49888571b",
+  "raw_log_sha256": "954f7a8257dd1c168b5849674d4101217176c84f3732e6b2906ffa4a1588d3ee",
+  "raw_log_republished": false,
+  "raw_log_preserved_locally": "publication_additions/release_inputs/recovery_failed_packaging.log",
+  "publication_disposition": "Focused failure record, raw-log digest and original source URL; raw full CI logs stay in original evidence. Automatic approval review rejected duplicate public upload of the large raw CI log because of potentially sensitive runner/workflow metadata."
+}

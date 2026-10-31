@@ -1,0 +1,94 @@
+name: Publish verified retained E4 recovery bytes
+on:
+  push:
+    branches: [codex/week8-publication-bytes-20261031]
+    paths: [.github/workflows/week8-publish-recovered.yml]
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MPLCONFIGDIR: /tmp/ou-e4-publication-mpl
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          path: control
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: 0ff57919f5d8345f52d8689732ff94448ca3ca1d
+          fetch-depth: 0
+          path: science
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12.14'
+      - name: Install original recorded runtime
+        working-directory: science
+        run: python -m pip install -r requirements-lock.txt
+      - name: Download retained recovery output, bind Actions digest, verify original and sealed bytes
+        working-directory: science
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          unset MKL_NUM_THREADS VECLIB_MAXIMUM_THREADS
+          mkdir -p "$RUNNER_TEMP/publication-logs"
+          gh api repos/${{ github.repository }}/actions/runs/41214670935/artifacts > "$RUNNER_TEMP/recovery-artifacts.json"
+          python - <<'PY'
+          import json,os,pathlib,subprocess
+          tmp=pathlib.Path(os.environ['RUNNER_TEMP'])
+          metadata=next(x for x in json.loads((tmp/'recovery-artifacts.json').read_text())['artifacts'] if x['name']=='original-e4-recovery-41214670935')
+          (tmp/'recovery-artifact-metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
+          with (tmp/'retained-recovery.zip').open('wb') as f:
+              subprocess.run(['gh','api',f'repos/{os.environ["GITHUB_REPOSITORY"]}/actions/artifacts/{metadata["id"]}/zip'],stdout=f,check=True)
+          PY
+          export PYTHONPATH="$PWD"
+          python -u ../control/scripts/week8_publish_recovered.py --transport "$RUNNER_TEMP/retained-recovery.zip" --metadata "$RUNNER_TEMP/recovery-artifact-metadata.json" --work "$RUNNER_TEMP/retained-readback" --control ../control 2>&1 | tee "$RUNNER_TEMP/publication-logs/readback.txt"
+      - name: Stage all exact authorized artifact paths and verify every Git blob
+        working-directory: science
+        run: |
+          set -euo pipefail
+          test -z "$(git ls-remote origin refs/heads/codex/week8-recovered-20261031)"
+          cp "$RUNNER_TEMP/publication-logs/readback.txt" artifacts/week8_evidence/completion/publication_readback.txt
+          python - <<'PY'
+          import hashlib,json,pathlib,subprocess
+          prefixes=['artifacts/week8_e4','artifacts/week8_e4-figure-renderer','artifacts/week8_evidence/full_run_41200456847','artifacts/week8_evidence/completion']
+          files={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for n in prefixes for p in sorted(pathlib.Path(n).rglob('*')) if p.is_file()}
+          record={'all_recovered_files_prepared':True,'sha256':files,'self_excluded':'artifacts/week8_evidence/completion/native_git_readback.json'}
+          pathlib.Path(record['self_excluded']).write_text(json.dumps(record,indent=2)+'\n')
+          files[record['self_excluded']]=hashlib.sha256(pathlib.Path(record['self_excluded']).read_bytes()).hexdigest()
+          subprocess.run(['git','add','-f','--',*prefixes],check=True)
+          staged=subprocess.check_output(['git','diff','--cached','--name-only'],text=True).splitlines()
+          assert set(staged)==set(files),(set(staged)^set(files))
+          for name,wanted in files.items():
+              assert hashlib.sha256(subprocess.check_output(['git','show',':'+name])).hexdigest()==wanted,name
+          print('Every staged path and Git blob matches all',len(files),'authorized files')
+          PY
+          git diff --cached --check -- '*.py' '*.yml' '*.md'
+          git config user.name 'skbdps'
+          git config user.email '44168240+skbdps@users.noreply.github.com'
+          git commit -m 'Publish original full E4 with verified re-audit, actual figure review and guarded seal'
+          python - <<'PY'
+          import hashlib,json,pathlib,subprocess
+          record=json.loads(pathlib.Path('artifacts/week8_evidence/completion/native_git_readback.json').read_text())
+          for name,wanted in record['sha256'].items():
+              assert hashlib.sha256(subprocess.check_output(['git','show','HEAD:'+name])).hexdigest()==wanted,name
+          PY
+          git push origin HEAD:refs/heads/codex/week8-recovered-20261031
+          git rev-parse HEAD | tee "$RUNNER_TEMP/publication-logs/recovered_commit.txt"
+          test "$(git ls-remote origin refs/heads/codex/week8-recovered-20261031 | cut -f1)" = "$(git rev-parse HEAD)"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-e4-publication-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/publication-logs/
+            ${{ runner.temp }}/retained-readback/
+          include-hidden-files: true
+          retention-days: 60
+          if-no-files-found: warn
