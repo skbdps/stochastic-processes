@@ -1,0 +1,38 @@
+name: Build Codex research handoff
+on:
+  push:
+    branches: [handoff/codex-20261031]
+    paths:
+      - .github/workflows/codex-handoff.yml
+      - handoff_codex/**
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: codex-research-handoff
+  cancel-in-progress: false
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12.14'
+      - name: Package pinned documents and original E4 output; verify hashes and counts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python handoff_codex/build_bundle.py
+      - name: Upload the complete verified handoff
+        uses: actions/upload-artifact@v4
+        with:
+          name: OU_Codex_Handoff_20261031
+          path: ${{ runner.temp }}/OU_Codex_Handoff_20261031/
+          include-hidden-files: true
+          retention-days: 60
+          compression-level: 6
+          if-no-files-found: error
