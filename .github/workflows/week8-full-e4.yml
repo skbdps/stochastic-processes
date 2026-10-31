@@ -1,0 +1,155 @@
+name: Week 8 full E4 experiment
+on:
+  push:
+    branches: [validation/week8-completion-20261031]
+    paths: [.github/workflows/week8-full-e4.yml]
+permissions:
+  contents: write
+concurrency:
+  group: week8-full-e4-fixed-experiment
+  cancel-in-progress: false
+jobs:
+  experiment:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MPLCONFIGDIR: /tmp/ou-e4-full-mpl
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: 0ff57919f5d8345f52d8689732ff94448ca3ca1d
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12.14'
+      - name: Install exact pinned runtime
+        run: python -m pip install -r requirements-lock.txt
+      - name: Enforce published prereun gate and retain complete execution identity
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          unset MKL_NUM_THREADS VECLIB_MAXIMUM_THREADS
+          mkdir -p "$RUNNER_TEMP/e4-full/evidence"
+          python - <<'PY'
+          import contextlib,hashlib,io,json,os,pathlib,platform,subprocess,numpy as np
+          from ou_irregular.week8 import runner
+          from ou_irregular.week8.design import full_design
+          from ou_irregular.experiments.provenance import utc_now,environment,CORE_FILES
+          root=pathlib.Path.cwd();out=pathlib.Path(os.environ['RUNNER_TEMP'])/'e4-full';evidence=out/'evidence'
+          freeze='0ff57919f5d8345f52d8689732ff94448ca3ca1d'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()==freeze
+          live=json.loads(subprocess.check_output(['gh','api','repos/'+os.environ['GITHUB_REPOSITORY']+'/git/ref/heads/weeks5-8-sequential'],text=True))
+          assert live['object']['sha']==freeze,'published freeze moved; review before starting new full data'
+          gatepath=root/'artifacts/week8_evidence/validation_gate.json';gate=json.loads(gatepath.read_text())
+          assert gate['status']=='passed' and gate['validation_status']=='completed'
+          assert gate['tests_passed']==2055 and gate['all_tests_accounted']==2061 and gate['test_failures']==0
+          assert gate['source_only_sequences']==1536 and gate['source_only_checks']==108
+          assert gate['all_18_pngs_identical_to_prior_actual_inspection'] and gate['all_36_replot_files_byte_identical']
+          validation=runner.verify_run(root/'artifacts/week8_validation',require_completed=True)
+          assert validation['audit']['full_completion_audit'] is True and validation['audit']['pipeline_errors']==0
+          design=full_design();assert design.replications==2000 and design.seed==20261011 and len(design.cells)==7
+          assert all(c.n==1000 and c.q==.5 for c in design.cells)
+          hashes={n:hashlib.sha256((root/n).read_bytes()).hexdigest() for n in sorted(set(CORE_FILES)|set(runner.WEEK_FILES))}
+          for n,h in hashes.items():assert hashlib.sha256(subprocess.check_output(['git','show',freeze+':'+n])).hexdigest()==h
+          buffer=io.StringIO()
+          with contextlib.redirect_stdout(buffer):np.show_runtime()
+          record={'started_utc':utc_now(),'published_freeze':freeze,'workflow_commit':os.environ['GITHUB_SHA'],'workflow_run_id':os.environ['GITHUB_RUN_ID'],
+              'validation_gate_sha256':hashlib.sha256(gatepath.read_bytes()).hexdigest(),'source_files':hashes,'design':design.to_dict(),
+              'environment':environment(),'platform':platform.platform(),'cpu_features':np._core._multiarray_umath.__cpu_features__,
+              'cpu_dispatch':np._core._multiarray_umath.__cpu_dispatch__,'numpy_runtime':buffer.getvalue(),'lscpu':subprocess.check_output(['lscpu'],text=True),
+              'workers':4,'partition_size':250,'planned_paths':14000,'planned_fit_records':42000,
+              'scientific_overrides':[],'full_data_before_this_invocation':False}
+          (evidence/'invocation.json').write_text(json.dumps(record,indent=2)+'\n')
+          (evidence/'dependencies.txt').write_text(subprocess.check_output([os.sys.executable,'-m','pip','freeze'],text=True))
+          PY
+      - name: Execute fixed complete E4 and its source-specific audit and figures
+        run: |
+          set -uo pipefail
+          unset MKL_NUM_THREADS VECLIB_MAXIMUM_THREADS
+          printf '%s\n' 'python -m ou_irregular.week8.runner run --workers 4 --partition-size 250 --output <retained>/week8_e4' > "$RUNNER_TEMP/e4-full/evidence/command.txt"
+          python -m ou_irregular.week8.runner run --workers 4 --partition-size 250 --output "$RUNNER_TEMP/e4-full/week8_e4" > "$RUNNER_TEMP/e4-full/evidence/stdout.txt" 2> "$RUNNER_TEMP/e4-full/evidence/stderr.txt"
+          code=$?
+          printf '{"returncode":%s}\n' "$code" > "$RUNNER_TEMP/e4-full/evidence/exit.json"
+          tail -c 20000 "$RUNNER_TEMP/e4-full/evidence/stdout.txt"
+          cat "$RUNNER_TEMP/e4-full/evidence/stderr.txt"
+          exit "$code"
+      - name: Verify actual full evidence and prepare complete checkpoint without claiming visual completion
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          unset MKL_NUM_THREADS VECLIB_MAXIMUM_THREADS
+          python - <<'PY'
+          import base64,csv,hashlib,json,os,pathlib,subprocess
+          from ou_irregular.week8 import runner
+          from ou_irregular.experiments.provenance import utc_now
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'e4-full';archive=out/'week8_e4';evidence=out/'evidence';repo=os.environ['GITHUB_REPOSITORY']
+          base='0ff57919f5d8345f52d8689732ff94448ca3ca1d'
+          checked=runner.verify_run(archive);a=checked['audit'];m=checked['metadata']
+          assert m['status']=='audited_pending_visual_review' and not (archive/'visual_review.json').exists()
+          assert a['planned_paths']==a['source_paths_verified']==14000 and a['planned_fit_records']==42000
+          assert a['source_array_hashes_verified']==28000 and a['schedule_trace_hashes_verified']==42000
+          assert a['replayed_fits']==42 and a['replayed_source_paths']==14 and a['full_completion_audit'] is True
+          assert a['pipeline_errors']==0 and len(checked['figures']['figures'])==36
+          assert m['provenance']['code_commit']==base and m['provenance']['uncommitted_dependency_files']==[]
+          def rows(name):
+              with (archive/name).open(newline='') as f:return list(csv.DictReader(f))
+          summaries=rows('parameter_summary.csv');matched=rows('matched_iid_comparisons.csv');sources=rows('source_summary.csv')
+          assert len(summaries)==63 and len(matched)==27 and len(sources)==7
+          names=['cell_id','mechanism','ratio','estimator','parameter','n_planned','n_point_valid','n_interval_valid','n_covered','bias','relative_bias','rmse','coverage_operational','coverage_conditional','operational_wilson_lower','operational_wilson_upper','practical_classification']
+          contrast_names=['cell_id','mechanism','ratio','estimator','parameter','reference_cell_id','cell_n_point_valid','reference_n_point_valid','excess_bias','excess_bias_mc_lower','excess_bias_mc_upper','operational_coverage_difference','operational_coverage_difference_mc_lower','operational_coverage_difference_mc_upper','rmse_ratio','rmse_ratio_mc_lower','rmse_ratio_mc_upper']
+          summary={'status':m['status'],'full_study_executed':True,'actual_visual_review_pending':True,'freeze_commit':base,'workflow_run_id':os.environ['GITHUB_RUN_ID'],'checked_utc':utc_now(),
+              'audit':{k:a[k] for k in ['planned_paths','planned_fit_records','point_valid_records','interval_valid_records','retained_failure_records','pipeline_errors','source_paths_verified','source_array_hashes_verified','schedule_trace_hashes_verified','replayed_fits','replayed_source_paths','tables_verified']},
+              'parameter_summaries':[{k:r[k] for k in names} for r in summaries],
+              'matched_iid_contrasts':[{k:r[k] for k in contrast_names} for r in matched],
+              'source_summaries':[{k:r[k] for k in ['cell_id','mechanism','ratio','n_planned','raw_mean_gap_mean','raw_cv_mean','raw_adjacent_product_mean','realized_span_mean','realized_span_mcse','clip_count_total','clip_fraction_mean']} for r in sources],
+              'figure_sha256':checked['figures']['figures']}
+          (evidence/'full_summary.json').write_text(json.dumps(summary,indent=2)+'\n')
+          assert subprocess.check_output(['git','status','--porcelain','--untracked-files=no'],text=True).strip()==''
+          (evidence/'tracked_source_preservation.json').write_text(json.dumps({'base_commit':base,'all_preexisting_tracked_files_unchanged':True})+'\n')
+          def api(path,value=None):
+              args=['gh','api',f'repos/{repo}/{path}']
+              if value is not None:args+=['--method','PUT' if path.startswith('contents/') else 'POST','--input','-']
+              return json.loads(subprocess.check_output(args,input=json.dumps(value) if value is not None else None,text=True))
+          assert api('git/ref/heads/weeks5-8-sequential')['object']['sha']==base
+          paths={}
+          for folder,target in [('week8_e4','artifacts/week8_e4'),('week8_e4-figure-renderer','artifacts/week8_e4-figure-renderer'),('evidence','artifacts/week8_evidence/full_run_'+os.environ['GITHUB_RUN_ID'])]:
+              for p in sorted((out/folder).rglob('*')):
+                  if p.is_file():paths[target+'/'+str(p.relative_to(out/folder))]=p
+          blobs={};entries=[]
+          for name,p in sorted(paths.items()):
+              data=p.read_bytes();d=hashlib.sha256(data).hexdigest()
+              if d not in blobs:blobs[d]=api('git/blobs',{'content':base64.b64encode(data).decode(),'encoding':'base64'})['sha']
+              entries.append({'path':name,'mode':'100644','type':'blob','sha':blobs[d]})
+          tree=api('git/trees',{'base_tree':api('git/commits/'+base)['tree']['sha'],'tree':entries})['sha']
+          record={'base_commit':base,'publication_tree':tree,'summary':summary,'scientific_refs_updated':False}
+          (out/'publication.json').write_text(json.dumps(record,indent=2)+'\n')
+          api('contents/e4-full-result-'+os.environ['GITHUB_RUN_ID']+'.json',{'message':'Retain full E4 audit results and pending-visual publication tree','branch':'validation/week8-completion-20261031','content':base64.b64encode((json.dumps(record,indent=2)+'\n').encode()).decode()})
+          print('FULL_E4_PUBLICATION_TREE='+tree)
+          print(json.dumps(summary['audit'],indent=2))
+          PY
+      - name: Retain compact diagnostic on every outcome
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import base64,json,os,pathlib,subprocess
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'e4-full'
+          names=['evidence/exit.json','evidence/stderr.txt','evidence/stdout.txt','week8_e4/run_metadata.json']
+          data={n:(out/n).read_text()[-24000:] for n in names if (out/n).is_file()}
+          value={'message':'Preserve actual full E4 execution diagnostic','branch':'validation/week8-completion-20261031','content':base64.b64encode((json.dumps(data,indent=2)+'\n').encode()).decode()}
+          subprocess.run(['gh','api','repos/'+os.environ['GITHUB_REPOSITORY']+'/contents/e4-full-diagnostic-'+os.environ['GITHUB_RUN_ID']+'.json','--method','PUT','--input','-'],input=json.dumps(value),text=True,check=True,stdout=subprocess.DEVNULL)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: week8-full-e4-${{ github.run_id }}
+          path: ${{ runner.temp }}/e4-full/
+          include-hidden-files: true
+          retention-days: 60
+          if-no-files-found: error
