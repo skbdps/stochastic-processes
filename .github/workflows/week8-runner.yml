@@ -8,6 +8,9 @@ on:
       - tests/week8/test_runner.py
       - docs/week8_runner.md
   workflow_dispatch:
+concurrency:
+  group: week8-runner-verification
+  cancel-in-progress: false
 permissions:
   contents: write
   actions: read
@@ -27,7 +30,7 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12.14'
-      - name: Preserve source and original failed invocations without scientific changes
+      - name: Preserve finalized earlier failures and unchanged candidate source
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -41,20 +44,26 @@ jobs:
           changed=subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines()
           ignored={n for n in changed if n.startswith('runner-ci-') and n.endswith('.json')}
           assert set(changed)-ignored==set(names)|{'.github/workflows/week8-runner.yml'},changed
-          record={'base_commit':base,'candidate_commit':os.environ['GITHUB_SHA'],'workflow_run_id':os.environ['GITHUB_RUN_ID'],'candidate_sha256':{n:hashlib.sha256((root/n).read_bytes()).hexdigest() for n in names},'unchanged_prior_tracked_files':True,'allowed_changes':changed,'full_E4_started':False,'correction':'CI-only isolation: historical Week3 CLI sets MKL_NUM_THREADS=1 at import. Pre-import it then restore the recorded environment before pytest. Historical E1/E2/Week7 fixtures use a separate minimal environment. No scientific source, test assertion or threshold changed.'}
+          record={'base_commit':base,'candidate_commit':os.environ['GITHUB_SHA'],'workflow_run_id':os.environ['GITHUB_RUN_ID'],'candidate_sha256':{n:hashlib.sha256((root/n).read_bytes()).hexdigest() for n in names},'unchanged_prior_tracked_files':True,'allowed_changes':changed,'full_E4_started':False,'correction':'CI-only isolation: historical Week3 CLI sets MKL_NUM_THREADS=1 at import. Pre-import it then restore the recorded environment before pytest. Historical E1/E2/Week7 fixtures use their separate recorded minimal environment. Previous evidence-retrieval race is avoided by verifying predecessor completion. No scientific source, test assertion or threshold changed.'}
           (out/'candidate.json').write_text(json.dumps(record,indent=2)+'\n')
           for name in names:
               target=out/'candidate_source'/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((root/name).read_bytes())
-          for run in [41155284522,41157375706]:
+          predecessors=[]
+          for run in [41155284522,41157375706,41158020585]:
+              info=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/actions/runs/{run}'],text=True))
+              assert info['status']=='completed',('predecessor not finalized',run)
               items=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/actions/runs/{run}/artifacts'],text=True))['artifacts']
-              item=next((a for a in items if a['name']==f'week8-runner-verification-{run}'),None)
-              if item is None:raise RuntimeError('Required earlier CI evidence is not yet archived: '+str(run))
+              item=next(a for a in items if a['name']==f'week8-runner-verification-{run}')
               data=subprocess.check_output(['gh','api',f'repos/{repo}/actions/artifacts/{item["id"]}/zip'])
-              target=out/f'prior_invocation_{run}.zip';target.write_bytes(data)
+              digest=hashlib.sha256(data).hexdigest()
+              assert item['digest']=='sha256:'+digest,run
+              (out/f'prior_invocation_{run}.zip').write_bytes(data)
+              predecessors.append({'run':run,'head_sha':info['head_sha'],'conclusion':info['conclusion'],'artifact_id':item['id'],'sha256':digest})
               z=zipfile.ZipFile(io.BytesIO(data))
               for name in ['test-exit.json','pytest-all.txt','pytest-current.txt','pytest-historical.txt','runner_fixture/stderr.txt','runtime.json','legacy-runtime.json']:
                   if name in z.namelist():
                       p=out/f'prior_invocation_{run}'/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(z.read(name))
+          (out/'predecessors.json').write_text(json.dumps(predecessors,indent=2)+'\n')
           PY
           git diff --check 7dfe7e191bc4e9516142e141b9208fd0fd4fd0dc HEAD
       - name: Install exact current and historical numerical environments
@@ -97,7 +106,6 @@ jobs:
           import json,os,pathlib
           import ou_irregular.runner
           import pytest
-          # Preserve old code; isolate its import-time configuration from later archives.
           os.environ.pop('MKL_NUM_THREADS',None);os.environ.pop('VECLIB_MAXIMUM_THREADS',None)
           from ou_irregular.experiments.provenance import environment
           out=pathlib.Path(os.environ['RUNNER_TEMP'])/'week8-runner-ci'
@@ -111,7 +119,7 @@ jobs:
           historical=${PIPESTATUS[0]}
           printf '{"current_returncode":%s,"historical_returncode":%s}\n' "$current" "$historical" > "$RUNNER_TEMP/week8-runner-ci/test-exit.json"
           test "$current" -eq 0 && test "$historical" -eq 0
-      - name: Verify actual native evidence and prepare scientific publication tree without moving refs
+      - name: Verify native evidence and prepare scientific publication tree without moving refs
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -126,13 +134,14 @@ jobs:
           assert a['planned_paths']==a['source_paths_verified']==28 and a['planned_fit_records']==84 and a['replayed_fits']==42
           assert a['pipeline_errors']==0 and a['full_completion_audit'] is True and m['status']=='audited_pending_visual_review'
           assert not (native/'visual_review.json').exists()
-          counts={};skips=[]
+          counts={};skips=[];testkeys=[]
           for name in ['current-junit.xml','historical-junit.xml']:
               tree=ET.parse(out/name);suites=list(tree.getroot().iter('testsuite'))
               counts[name]={key:sum(int(s.attrib.get(key,0)) for s in suites) for key in ['tests','errors','failures','skipped']}
+              testkeys.extend(t.attrib.get('classname','')+'.'+t.attrib.get('name','') for t in tree.getroot().iter('testcase'))
               skips.extend({'test':t.attrib.get('classname','')+'.'+t.attrib.get('name',''),'reason':t.find('skipped').attrib.get('message','')} for t in tree.getroot().iter('testcase') if t.find('skipped') is not None)
           collected=int(re.search(r'(\d+) tests collected', (out/'collection.txt').read_text()).group(1))
-          assert sum(v['tests'] for v in counts.values())==collected,(counts,collected)
+          assert sum(v['tests'] for v in counts.values())==collected and len(set(testkeys))==collected,(counts,collected)
           assert all(v['errors']==v['failures']==0 for v in counts.values()),counts
           summary={'candidate_commit':candidate['candidate_commit'],'workflow_run_id':os.environ['GITHUB_RUN_ID'],'all_collected_tests_accounted_for':collected,'test_counts':counts,'skips':skips,'native_validation':{'paths':28,'fits':84,'source_hashes':a['source_array_hashes_verified'],'trace_hashes':a['schedule_trace_hashes_verified'],'replayed_fits':42,'pipeline_errors':0,'status':m['status'],'figure_pairs':len(verified['figures']['figures'])//2},'actual_visual_review_pending':True,'full_E4_started':False}
           (out/'ci_summary.json').write_text(json.dumps(summary,indent=2)+'\n')
@@ -166,7 +175,7 @@ jobs:
           import base64,json,os,pathlib,subprocess
           out=pathlib.Path(os.environ['RUNNER_TEMP'])/'week8-runner-ci'
           names=['ci_summary.json','test-exit.json','pytest-current.txt','pytest-historical.txt','runner_fixture/stderr.txt','runner_fixture/exit.json']
-          data={n:(out/n).read_text()[-14000:] for n in names if (out/n).is_file()}
+          data={n:(out/n).read_text()[-18000:] for n in names if (out/n).is_file()}
           payload={'message':'Record observed runner CI diagnostic','branch':'validation/week8-runner-20261031','content':base64.b64encode((json.dumps(data,indent=2)+'\n').encode()).decode()}
           subprocess.run(['gh','api','repos/'+os.environ['GITHUB_REPOSITORY']+'/contents/runner-ci-diagnostic-'+os.environ['GITHUB_RUN_ID']+'.json','--method','PUT','--input','-'],input=json.dumps(payload),text=True,check=True,stdout=subprocess.DEVNULL)
           PY
