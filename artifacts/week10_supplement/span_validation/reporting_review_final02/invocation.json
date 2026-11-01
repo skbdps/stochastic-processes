@@ -1,0 +1,22 @@
+{
+  "command": [
+    "/Users/lucifer/Desktop/stochastic/.venv-week10/bin/python",
+    "-m",
+    "pytest",
+    "tests/week10/test_span.py",
+    "tests/week10/test_reporting.py",
+    "-q",
+    "--junitxml=artifacts/week10_supplement/span_validation/reporting_review_final02/junit.xml"
+  ],
+  "exit_code": 0,
+  "checked_utc": "2026-11-01T15:21:18.619103+00:00",
+  "reviewed_files": {
+    "ou_irregular/week10/span.py": "8694a17542d5c690fb03096b046d6f0e83bb0f279d4e43073e30604f392d2c48",
+    "ou_irregular/week10/reporting.py": "5b6cf9b1a085f07789220068a64ad9645818d94edbd06243125d2d8af7545ba0",
+    "ou_irregular/week10/cli.py": "9e0e75154d0e8925fe507ff2bb84db0786198b5909c5c994903ac23f57c18457",
+    "ou_irregular/week10/plots.py": "bbea4546efd34ca76b5752ab0ab5dc446ae59d32559c04ac4b49dc05c187a855",
+    "tests/week10/test_span.py": "86357931ea959d87d8bb9cf1235d57c0479726f2a8fdefb1075e279ab2f9b4a7",
+    "tests/week10/test_reporting.py": "4d2253f8518a66b22b0e069f8b16bfffcdea41a3ef9231a054b1a8948903cd97",
+    "docs/week10_span_method.md": "276c52dce4cebfdf9091cbe1896f2ef93b2bc20dbfdaf1e1cf8147e8a13bda39"
+  }
+}

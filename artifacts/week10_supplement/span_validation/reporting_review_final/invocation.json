@@ -1,0 +1,13 @@
+{
+  "command": [
+    "/Users/lucifer/Desktop/stochastic/.venv-week10/bin/python",
+    "-m",
+    "pytest",
+    "tests/week10/test_span.py",
+    "tests/week10/test_reporting.py",
+    "-q",
+    "--junitxml=artifacts/week10_supplement/span_validation/reporting_review_final/junit.xml"
+  ],
+  "exit_code": 0,
+  "checked_utc": "2026-11-01T15:18:50.805471+00:00"
+}

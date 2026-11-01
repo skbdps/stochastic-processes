@@ -1,0 +1,25 @@
+{
+  "utc": "2026-11-01T15:19:57.424503+00:00",
+  "scope": "analysis implementation fixed before reading full fixed-horizon fitted contrasts",
+  "files": {
+    "configs/week10_supplement.json": "497baeb06f0e54cc7e065f3134b84108e3082823e1ce30d42db9e575445ae449",
+    "docs/week10_mechanism.md": "57032775f5e5028f40a05be39b57c5099a51e7cc1f5031cdf3ecb3a1de6453e0",
+    "docs/week10_span_method.md": "276c52dce4cebfdf9091cbe1896f2ef93b2bc20dbfdaf1e1cf8147e8a13bda39",
+    "docs/week10_supplement_protocol.md": "3db0d9d47fdb92cca48280d8c2eec8752e9cde459d36c63ebd381d1a561f71a0",
+    "ou_irregular/week10/__init__.py": "2b7298d3377229eb02f7809e17c2f556f54ef1ca5256e8f0891ccb6c220a88a6",
+    "ou_irregular/week10/cli.py": "ead619e9653fc146ef8e603154c384583003c1a02567c2062e59d6352353a446",
+    "ou_irregular/week10/design.py": "6b3d1bcb4b323504000d68d7368f7113671d98c2253c4eaf1cd1f5e6bbf74ae4",
+    "ou_irregular/week10/execution.py": "4e1d9dd5c1cd05f5c52bbc856dbb5ab71ffeb9c396fe3968732349c08529e200",
+    "ou_irregular/week10/plots.py": "bbea4546efd34ca76b5752ab0ab5dc446ae59d32559c04ac4b49dc05c187a855",
+    "ou_irregular/week10/reporting.py": "5b6cf9b1a085f07789220068a64ad9645818d94edbd06243125d2d8af7545ba0",
+    "ou_irregular/week10/source.py": "570f8360f808d4d70e983d92136ffe345150559ac7b372729a737ed3e6b1259b",
+    "ou_irregular/week10/span.py": "8694a17542d5c690fb03096b046d6f0e83bb0f279d4e43073e30604f392d2c48",
+    "ou_irregular/week10/theory.py": "efb5d19243ab8a3508f78126a124414c2c3074b95c56f46a2a4e312ca1a4454a",
+    "requirements-week10-lock.txt": "7d790709b73b23d8bd891b89615583ef5f788c865630e682636807f7adb9fed7",
+    "tests/week10/test_execution.py": "e17b12761988b55bd4222ea45c1cd8a1c43a3ba5e14f89038e03deb9b4126656",
+    "tests/week10/test_reporting.py": "ade5a667365c344eea083a571e77ce364be3acaf8c2685de626758e15c603175",
+    "tests/week10/test_source.py": "4cd764453b7ed133f7bf4c87a5910b0217ab66c1fc2258bc94c495d613dbec62",
+    "tests/week10/test_span.py": "86357931ea959d87d8bb9cf1235d57c0479726f2a8fdefb1075e279ab2f9b4a7",
+    "tests/week10/test_theory.py": "bc8021ce588bfa634b58fe6907851c47dbeeaa5f294a28348adc8736eeae304a"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "retained_after_event_utc": "2026-11-01T15:15:18.828292+00:00",
+  "scope": "Verbatim tool-returned stdout retained after the command, not a rerun. Exact execution timestamp was not separately captured.",
+  "command": [
+    "/Users/lucifer/Desktop/stochastic/.venv-week9/bin/python",
+    "-m",
+    "pytest",
+    "tests/week10/test_theory.py",
+    "-q"
+  ],
+  "exit_code": 2,
+  "environment": "Python3.12.10 Week9 renderer environment; PyYAML absent",
+  "failure": "ModuleNotFoundError: No module named yaml",
+  "disposition": "Scientific dependencies are present in fresh Week10 Python3.12 environment; the same45 theory cases passed there. No experiment was executed during this failure.",
+  "stdout": "\n==================================== ERRORS ====================================\n_________________ ERROR collecting tests/week10/test_theory.py _________________\nImportError while importing test module '/Users/lucifer/Desktop/stochastic/research/tests/week10/test_theory.py'.\nHint: make sure your test modules/packages have valid Python names.\nTraceback:\n/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py:90: in import_module\n    return _bootstrap._gcd_import(name[level:], package, level)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\ntests/week10/test_theory.py:7: in <module>\n    from ou_irregular.week8.design import E4Cell\nou_irregular/week8/design.py:25: in <module>\n    from ..experiments.design import Cell, ESTIMATORS, RunDesign\nou_irregular/experiments/design.py:10: in <module>\n    from ..week4.config import canonical_json\nou_irregular/week4/config.py:9: in <module>\n    import yaml\nE   ModuleNotFoundError: No module named 'yaml'\n=========================== short test summary info ============================\nERROR tests/week10/test_theory.py\n!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!\n1 error in 2.17s\n"
+}

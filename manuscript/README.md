@@ -1,18 +1,23 @@
 # Manuscript drafts
 
-The current manuscript baseline is [Week 10 Draft 1](week10_draft1.md), dated
-1 November 2026. It covers the introduction, model, three estimators,
-population-target benchmarks, interval construction and experimental methods.
+The current manuscript is [Week 10 Draft 3](week10_draft3.md), dated
+1 November 2026. It corrects the PFML mechanism argument's finite-moment and
+coverage limitations while preserving the span-control results.
 It is an editable Markdown manuscript with GitHub-rendered mathematics.
 
-The draft describes the completed studies at release
-`4bddb527f3c8bb88bc1ebec28c8818e03dc251aa`. It introduces no new estimator,
-interval method, simulation or scientific result. The original research
-archives and the sealed Week 9 publication package remain authoritative.
+The original [Draft 1](week10_draft1.md) describes the completed studies at
+release `4bddb527f3c8bb88bc1ebec28c8818e03dc251aa`. Draft 2 additionally uses
+the separately audited [Week 10 supplement](../docs/week10_supplement_completion.md).
+That revision introduces a new experimental design and analytical benchmark while
+preserving the original estimators, intervals, archives and Week 9 package.
+Draft 2 remains an unchanged historical version. Draft 3 uses the additive
+[critical review](../docs/week10_analytical_review.md), including a rigorous
+boundary-pole argument and saved-data center/width comparisons.
 
 Read the [source map](week10_source_map.md) when checking a method statement,
 and the [draft status and validation record](../docs/week10_draft1_status.md)
-for the review scope. Draft 1 has not received human academic review and is
+for the historical baseline review scope; the supplement has its own linked
+validation and review records. Draft 3 has not received human academic review and is
 not a submission-ready manuscript. No final PDF or journal layout is claimed.
 
 ## Author review of Week 10
@@ -27,16 +32,19 @@ subsequent revision rather than changing frozen study records.
 | Exact, PFML and Euler | Can you explain which information or moments each procedure replaces, and why PFML mean estimation can respond to sampling dependence despite its regression formula? |
 | Numerical coordinates and intervals | Can you explain the full Hessian, covariance transformation, natural-scale intervals and separate point/interval validity rules? |
 | Population targets | Can you distinguish an expected-objective minimizer from finite-sample mean, variance and coverage? Can you explain why full-marginal matching does not imply equal precision? |
+| Mean covariance mechanism | Can you derive the PFML endpoint correction, distinguish fixed-coefficient variance from fitted-estimator coverage, and explain why matching lag one leaves higher-lag covariance different? Can you explain why closeness in probability does not transfer moments through the near-unit-slope pole? |
+| Coverage diagnostics | Can you distinguish exact schedule-conditional Gaussian coverage from a marginal-normal approximation, and separate fitted-center effects from fitted-width effects using paired indicators? |
+| Span supplement | Can you explain common-support exclusions, conditional MC uncertainty, event-Palm initialization, random N and the deterministic terminal observation? |
 | Experimental methods | Can you explain the independent units, controls, floors, coverage denominators and uncertainty-aware classifications without treating all fit records as independent paths? |
 
-The assistant can help explain derivations, revise prose and check calculations.
-Author understanding, acceptance of the claims and independent academic
-assessment remain separate from those automated tasks.
+Author review includes checking derivations, revising prose and verifying
+calculations. The author remains responsible for understanding the methods
+and accepting the claims before independent academic assessment.
 
 ## Subsequent manuscript work
 
-Week 11 adds the Results, practical guidance, related-work discussion and
-limitations, using the existing [claims ledger](../artifacts/week9_publication/claims.md),
+Week 11 integrates the core Results with the new focused supplement, practical
+guidance, related work and limitations, using the existing [claims ledger](../artifacts/week9_publication/claims.md),
 [T1](../artifacts/week9_publication/tables/T1.md),
 [figure plan](../docs/week9_figure_plan.md) and
 [literature comparison](../docs/week9_literature_comparison.md).

@@ -1,0 +1,35 @@
+{
+  "utc": "2026-11-01T15:29:06.229255+00:00",
+  "files": {
+    "ou_irregular/week10/__init__.py": "2b7298d3377229eb02f7809e17c2f556f54ef1ca5256e8f0891ccb6c220a88a6",
+    "ou_irregular/week10/cli.py": "687ba0808c85275bd6a5057af7899445c7fc0c9d985784a740d81f06f8d1790c",
+    "ou_irregular/week10/design.py": "6b3d1bcb4b323504000d68d7368f7113671d98c2253c4eaf1cd1f5e6bbf74ae4",
+    "ou_irregular/week10/execution.py": "4e1d9dd5c1cd05f5c52bbc856dbb5ab71ffeb9c396fe3968732349c08529e200",
+    "ou_irregular/week10/interpretation.py": "0e61255dac2948e5fb00c381acdbfe947b9eaa3c3aa955a00016fe2f23f427f7",
+    "ou_irregular/week10/plots.py": "bbea4546efd34ca76b5752ab0ab5dc446ae59d32559c04ac4b49dc05c187a855",
+    "ou_irregular/week10/reporting.py": "5b6cf9b1a085f07789220068a64ad9645818d94edbd06243125d2d8af7545ba0",
+    "ou_irregular/week10/source.py": "570f8360f808d4d70e983d92136ffe345150559ac7b372729a737ed3e6b1259b",
+    "ou_irregular/week10/span.py": "8694a17542d5c690fb03096b046d6f0e83bb0f279d4e43073e30604f392d2c48",
+    "ou_irregular/week10/theory.py": "efb5d19243ab8a3508f78126a124414c2c3074b95c56f46a2a4e312ca1a4454a",
+    "tests/week10/test_execution.py": "e17b12761988b55bd4222ea45c1cd8a1c43a3ba5e14f89038e03deb9b4126656",
+    "tests/week10/test_reporting.py": "37730f801e210f42489b6c85561c68c2cbd7b671a0d3b446ac5d00fb0a775548",
+    "tests/week10/test_source.py": "4cd764453b7ed133f7bf4c87a5910b0217ab66c1fc2258bc94c495d613dbec62",
+    "tests/week10/test_span.py": "86357931ea959d87d8bb9cf1235d57c0479726f2a8fdefb1075e279ab2f9b4a7",
+    "tests/week10/test_theory.py": "bc8021ce588bfa634b58fe6907851c47dbeeaa5f294a28348adc8736eeae304a"
+  },
+  "changes_since_initial_analysis_freeze": {
+    "ou_irregular/week10/cli.py": {
+      "before": "ead619e9653fc146ef8e603154c384583003c1a02567c2062e59d6352353a446",
+      "after": "687ba0808c85275bd6a5057af7899445c7fc0c9d985784a740d81f06f8d1790c"
+    },
+    "ou_irregular/week10/interpretation.py": {
+      "before": null,
+      "after": "0e61255dac2948e5fb00c381acdbfe947b9eaa3c3aa955a00016fe2f23f427f7"
+    },
+    "tests/week10/test_reporting.py": {
+      "before": "ade5a667365c344eea083a571e77ce364be3acaf8c2685de626758e15c603175",
+      "after": "37730f801e210f42489b6c85561c68c2cbd7b671a0d3b446ac5d00fb0a775548"
+    }
+  },
+  "disposition": "Added generated narrative/claim verification and tightened final sealing guards/tests; source generation, original fitting and numerical table calculations unchanged."
+}

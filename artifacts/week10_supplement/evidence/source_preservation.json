@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "checked_utc": "2026-11-01T15:29:08.411641+00:00",
+  "baseline_head": "3b546268da1a290f07cf741185123192fad23e47",
+  "baseline_tracked_files": 3711,
+  "unchanged_files": 3705,
+  "changed_existing_files": [
+    ".gitignore",
+    "README.md",
+    "artifacts/README.md",
+    "docs/week10_draft1_status.md",
+    "manuscript/README.md",
+    "manuscript/week10_source_map.md"
+  ],
+  "missing_files": [],
+  "all_original_experiment_and_sealed_package_bytes_unchanged": true,
+  "prior_uncommitted_wording_cleanup_preserved": true
+}

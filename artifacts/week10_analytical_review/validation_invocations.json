@@ -1,0 +1,36 @@
+{
+  "interpreter": "/Users/lucifer/Desktop/stochastic/.venv-week10/bin/python",
+  "working_directory": "research repository root",
+  "environment": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MPLCONFIGDIR": "/tmp/ou-week10-mpl",
+    "unset": [
+      "MKL_NUM_THREADS",
+      "VECLIB_MAXIMUM_THREADS"
+    ]
+  },
+  "commands": [
+    {
+      "command": "python -m pytest tests/week10 -q --junitxml=artifacts/week10_analytical_review/week10_tests.xml",
+      "exit_code": 0,
+      "result": "132 passed"
+    },
+    {
+      "command": "python -m ou_irregular.week10.cli verify --package artifacts/week10_supplement",
+      "exit_code": 0,
+      "result": "original seal, tables, span and historical claims passed"
+    },
+    {
+      "command": "ou_irregular.week10.analytical_review.verify(\"artifacts/week10_supplement\", \"artifacts/week10_analytical_review/calibration\")",
+      "exit_code": 0,
+      "result": "4 tables rederived; 14000 PFML saved indicators checked"
+    },
+    {
+      "command": "PYTHONPATH=. python artifacts/week10_analytical_review/verify_review.py",
+      "role": "final saved-data and document binding check"
+    }
+  ],
+  "scope": "No full research rerun. Deterministic test fixtures exercise the existing fitter; saved-data review adds no fitted replications.",
+  "preserved_correction": "First diagnostic source/output retained; rare-discordance paired bounds corrected before final validation."
+}

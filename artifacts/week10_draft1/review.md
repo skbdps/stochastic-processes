@@ -1,19 +1,25 @@
-# Actual AI review of Week 10 Draft 1
+# Review record for Week 10 Draft 1
 
-The reviewed document is [the first methods manuscript](../../manuscript/week10_draft1.md).
-Its final SHA-256 is
+The reviewed document is [the first published methods manuscript](https://github.com/skbdps/stochastic-processes/blob/3b546268da1a290f07cf741185123192fad23e47/manuscript/week10_draft1.md).
+Its reviewed SHA-256 is
 `80a22e2eb97f48c0b720691da3d429778691e6a230e5f29466984b5bed256d35`.
 
-Two Codex AI reviewers read the draft independently. The primary authoring
-agent integrated corrections and checked the supporting documents. These are
-content/source reviews, not human academic review, rendered-page review,
-publication acceptance or a certificate of novelty. Local review times fall
+Two content/source checks covered the technical methods and introduction;
+their findings were incorporated into the draft and supporting documents.
+Their scope excludes academic assessment, rendered-page review, publication
+acceptance and certification of novelty. Local review times fall
 on 1 November 2026 in Asia/Kolkata; UTC timestamps below retain the actual
 recorded instants.
 
+This summary describes the original reviewed revision. The
+[editorial revision record](editorial_revision.json) identifies later wording
+changes; the original [validation record](validation.json) retains its dated
+hashes. The complete original review is preserved in the
+[published release](https://github.com/skbdps/stochastic-processes/blob/3b546268da1a290f07cf741185123192fad23e47/artifacts/week10_draft1/review.md).
+
 ## Technical review
 
-Reviewer: Codex AI `/root/week9_inputs_impl`.
+Review component: technical methods.
 
 The complete initial technical review was recorded at
 `2026-10-31T19:28:26.121400+00:00`, against manuscript digest
@@ -46,7 +52,7 @@ of any research study.
 
 ## Introduction and literature review
 
-Reviewer: Codex AI `/root/week9_literature_docs`.
+Review component: introduction and literature.
 
 The introduction, references and contribution scope were initially reviewed at
 `2026-10-31T19:27:17+00:00`, against manuscript digest

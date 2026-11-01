@@ -1,0 +1,14 @@
+{
+  "started_utc": "2026-11-01T15:43:53.182989+00:00",
+  "original_seal_sha256": "c595df1d521767a7191510c6e2decb9111a886b1ca6d5e6d7de7a3aa51cc2c30",
+  "files": {
+    "docs/week10_mechanism.md": "57032775f5e5028f40a05be39b57c5099a51e7cc1f5031cdf3ecb3a1de6453e0",
+    "manuscript/week10_draft2.md": "b242d309f713a27ba1ca02585e6cc69f2c416d089bb772aea8d5a0987257f845",
+    "README.md": "4bf6ff50c24abb1544b7d55a056d5910560548710014f8e9549de91f045149d7",
+    "manuscript/README.md": "80f5fb249e62e7eb4c84ce53c76b43574bb8439b2d1d1326fd57662e5fa13cc9",
+    "manuscript/week10_source_map.md": "6bca508bcfcd1aa5dae24491f801b5db043fa9a8fad9be8bac372414c6cde16f",
+    "docs/week10_supplement_completion.md": "d3af7f72a7d167cde41531899ff312fdfea9861e8ec958dfc235cdcb6420a8f6",
+    "docs/week10_reproduction.md": "b70832a891db7b170c00d4c478ba519cf1729bb8067f30fecda289cc5534e9c5"
+  },
+  "scope": "Critical review of the analytical argument; no research rerun or estimator change."
+}

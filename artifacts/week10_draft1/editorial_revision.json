@@ -1,0 +1,246 @@
+{
+  "status": "passed",
+  "checked_utc": "2026-11-01T12:15:34.391664+00:00",
+  "baseline_commit": "3b546268da1a290f07cf741185123192fad23e47",
+  "scope": "Editorial wording and navigation revision; no scientific implementation, experimental output or result changes.",
+  "historical_validation": "validation.json retains the original published document identities; this record binds the subsequent editorial revision.",
+  "historical_review": "review.md summarizes checks of the original draft and links the original published record. No new substantive manuscript review is claimed.",
+  "documents": {
+    "README.md": {
+      "before": {
+        "sha256": "a4dfa044ef548988ba093db31a9d4d464eea20982a5213b370dcda0deac6f4d8",
+        "bytes": 26330
+      },
+      "after": {
+        "sha256": "f8f9a8559a21afcbd40010ede3c5d1ed58827857147e1039c05a1da36a62196c",
+        "bytes": 26292
+      }
+    },
+    "artifacts/README.md": {
+      "before": {
+        "sha256": "8f88c03650c8e9be4419e11323ce44861fafb4a24107870e28f15b41f41b95a8",
+        "bytes": 12392
+      },
+      "after": {
+        "sha256": "cf3550c15b8579a67d35800af3ccefa619abc299d3cc9f445bc0637ef51434ee",
+        "bytes": 12383
+      }
+    },
+    "artifacts/week10_draft1/review.md": {
+      "before": {
+        "sha256": "05424f70e21c901e5f6aca0c197d85fe2578bec794b770def91a69381e998fbd",
+        "bytes": 4700
+      },
+      "after": {
+        "sha256": "d5ed7bc1280fb87765b1b046c0ddd4e297b75b28384a3ec57c6473ec1f592c5c",
+        "bytes": 5195
+      }
+    },
+    "artifacts/week9_evidence/README.md": {
+      "before": {
+        "sha256": "50f2a077059fe4b32ffd3b0d835738dd4b7da855742e741161db6c9d5b5f99c6",
+        "bytes": 3379
+      },
+      "after": {
+        "sha256": "c3664d77251f84cc7baba8b47a1843ed597cb0a8c3c43e3c36fc4fb19ba0b894",
+        "bytes": 3355
+      }
+    },
+    "docs/week10_draft1_status.md": {
+      "before": {
+        "sha256": "98d50e9592a0b9411e386d488efcf161496c39528a31bc2da351955a77d22e15",
+        "bytes": 3353
+      },
+      "after": {
+        "sha256": "02d6f26d760e91631bf3b7477a237df85655d5826ce7b21282db049c9e4e94d5",
+        "bytes": 3669
+      }
+    },
+    "docs/week7_plots.md": {
+      "before": {
+        "sha256": "e68cf6c4459602952288124913ee3597b88f6a7bbc4b8dfe42df6e8217527d7d",
+        "bytes": 16335
+      },
+      "after": {
+        "sha256": "86ade3001f7471855bdfeffb781954406937c659678f4308a8162421cce88df9",
+        "bytes": 16323
+      }
+    },
+    "docs/week8_completion.md": {
+      "before": {
+        "sha256": "b130115e31805d85a90374933717d65da6d3b18569f3fed4d7916dbc1aeb8754",
+        "bytes": 12305
+      },
+      "after": {
+        "sha256": "a4fb6efbaa5e3535e9332af0e2094b3bf71076ba36314019d3c2a04cd49e8102",
+        "bytes": 12160
+      }
+    },
+    "docs/week8_progress.md": {
+      "before": {
+        "sha256": "d20de7faf085ce3b40008c3b6d81a898b2661c004ab7cd95344151bb88ddca77",
+        "bytes": 9976
+      },
+      "after": {
+        "sha256": "00c07382807388a0436989bfa0549bb4e54b5389635fa9cd8fe2736a1a14c7fc",
+        "bytes": 9922
+      }
+    },
+    "docs/week8_reproduction.md": {
+      "before": {
+        "sha256": "a96795a01118dca9300c0ddf35a60380f44545b7e50c277816b911ea3173b031",
+        "bytes": 10349
+      },
+      "after": {
+        "sha256": "37fe1745c6991388fc6a3a3ced5bdad270529da035330e70b8a51f86c1617814",
+        "bytes": 10317
+      }
+    },
+    "docs/week8_results_interpretation.md": {
+      "before": {
+        "sha256": "bc5a5b7230f2d8914268dc403e778d5695646cc63f2b5b08ad7caee2a0c073db",
+        "bytes": 12775
+      },
+      "after": {
+        "sha256": "71bd89080c31df266902b2222c4a55233252ff4929fffdeba237874e6a3b6a49",
+        "bytes": 12767
+      }
+    },
+    "docs/week9_completion.md": {
+      "before": {
+        "sha256": "2976662e3066a85cea2c8804741b53d3a41526f5bf7b81214281a0416c9de56a",
+        "bytes": 9794
+      },
+      "after": {
+        "sha256": "a4e1143c55521d2838848273da89fb36cc93c4a10b2e947226cf7aec20ea5d21",
+        "bytes": 9788
+      }
+    },
+    "docs/week9_figure_plan.md": {
+      "before": {
+        "sha256": "318bc627daaef54dae70b6a2d61ab777bc6ecf0d0d921e1f8638f8fcb7551aa9",
+        "bytes": 6538
+      },
+      "after": {
+        "sha256": "9a2beefad01ec8116e48d427729d96c941960a98b894a4d7f1424cbb83a34dee",
+        "bytes": 6533
+      }
+    },
+    "docs/week9_reproduction.md": {
+      "before": {
+        "sha256": "a53f46028cb3653e7c248e9d68432b1a3336bb1f04cf9647c2388cb3aee3a43c",
+        "bytes": 7348
+      },
+      "after": {
+        "sha256": "63d4d0018c2b219b1d3087429699316627ddfdfbdb685fd08812b849928fc833",
+        "bytes": 8047
+      }
+    },
+    "manuscript/README.md": {
+      "before": {
+        "sha256": "3f467cb87ff1f6e8269755a09bdb653e680fa8bd1ec257a0b9fd40e2ff334e50",
+        "bytes": 3256
+      },
+      "after": {
+        "sha256": "21e3fd4bde0c2e650b80fc3083a330164fef1780b7eb2a644628e2f7ed1606df",
+        "bytes": 3262
+      }
+    },
+    "manuscript/week10_draft1.md": {
+      "before": {
+        "sha256": "80a22e2eb97f48c0b720691da3d429778691e6a230e5f29466984b5bed256d35",
+        "bytes": 24684
+      },
+      "after": {
+        "sha256": "9d08f580b5e37a16bf92c8e9d0bdb56a67299c47a246dee567cc65ccc8af0be6",
+        "bytes": 24683
+      }
+    },
+    "manuscript/week10_source_map.md": {
+      "before": {
+        "sha256": "41c132eb2eb1a65bcb486835707f0de532bcbc873c75a49b362db54185995083",
+        "bytes": 4235
+      },
+      "after": {
+        "sha256": "24ccff3efdef2c2223d7dc582abf15f04214d3ac16b0b60cb8f14268e43ec122",
+        "bytes": 4368
+      }
+    }
+  },
+  "preservation": {
+    "baseline_tracked_files": 3711,
+    "byte_identical_files": 3695,
+    "changed_existing_files": [
+      "README.md",
+      "artifacts/README.md",
+      "artifacts/week10_draft1/review.md",
+      "artifacts/week9_evidence/README.md",
+      "docs/week10_draft1_status.md",
+      "docs/week7_plots.md",
+      "docs/week8_completion.md",
+      "docs/week8_progress.md",
+      "docs/week8_reproduction.md",
+      "docs/week8_results_interpretation.md",
+      "docs/week9_completion.md",
+      "docs/week9_figure_plan.md",
+      "docs/week9_reproduction.md",
+      "manuscript/README.md",
+      "manuscript/week10_draft1.md",
+      "manuscript/week10_source_map.md"
+    ],
+    "scientific_code_tests_and_configs_unchanged": true,
+    "frozen_study_outputs_seals_and_structured_review_records_unchanged": true,
+    "original_week10_validation_unchanged": true
+  },
+  "documentation_checks": {
+    "prose_files_scanned": 74,
+    "attribution_matches": 0,
+    "local_links_checked": 292,
+    "missing_links": [],
+    "trailing_whitespace": false
+  },
+  "saved_evidence_verification": {
+    "exit_code": 0,
+    "stderr_empty": true,
+    "renderer_commit": "dad63eced437736cc32f7a481b687e226cb4bdaf",
+    "execution_scope": "Read-only verification from the existing clean frozen renderer checkout against the current unchanged publication archive.",
+    "interpreter": "CPython 3.12.10; existing recorded Week 9 renderer environment",
+    "module_arguments": [
+      "-m",
+      "ou_irregular.week9.cli",
+      "verify",
+      "--run-dir",
+      "<current-checkout>/artifacts/week9_publication",
+      "--require-completed"
+    ],
+    "summary": {
+      "claims": 24,
+      "contract": "week9_verified_saved_evidence_publication_v1",
+      "copied_pngs": 40,
+      "immutable_files": 141,
+      "manifest_sha256": "370f30e1628821d90cfa42568a60d51dc2c80eb8da71c7036f93c4979d03efbe",
+      "new_model_fits": 0,
+      "new_pngs": 11,
+      "new_simulated_sources": 0,
+      "source_files": 831,
+      "status": "completed",
+      "tables": {
+        "T1_counts.csv": 18,
+        "T1_e1.csv": 42,
+        "T1_e2.csv": 360,
+        "availability.csv": 264,
+        "calibration.csv": 792,
+        "classification_counts.csv": 5,
+        "e3_floor_contrasts.csv": 72,
+        "e4_matched.csv": 27,
+        "e4_sources.csv": 7,
+        "f1_ecdf.csv": 126000,
+        "parameter_summary.csv": 792,
+        "unresolved.csv": 6
+      },
+      "verified": true
+    }
+  },
+  "archive_compatibility": "Use the recorded renderer checkout for frozen-package verification and exact reproduction; current prose edits do not replace the archived renderer notes.",
+  "source_locators": "Three historical publication-readback links now use the verified immutable commit ddf6046b76e942b526244fe9bb67d895d6f7b987."
+}

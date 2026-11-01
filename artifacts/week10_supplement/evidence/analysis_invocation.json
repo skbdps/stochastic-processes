@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/Users/lucifer/Desktop/stochastic/.venv-week10/bin/python",
+    "-m",
+    "ou_irregular.week10.cli",
+    "analyze",
+    "--run-dir",
+    "artifacts/week10_supplement/horizon_full",
+    "--output",
+    "artifacts/week10_supplement/analysis"
+  ],
+  "cwd": "/Users/lucifer/Desktop/stochastic/research",
+  "started_utc": "2026-11-01T15:20:07.207426+00:00",
+  "exit_code": 0,
+  "finished_utc": "2026-11-01T15:21:19.361501+00:00"
+}

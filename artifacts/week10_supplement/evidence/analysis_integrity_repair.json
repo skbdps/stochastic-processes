@@ -1,0 +1,14 @@
+{
+  "utc": "2026-11-01T15:20:30.535781+00:00",
+  "reason": "Independent regression exposed overly broad seal filename exclusion; only actual root seal and two known execution locks may be excluded. Added guard regression tests. Scientific source, estimators and numerical analysis unchanged.",
+  "changes": {
+    "ou_irregular/week10/cli.py": {
+      "before": "ead619e9653fc146ef8e603154c384583003c1a02567c2062e59d6352353a446",
+      "after": "9e0e75154d0e8925fe507ff2bb84db0786198b5909c5c994903ac23f57c18457"
+    },
+    "tests/week10/test_reporting.py": {
+      "before": "ade5a667365c344eea083a571e77ce364be3acaf8c2685de626758e15c603175",
+      "after": "4d2253f8518a66b22b0e069f8b16bfffcdea41a3ef9231a054b1a8948903cd97"
+    }
+  }
+}

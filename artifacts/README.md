@@ -1,4 +1,13 @@
-# Research artifact index through Week 9
+# Research artifact index through Week 10
+
+The [Week 10 supplement](week10_supplement/README.md) contains the new
+fixed-horizon study, original-E4 span standardization, quantitative PFML mean
+mechanism, generated claims, reviewed figures and validation evidence.
+
+The later [analytical review](week10_analytical_review/README.md) preserves
+that seal and corrects its interpretation: fitted-mean moment limits,
+conditional diagnostic coverage, and paired center/width effects. Use
+[Draft 3](../manuscript/week10_draft3.md) with the archived results.
 
 This index distinguishes immutable study results, development validation,
 historical failures and later recovery/completion evidence. The governing
@@ -18,7 +27,7 @@ scientific bytes.
 | [T1 summary](week9_publication/tables/T1.md), [E2 inventory](week9_publication/tables/T1_e2.csv), [E1 inventory](week9_publication/tables/T1_e1.csv) and [unresolved rows](week9_publication/tables/unresolved.csv) | All 360 E2 and 42 E1 eligible theta/sigma classifications, kept separate by study, including all six unresolved cases. |
 | [claims.md](week9_publication/claims.md), [claims.json](week9_publication/claims.json) and [captions.md](week9_publication/captions.md) | Generated numerical and interpretive statements with source selectors, hashes, counts, uncertainty and qualifications. Unsupported theory claims are explicitly excluded. |
 | [source catalog](week9_publication/source_catalog.json) and [build record](week9_publication/build_record.json) | 831 pinned baseline files and a new renderer/runtime identity, without changing historical numerical provenance. |
-| [visual review](week9_publication/visual_review.json) and [lifecycle](week9_publication/package_state.json) | Actual AI inspection of all 11 new PNGs and 11 rendered PDF pages, transferred only after exact byte comparison, then guarded sealing against committed renderer bytes. Original figure copies retain their original reviews and manifests. |
+| [visual review](week9_publication/visual_review.json) and [lifecycle](week9_publication/package_state.json) | Recorded inspection of all 11 new PNGs and 11 rendered PDF pages, transferred only after exact byte comparison, then guarded sealing against committed renderer bytes. Original figure copies retain their original reviews and manifests. |
 | [week9_evidence/](week9_evidence/) | 92 passing Week 9 tests, clean-checkout reproduction, PDF-page/font evidence, source preservation, completed readback, and preserved development failures and historical-host probe. |
 
 See the [Week 9 completion report](../docs/week9_completion.md) and
@@ -105,16 +114,16 @@ evidence even after a working copy is reviewed and sealed.
 | [week8_e4/regular_comparisons.csv](week8_e4/regular_comparisons.csv) and [paired_comparisons.csv](week8_e4/paired_comparisons.csv) | 54 independent regular-reference contrasts and 63 paired within-source estimator contrasts, with their distinct uncertainty rules. |
 | [week8_e4/source_summary.csv](week8_e4/source_summary.csv) and [spacing_summary.csv](week8_e4/spacing_summary.csv) | Seven source/spacing rows, separating raw, transformed and stored-time diagnostics. |
 | [week8_e4/failed_fits.csv.gz](week8_e4/failed_fits.csv.gz) | Zero retained unavailable outcomes in this run, with the complete required failure schema/header. |
-| [week8_e4/figures/](week8_e4/figures/) | Original 18 PNG/PDF pairs and manifest; actual AI inspection of every original PNG is distinct from development review. |
+| [week8_e4/figures/](week8_e4/figures/) | Original 18 PNG/PDF pairs and manifest; recorded inspection of every original PNG is distinct from development review. |
 | [week8_evidence/full_run_41200456847/](week8_evidence/full_run_41200456847/) | Original command, stdout/stderr, invocation/runtime, saved full summary and source-preservation evidence, unchanged from the original artifact. |
 | [original_artifact.zip](week8_evidence/completion/original_artifact.zip) and [original metadata](week8_evidence/completion/original_run_metadata.json) | Original digest-bound 124-file artifact and pending-review root; preserve separately from the completed copy. |
 | [week8_evidence/completion/](week8_evidence/completion/) | Original recovery/hash records, actual review components and new numerical, sealing, replot, preservation, regression and publication evidence. Each later record must be identified by operation and time. |
 
 New recovery numerical audit: **[passed independent full re-audit, Actions 41214670935](week8_evidence/completion/independent_reaudit.json)**. Actual
-combined review and guarded seal: **[all 18 actual AI image reviews bound to the guarded seal](week8_e4/visual_review.json)**.
+combined review and guarded seal: **[all 18 image reviews bound to the guarded seal](week8_e4/visual_review.json)**.
 External reproduction: **[all 36 external PNG/PDF files byte-identical; source archive unchanged](week8_evidence/completion/replot_verification.json)**. Final clean-checkout
 validation: **[composite gate: 2,061 identities, 2,055 passes, six design-inapplicable skips](week8_evidence/completion/regression_assembly.json)**. Expected-head publication and
-remote-main readback: **[guarded main publication and remote readback](https://github.com/skbdps/stochastic-processes/blob/codex/week8-release-readback-20261031/artifacts/week8_evidence/completion/remote_main_readback.json)**.
+remote-main readback: **[guarded main publication and remote readback](https://github.com/skbdps/stochastic-processes/blob/ddf6046b76e942b526244fe9bb67d895d6f7b987/artifacts/week8_evidence/completion/remote_main_readback.json)**.
 
 The [Week 8 progress/exit matrix](../docs/week8_progress.md),
 [completion report](../docs/week8_completion.md),

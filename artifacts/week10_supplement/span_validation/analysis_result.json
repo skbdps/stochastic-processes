@@ -1,0 +1,42 @@
+{
+  "checked_utc": "2026-11-01T15:13:17.842850+00:00",
+  "elapsed_seconds": 9.311377833830193,
+  "source_paths": 14000,
+  "fit_records": 42000,
+  "source_files": 69,
+  "original_arithmetic_checks": 216,
+  "outputs": {
+    "span_strata.csv": {
+      "sha256": "4d95ac24168acf96e13c91b2f17e7f42e0d0e0ca532142d1d61adc28cb66f7c9",
+      "rows": 432,
+      "bytes": 182830
+    },
+    "span_stratum_contrasts.csv": {
+      "sha256": "a4d4c4db432c4c1fee16bd7b5259b75a355f67d1daf94f2eb33305f61bf50916",
+      "rows": 216,
+      "bytes": 221420
+    },
+    "span_standardized.csv": {
+      "sha256": "36967c188878b49c174de22be1362ca855abbc74b8db683c24eac8198cfd13e9",
+      "rows": 27,
+      "bytes": 22933
+    },
+    "span_support.csv": {
+      "sha256": "d9bfd251cab4ac802bdbdd7e765651bfd9ff4e7eb5c43b4d836d3082860cdcb3",
+      "rows": 24,
+      "bytes": 999
+    },
+    "span_unadjusted.csv": {
+      "sha256": "9bb8476d4ee570b7f4d3fb3aa9a2eba98f3fd36c5b9ae745ec49726761dfdabe",
+      "rows": 27,
+      "bytes": 37135
+    },
+    "span_fit_records.csv.gz": {
+      "sha256": "e026fca17f12a0c4f5eb80d05b12ec3e20223689de9f92b5f38b22e08872fcef",
+      "rows": 42000,
+      "bytes": 6628868
+    }
+  },
+  "new_simulated_sources": 0,
+  "new_fits": 0
+}

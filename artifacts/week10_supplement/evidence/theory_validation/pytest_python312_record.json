@@ -1,0 +1,18 @@
+{
+  "command": [
+    "/Users/lucifer/Desktop/stochastic/.venv-week10/bin/python",
+    "-m",
+    "pytest",
+    "tests/week10/test_theory.py",
+    "-q"
+  ],
+  "recorded_at": "2026-11-01T15:13:01.259482+00:00",
+  "exit_code": 0,
+  "python": "3.12.10 (main, Apr  8 2025, 11:35:47) [Clang 16.0.0 (clang-1600.0.26.6)]",
+  "threads": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": null,
+    "VECLIB_MAXIMUM_THREADS": null
+  }
+}

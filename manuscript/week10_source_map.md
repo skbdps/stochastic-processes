@@ -1,10 +1,12 @@
-# Sources for Week 10 Draft 1
+# Sources for Week 10 manuscript drafts
 
-This map supports the methods manuscript at the completed research baseline
-`4bddb527f3c8bb88bc1ebec28c8818e03dc251aa`. Repository links below point to
-unchanged source files in this release; the recorded hashes in
+The original map supports the methods manuscript at the completed research baseline
+`4bddb527f3c8bb88bc1ebec28c8818e03dc251aa`. Repository links below identify the
+supporting sources. The recorded hashes in
 [validation.json](../artifacts/week10_draft1/validation.json) bind the exact
-bytes checked for Draft 1. The dated preregistration and exploratory protocols
+bytes checked for the first published Draft 1. The
+[editorial revision record](../artifacts/week10_draft1/editorial_revision.json)
+records subsequent wording edits separately. The dated preregistration and exploratory protocols
 govern their respective experiments. Older aspirational master-plan wording
 does not replace those adopted definitions.
 
@@ -21,6 +23,32 @@ does not replace those adopted definitions.
 | 3.4 Metrics and Monte Carlo uncertainty | [E1 mathematics](../docs/week5_mathematics.md), [summary calculations](../ou_irregular/experiments/summaries.py), [contrasts](../ou_irregular/experiments/comparisons.py). Different-cell comparisons are independent; within-path methods and floor variants use their declared pairing. |
 | 3.5 Practical classifications | [Preregistration](../preregistration.md), [adopted interpretation amendment](../docs/plan_amendment_week3_validation.md), [Week 9 protocol](../docs/week9_protocol.md). |
 | 3.6 Audit, bootstrap and reproduction scope | [Week 4 progress](../docs/week4_progress.md), [Week 8 completion](../docs/week8_completion.md), [Week 9 completion](../docs/week9_completion.md), [Week 9 reproduction](../docs/week9_reproduction.md). These reports preserve original failures and the limits of their actual checks. |
+
+## Draft 2 supplement sources
+
+[Draft 2](week10_draft2.md) adds the separately specified
+[Week 10 supplement](../docs/week10_supplement_protocol.md). The original
+Draft 1 validation is not a review of this substantive revision.
+
+| Draft 2 passage | Source and scope |
+| --- | --- |
+| 2.5 PFML mean mechanism | [Historical derivation snapshot](../artifacts/week10_supplement/evidence/documentation_snapshot/docs/week10_mechanism.md), [theory implementation](../ou_irregular/week10/theory.py), independent covariance tests and [result review](../artifacts/week10_supplement/evidence/results_theory_review.json). See Draft 3's corrections below before using the interpretation. |
+| 3.7 Span and fixed-horizon methods | [Supplement protocol](../docs/week10_supplement_protocol.md), [span method](../docs/week10_span_method.md), source/analysis freezes and [reproduction](../docs/week10_reproduction.md). The questions are post-result exploratory. |
+| Focused Section 4 | [Generated narrative](../artifacts/week10_supplement/interpretation/results.md) and [exact claim bindings](../artifacts/week10_supplement/interpretation/claims.json), rederived from complete saved records. |
+
+## Draft 3 analytical corrections
+
+[Draft 3](week10_draft3.md) retains the original results and corrects their
+interpretation. The old seal is evidence of the preserved study, not a review
+of this later prose. The additive [critical review](../docs/week10_analytical_review.md)
+records why the revisions were needed.
+
+| Revised passage | Source and scope |
+| --- | --- |
+| 2.5 fitted-mean moments and working Hessian | [Boundary proof](../docs/week10_pfml_boundary_moments.md), [deterministic tests](../tests/week10/test_boundary_argument.py) and [revised mechanism](../docs/week10_mechanism.md). Ideal real-arithmetic moments are distinguished from finite-precision summaries. |
+| 4.1 and 4.5 coverage-led interpretation | Original saved contrasts, with the population-RMSE limitation stated explicitly; no estimator, observation or interval is changed. |
+| 4.3 SD comparisons and prediction uncertainty | [Fixed-N comparisons](../artifacts/week10_analytical_review/calibration/original_sd_comparisons.csv), [fixed-T comparisons](../artifacts/week10_analytical_review/calibration/matched_prediction_comparisons.csv); schedule predictions share the experiment's schedules. |
+| 4.3 conditional mixture and center/width decomposition | [Cell calibration](../artifacts/week10_analytical_review/calibration/cell_calibration.csv), [paired differences](../artifacts/week10_analytical_review/calibration/paired_coverage.csv), [input/source bindings](../artifacts/week10_analytical_review/calibration/manifest.json) and [saved-data review implementation](../ou_irregular/week10/analytical_review.py). No experiment was rerun. |
 
 ## Boundary between methods and later results
 

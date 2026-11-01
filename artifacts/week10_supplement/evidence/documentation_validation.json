@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "checked_utc": "2026-11-01T15:30:50.852967+00:00",
+  "local_links_checked": 218,
+  "expected_finalization_targets": [
+    "artifacts/week10_supplement/evidence/final_validation.json",
+    "artifacts/week10_supplement/completion_seal.json"
+  ],
+  "scope": "All current Week10 navigation, manuscript, method, result and reproduction prose. Finalization targets will be checked again after sealing.",
+  "files": {
+    "README.md": "4bf6ff50c24abb1544b7d55a056d5910560548710014f8e9549de91f045149d7",
+    "artifacts/README.md": "aa08284275677e486095b1b1db85641c4c356bbdf087c10b4992cd8d7a904672",
+    "manuscript/README.md": "80f5fb249e62e7eb4c84ce53c76b43574bb8439b2d1d1326fd57662e5fa13cc9",
+    "manuscript/week10_source_map.md": "6bca508bcfcd1aa5dae24491f801b5db043fa9a8fad9be8bac372414c6cde16f",
+    "manuscript/week10_draft2.md": "b242d309f713a27ba1ca02585e6cc69f2c416d089bb772aea8d5a0987257f845",
+    "docs/week10_draft1_status.md": "d49ef8e24773ddd84f34c7f1602e1a039a1f7f556d6b177e9764f38b6495e715",
+    "docs/week10_mechanism.md": "57032775f5e5028f40a05be39b57c5099a51e7cc1f5031cdf3ecb3a1de6453e0",
+    "docs/week10_reproduction.md": "b70832a891db7b170c00d4c478ba519cf1729bb8067f30fecda289cc5534e9c5",
+    "docs/week10_span_method.md": "276c52dce4cebfdf9091cbe1896f2ef93b2bc20dbfdaf1e1cf8147e8a13bda39",
+    "docs/week10_supplement_completion.md": "d3af7f72a7d167cde41531899ff312fdfea9861e8ec958dfc235cdcb6420a8f6",
+    "docs/week10_supplement_protocol.md": "3db0d9d47fdb92cca48280d8c2eec8752e9cde459d36c63ebd381d1a561f71a0",
+    "artifacts/week10_supplement/README.md": "d6450ed1ecca3df10eaa1c9694cb5a7aa5fcec0da53038a530df1e7450d1e917",
+    "artifacts/week10_supplement/interpretation/results.md": "799f940e3108747be253e62ea319fbd281f6edb8a2cf068fd4a1a8a04c190c7c"
+  }
+}

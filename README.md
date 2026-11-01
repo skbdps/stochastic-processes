@@ -7,21 +7,37 @@ $$
 dX_t = \theta(\mu-X_t)\,dt + \sigma\,dW_t.
 $$
 
-**Current stage: Week 10 first methods manuscript draft; Week 9 publication evidence remains complete and sealed.**
+**Current stage: Week 10 supplement and critically revised Draft 3; original E4 and Week 9 evidence remain preserved.**
 
-Read [Week 10 Draft 1](manuscript/week10_draft1.md) for the introduction, model,
-estimators, mathematical benchmarks and experimental methods. The
+Read [Week 10 Draft 3](manuscript/week10_draft3.md) for the methods, quantitative
+PFML mean mechanism, span controls and focused supplementary results. The
 [author review guide](manuscript/README.md),
 [source map](manuscript/week10_source_map.md) and
 [draft status](docs/week10_draft1_status.md) identify its scope and checks.
-This is an initial methods draft; author review, the full Results/Discussion
+This is a working draft; author review, the integrated Results/Discussion
 manuscript, academic review and submission remain subsequent work.
+
+The [Week 10 supplement](docs/week10_supplement_completion.md) adds a separate
+fixed-horizon study with 14,000 paths and 42,000 fits, all valid, plus
+standardization of the saved original E4 records. At T=499.5, PFML mean
+coverage differences are -1.85 pp [pointwise 95% MC interval -3.369, -0.331]
+at r=5 and -4.00 pp [-5.638, -2.362] at r=20. Empirical RMSE ratios are
+1.056 and 1.156. A specialized OU covariance calculation explains the spread
+of a fixed-coefficient diagnostic and approximates the fitted central spread.
+The [critical analytical review](docs/week10_analytical_review.md) identifies
+a fitted-mean boundary pole, which prevents transferring finite moments or
+ordinary population-RMSE inference to the ideal fitted ratio. It also separates
+conditional diagnostic coverage from fitted Hessian-width effects. Read the
+[preserved original results](artifacts/week10_supplement/interpretation/results.md),
+[full derivation](docs/week10_mechanism.md) and
+[reproduction instructions](docs/week10_reproduction.md). The extension is
+post-result exploratory and retains its random-N and endpoint limitations.
 
 Week 9 assembles the completed studies into a verified publication package:
 360 E2 and 42 E1 practical-classification rows, all six unresolved cases,
 24 source-bound claim records, 11 new PNG/PDF layouts and 40 unchanged source
 figure pairs. All 92 Week 9 tests pass. A clean checkout reproduced all 141
-immutable package files byte-for-byte; actual AI PNG/PDF inspection is bound
+immutable package files byte-for-byte; recorded PNG/PDF inspection is bound
 to the final seal. The renderer is frozen at
 `dad63eced437736cc32f7a481b687e226cb4bdaf`.
 
@@ -46,8 +62,8 @@ E4 experiment has been recovered from Actions run
 executed at scientific freeze `0ff57919f5d8345f52d8689732ff94448ca3ca1d`.
 Its seven cells contain 14,000 independent source paths and 42,000 fits, with
 all points and intervals available and zero pipeline errors. All 18 new PNGs
-were individually inspected by Codex AI reviewers; the record explicitly
-distinguishes this from human review. Guarded sealing, external reproduction,
+were individually inspected, as documented in the archived review records.
+Guarded sealing, external reproduction,
 final validation and publication evidence are recorded in the
 [Week 8 completion report](docs/week8_completion.md).
 
@@ -449,7 +465,7 @@ on spacing. All table values regenerate from `results/cell4_teaser_naive_vs_exac
 
 Weeks 5–8 release disposition: **research and reproducibility requirements complete through Week 8; no Weeks 9–12 or manuscript claim**.
 The complete fixed E4 execution is preserved rather than restarted. Its
-completion report binds recovery, numerical audit, actual AI figure review,
+completion report binds recovery, numerical audit, recorded figure review,
 guarded seal, external reproduction and final release checks. Earlier study
 bytes and failures remain retained. The current task ends at publication of
 this verified work; professor correspondence, paper submission and Weeks

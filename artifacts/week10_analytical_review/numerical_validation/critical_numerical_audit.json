@@ -1,0 +1,98 @@
+{
+  "status": "passed",
+  "scope": "adopted q=.5 grid; separate unsupported near-unit stress example",
+  "arithmetic_precision_decimal_digits": 70,
+  "finite_count_checks": [
+    {
+      "ratio": 1,
+      "n": 2,
+      "decimal_variance": "0.6249999999999999999999999999999999999999999999999999999999999999999998",
+      "implemented_variance": 0.6249999999999999,
+      "relative_error": -1.7763568394002506e-16
+    },
+    {
+      "ratio": 1,
+      "n": 7,
+      "decimal_variance": "0.1041666666666666666666666666666666666666666666666666666666666666666666",
+      "implemented_variance": 0.10416666666666662,
+      "relative_error": -4.884981308350689e-16
+    },
+    {
+      "ratio": 1,
+      "n": 1000,
+      "decimal_variance": "0.0006256256256256256256256256256256256256256256256256256256256256256256249",
+      "implemented_variance": 0.0006256256256256255,
+      "relative_error": -1.8197249262996707e-16
+    },
+    {
+      "ratio": 5,
+      "n": 2,
+      "decimal_variance": "0.6939655172413793103448275862068965517241379310344827586206896551724135",
+      "implemented_variance": 0.6939655172413792,
+      "relative_error": -1.2136599523852644e-16
+    },
+    {
+      "ratio": 5,
+      "n": 7,
+      "decimal_variance": "0.1152836522296483074830624175386980068711853749912102390607570482876998",
+      "implemented_variance": 0.11528365222964829,
+      "relative_error": -1.79005997835701e-16
+    },
+    {
+      "ratio": 5,
+      "n": 1000,
+      "decimal_variance": "0.0008066488642973678436121746365294420970895196715439182530638920549531628",
+      "implemented_variance": 0.0008066488642973677,
+      "relative_error": -1.73646007668344e-16
+    },
+    {
+      "ratio": 20,
+      "n": 2,
+      "decimal_variance": "0.9456039076331990292781043266099440244753470239973595876397595974928519",
+      "implemented_variance": 0.9456039076331995,
+      "relative_error": 4.540351708226019e-16
+    },
+    {
+      "ratio": 20,
+      "n": 7,
+      "decimal_variance": "0.1518522451248915812491474797852263172195553218399562512670810105197186",
+      "implemented_variance": 0.15185224512489162,
+      "relative_error": 2.659247988546317e-16
+    },
+    {
+      "ratio": 20,
+      "n": 1000,
+      "decimal_variance": "0.001278960619185744119737215869698429161588474889509906814874076368437312",
+      "implemented_variance": 0.001278960619185744,
+      "relative_error": -1.6958667765162998e-16
+    }
+  ],
+  "max_relative_error": 4.884981308350689e-16,
+  "kernel_spectral_radius": [
+    {
+      "ratio": 1,
+      "spectral_radius": 0.6666666666666666
+    },
+    {
+      "ratio": 5,
+      "spectral_radius": 0.7728042933157763
+    },
+    {
+      "ratio": 20,
+      "spectral_radius": 0.8406554928440754
+    }
+  ],
+  "off_grid_roundoff_example": {
+    "q": 1e-12,
+    "n": 2,
+    "mechanism": "iid",
+    "ratio": 1,
+    "relative_variance_error_vs_exact_identity": -0.00010004639575555974
+  },
+  "current_theory_sha256": "efb5d19243ab8a3508f78126a124414c2c3074b95c56f46a2a4e312ca1a4454a",
+  "sealed_package": {
+    "status": "passed",
+    "sealed_files": 250,
+    "seal_sha256": "c595df1d521767a7191510c6e2decb9111a886b1ca6d5e6d7de7a3aa51cc2c30"
+  }
+}

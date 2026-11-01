@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/Users/lucifer/Desktop/stochastic/.venv-week10/bin/python",
+    "-m",
+    "pytest",
+    "tests/week10",
+    "-q",
+    "--junitxml=/Users/lucifer/Desktop/stochastic/research/artifacts/week10_supplement/evidence/final_tests.xml"
+  ],
+  "cwd": "/Users/lucifer/Desktop/stochastic/research",
+  "started_utc": "2026-11-01T15:29:06.229506+00:00",
+  "exit_code": 0,
+  "finished_utc": "2026-11-01T15:29:14.234066+00:00"
+}

@@ -1,5 +1,11 @@
 # Week 10 first manuscript draft
 
+Historical baseline status. The later [Draft 2](../manuscript/week10_draft2.md)
+and [explanatory supplement](week10_supplement_completion.md) add span controls
+and a quantitative mean-covariance mechanism, with separate evidence. The
+original validation and wording-revision records below identify their original
+versions and do not certify this later substantive revision.
+
 Dated 1 November 2026. The [first manuscript draft](../manuscript/week10_draft1.md)
 provides a baseline for the introduction, model, estimator definitions,
 mathematical benchmarks and experimental methods. Its research baseline is
@@ -23,12 +29,17 @@ for a paper, not merely an outline or implementation plan.
 
 ## Validation and review
 
-The [validation record](../artifacts/week10_draft1/validation.json) binds the
-draft and supporting documents, checked source files and preservation result.
-The [AI review record](../artifacts/week10_draft1/review.md) identifies the actual
-technical and literature reviews, their corrected findings and final draft
-digest. These reviews do not certify personal theory mastery or substitute
-for human academic assessment.
+The [original validation record](../artifacts/week10_draft1/validation.json)
+binds the first published draft and supporting documents, checked source files
+and preservation result. The [review record](../artifacts/week10_draft1/review.md)
+summarizes the technical and literature checks, their corrected findings and
+the original reviewed draft digest. These checks do not certify personal
+theory mastery or substitute for academic assessment.
+
+The [editorial revision record](../artifacts/week10_draft1/editorial_revision.json)
+binds the current wording changes separately. Original validation hashes and
+review timestamps continue to identify the earlier release, rather than
+claiming a new substantive review of the revised document.
 
 The existing saved-data verifier was run with `--require-completed` against
 `artifacts/week9_publication`. Its [actual output](../artifacts/week10_draft1/week9_verify.json)

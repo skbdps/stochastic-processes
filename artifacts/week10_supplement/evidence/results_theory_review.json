@@ -1,0 +1,307 @@
+{
+  "reviewed_utc": "2026-11-01T15:24:20.865329+00:00",
+  "status": "passed",
+  "review_scope": "Independent arithmetic from all raw fit records and all saved per-path diagnostics; independent quadrature/eigendecomposition population predictions; selected dense-covariance/source reconstruction. No new fitted experiments.",
+  "inputs": {
+    "artifacts/week10_supplement/analysis/failed_fits.csv.gz": "3c5ab59f4e2a2c673b3368c6694fce0df7fed00b4c746b79f1351eff3d237c39",
+    "artifacts/week10_supplement/analysis/horizon_mechanism.csv": "66afa316456aec146f5fbaeb9276ed9862c87c449c663f0cf6f15252d67edb2a",
+    "artifacts/week10_supplement/analysis/matched_iid_comparisons.csv": "1c992f60e94fb442c41d2409320ed0122d2b3e0246777ab528045ace15c22eff",
+    "artifacts/week10_supplement/analysis/original_e4_mechanism.csv": "12530e8bca4ecb5fb6ccf2d230f14733cf376e5c343e141003295bb38cbfb1e5",
+    "artifacts/week10_supplement/analysis/parameter_summary.csv": "1f8e55c46984c0479fd152af0dd7731d915420419af4f46e9bd4572c2a5d5423",
+    "artifacts/week10_supplement/analysis/schedule_predictions.csv.gz": "e73512685f2d290f63fb15e2b85b661505c575289ff890acefec833d7eefdafe",
+    "artifacts/week10_supplement/analysis/source_summary.csv": "f39537b9cf9e4e36b73564f2afa05558a52482a72160f34784ea5f15fc49d6f5",
+    "artifacts/week10_supplement/analysis/table_manifest.json": "4d31f9ed257be444a1cff17bfe923ad73ad29b26bde5e4604d02c1b6f4e9ddde"
+  },
+  "raw_accounting": {
+    "partitions": 56,
+    "paths": 14000,
+    "fits": 42000,
+    "summary_rows": 63,
+    "matched_contrasts": 27,
+    "all_points_and_intervals_valid": true,
+    "pipeline_errors": 0,
+    "all_spans": 499.5
+  },
+  "numerical_checks_passed": 1092,
+  "independent_population_predictions": [
+    {
+      "mechanism": "mmpp",
+      "ratio": 1.0,
+      "independent_phi": 0.6666666666666669,
+      "independent_variance": 0.000625625625625626
+    },
+    {
+      "mechanism": "mmpp",
+      "ratio": 5.0,
+      "independent_phi": 0.6947368421052655,
+      "independent_variance": 0.0008066488642973822
+    },
+    {
+      "mechanism": "mmpp",
+      "ratio": 20.0,
+      "independent_phi": 0.7664869348808241,
+      "independent_variance": 0.0012789606191857881
+    },
+    {
+      "mechanism": "iid",
+      "ratio": 1.0,
+      "independent_phi": 0.6666666666666669,
+      "independent_variance": 0.000625625625625626
+    },
+    {
+      "mechanism": "iid",
+      "ratio": 5.0,
+      "independent_phi": 0.6947368421052655,
+      "independent_variance": 0.0006946601774188059
+    },
+    {
+      "mechanism": "iid",
+      "ratio": 20.0,
+      "independent_phi": 0.7664869348808241,
+      "independent_variance": 0.0009465504580913099
+    },
+    {
+      "mechanism": "regular",
+      "ratio": 0.0,
+      "independent_phi": 0.6065306597126334,
+      "independent_variance": 0.0005108844050392379
+    }
+  ],
+  "selected_dense_conditional_checks": [
+    {
+      "cell_id": "d4d6320961f319b14973912b1c80e4cc7569b953dcd5f9b3c384906132a53394",
+      "rep": 0,
+      "n": 977,
+      "dense_variance": 0.0006317866727187954,
+      "fixed_rho_mean": 0.003747226828379545
+    },
+    {
+      "cell_id": "d4d6320961f319b14973912b1c80e4cc7569b953dcd5f9b3c384906132a53394",
+      "rep": 1999,
+      "n": 1004,
+      "dense_variance": 0.0006127215450214486,
+      "fixed_rho_mean": -0.018700111331309225
+    },
+    {
+      "cell_id": "a4364a80f11c29480ce06f41dc213b6a0a11dde06ef07e69d939ca3b2da1a545",
+      "rep": 0,
+      "n": 1045,
+      "dense_variance": 0.0007994173499605232,
+      "fixed_rho_mean": -0.01685670160839549
+    },
+    {
+      "cell_id": "a4364a80f11c29480ce06f41dc213b6a0a11dde06ef07e69d939ca3b2da1a545",
+      "rep": 1999,
+      "n": 922,
+      "dense_variance": 0.0008171165937480184,
+      "fixed_rho_mean": 0.035199297798829916
+    },
+    {
+      "cell_id": "02179b392194a7d7f70a40cfef8eb42a2ce7093cd96b410f6972f36f04b91177",
+      "rep": 0,
+      "n": 993,
+      "dense_variance": 0.0012700472827145814,
+      "fixed_rho_mean": -0.06475207120643325
+    },
+    {
+      "cell_id": "02179b392194a7d7f70a40cfef8eb42a2ce7093cd96b410f6972f36f04b91177",
+      "rep": 1999,
+      "n": 915,
+      "dense_variance": 0.0013082954654380708,
+      "fixed_rho_mean": 0.029795064294992235
+    },
+    {
+      "cell_id": "b5c807f8b9297ba7540cbaa57d5adcffa5caae08d1a7cb366061dd803b1cb5d2",
+      "rep": 0,
+      "n": 1005,
+      "dense_variance": 0.0006167556396349803,
+      "fixed_rho_mean": -0.01589320910265842
+    },
+    {
+      "cell_id": "b5c807f8b9297ba7540cbaa57d5adcffa5caae08d1a7cb366061dd803b1cb5d2",
+      "rep": 1999,
+      "n": 986,
+      "dense_variance": 0.0006289572018740099,
+      "fixed_rho_mean": -0.007870022423737608
+    },
+    {
+      "cell_id": "2613f536bc0315ab878b467f8b5db97157ef6a8de8bba65023d7bd7dd5fea046",
+      "rep": 0,
+      "n": 940,
+      "dense_variance": 0.0006977218603675119,
+      "fixed_rho_mean": -0.0027278390446446115
+    },
+    {
+      "cell_id": "2613f536bc0315ab878b467f8b5db97157ef6a8de8bba65023d7bd7dd5fea046",
+      "rep": 1999,
+      "n": 1000,
+      "dense_variance": 0.0006734145560388797,
+      "fixed_rho_mean": -0.0577967721759009
+    },
+    {
+      "cell_id": "d9dc574a42a04d3cd441da8ebd6e52e0ad03adf163a51507e4056c54754baf43",
+      "rep": 0,
+      "n": 979,
+      "dense_variance": 0.0009622225468064187,
+      "fixed_rho_mean": -0.02575697718639526
+    },
+    {
+      "cell_id": "d9dc574a42a04d3cd441da8ebd6e52e0ad03adf163a51507e4056c54754baf43",
+      "rep": 1999,
+      "n": 987,
+      "dense_variance": 0.0009305392741636468,
+      "fixed_rho_mean": -0.06434665476139691
+    },
+    {
+      "cell_id": "977f4867784711269dd6965402c2bba474fca97e0bedeaa9bdb1498c2d36f95c",
+      "rep": 0,
+      "n": 1000,
+      "dense_variance": 0.0005108844050392379,
+      "fixed_rho_mean": -0.01253293464982378
+    },
+    {
+      "cell_id": "977f4867784711269dd6965402c2bba474fca97e0bedeaa9bdb1498c2d36f95c",
+      "rep": 1999,
+      "n": 1000,
+      "dense_variance": 0.0005108844050392379,
+      "fixed_rho_mean": 0.03238657928841166
+    }
+  ],
+  "pfml_mu_headlines": [
+    {
+      "ratio": 1,
+      "mmpp_rmse": 0.02508772179155246,
+      "iid_rmse": 0.024634342090569267,
+      "rmse_ratio": 1.018404376269369,
+      "rmse_ratio_mc95": [
+        0.9735978215568016,
+        1.06527300148041
+      ],
+      "coverage_difference_pp": -0.7499999999999951,
+      "coverage_difference_pp_mc95": [
+        -2.07142677425243,
+        0.57142677425244
+      ],
+      "mmpp_coverage": 0.9485,
+      "iid_coverage": 0.956,
+      "conditional_theory_sd_ratio": 0.9998905188281305,
+      "theory_ratio_inside_empirical_rmse_ratio_mc95": true,
+      "mmpp_working_coverage_approximation": 0.9500157280649255,
+      "bias_difference_mc95": [
+        -0.0006840121444761647,
+        0.0023981062499122867
+      ]
+    },
+    {
+      "ratio": 5,
+      "mmpp_rmse": 0.02816181030783241,
+      "iid_rmse": 0.026669403577277068,
+      "rmse_ratio": 1.0559595090392988,
+      "rmse_ratio_mc95": [
+        1.0100837440123531,
+        1.1039188496403325
+      ],
+      "coverage_difference_pp": -1.849999999999996,
+      "coverage_difference_pp_mc95": [
+        -3.368641703319941,
+        -0.3313582966800512
+      ],
+      "mmpp_coverage": 0.9265,
+      "iid_coverage": 0.945,
+      "conditional_theory_sd_ratio": 1.0757417035117076,
+      "theory_ratio_inside_empirical_rmse_ratio_mc95": true,
+      "mmpp_working_coverage_approximation": 0.9310838798913105,
+      "bias_difference_mc95": [
+        -0.0018305241884694983,
+        0.001569908647247506
+      ]
+    },
+    {
+      "ratio": 20,
+      "mmpp_rmse": 0.035783756304763,
+      "iid_rmse": 0.030944677030495294,
+      "rmse_ratio": 1.1563784061956406,
+      "rmse_ratio_mc95": [
+        1.1063171864185137,
+        1.2087049127787033
+      ],
+      "coverage_difference_pp": -3.9999999999999925,
+      "coverage_difference_pp_mc95": [
+        -5.637760729460028,
+        -2.3622392705399573
+      ],
+      "mmpp_coverage": 0.904,
+      "iid_coverage": 0.944,
+      "conditional_theory_sd_ratio": 1.1602233695922626,
+      "theory_ratio_inside_empirical_rmse_ratio_mc95": true,
+      "mmpp_working_coverage_approximation": 0.9089081293782114,
+      "bias_difference_mc95": [
+        -0.001724644864817103,
+        0.0024217546179790233
+      ]
+    }
+  ],
+  "mechanism_agreement": [
+    {
+      "mechanism": "mmpp",
+      "ratio": 20,
+      "fixed_rho_variance_discrepancy_z": 0.18022265654181327,
+      "fitted_minus_fixed_rms_fraction_of_fitted_rmse": 0.0076939923222464545
+    },
+    {
+      "mechanism": "iid",
+      "ratio": 5,
+      "fixed_rho_variance_discrepancy_z": 0.7434044143928235,
+      "fitted_minus_fixed_rms_fraction_of_fitted_rmse": 0.004885377394726553
+    },
+    {
+      "mechanism": "regular",
+      "ratio": 0,
+      "fixed_rho_variance_discrepancy_z": -0.2631779454669716,
+      "fitted_minus_fixed_rms_fraction_of_fitted_rmse": 0.0036743100372477284
+    },
+    {
+      "mechanism": "mmpp",
+      "ratio": 5,
+      "fixed_rho_variance_discrepancy_z": -0.4050827337139144,
+      "fitted_minus_fixed_rms_fraction_of_fitted_rmse": 0.005995549618262595
+    },
+    {
+      "mechanism": "iid",
+      "ratio": 1,
+      "fixed_rho_variance_discrepancy_z": -0.9443746555628443,
+      "fitted_minus_fixed_rms_fraction_of_fitted_rmse": 0.0050263021070935925
+    },
+    {
+      "mechanism": "mmpp",
+      "ratio": 1,
+      "fixed_rho_variance_discrepancy_z": 0.20607402630333962,
+      "fitted_minus_fixed_rms_fraction_of_fitted_rmse": 0.004755410126160664
+    },
+    {
+      "mechanism": "iid",
+      "ratio": 20,
+      "fixed_rho_variance_discrepancy_z": 0.43748775296302717,
+      "fitted_minus_fixed_rms_fraction_of_fitted_rmse": 0.006981986114142774
+    }
+  ],
+  "exact_context": {
+    "coverage_range": [
+      0.938,
+      0.962
+    ],
+    "all_nine_matched_coverage_mc95_contain_zero": true,
+    "all_nine_matched_rmse_ratio_mc95_contain_one": true,
+    "not_a_claim_of_exact_coverage_or_equivalence": true
+  },
+  "interpretation": {
+    "supported": "PFML mean precision loss and undercoverage persist in the specified common-span random-count experiment at both clustered settings. The model-based covariance mechanism quantitatively predicts the magnitude.",
+    "r1": "The identical-law r=1 PFML mean comparison has intervals containing zero coverage difference and unit RMSE ratio; finite Monte Carlo differences are expected.",
+    "bias": "No PFML mean bias contrast at r=1,5,20 excludes zero using its pointwise MC interval.",
+    "limitation": "Fixed count and fixed horizon differ in random count, stopping and endpoint handling. Cross-design differences cannot be assigned to a causal fraction explained by span. Approximate coverage uses fixed parent-law rho and population working widths; it does not validate fitted robust inference.",
+    "conclusion": "Within the tested OU design, clustering increases PFML mean uncertainty through correlations beyond one event lag; the effect remains when every observed span is 499.5. The r=20 fixed-horizon RMSE increase is 15.6%, with a 4.0 percentage-point coverage loss, while the covariance diagnostic predicts about 16.0% greater SD. Results are exploratory and pointwise.",
+    "cross_design_point_estimate_caution": "The smaller observed r=5 RMSE ratio in the fixed-horizon study is not an established attenuation due to span. The fixed-count theoretical ratio is 1.077596 and the fixed-horizon conditional-diagnostic ratio is 1.075742; both are compatible with the two studies Monte Carlo uncertainty. No causal fraction is estimated.",
+    "source_count_context": "All spans equal 499.5 exactly; counts vary. At r=20, mean N is 1005.4985 for MMPP and 1002.335 for IID; count SDs are 102.1728 and 64.9557 respectively. The design therefore controls span, not count or the stopped sequence empirical gap marginal."
+  },
+  "discrepancies": []
+}

@@ -84,7 +84,7 @@ original data and new rendering provenance separately.
 
 Review every new layout for correct series, uncertainty, scales, labels,
 denominators, complete intended display and caption agreement with source data.
-Record actual reviewer/time and file hashes, and identify AI review accurately.
+Record actual reviewer/time, inspection method and scope, and file hashes.
 Freeze only after independent table checks, deterministic external reproduction
 and the actual visual review pass. This figure specification is not itself a
 visual-review record.

@@ -30,3 +30,6 @@ artifacts/**/.execution.lock
 !artifacts/week7_selected_figures/
 !artifacts/week7_followup/
 !artifacts/week7_floor/
+!artifacts/week10_draft1/
+!artifacts/week10_supplement/
+!artifacts/week10_analytical_review/

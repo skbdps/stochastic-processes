@@ -1,0 +1,104 @@
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1: 250/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1.29099: 250/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=2.07287: 250/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1: 250/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1.29099: 500/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1: 500/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1: 500/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=2.07287: 500/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1.29099: 750/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1: 750/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1: 750/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=2.07287: 750/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1.29099: 1000/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1: 1000/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=2.07287: 1000/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1: 1000/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1: 1250/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1.29099: 1250/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=2.07287: 1250/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1: 1250/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1: 1500/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1.29099: 1500/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=2.07287: 1500/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1: 1500/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1: 1750/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1.29099: 1750/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=2.07287: 1750/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1: 1750/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1: 2000/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1.29099: 2000/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=2.07287: 2000/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1: 2000/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=0: 250/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1.29099: 250/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=2.07287: 250/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=0: 500/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1.29099: 500/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=2.07287: 500/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=0: 750/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=0: 1000/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1.29099: 750/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=2.07287: 750/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=0: 1250/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1.29099: 1000/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=2.07287: 1000/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=0: 1500/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=0: 1750/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1.29099: 1250/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=2.07287: 1250/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=0: 2000/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1.29099: 1500/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=2.07287: 1500/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1.29099: 1750/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=2.07287: 1750/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=1.29099: 2000/2000 paths saved
+week10_fixed_horizon_supplement n=1000 q=0.5 CV=2.07287: 2000/2000 paths saved
+{
+  "status": "raw_complete_pending_audit",
+  "completed_cells": {
+    "d4d6320961f319b14973912b1c80e4cc7569b953dcd5f9b3c384906132a53394": {
+      "cell_id": "d4d6320961f319b14973912b1c80e4cc7569b953dcd5f9b3c384906132a53394",
+      "paths": 2000,
+      "rows": 6000,
+      "pipeline_errors": 0
+    },
+    "a4364a80f11c29480ce06f41dc213b6a0a11dde06ef07e69d939ca3b2da1a545": {
+      "cell_id": "a4364a80f11c29480ce06f41dc213b6a0a11dde06ef07e69d939ca3b2da1a545",
+      "paths": 2000,
+      "rows": 6000,
+      "pipeline_errors": 0
+    },
+    "02179b392194a7d7f70a40cfef8eb42a2ce7093cd96b410f6972f36f04b91177": {
+      "cell_id": "02179b392194a7d7f70a40cfef8eb42a2ce7093cd96b410f6972f36f04b91177",
+      "paths": 2000,
+      "rows": 6000,
+      "pipeline_errors": 0
+    },
+    "b5c807f8b9297ba7540cbaa57d5adcffa5caae08d1a7cb366061dd803b1cb5d2": {
+      "cell_id": "b5c807f8b9297ba7540cbaa57d5adcffa5caae08d1a7cb366061dd803b1cb5d2",
+      "paths": 2000,
+      "rows": 6000,
+      "pipeline_errors": 0
+    },
+    "977f4867784711269dd6965402c2bba474fca97e0bedeaa9bdb1498c2d36f95c": {
+      "cell_id": "977f4867784711269dd6965402c2bba474fca97e0bedeaa9bdb1498c2d36f95c",
+      "paths": 2000,
+      "rows": 6000,
+      "pipeline_errors": 0
+    },
+    "2613f536bc0315ab878b467f8b5db97157ef6a8de8bba65023d7bd7dd5fea046": {
+      "cell_id": "2613f536bc0315ab878b467f8b5db97157ef6a8de8bba65023d7bd7dd5fea046",
+      "paths": 2000,
+      "rows": 6000,
+      "pipeline_errors": 0
+    },
+    "d9dc574a42a04d3cd441da8ebd6e52e0ad03adf163a51507e4056c54754baf43": {
+      "cell_id": "d9dc574a42a04d3cd441da8ebd6e52e0ad03adf163a51507e4056c54754baf43",
+      "paths": 2000,
+      "rows": 6000,
+      "pipeline_errors": 0
+    }
+  },
+  "pipeline_errors": 0
+}

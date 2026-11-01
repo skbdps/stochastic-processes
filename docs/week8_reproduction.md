@@ -106,9 +106,8 @@ The release's actual external reproduction record is
 The released archive retains its actual full-study review. The review identifies
 all 18 current PNG filenames exactly once, individual hashes, current
 figure-manifest digest, reviewer/time and factual inspection notes. The
-record explicitly describes Codex AI image inspection and does not claim
-human review. Neither a synthetic unit-test review nor the R=4 review can
-close the full-study archive.
+record identifies the inspection scope and provenance. Neither a synthetic
+unit-test review nor the R=4 review can close the full-study archive.
 
 For a fresh working copy of the original pending-review artifact, inspect its
 current images and provide an actual review before invoking the existing

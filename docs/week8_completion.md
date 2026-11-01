@@ -74,13 +74,11 @@ Saved-evidence verification and new numerical readback/re-audit:
 
 ## Actual full-study figure inspection and sealing
 
-Two Codex agents individually opened and inspected all 18 original full-study
-PNGs with `tools.view_image`, checking axes, labels, legends, complete series,
-captions, uncertainty, undefined quantities and agreement with saved tables.
-This was actual AI image inspection, explicitly **not human review**. Agent
-`/root/figure_review_a` recorded its nine-image review at
-2026-10-31T15:19:11.466414+00:00; agent `/root/figure_review_b` recorded its
-other nine-image review at 2026-10-31T15:19:55.951874+00:00. Both found all
+Two review components cover individual inspection of all 18 original full-study
+PNGs, checking axes, labels, legends, complete series, captions, uncertainty,
+undefined quantities and agreement with saved tables. The first nine-image
+review was recorded at 2026-10-31T15:19:11.466414+00:00; the other nine-image
+review was recorded at 2026-10-31T15:19:55.951874+00:00. Both found all
 panels legible and no blocking issue. Their records bind individual PNG hashes
 and the same figure-manifest SHA-256:
 `5d05f882a19e74c4d903b19aff55a575cb531468d33a3cfbb993ab0eac8e5734`.
@@ -95,7 +93,7 @@ Saved tables supply full precision. Raster legibility review does not replace
 numerical validation.
 
 Combined review and guarded completion seal:
-**[all 18 actual AI image reviews bound to the guarded seal](../artifacts/week8_e4/visual_review.json)**. Completed-state verification:
+**[all 18 image reviews bound to the guarded seal](../artifacts/week8_e4/visual_review.json)**. Completed-state verification:
 **[completed archive; original pending-review metadata retained separately](../artifacts/week8_e4/run_metadata.json)**. External figure reproduction:
 **[all 36 external PNG/PDF files byte-identical; source archive unchanged](../artifacts/week8_evidence/completion/replot_verification.json)**. The reproduction check compared all 36 PNG/PDF files and the archive's complete before/after byte map. The sibling renderer state and original execution logs remain retained.
 
@@ -133,7 +131,7 @@ Final clean-checkout regression/replay checks, complete case accounting and
 retained failures: **[composite gate: 2,061 identities, 2,055 passes, six design-inapplicable skips](../artifacts/week8_evidence/completion/regression_assembly.json)**. Prior tracked source
 and experimental-evidence preservation: **[preservation and clean-checkout release verification](../artifacts/week8_evidence/completion/release_candidate.json)**.
 Guarded scientific-branch publication and remote-main readback:
-**[guarded main publication and remote readback](https://github.com/skbdps/stochastic-processes/blob/codex/week8-release-readback-20261031/artifacts/week8_evidence/completion/remote_main_readback.json)**. Exact commands and runtime requirements
+**[guarded main publication and remote readback](https://github.com/skbdps/stochastic-processes/blob/ddf6046b76e942b526244fe9bb67d895d6f7b987/artifacts/week8_evidence/completion/remote_main_readback.json)**. Exact commands and runtime requirements
 are in [reproduction](week8_reproduction.md).
 
 Weeks 5–7 retain their previous completion and failure dispositions. E2's

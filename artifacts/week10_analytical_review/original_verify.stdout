@@ -1,0 +1,29 @@
+{
+  "seal": {
+    "status": "passed",
+    "sealed_files": 250,
+    "seal_sha256": "c595df1d521767a7191510c6e2decb9111a886b1ca6d5e6d7de7a3aa51cc2c30"
+  },
+  "tables": {
+    "status": "passed",
+    "raw_records": 42000,
+    "rederived_tables": 5,
+    "mechanism_sources_reconstructed": 0,
+    "hashed_files": 7
+  },
+  "span": {
+    "status": "passed",
+    "fit_records": 42000,
+    "source_paths": 14000,
+    "source_files": 69,
+    "rederived_exports": 6,
+    "new_simulated_sources": 0,
+    "new_fits": 0
+  },
+  "interpretation": {
+    "status": "passed",
+    "contrast_claims": 6,
+    "mechanism_claims": 4,
+    "context_rederived": true
+  }
+}

@@ -271,6 +271,6 @@ manifest is the final rendering product, after all expected PNG/PDF pairs
 are present and rechecked.
 
 The module writes `visual_review_performed=False`. Root lifecycle bytes,
-audits and raw records remain untouched. An actual human/agent visual review
+audits and raw records remain untouched. An actual visual review
 of every exported PNG, the separately guarded runner transition and the
 completion seal remain distinct required steps.

@@ -206,8 +206,8 @@ Its pointwise findings do not locate a universal operating boundary. Exact
 conditional inference excludes the stationary initial density even though
 simulation starts stationary. Natural-scale Wald bounds remain unclipped.
 The numerical audit has stated shared dependencies and endpoint-only full-fit
-replay. Actual AI raster inspection establishes legibility within its scope,
-not human review or independent correctness of the numerical model. Historical
+replay. Raster inspection establishes legibility within its scope; it does
+not establish independent correctness of the numerical model. Historical
 hardware-sensitive byte replay and unattributed manifest incidents retain
 their documented uncertainty. Weeks 5–7 outcomes and failure classifications
 remain unchanged; this report does not certify personal mastery, novelty,

@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "reviewed_utc": "2026-11-01T15:29:52.103349+00:00",
+  "review_method": "Direct individual visual inspection of all original PNGs and all three Poppler rasterized PDF pages in the active session",
+  "figure_manifest_sha256": "74b0650ca674a30faf2830388fd526d14d31f532828357fb40853b491ed5cd7c",
+  "inspected_files": {
+    "S1_span_controls.pdf": "bbf67822fb7ee715e76b8b2afeca84e652c2587e66605332dc23d285f08b5514",
+    "S1_span_controls.png": "a0d508e665c22c99e4bafc0f53c66336d294d71bba1c21f8b28f422a3862f320",
+    "S2_mean_mechanism.pdf": "9d972b5297aa93f350c427e3a4fec80ec00680ac2b868f1e7fcf3272129024cb",
+    "S2_mean_mechanism.png": "b2cafbf786ca3aee7cca7e86fbbcdb4355a49b714d6d6d08dcf0133cf5188f8f",
+    "S3_fixed_horizon_context.pdf": "be487346aaffab054540bded42039c49b34ac5b2b336018478a3b24dd1f758fe",
+    "S3_fixed_horizon_context.png": "2fc80e24df47b87437727b995ab013fab4fcb7777016162df9098f9f853509a2"
+  },
+  "pdf_rasterizations": {
+    "evidence/pdf_rasters/S1_span_controls.png": "67c415beda65ff8eb55bb1d468bf63ebd242183b600e98aae16d4328466b3dbd",
+    "evidence/pdf_rasters/S2_mean_mechanism.png": "6cce5d701063dc1f00ff8c1ab5652d24a360260a9bf890d6d92fc44e52dfd884",
+    "evidence/pdf_rasters/S3_fixed_horizon_context.png": "c3e3db0dbcdbc99edc1b9148d12414b456fb22123b073e522c75f00a2744538d"
+  },
+  "checks": {
+    "legible_labels_legends_captions": true,
+    "no_clipped_data_or_text": true,
+    "all_planned_series_present": true,
+    "S1_pointwise_MC_bars_and_units_match_tables": true,
+    "S2_prediction_and_observed_spread_distinguished": true,
+    "S3_three_parameter_coverage_and_random_counts_correct": true,
+    "PDF_rasterizations_match_PNG_content": true
+  },
+  "notes": [
+    "S1 retains original, standardized and new fixed-horizon contrasts, including the r=1 negative control.",
+    "S2 uses descriptive curves without inferential bands; its caption identifies fixed-coefficient exact variance and fitted-estimator/coverage approximations.",
+    "S3 retains severe PFML/Euler theta/sigma undercoverage and identifies the original N=1000 count reference versus Poisson-window expectation1001."
+  ],
+  "scope": "Figure correctness and presentation review; does not claim external academic review."
+}

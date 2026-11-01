@@ -1,0 +1,8 @@
+{
+  "calibration_manifest_sha256": "c0b107be618a700b60ce40259c63a5fd002ae7b9d0e619faecad6efd8a87e3b8",
+  "files": {
+    "ou_irregular/week10/analytical_review.py": "e1a4b1d771e36b8ba87fd62b2284dec7ca0e50cae4b6431230e5fb9358d53f84",
+    "tests/week10/test_analytical_review.py": "254a1cea2fb1f3f59b2620fc8b2eee127edd0a3b153391581254cb697f7c9642"
+  },
+  "reason": "Preserved initial normal-approximation paired intervals before conservative finite-sample correction"
+}

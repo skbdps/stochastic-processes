@@ -1,0 +1,469 @@
+# Ornstein–Uhlenbeck estimation under irregular sampling
+
+A computational study of how observation spacing affects exact maximum-likelihood,
+mean-gap PFML, and Euler estimates of the Ornstein–Uhlenbeck model
+
+$$
+dX_t = \theta(\mu-X_t)\,dt + \sigma\,dW_t.
+$$
+
+**Current stage: Week 10 explanatory supplement and Draft 2; original E4 and Week 9 evidence remain preserved.**
+
+Read [Week 10 Draft 2](manuscript/week10_draft2.md) for the methods, quantitative
+PFML mean mechanism, span controls and focused supplementary results. The
+[author review guide](manuscript/README.md),
+[source map](manuscript/week10_source_map.md) and
+[draft status](docs/week10_draft1_status.md) identify its scope and checks.
+This is a working draft; author review, the integrated Results/Discussion
+manuscript, academic review and submission remain subsequent work.
+
+The [Week 10 supplement](docs/week10_supplement_completion.md) adds a separate
+fixed-horizon study with 14,000 paths and 42,000 fits, all valid, plus
+standardization of the saved original E4 records. At T=499.5, PFML mean RMSE
+ratios are 1.056 [1.010, 1.104] at r=5 and 1.156 [1.106, 1.209] at r=20;
+coverage differences are -1.85 and -4.00 percentage points. A specialized
+OU covariance calculation closely predicts the precision loss. Read the
+[generated results and uncertainty](artifacts/week10_supplement/interpretation/results.md),
+[full derivation](docs/week10_mechanism.md) and
+[reproduction instructions](docs/week10_reproduction.md). The extension is
+post-result exploratory and retains its random-N and endpoint limitations.
+
+Week 9 assembles the completed studies into a verified publication package:
+360 E2 and 42 E1 practical-classification rows, all six unresolved cases,
+24 source-bound claim records, 11 new PNG/PDF layouts and 40 unchanged source
+figure pairs. All 92 Week 9 tests pass. A clean checkout reproduced all 141
+immutable package files byte-for-byte; recorded PNG/PDF inspection is bound
+to the final seal. The renderer is frozen at
+`dad63eced437736cc32f7a481b687e226cb4bdaf`.
+
+Read the [Week 9 completion report](docs/week9_completion.md),
+[T1 classification summary](artifacts/week9_publication/tables/T1.md),
+[numerical claims ledger](artifacts/week9_publication/claims.md),
+[figure captions](artifacts/week9_publication/captions.md), and
+[reproduction instructions](docs/week9_reproduction.md).
+The [source-checked literature comparison](docs/week9_literature_comparison.md)
+updates the historical positioning, and the
+[benchmark note](docs/week9_benchmarks.md) retains the limits of the available
+covariance theory. The completion report preserves an additional failed Mac
+probe of historical Linux/extended-precision checks; it does not relabel that
+probe successful. Week 9 uses saved results and performs no new model fits.
+
+Weeks 5–8 remain complete; the original E4 is recovered, audited, reviewed
+and sealed.
+
+Weeks 5–7 retain their completed published studies. The original full Week 8
+E4 experiment has been recovered from Actions run
+[41200456847](https://github.com/skbdps/stochastic-processes/actions/runs/41200456847),
+executed at scientific freeze `0ff57919f5d8345f52d8689732ff94448ca3ca1d`.
+Its seven cells contain 14,000 independent source paths and 42,000 fits, with
+all points and intervals available and zero pipeline errors. All 18 new PNGs
+were individually inspected, as documented in the archived review records.
+Guarded sealing, external reproduction,
+final validation and publication evidence are recorded in the
+[Week 8 completion report](docs/week8_completion.md).
+
+E4 compares MMPP sampling with independent controls matching the entire
+event-stationary gap marginal, plus a regular reference. All 14 exact
+theta/sigma combinations meet the fixed practical criteria. The clearest
+matched-marginal difference is PFML mu: MMPP/IID RMSE ratios are 1.083874 at
+r=5 and 1.157863 at r=20, with coverage lower by 2.70 and 3.85 percentage
+points. These are pointwise comparisons, include realized-span consequences,
+and retain model-based PFML/Euler covariance. Read the
+[results and mathematical interpretation](docs/week8_results_interpretation.md)
+for MC uncertainty and limitations, and
+[reproduction instructions](docs/week8_reproduction.md) for saved-evidence
+verification before considering a new simulation.
+
+E1 retains 14,000 paths / 42,000 fits. E2 retains all 60 cells, 120,000 paths /
+360,000 fits, including 86 unavailable intervals. Exact theta meets the E2
+practical criteria in 55/60 cells; its five bias-driven breaches occur at
+n=250,q=0.1. Exact sigma meets the criteria throughout E2; five E2 parameter
+cells remain unresolved. See [Week 5](docs/week5_progress.md) and
+[Week 6](docs/week6_progress.md). Week 7 retains 53 selected sources / 159
+original-fit replays, 20,000 independent follow-up paths / 60,000 fits, and
+24,000 floor realizations / 72,000 fits in 8,000 independent coupling groups.
+The follow-up retains 444 unavailable intervals. See
+[Week 7 completion](docs/week7_progress.md), the
+[findings memo](docs/week7_findings_memo.pdf),
+[numerical disposition](docs/week7_numerical_disposition.md) and
+[historical runtime limitations](docs/week7_runtime_evidence.md).
+
+The Week 8 [gate](docs/week8_gate.md),
+[dated exploratory protocol](docs/week8_exploratory_protocol.md),
+[mathematical basis](docs/week8_mathematics.md) and
+[prospective population targets](docs/week8_population_targets.md) remain
+unchanged. Its completed development gate accounted for 2,061 cases:
+2,055 passed, six design-inapplicable skips and zero failures; source-only
+validation retained 1,536 sequences / 108 passed checks, and the sealed R=4
+validation retained 28 paths / 84 fits. See
+[runner validation](docs/week8_runner_validation.md) for exact scope and CPU
+replay limitations. Final release checks are recorded separately in the
+completion report.
+
+Earlier Week 3/4 APIs, archives, failures and the
+[preregistered protocol](preregistration.md) remain preserved. Their
+[validation update](docs/week3_validation_update.md),
+[plan amendment](docs/plan_amendment_week3_validation.md),
+[Week 4 results](docs/week4_progress.md),
+[mathematics](docs/week4_mathematics.md) and
+[architecture](docs/week4_architecture.md) retain the governing decisions.
+Written notes do not certify the owner's personal theory exercise, novelty,
+paper acceptance or Weeks 10–12 completion.
+
+The completed E1/E2 studies measure finite-sample bias, RMSE and confidence-interval
+coverage across a wider spacing grid, with equidistant comparisons. The original
+notebook establishes point-estimation behavior at selected settings; it does not
+establish coverage certification or an operating-region boundary. The mean-gap
+estimator is the PFML estimator attributed to Aït-Sahalia & Mykland (2003), not a
+new estimator introduced by this project. Week 4 evaluates the exact regular
+checkpoint and two fixed-path bootstrap diagnostics. E1 results are now available;
+E2 and the fixed Week 7 exploratory follow-up are also complete; both headline archives are preserved.
+
+## Week 5: frozen E1 execution
+
+Use the `weeks5-8-sequential` branch and the pinned Python environment. Run from
+the repository root, with the same thread settings for execution, resume and
+audit. These variables are part of the recorded numerical environment.
+
+```bash
+export OPENBLAS_NUM_THREADS=1
+export OMP_NUM_THREADS=1
+python -m ou_irregular.week5.runner run --validation --replications 8 --workers 4 --output artifacts/my_e1_validation
+python -m ou_irregular.week5.runner run --workers 7 --partition-size 250 --output artifacts/my_e1
+```
+
+The second command requires every declared scientific dependency to be committed
+before starting. It runs exactly seven cells, 14,000 source paths and 42,000 fits.
+The validation command uses a separate seed namespace and cannot supply headline
+evidence. Resume the same run using the same command plus `--resume`; completed
+partitions are verified and retained. Use a fresh directory for a distinct run.
+The runner stops at `audited_pending_visual_review` after numerical audit and
+figure generation. Inspect all five PNG figures before preparing the review
+record and using `finalize`; this is an evidence check, not an external approval.
+
+```bash
+python -m ou_irregular.week5.runner audit --run-dir artifacts/my_e1 --output artifacts/my_e1_repeat_audit.json
+python -m ou_irregular.week5.runner replot --run-dir artifacts/my_e1 --output artifacts/my_e1_figures
+python -m ou_irregular.week5.runner finalize --run-dir artifacts/my_e1 --review-file path/to/visual_review.json
+```
+
+The review JSON identifies `reviewer`, `reviewed_pngs` (all five PNG filenames),
+`figure_manifest_sha256` and `all_panels_legible: true`, with inspection notes.
+The seal checks unchanged audited scientific evidence, metadata and figure inputs.
+Complete raw partitions, uncertainty tables, paired comparisons, failure records,
+source/configuration hashes and replay evidence remain in the run directory.
+
+For the published E1/E2 archives, activate the historical optional-package environment
+from [reproduction instructions](docs/week8_reproduction.md#regression-and-strict-historical-replay)
+(`ipykernel`, `ipython` and `nbformat` absent), and unset
+`MKL_NUM_THREADS` and `VECLIB_MAXIMUM_THREADS`. The E4 environment does not
+match these earlier archives. First restore E1's recorded local freeze commit object
+from the documented identical-tree mapping, then audit. The connector published
+the same tree with different commit metadata; the original run record is retained.
+The restoration helper changes no refs, source files or run evidence.
+
+```bash
+python scripts/restore_recorded_commit.py --mapping artifacts/week5_evidence/freeze_publication_mapping.json --run-dir artifacts/week5_e1
+python -m ou_irregular.week5.runner audit --run-dir artifacts/week5_e1 --output artifacts/my_published_e1_audit.json
+```
+
+The historical Week 4 auditor compares an exact recursive source map. Run that
+audit in a detached checkout of its published Week 4 revision; adding the new
+packages changes that recursive map even though the old files are unchanged.
+The new experiment auditor uses explicit dependency-file manifests.
+
+## Week 6: frozen E2 execution
+
+The separate Week 6 entry point composes the reviewed Week 5 engine. It retains
+all 60 registered cells: q={0.1,0.5,1,2}, CV={0,0.5,1,2,3}, n={250,1000,4000},
+R=2000, seed 20261002. See the [Week 6 progress record](docs/week6_progress.md)
+and [mathematics](docs/week6_mathematics.md), including the preserved development
+execution-state incident and its bounded disposition.
+
+```bash
+export OPENBLAS_NUM_THREADS=1
+export OMP_NUM_THREADS=1
+python -m ou_irregular.week6.runner run --validation --replications 4 --workers 4 --output artifacts/my_e2_validation
+python -m ou_irregular.week6.runner run --workers 12 --partition-size 500 --output artifacts/my_e2
+python -m ou_irregular.week6.runner audit --run-dir artifacts/my_e2 --output artifacts/my_e2_repeat_audit.json
+python -m ou_irregular.week6.runner replot --run-dir artifacts/my_e2 --output artifacts/my_e2_figures
+python -m ou_irregular.week6.runner finalize --run-dir artifacts/my_e2 --review-file path/to/e2_visual_review.json
+```
+
+Resume adds `--resume` to the original run command, with the same environment.
+Headline execution requires committed dependencies. The runner retains 120,000
+source paths and 360,000 fit records, then audits before accepting a visual seal.
+The review record must identify all nine current PNGs and their figure-manifest
+hash, using the same fields described for Week 5. F5/F6 and availability heatmaps
+show every registered grid cell; complete uncertainty and failure tables remain
+available even when a heatmap shows a rounded percentage.
+
+## Week 8: verify the existing full E4 archive
+
+Use a full-history checkout and the recorded Linux Python 3.12.14 environment
+with `requirements-lock.txt`. Preserve frozen source/document bytes and CPU,
+NumPy/BLAS and thread captures. Begin with saved readback; these commands do
+not execute another 14,000-path study.
+
+```bash
+export OPENBLAS_NUM_THREADS=1
+export OMP_NUM_THREADS=1
+unset MKL_NUM_THREADS VECLIB_MAXIMUM_THREADS
+python -m ou_irregular.week8.runner verify --run-dir artifacts/week8_e4 --require-completed
+python -m ou_irregular.week8.runner audit --run-dir artifacts/week8_e4 > /tmp/e4-repeat-audit.json
+python -m ou_irregular.week8.runner replot --run-dir artifacts/week8_e4 --output /tmp/e4-external-replot
+```
+
+Use fresh external outputs. The full audit reconstructs all sources and
+replays 42 endpoint fits; it does not refit all 42,000 records. Replotting
+regenerates all 18 PNG/PDF pairs from saved tables and must leave the sealed
+archive unchanged. Preserve the sibling `week8_e4-figure-renderer` state.
+Exact replay and figure bytes depend on the recorded runtime and hardware;
+a mismatch must be investigated rather than hidden by changed hashes.
+The [complete instructions](docs/week8_reproduction.md) cover artifact
+recovery, seal verification, external hash comparison and the required
+historical/current environment split for tests. The
+[artifact index](artifacts/README.md) identifies durable evidence.
+
+## Quick start: reproduce the Week 3 and Week 4 results locally
+
+Install **Git and Python 3.12** first. Run all commands from the repository root.
+No Jupyter server, GPU or external dataset is required; both runners generate
+CSVs and PNG figures automatically.
+
+### 1. Clone and install
+
+```bash
+git clone -c core.autocrlf=false https://github.com/skbdps/stochastic-processes.git
+cd stochastic-processes
+```
+
+The clone option preserves the file bytes used by the archived source and protocol
+checks, including on Windows.
+
+**macOS / Linux (bash or zsh):**
+
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+**Windows PowerShell:**
+
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
+On Windows, use `.\.venv\Scripts\python.exe` in place of `python` in the commands
+below. This uses the virtual environment without requiring PowerShell activation.
+On macOS/Linux, keep the virtual environment activated.
+
+### 2. Reproduce the historical Week 3 and Week 4 experiments
+
+```bash
+python -m ou_irregular.runner run --config configs/week3_smoke.yaml --output artifacts/local_week3
+python -m ou_irregular.week4.runner run --config configs/week4_validation.yaml --output artifacts/local_week4
+python scripts/validate_week4_artifacts.py --run-dir artifacts/local_week4 --output artifacts/local_week4_audit.json
+```
+
+The Week 3 command runs the **corrected validation experiment**, corresponding to
+`artifacts/week3_validation_rerun/`. The earlier `artifacts/week3_smoke/` archive
+records the original solver and is retained as historical evidence. The Week 4
+command reproduces the registered checkpoint and bootstrap diagnostics; it does
+not run the future E1/E2 research grids.
+
+Use new output names, such as `artifacts/local_week4_2`, when repeating a run, and
+update the audit command to use that directory. The runners protect nonempty
+outputs. Local result directories are ignored by Git; the committed archives are
+preserved. The audit report is deliberately outside the run directory so it does
+not alter the set of files recorded in the run manifest.
+
+### 3. Inspect the results
+
+| Output | What to check |
+| --- | --- |
+| `artifacts/local_week3/replications.csv` | 540 fit rows: 9 cells × 20 datasets × 3 estimators |
+| `artifacts/local_week3/summary.csv` | Bias, RMSE, Monte Carlo uncertainty and regular-design comparisons |
+| `artifacts/local_week3/figures/` | Four plots of bias, RMSE, RMSE ratios and fit-failure rates |
+| `artifacts/local_week4/coverage_summary.csv` | Exact-MLE checkpoint coverage for theta, mu and sigma over 2,000 datasets |
+| `artifacts/local_week4/bootstrap_summary.csv` | Six selected-path checks; raw results are the 3,000 rows in `bootstrap_draws.csv` |
+| `artifacts/local_week4/figures/` | Checkpoint coverage and bootstrap diagnostic plots |
+| `artifacts/local_week4_audit.json` | Successful audit of the new run's provenance, seeded inputs, counts and summary arithmetic |
+
+Both run directories also contain the resolved configuration and
+`run_metadata.json`. The published checkpoint coverage is **94.45% (theta),
+94.85% (mu), and 94.15% (sigma)**. The historical Week 4 validation suite had 520
+passing tests at its recorded checkpoint. Current release validation uses the
+documented separate historical/current environments and isolated replay
+processes; see the [Week 8 reproduction record](docs/week8_reproduction.md). These are reference results, not targets to tune a run toward.
+
+The direct dependencies are pinned in `requirements.txt`. To reproduce the recorded
+Linux environment more closely, use **Python 3.12.14** and install
+`requirements-lock.txt` instead; that complete dependency list is specific to the
+recorded Linux environment. Other platforms should start with `requirements.txt`.
+Exact historical replay requires the recorded Python and scientific dependency
+versions plus compatible CPU dispatch; matching package versions alone is
+insufficient. The historical isolation test has its original version guard,
+and release validation runs it without a version skip in the recorded environment.
+Audit a new run using
+the same environment that generated it. The audit verifies saved evidence; it does
+not independently refit the models or recompute the Hessians. Floating-point
+results, figure bytes and timing metadata can differ across machines.
+
+The original master-plan PDF has been removed from the current checkout. The
+[adopted amendment](docs/plan_amendment_week3_validation.md),
+[preregistered protocol](preregistration.md) and progress reports document the
+implemented methods and interpretation rules.
+
+## Run Week 4 independently
+
+After completing the quick-start installation:
+
+```bash
+python -m ou_irregular.week4.runner run --config configs/week4_validation.yaml --output artifacts/my_week4_run
+```
+
+This runs 2,000 exact-MLE regular paths at q=0.5, n=1000, followed by 500
+conditional bootstrap draws per estimator on each of two fixed paths (CV=0 and 2).
+The published [validation artifacts](artifacts/week4_validation/) include raw
+records, coverage counts, Monte Carlo uncertainty, interval endpoints, figures
+and source/configuration provenance. Existing output directories are protected.
+The protocol was [committed before execution](https://github.com/skbdps/stochastic-processes/commit/1b1255b0650ad7efcf700316bd1cccf704af4d2d).
+
+`ou_irregular.inference` contains reusable services and small protocols for
+estimators, likelihoods and simulators. Its concrete adapters call the unchanged
+Week 3 APIs. `ou_irregular.week4` owns configuration, simulation experiments,
+coverage accounting and reporting. Neither the inference core nor the Week 3
+runner depends on Week 4 orchestration. Services can be replaced by composition;
+custom scientific dependencies are labeled as unregistered diagnostics.
+
+Natural-scale Wald intervals use the full observed Hessian and delta-method
+covariance map. Their positive-parameter lower bounds are not clipped. Invalid
+intervals remain in the operational coverage denominator. PFML/Euler covariance
+is model-based; their plug-in bootstrap is diagnostic under misspecification.
+Selected-path bootstrap checks do not establish bootstrap coverage.
+
+Both figures can also be regenerated directly from saved summary tables:
+
+```python
+from pathlib import Path
+import pandas as pd
+from ou_irregular.week4.plots import DiagnosticFigureWriter
+
+run = Path("artifacts/week4_validation")
+DiagnosticFigureWriter().write(
+    pd.read_csv(run / "coverage_summary.csv"),
+    pd.read_csv(run / "bootstrap_summary.csv"),
+    Path("artifacts/my_week4_figures"),
+)
+```
+
+## Run the Week 3 harness
+
+After completing the quick-start installation:
+
+```bash
+python -m ou_irregular.runner run --config configs/week3_smoke.yaml --output artifacts/my_week3_run
+python -m ou_irregular.runner replot --run-dir artifacts/my_week3_run
+```
+
+The supplied smoke grid is 3 coarseness values × 3 CV values × 20 replications ×
+3 estimators = **540 fits**. Its 250 observations per path have 249 gaps. Existing
+outputs are protected; use a fresh directory or `--overwrite` for a known OU run.
+The original [smoke artifacts](artifacts/week3_smoke/) are preserved. The separate
+[validation rerun](artifacts/week3_validation_rerun/) uses exactly the same inputs,
+with normalized profile/regression solvers, explicit fit validity, paired estimator
+comparisons, and four figures including approximate Monte Carlo error bars.
+
+The harness checks saved data against the planned design before replotting and
+can replay one replication by its recorded cell ID. Replay checks source and
+dependency provenance; deliberate changed-code replay requires a separate output
+directory. Replotting historical outputs with changed code also requires a new
+derived output directory. See the update report for commands. Its coverage fields are
+explicitly uncomputed. Week 4 inference lives in its own runner and artifacts;
+historical Week 3 rows are not retroactively changed. The tiny smoke sample cannot
+establish a research threshold.
+
+## Optional: reproduce the Week 2 notebook
+
+After completing the quick-start installation, run:
+
+```bash
+python run_all.py
+```
+
+This rewrites the tracked Week 2 notebook, CSVs and teaser figure. It is separate
+from the Week 3/4 quick start, which writes to fresh local output directories.
+
+`run_all.py` runs pytest and executes every notebook code cell with the same Python
+interpreter, regenerating the executed notebook, all four replication CSVs and the
+teaser PNG. It uses an in-process IPython shell with captured text and image outputs;
+no separate Jupyter server or local TCP connection is required. This runner targets
+this notebook's synchronous Python cells. You can also open the notebook in a
+notebook editor using a kernel from the same environment.
+
+The seed is `20260902`, with independent child streams for each experiment. Every
+reported fit must be finite and converged; a failed fit stops the run. Seeds and
+version pins support reproducibility, but floating-point details and optimizer
+statuses can still vary across platforms. Execution time excludes dependency
+installation; recorded measurements are in the progress document.
+
+## Contents
+
+| Path | Purpose |
+| --- | --- |
+| `ou_irregular/week5/`, `ou_irregular/week6/`, `artifacts/week5_e1/`, `artifacts/week6_e2/` | Completed registered E1/E2 engines, immutable raw records, uncertainty and failure evidence |
+| `ou_irregular/week7/`, `artifacts/week7_followup/`, `artifacts/week7_floor/` | Completed selected diagnostics, follow-up and paired-floor studies |
+| `ou_irregular/week8/`, `artifacts/week8_e4/`, `artifacts/week8_e4-figure-renderer/` | Fixed E4 source, runner, audit and renderer; recovered full results and renderer provenance |
+| `docs/week8_completion.md`, `docs/week8_results_interpretation.md`, `docs/week8_reproduction.md` | Actual completion evidence, saved-table interpretation, exact verification/reproduction scope |
+| `artifacts/week8_evidence/`, `artifacts/README.md` | Validation, recovery, figure-review, publication and release-check evidence index |
+| `ou_irregular/inference/` | Data contracts, adapters, normalization, numerical Hessians, Wald and bootstrap services |
+| `ou_irregular/week4/`, `configs/week4_validation.yaml` | Independent Week 4 orchestration, seed addressing, coverage accounting and figures |
+| `preregistration.md`, `docs/week4_*.md` | Frozen design, mathematics, architecture, execution evidence and limitations |
+| `tests/week4/`, `artifacts/week4_validation/`, `artifacts/week4_validation_evidence/` | Numerical/invariance/isolation tests, raw checkpoint and bootstrap evidence |
+| `ou_irregular/config.py`, `configs/week3_smoke.yaml` | Validated, serialized experiment definition |
+| `ou_irregular/spacing.py`, `ou_irregular/estimators.py` | Gap flooring and normalized exact-profile/PFML-OLS/Euler-WLS fitting with validity diagnostics |
+| `ou_irregular/metrics.py`, `ou_irregular/plots.py`, `ou_irregular/runner.py` | Bias/RMSE and MCSE, nominal equidistant comparisons, run/replot/replay |
+| `docs/week3_progress.md`, `docs/week3_mathematics.md` | Requirements, completed work, formulas, source checks and limitations |
+| `docs/week3_validation_update.md`, `docs/plan_amendment_week3_validation.md` | Feedback decisions, numerical evidence, solver semantics and plan corrections |
+| `artifacts/week3_validation_evidence/`, `scripts/validate_week3_update.py` | Input identities, before/after reconciliation, independent references and test evidence |
+| `ou_irregular/ou.py` | Exact simulation; equidistant, exponential and Gamma gaps; exact/PFML/Euler likelihoods; multistart fitting; analytic checks |
+| `notebooks/01_exact_mle_demo.ipynb` | Four Week 2 experiments and a clearly marked Euler preview, with executed outputs |
+| `tests/test_ou.py` | Mathematical checks and optimizer regression tests |
+| `results/*.csv` | One row per replication, including optimizer diagnostics |
+| `figures/teaser.png` | Exact-versus-PFML demonstration |
+| `docs/ou_derivations.md` | Wiener integral, OU solution, transition law, stationarity, likelihoods and optional exercises |
+| `docs/week2_progress.md` | Current scope, validation evidence and next steps |
+| `docs/prior_art_log.md`, `docs/related_work_notes.md` | Historical prior-art notes supplied with the project |
+
+## Teaser: exact MLE versus PFML
+
+![Exact and PFML sampling distributions](figures/teaser.png)
+
+Exponential observation gaps, CV = 1, mean gap = 0.5, 1000 observations and 500
+replications; true theta = 1 and sigma = 0.5. PFML uses the realized average gap.
+The exact estimator uses each timestamp and has small bias at this setting.
+
+| Quantity | Exact MLE mean | PFML mean | PFML large-sample limit |
+| --- | ---: | ---: | ---: |
+| theta | 1.0095 | 0.8183 | 0.8109 |
+| sigma | 0.5013 | 0.4515 | 0.4503 |
+
+The exact-MLE relative biases are about +0.95% and +0.26%; PFML's are about
+-18.17% and -9.71%, respectively. This result does not imply that exact MLE is
+unaffected by irregular sampling: finite-sample bias and uncertainty may depend
+on spacing. All table values regenerate from `results/cell4_teaser_naive_vs_exact.csv`.
+
+## Completion boundary
+
+Weeks 5–8 release disposition: **research and reproducibility requirements complete through Week 8; no Weeks 9–12 or manuscript claim**.
+The complete fixed E4 execution is preserved rather than restarted. Its
+completion report binds recovery, numerical audit, recorded figure review,
+guarded seal, external reproduction and final release checks. Earlier study
+bytes and failures remain retained. The current task ends at publication of
+this verified work; professor correspondence, paper submission and Weeks
+9–12 manuscript work are outside this release.
+
+Author: Suryansh Kumar.

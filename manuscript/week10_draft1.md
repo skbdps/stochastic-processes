@@ -467,7 +467,7 @@ every fit in a full study.
 
 Publication figures and tables are generated from saved results. The
 [Week 9 package](../artifacts/week9_publication/README.md) binds its inputs,
-claims, plotting data and actual AI visual review. Its
+claims, plotting data and recorded visual review. Its
 [reproduction instructions](../docs/week9_reproduction.md) distinguish
 saved-data rendering from original numerical simulation and replay. The
 recorded macOS rendering environment differs from the original Linux

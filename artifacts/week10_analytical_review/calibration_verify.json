@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "rederived_tables": 4,
+  "seal_sha256": "c595df1d521767a7191510c6e2decb9111a886b1ca6d5e6d7de7a3aa51cc2c30",
+  "verified_files": 250,
+  "raw_records_read": 42000,
+  "pfml_sources_checked": 14000,
+  "every_C_indicator_matches_raw_interval": true,
+  "raw_C_covered_by_cell": {
+    "02179b392194a7d7f70a40cfef8eb42a2ce7093cd96b410f6972f36f04b91177": 1808,
+    "2613f536bc0315ab878b467f8b5db97157ef6a8de8bba65023d7bd7dd5fea046": 1890,
+    "977f4867784711269dd6965402c2bba474fca97e0bedeaa9bdb1498c2d36f95c": 1893,
+    "a4364a80f11c29480ce06f41dc213b6a0a11dde06ef07e69d939ca3b2da1a545": 1853,
+    "b5c807f8b9297ba7540cbaa57d5adcffa5caae08d1a7cb366061dd803b1cb5d2": 1912,
+    "d4d6320961f319b14973912b1c80e4cc7569b953dcd5f9b3c384906132a53394": 1897,
+    "d9dc574a42a04d3cd441da8ebd6e52e0ad03adf163a51507e4056c54754baf43": 1888
+  }
+}

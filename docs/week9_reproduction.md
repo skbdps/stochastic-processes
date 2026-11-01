@@ -6,13 +6,26 @@ saved seals, planned keys and reporting contracts. It does not reconstruct OU
 paths, rerun a numerical audit or fit an estimator. The original audits and
 their endpoint-only fitting replay limits remain those in the source reports.
 
-Use a full-history checkout containing baseline
-`b6edb85d1e7a21ed19fb54b5c71213ed04703309` and the Week 9 code. The source catalog
+Use a full-history checkout at the recorded renderer revision
+`dad63eced437736cc32f7a481b687e226cb4bdaf`, containing baseline
+`b6edb85d1e7a21ed19fb54b5c71213ed04703309`. The source catalog
 is `configs/week9_publication.json`; its own digest is bound in the input module.
 Each archived file is checked against its original Git blob, SHA-256 and size.
 The original scientific dependency files and required review records are also
 bound. The verification is a new data-only contract, without changing the old
 runtime-dependent verifiers or metadata.
+
+The archived package binds the original renderer code and accompanying notes.
+Later wording revisions in the current documentation do not replace those
+frozen bytes. Run archive verification and byte-identical reproduction from
+the recorded renderer checkout, using an absolute `--run-dir` path when the
+completed package is in a different checkout. For example, from that checkout:
+
+```bash
+/tmp/ou-week9-render/bin/python -m ou_irregular.week9.cli verify \
+  --run-dir /absolute/path/to/stochastic-processes/artifacts/week9_publication \
+  --require-completed
+```
 
 ## Renderer environment
 
@@ -90,12 +103,13 @@ retained with their error records; use a new destination after a code change.
 Inspect every new PNG individually and render every new PDF page for layout
 inspection. Check legends, all intended series, axes, uncertainty bars, cell
 annotations, captions and source-table agreement at full size and intended
-publication viewing size. The review must say that it is AI review when
-performed by AI; it is not human academic review.
+publication viewing size. The review must accurately record the inspection
+method and scope.
 
 The review JSON identifies `reviewer`, an actual timezone-aware `reviewed_utc`,
-`review_type: actual_ai_raster_and_pdf_review`, and the exact current
-`figure_manifest_sha256`. `reviewed_png_sha256` maps every new PNG's package
+the validator's required `review_type`, and the exact current
+`figure_manifest_sha256`. The [archived review](../artifacts/week9_publication/visual_review.json)
+provides the original schema example. `reviewed_png_sha256` maps every new PNG's package
 path to its digest. `reviewed_pdf_pages` maps every new PDF to its page number
 (one), `source_pdf_sha256`, `rendered_page_sha256`, `render_command` and renderer
 version. It also includes `all_panels_legible: true`, `blocking_issues: []`, and
